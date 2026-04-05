@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aegis — Managed vCISO Service | Pistos</title>
+  <meta name="description" content="Fully managed vCISO service operating Sentinel, Skopein, and Manthesis on your behalf. Regulatory filing support, examiner preparation, and board reporting.">
+  <link rel="stylesheet" href="../css/site.css">
+  <style>
+    .service-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: 20px; }
+    .service-card { background: var(--cream-dark); border: 1px solid var(--border); border-left: 3px solid var(--navy); border-radius: 4px; padding: 1.5rem; }
+    .service-card h4 { color: var(--navy); font-size: 0.9rem; margin-bottom: 0.6rem; }
+    .service-card p { font-size: 0.83rem; color: var(--text-mid); line-height: 1.7; font-weight: 300; }
+    .includes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+    .includes-item { background: var(--cream); padding: 1.25rem; }
+    .includes-item h5 { color: var(--navy); font-size: 0.85rem; margin-bottom: 0.4rem; }
+    .includes-item p { font-size: 0.8rem; color: var(--text-mid); line-height: 1.65; font-weight: 300; }
+    .who-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+    .who-card { background: var(--cream-dark); border: 1px solid var(--border); border-radius: 4px; padding: 1.5rem; text-align: center; }
+    .who-card h4 { color: var(--navy); font-size: 0.9rem; margin-bottom: 0.5rem; }
+    .who-card p { font-size: 0.82rem; color: var(--text-mid); line-height: 1.65; font-weight: 300; }
+    .vs-simple { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .vs-simple-col { border-radius: 4px; padding: 1.5rem; }
+    .vs-simple-col.before { background: var(--cream-dark); border: 1px solid var(--border); }
+    .vs-simple-col.after { background: var(--navy); }
+    .vs-simple-col h4 { font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1rem; }
+    .vs-simple-col.before h4 { color: var(--text-muted); }
+    .vs-simple-col.after h4 { color: var(--gold); }
+    .vs-li { font-size: 0.83rem; margin-bottom: 0.6rem; padding-left: 1rem; position: relative; line-height: 1.55; font-weight: 300; }
+    .vs-li::before { position: absolute; left: 0; }
+    .vs-simple-col.before .vs-li { color: var(--text-mid); }
+    .vs-simple-col.before .vs-li::before { content: '—'; color: var(--text-muted); }
+    .vs-simple-col.after .vs-li { color: #C8D8E8; }
+    .vs-simple-col.after .vs-li::before { content: '&#9670;'; color: var(--gold); font-size: 0.55rem; top: 4px; }
+  </style>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="container" style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;text-align:left;">
+    <div>
+      <span class="section-eyebrow">Managed vCISO service</span>
+      <h1 style="margin-bottom:0.5rem;">Expert governance. The platform does the work.</h1>
+      <span class="diamond" style="display:inline-block;">&#9670;</span>
+      <p style="font-size:1rem;color:var(--text-mid);line-height:1.8;font-weight:300;margin-bottom:1.5rem;">Aegis is the Pistos vCISO service — operating Sentinel, Skopein, and Manthesis on your behalf. Regulatory filings, examiner preparation, board reporting, and annual risk assessment, all backed by the only compliance system that stays current without human intervention.</p>
+      <a href="/pages/contact.html" class="btn btn-primary">Schedule a briefing</a>
+    </div>
+    <div class="def-card" style="max-width:360px;margin:0 auto;">
+      <div class="def-card-top">
+        <p class="def-name">Aegis</p>
+        <p class="def-phonetic">&emacr; &middot; jis</p>
+        <div class="def-rule-line"></div>
+        <span class="def-diamond-ornament">&#9670;</span>
+        <p class="def-tagline">Protection and authority.<br>A shield of oversight.</p>
+      </div>
+      <div class="def-card-body">
+        <p class="def-desc" style="text-align:center;font-style:italic;">The human governance layer that regulated organizations need — delivered through the platform that keeps everything current.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── BEFORE / AFTER ── -->
+<section class="section" style="background:var(--cream-dark);">
+  <div class="container">
+    <span class="section-eyebrow">What changes with Aegis</span>
+    <h2 class="section-title">From reactive to continuously audit-ready.</h2>
+    <p class="section-sub">Most organizations without a dedicated security function operate in a state of periodic compliance — scrambling before an audit, quiet after. Aegis changes that structure permanently.</p>
+    <div class="vs-simple">
+      <div class="vs-simple-col before">
+        <h4>Without Aegis</h4>
+        <p class="vs-li">Compliance program assembled manually before each audit cycle</p>
+        <p class="vs-li">Evidence scattered across email, shared drives, and vendor portals</p>
+        <p class="vs-li">Regulatory changes discovered during examiner preparation, not before</p>
+        <p class="vs-li">Board cybersecurity reporting informal or absent</p>
+        <p class="vs-li">NY DFS certification filed without confidence in underlying evidence</p>
+        <p class="vs-li">No documented risk assessment process between annual filings</p>
+        <p class="vs-li">Vendor security reviews ad hoc or non-existent</p>
+      </div>
+      <div class="vs-simple-col after">
+        <h4>With Aegis</h4>
+        <p class="vs-li">Compliance program current every day — not just before an audit</p>
+        <p class="vs-li">All evidence linked to controls in Sentinel, dated and organized</p>
+        <p class="vs-li">Regulatory amendments flagged and addressed before they become findings</p>
+        <p class="vs-li">Formal board reporting on schedule — risk posture in plain language</p>
+        <p class="vs-li">NY DFS certification supported by a complete, defensible evidence record</p>
+        <p class="vs-li">Continuous risk assessment built into the operating rhythm</p>
+        <p class="vs-li">Third-party risk reviewed against structured vendor assessment criteria</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── WHAT'S INCLUDED ── -->
+<section class="section" style="background:var(--cream);">
+  <div class="container">
+    <span class="section-eyebrow">Service scope</span>
+    <h2 class="section-title">Everything included in Aegis.</h2>
+    <p class="section-sub">Aegis is not a retainer for ad hoc advice. It is a structured managed service with defined deliverables tied to your regulatory calendar.</p>
+    <div class="includes-grid">
+      <div class="includes-item">
+        <h5>Sentinel operation</h5>
+        <p>Full operation of the Sentinel compliance platform — control tracking, evidence review, scoring, and gap remediation management on your behalf.</p>
+      </div>
+      <div class="includes-item">
+        <h5>Skopein assessments</h5>
+        <p>Scheduled Skopein scans across your environment — endpoint, M365, Active Directory, external posture — with findings reviewed and remediation tracked.</p>
+      </div>
+      <div class="includes-item">
+        <h5>Manthesis program management</h5>
+        <p>Training campaign scheduling, phishing simulation deployment, results review, and remedial training assignment — all managed by Pistos.</p>
+      </div>
+      <div class="includes-item">
+        <h5>Annual risk assessment</h5>
+        <p>Formal annual risk assessment against applicable frameworks. Documented findings, risk ratings, and remediation roadmap — satisfying NY DFS 500.09 and equivalent requirements.</p>
+      </div>
+      <div class="includes-item">
+        <h5>Regulatory filing support</h5>
+        <p>NY DFS Certification of Material Compliance preparation and filing support. Evidence compilation and examiner response coordination for all applicable regulatory filings.</p>
+      </div>
+      <div class="includes-item">
+        <h5>Board-level reporting</h5>
+        <p>Quarterly or annual board cybersecurity reporting — risk posture, compliance status, and program effectiveness in language suitable for executive and board review.</p>
+      </div>
+      <div class="includes-item">
+        <h5>Examiner preparation</h5>
+        <p>Pre-examination evidence review, gap remediation prioritization, and examiner response coordination. You are not facing an examination alone.</p>
+      </div>
+      <div class="includes-item">
+        <h5>Vendor risk management</h5>
+        <p>Third-party security assessment coordination — vendor questionnaires, contract security language review, and ongoing vendor risk tracking in Sentinel.</p>
+      </div>
+      <div class="includes-item">
+        <h5>Policy maintenance</h5>
+        <p>All 15 security policies maintained current as regulations amend. Policy review cycle managed by Pistos — no manual policy update process required.</p>
+      </div>
+      <div class="includes-item">
+        <h5>Incident response support</h5>
+        <p>Retainer-based incident response support — initial triage, regulatory notification obligation review, and coordination with legal counsel and forensic resources.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── WHO AEGIS IS FOR ── -->
+<section class="section" style="background:var(--cream-dark);">
+  <div class="container">
+    <span class="section-eyebrow">Who Aegis serves</span>
+    <h2 class="section-title">Expert governance for organizations without an internal security function.</h2>
+    <p class="section-sub">Aegis clients share a common profile: significant regulatory obligations, no dedicated CISO, and a recognition that compliance cannot be managed as a periodic event.</p>
+    <div class="who-grid">
+      <div class="who-card">
+        <h4>Financial services firms</h4>
+        <p>Banks, credit unions, broker-dealers, insurance carriers, RIAs, and payment processors subject to NY DFS, GLBA, PCI DSS, and SEC cybersecurity rules — without a dedicated security staff.</p>
+      </div>
+      <div class="who-card">
+        <h4>Healthcare organizations</h4>
+        <p>Physician groups, health plans, specialty practices, and healthcare technology companies subject to HIPAA and OCR audit protocol — without a Security Officer with the bandwidth to operate the program.</p>
+      </div>
+      <div class="who-card">
+        <h4>Defense contractors</h4>
+        <p>Government primes and subcontractors subject to CMMC 2.0, NIST SP 800-171, and DFARS 252.204-7012 — where contract eligibility depends on demonstrable compliance posture.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── REGULATORY GOVERNANCE ── -->
+<section class="section" style="background:var(--navy);">
+  <div class="container">
+    <span class="section-eyebrow" style="color:#4A6A8A;">Regulatory governance requirements</span>
+    <h2 style="color:#F5F1EB;margin-bottom:0.5rem;">Every major framework requires a qualified security function.</h2>
+    <p style="color:#5A7A8A;max-width:660px;margin-bottom:2rem;font-size:0.92rem;font-weight:300;">Aegis satisfies the human governance requirements that no platform can fulfill on its own — the CISO designation, the board reporting obligation, the examiner accountability, the qualified oversight of the security program.</p>
+    <div class="service-grid">
+      <div class="service-card" style="border-left-color:var(--gold);background:#0F1E33;border-color:#1B2A4A;">
+        <h4 style="color:#F5F1EB;">NY DFS 500.04</h4>
+        <p style="color:#5A7A8A;">Covered entities must designate a qualified CISO responsible for overseeing and implementing the cybersecurity program. Aegis fulfills this obligation through a named senior advisor.</p>
+      </div>
+      <div class="service-card" style="border-left-color:var(--gold);background:#0F1E33;border-color:#1B2A4A;">
+        <h4 style="color:#F5F1EB;">HIPAA §164.308(a)(2)</h4>
+        <p style="color:#5A7A8A;">Covered entities must identify a Security Official responsible for developing and implementing required policies and procedures. Aegis provides the designated Security Officer function.</p>
+      </div>
+      <div class="service-card" style="border-left-color:var(--gold);background:#0F1E33;border-color:#1B2A4A;">
+        <h4 style="color:#F5F1EB;">CMMC PM Controls</h4>
+        <p style="color:#5A7A8A;">Program Management controls under CMMC 2.0 require documented, senior-level accountability for the security program. Aegis provides the governance structure assessors look for.</p>
+      </div>
+      <div class="service-card" style="border-left-color:var(--gold);background:#0F1E33;border-color:#1B2A4A;">
+        <h4 style="color:#F5F1EB;">SEC Cybersecurity Rules</h4>
+        <p style="color:#5A7A8A;">Public companies must disclose material cybersecurity incidents and describe management's role in risk oversight. Aegis provides the governance documentation and board reporting structure.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section class="section-sm" style="background:var(--cream);text-align:center;">
+  <div class="container">
+    <h2 style="margin-bottom:1rem;">Let us operate your compliance program.</h2>
+    <p style="color:var(--text-mid);max-width:500px;margin:0 auto 2rem;font-size:0.9rem;">Request a briefing and we will walk you through the Aegis engagement model against your specific regulatory obligations.</p>
+    <a href="/pages/contact.html" class="btn btn-primary">Schedule a briefing</a>
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="../js/layout.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

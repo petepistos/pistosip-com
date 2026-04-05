@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sentinel — Compliance Management Platform | Pistos</title>
+  <meta name="description" content="Sentinel tracks all applicable controls and evidence across every active framework simultaneously. AI monitors the regulatory landscape and updates your compliance posture automatically.">
+  <link rel="stylesheet" href="../css/site.css">
+  <style>
+    .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: 20px; }
+    .feature-card { background: var(--cream-dark); border: 1px solid var(--border); border-radius: 4px; padding: 1.5rem; }
+    .feature-card h4 { color: var(--navy); font-size: 0.9rem; margin-bottom: 0.6rem; }
+    .feature-card p { font-size: 0.83rem; color: var(--text-mid); line-height: 1.7; font-weight: 300; }
+    .framework-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px,1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+    .framework-item { background: var(--cream); padding: 0.9rem 1rem; }
+    .framework-item h5 { font-family: 'Cinzel', serif; font-size: 0.78rem; color: var(--navy); margin-bottom: 2px; }
+    .framework-item p { font-size: 0.72rem; color: var(--text-muted); font-weight: 300; }
+    .score-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 2rem; }
+    .score-card { background: var(--cream-dark); border-radius: 4px; padding: 1.25rem; text-align: center; }
+    .score-num { font-family: 'Cinzel', serif; font-size: 2rem; color: var(--navy); display: block; }
+    .score-lbl { font-size: 0.75rem; color: var(--text-muted); }
+    .workflow-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--border); }
+    .workflow-step { background: var(--cream); padding: 1.5rem 1.25rem; position: relative; }
+    .workflow-step::after { content: ''; position: absolute; top: 50%; right: -1px; width: 0; height: 0; border-top: 8px solid transparent; border-bottom: 8px solid transparent; border-left: 8px solid var(--gold); transform: translateY(-50%); z-index: 1; }
+    .workflow-step:last-child::after { display: none; }
+    .step-num { font-family: 'Cinzel', serif; font-size: 0.7rem; color: var(--gold); letter-spacing: 0.15em; display: block; margin-bottom: 0.5rem; }
+    .workflow-step h4 { font-size: 0.88rem; color: var(--navy); margin-bottom: 0.5rem; }
+    .workflow-step p { font-size: 0.8rem; color: var(--text-mid); line-height: 1.65; font-weight: 300; }
+  </style>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="container" style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;text-align:left;">
+    <div>
+      <span class="section-eyebrow">Compliance management platform</span>
+      <h1 style="margin-bottom:0.5rem;">The compliance program that stays current.</h1>
+      <span class="diamond" style="display:inline-block;">&#9670;</span>
+      <p style="font-size:1rem;color:var(--text-mid);line-height:1.8;font-weight:300;margin-bottom:1.5rem;">Sentinel tracks all applicable controls and evidence across every active framework simultaneously. When a regulation amends or a new guidance drops, the platform updates automatically — your program reflects today's requirements, not last year's.</p>
+      <a href="/pages/contact.html" class="btn btn-primary">Schedule a demo</a>
+    </div>
+    <div class="def-card" style="max-width:360px;margin:0 auto;">
+      <div class="def-card-top">
+        <p class="def-name">Sentinel</p>
+        <p class="def-phonetic">sen &middot; ti &middot; nel</p>
+        <div class="def-rule-line"></div>
+        <span class="def-diamond-ornament">&#9670;</span>
+        <p class="def-tagline">One who stands guard.<br>A watch against threat.</p>
+      </div>
+      <div class="def-card-body">
+        <p class="def-desc" style="text-align:center;font-style:italic;">The compliance command center. Every control. Every framework. Every piece of evidence — organized, current, and audit-ready.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── STATS ── -->
+<div style="background:var(--navy);padding:2rem 0;">
+  <div class="container">
+    <div class="score-row">
+      <div class="score-card" style="background:#0F1E33;">
+        <span class="score-num" style="color:var(--gold);">50</span>
+        <span class="score-lbl" style="color:#4A6A8A;">Controls mapped</span>
+      </div>
+      <div class="score-card" style="background:#0F1E33;">
+        <span class="score-num" style="color:var(--gold);">14</span>
+        <span class="score-lbl" style="color:#4A6A8A;">Frameworks covered</span>
+      </div>
+      <div class="score-card" style="background:#0F1E33;">
+        <span class="score-num" style="color:var(--gold);">172</span>
+        <span class="score-lbl" style="color:#4A6A8A;">CIS v8.1 safeguards</span>
+      </div>
+      <div class="score-card" style="background:#0F1E33;">
+        <span class="score-num" style="color:var(--gold);">Real-time</span>
+        <span class="score-lbl" style="color:#4A6A8A;">Regulatory monitoring</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── HOW IT WORKS ── -->
+<section class="section" style="background:var(--cream);">
+  <div class="container">
+    <span class="section-eyebrow">How Sentinel works</span>
+    <h2 class="section-title">From risk finding to audit-ready evidence.</h2>
+    <p class="section-sub">Sentinel connects every layer of the Pistos platform into a single compliance record — from Skopein findings and Manthesis training results to policy documentation and regulatory filings.</p>
+    <div class="workflow-grid">
+      <div class="workflow-step">
+        <span class="step-num">01</span>
+        <h4>Control mapping</h4>
+        <p>All 50 controls mapped to applicable CIS v8.1 safeguards, regulatory citations, and required evidence types across every active framework.</p>
+      </div>
+      <div class="workflow-step">
+        <span class="step-num">02</span>
+        <h4>Evidence collection</h4>
+        <p>Skopein scan results, Manthesis training records, policy documents, and client-submitted evidence all land in the same record — linked to the control they satisfy.</p>
+      </div>
+      <div class="workflow-step">
+        <span class="step-num">03</span>
+        <h4>Compliance scoring</h4>
+        <p>Every control is scored: Accepted, Partially Implemented, Needs Remediation, or Not Started. Scores roll up to a NY DFS grade and overall compliance percentage.</p>
+      </div>
+      <div class="workflow-step">
+        <span class="step-num">04</span>
+        <h4>Audit-ready output</h4>
+        <p>CAM, CRB, and board-level reporting generated automatically. When an examiner arrives, the evidence is already organized, dated, and defensible.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FEATURES ── -->
+<section class="section" style="background:var(--cream-dark);">
+  <div class="container">
+    <span class="section-eyebrow">Platform capabilities</span>
+    <h2 class="section-title">Built for regulated industry audit requirements.</h2>
+    <p class="section-sub">Every feature in Sentinel is designed around one question: what does an examiner need to see, and can we produce it instantly?</p>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h4>Multi-framework tracking</h4>
+        <p>A single control record maps simultaneously to every applicable framework. Implement once, satisfy NY DFS, HIPAA, GLBA, PCI DSS, and CMMC at the same time.</p>
+      </div>
+      <div class="feature-card">
+        <h4>AI regulatory monitoring</h4>
+        <p>When a regulation amends — NY DFS Part 500, NIST SP 800-171 Rev 3, HIPAA guidance — Sentinel identifies affected controls and flags them for re-assessment automatically.</p>
+      </div>
+      <div class="feature-card">
+        <h4>Evidence repository</h4>
+        <p>Every piece of evidence is linked to the control it satisfies, dated, and stored. Policies, scan results, training records, vendor attestations — all in one place.</p>
+      </div>
+      <div class="feature-card">
+        <h4>Compliance scoring and grading</h4>
+        <p>NY DFS scoring methodology built in. Green, blue, amber, orange, and red grade tiers. Inherent risk weighting. Scoped vs. non-applicable control separation.</p>
+      </div>
+      <div class="feature-card">
+        <h4>CAM and CRB generation</h4>
+        <p>Compliance Assessment Matrix and Compliance Review Board reports generated automatically from live control data. No manual assembly before an audit.</p>
+      </div>
+      <div class="feature-card">
+        <h4>Client evidence portal</h4>
+        <p>Clients submit evidence directly through the Sentinel portal. Submissions link automatically to the relevant control record and update evidence status in real time.</p>
+      </div>
+      <div class="feature-card">
+        <h4>Policy library</h4>
+        <p>15 security policies mapped to all applicable controls and regulatory sections. Policies are maintained current as regulations amend — no manual policy review cycle.</p>
+      </div>
+      <div class="feature-card">
+        <h4>Board-level reporting</h4>
+        <p>Executive summary output suitable for board review, regulatory discussion, and insurance carrier questionnaires. Risk posture in plain language, not technical jargon.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FRAMEWORKS ── -->
+<section class="section" style="background:var(--cream);">
+  <div class="container">
+    <span class="section-eyebrow">Framework coverage</span>
+    <h2 class="section-title">Meet one. Satisfy many.</h2>
+    <p class="section-sub">Sentinel is anchored to CIS Controls v8.1 — the single framework that maps to all others. Every control implementation satisfies multiple regulatory obligations simultaneously.</p>
+    <div class="framework-grid">
+      <div class="framework-item"><h5>NY DFS</h5><p>23 NYCRR Part 500</p></div>
+      <div class="framework-item"><h5>HIPAA</h5><p>Security Rule</p></div>
+      <div class="framework-item"><h5>PCI DSS</h5><p>v4.0</p></div>
+      <div class="framework-item"><h5>NIST CSF</h5><p>2.0</p></div>
+      <div class="framework-item"><h5>NIST SP 800-171</h5><p>Rev 3</p></div>
+      <div class="framework-item"><h5>NIST SP 800-53</h5><p>Rev 5</p></div>
+      <div class="framework-item"><h5>CMMC</h5><p>2.0 Level 1&ndash;2</p></div>
+      <div class="framework-item"><h5>ISO 27001</h5><p>2022</p></div>
+      <div class="framework-item"><h5>GLBA</h5><p>Safeguards Rule</p></div>
+      <div class="framework-item"><h5>SOX</h5><p>IT Controls</p></div>
+      <div class="framework-item"><h5>SOC 2</h5><p>Type I &amp; II</p></div>
+      <div class="framework-item"><h5>SIG</h5><p>Lite &amp; Core</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section class="section-sm" style="background:var(--navy);text-align:center;">
+  <div class="container">
+    <h2 style="color:#F5F1EB;margin-bottom:1rem;">See Sentinel against your specific frameworks.</h2>
+    <p style="color:#5A7A8A;max-width:500px;margin:0 auto 2rem;font-size:0.9rem;">We will walk you through a live Sentinel dashboard mapped to your regulatory obligations.</p>
+    <a href="/pages/contact.html" class="btn btn-white">Schedule a demo</a>
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="../js/layout.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

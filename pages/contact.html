@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact | Pistos Information Protection</title>
+  <meta name="description" content="Request a briefing, schedule a demo, or reach out to Pistos Information Protection.">
+  <link rel="stylesheet" href="../css/site.css">
+  <style>
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+    .contact-form { background: var(--cream-dark); border: 1px solid var(--border); border-radius: 4px; padding: 2rem; }
+    .form-group { margin-bottom: 1.25rem; }
+    .form-group label { display: block; font-size: 0.78rem; font-family: 'Cinzel', serif; color: var(--navy); letter-spacing: 0.08em; margin-bottom: 0.4rem; }
+    .form-group input, .form-group select, .form-group textarea { width: 100%; background: var(--cream); border: 1px solid var(--border); border-radius: 2px; padding: 10px 14px; font-size: 0.88rem; color: var(--text-dark); font-family: 'Source Sans 3', sans-serif; outline: none; transition: border-color 0.2s; }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--navy); }
+    .form-group textarea { min-height: 120px; resize: vertical; }
+    .contact-info h3 { font-size: 1rem; color: var(--navy); margin-bottom: 0.5rem; }
+    .contact-info p { font-size: 0.88rem; color: var(--text-mid); font-weight: 300; line-height: 1.7; margin-bottom: 1.5rem; }
+    .contact-detail { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 0.75rem; }
+    .contact-detail-label { font-family: 'Cinzel', serif; font-size: 0.65rem; color: var(--gold); letter-spacing: 0.15em; text-transform: uppercase; min-width: 60px; padding-top: 2px; }
+    .contact-detail-value { font-size: 0.85rem; color: var(--text-mid); font-weight: 300; }
+    @media(max-width:760px) { .contact-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+
+<section class="hero" style="padding:4rem 2rem 3rem;">
+  <span class="hero-eyebrow">Get in touch</span>
+  <h1 class="hero-headline">Request a briefing.</h1>
+  <span class="hero-diamond">&#9670;</span>
+  <p class="hero-body">We work with CISOs, CCOs, General Counsel, and compliance officers at financial services firms, healthcare organizations, and defense contractors. Tell us about your regulatory obligations and we will show you exactly how the Pistos platform addresses them.</p>
+</section>
+
+<section class="section" style="background:var(--cream-dark);">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="contact-form">
+        <h3 style="font-size:1rem;color:var(--navy);margin-bottom:1.25rem;">Request a briefing</h3>
+        <form action="mailto:pete@pistosip.com" method="post" enctype="text/plain">
+          <div class="form-group">
+            <label>Name</label>
+            <input type="text" name="name" placeholder="Your full name">
+          </div>
+          <div class="form-group">
+            <label>Organization</label>
+            <input type="text" name="organization" placeholder="Company or institution">
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" name="email" placeholder="your@organization.com">
+          </div>
+          <div class="form-group">
+            <label>Primary regulatory framework</label>
+            <select name="framework">
+              <option value="">Select your primary obligation</option>
+              <option>NY DFS 23 NYCRR 500</option>
+              <option>HIPAA / OCR</option>
+              <option>CMMC 2.0</option>
+              <option>GLBA Safeguards Rule</option>
+              <option>PCI DSS v4.0</option>
+              <option>NIST SP 800-171</option>
+              <option>SOX IT Controls</option>
+              <option>Multiple frameworks</option>
+              <option>Other / Not sure</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>What brings you here</label>
+            <textarea name="message" placeholder="Tell us about your current compliance situation, an upcoming examination, or what you are looking to solve."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%;">Send request</button>
+        </form>
+      </div>
+      <div class="contact-info">
+        <h3>Pistos Information Protection LLC</h3>
+        <p>We serve financial services firms, healthcare organizations, and defense contractors navigating complex, overlapping regulatory obligations. Every engagement starts with a conversation about your specific situation.</p>
+        <div class="contact-detail">
+          <span class="contact-detail-label">Email</span>
+          <span class="contact-detail-value"><a href="mailto:pete@pistosip.com" style="color:var(--navy);">pete@pistosip.com</a></span>
+        </div>
+        <div class="contact-detail">
+          <span class="contact-detail-label">Location</span>
+          <span class="contact-detail-value">Raleigh, North Carolina</span>
+        </div>
+        <div class="contact-detail">
+          <span class="contact-detail-label">Portal</span>
+          <span class="contact-detail-value"><a href="https://app.pistosip.com" style="color:var(--navy);">app.pistosip.com</a></span>
+        </div>
+        <div style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border);">
+          <p style="font-size:0.82rem;color:var(--text-muted);font-style:italic;line-height:1.75;">"Faithful in discipline. Steadfast in execution. Accountable in outcome."</p>
+        </div>
+        <div style="margin-top:1.5rem;">
+          <p style="font-size:0.82rem;font-weight:600;color:var(--navy);margin-bottom:0.5rem;">Existing clients</p>
+          <p style="font-size:0.82rem;color:var(--text-mid);font-weight:300;">Access your compliance portal at <a href="https://app.pistosip.com" style="color:var(--navy);text-decoration:underline;">app.pistosip.com</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="../js/layout.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>

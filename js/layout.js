@@ -1,0 +1,57 @@
+const NAV = `
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo"><span class="pi">&#960;&#953;&#963;&#964;&#972;&#962;</span> Pistos</a>
+    <div class="nav-links">
+      <a href="/pages/platform.html">The Platform</a>
+      <a href="/pages/skopein.html">Skopein</a>
+      <a href="/pages/sentinel.html">Sentinel</a>
+      <a href="/pages/manthesis.html">Manthesis</a>
+      <a href="/pages/aegis.html">Aegis</a>
+      <a href="/pages/about.html">About</a>
+      <a href="/pages/contact.html">Contact</a>
+      <a href="https://app.pistosip.com" class="nav-portal">Access your portal</a>
+    </div>
+    <div class="nav-hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>`;
+
+const FOOTER = `
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="serif" style="font-size:1.1rem;color:#F5F1EB;letter-spacing:0.08em;">&#960;&#953;&#963;&#964;&#972;&#962; Pistos</span>
+      <p>Continuous, evidence-based proof that your security controls satisfy your regulatory obligations. Anchored to CIS Controls v8.1. Built for financial services, healthcare, and defense.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Platform</h4>
+      <a href="/pages/platform.html">Overview</a>
+      <a href="/pages/skopein.html">Skopein</a>
+      <a href="/pages/sentinel.html">Sentinel</a>
+      <a href="/pages/manthesis.html">Manthesis</a>
+      <a href="/pages/aegis.html">Aegis</a>
+    </div>
+    <div class="footer-col">
+      <h4>Industries</h4>
+      <a href="/pages/financial-services.html">Financial Services</a>
+      <a href="/pages/healthcare.html">Healthcare</a>
+      <a href="/pages/defense.html">Defense &amp; Government</a>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a href="/pages/about.html">About Pistos</a>
+      <a href="/pages/contact.html">Contact</a>
+      <a href="https://app.pistosip.com">Client Portal</a>
+      <a href="https://github.com/petepistos">GitHub</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 Pistos Information Protection LLC &middot; Raleigh, NC</p>
+    <p class="footer-tagline">Faithful in discipline. Steadfast in execution. Accountable in outcome.</p>
+  </div>
+</footer>`;
+
+document.getElementById('nav-placeholder').innerHTML = NAV;
+document.getElementById('footer-placeholder').innerHTML = FOOTER;
