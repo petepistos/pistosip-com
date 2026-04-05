@@ -1,15 +1,20 @@
+const isRoot = !window.location.pathname.includes('/pages/');
+const base = isRoot ? '' : '../';
+
 const NAV = `
 <nav class="nav">
   <div class="nav-inner">
-    <a href="/" class="nav-logo"><span class="pi">&#960;&#953;&#963;&#964;&#972;&#962;</span> Pistos</a>
+    <a href="${base}index.html" class="nav-logo"><span class="pi">&#960;&#953;&#963;&#964;&#972;&#962;</span> Pistos</a>
     <div class="nav-links">
-      <a href="/pages/platform.html">The Platform</a>
-      <a href="/pages/skopein.html">Skopein</a>
-      <a href="/pages/sentinel.html">Sentinel</a>
-      <a href="/pages/manthesis.html">Manthesis</a>
-      <a href="/pages/aegis.html">Aegis</a>
-      <a href="/pages/about.html">About</a>
-      <a href="/pages/contact.html">Contact</a>
+      <a href="${base}pages/skopein.html">Skopein</a>
+      <a href="${base}pages/sentinel.html">Sentinel</a>
+      <a href="${base}pages/manthesis.html">Manthesis</a>
+      <a href="${base}pages/aegis.html">Aegis</a>
+      <a href="${base}pages/financial-services.html">Financial Services</a>
+      <a href="${base}pages/healthcare.html">Healthcare</a>
+      <a href="${base}pages/defense.html">Defense</a>
+      <a href="${base}pages/about.html">About</a>
+      <a href="${base}pages/contact.html">Contact</a>
       <a href="https://app.pistosip.com" class="nav-portal">Access your portal</a>
     </div>
     <div class="nav-hamburger" aria-label="Menu">
@@ -27,22 +32,21 @@ const FOOTER = `
     </div>
     <div class="footer-col">
       <h4>Platform</h4>
-      <a href="/pages/platform.html">Overview</a>
-      <a href="/pages/skopein.html">Skopein</a>
-      <a href="/pages/sentinel.html">Sentinel</a>
-      <a href="/pages/manthesis.html">Manthesis</a>
-      <a href="/pages/aegis.html">Aegis</a>
+      <a href="${base}pages/skopein.html">Skopein</a>
+      <a href="${base}pages/sentinel.html">Sentinel</a>
+      <a href="${base}pages/manthesis.html">Manthesis</a>
+      <a href="${base}pages/aegis.html">Aegis</a>
     </div>
     <div class="footer-col">
       <h4>Industries</h4>
-      <a href="/pages/financial-services.html">Financial Services</a>
-      <a href="/pages/healthcare.html">Healthcare</a>
-      <a href="/pages/defense.html">Defense &amp; Government</a>
+      <a href="${base}pages/financial-services.html">Financial Services</a>
+      <a href="${base}pages/healthcare.html">Healthcare</a>
+      <a href="${base}pages/defense.html">Defense &amp; Government</a>
     </div>
     <div class="footer-col">
       <h4>Company</h4>
-      <a href="/pages/about.html">About Pistos</a>
-      <a href="/pages/contact.html">Contact</a>
+      <a href="${base}pages/about.html">About Pistos</a>
+      <a href="${base}pages/contact.html">Contact</a>
       <a href="https://app.pistosip.com">Client Portal</a>
       <a href="https://github.com/petepistos">GitHub</a>
     </div>
