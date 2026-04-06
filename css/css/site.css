@@ -178,3 +178,8 @@ p { font-weight: 300; }
   .footer-inner { grid-template-columns: 1fr; }
   .footer-bottom { flex-direction: column; gap: 0.5rem; text-align: center; }
 }
+.nav-logo .pi { margin-right: 0.35rem; }
+.nav-group-label { font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); opacity: 0.7; padding: 0 0.25rem; pointer-events: none; white-space: nowrap; align-self: center; }
+.nav-divider { display: inline-block; width: 1px; height: 16px; background: var(--border); margin: 0 0.5rem; align-self: center; flex-shrink: 0; }
+.nav-logo { margin-right: 1.5rem; }
+@media (max-width: 900px) { .nav-group-label { display: none; } .nav-divider { display: none; } }
