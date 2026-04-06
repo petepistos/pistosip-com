@@ -4,9 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Platform — Meet One. Satisfy Many. | Pistos</title>
-  <meta name="description" content="The Pistos regulatory mapper shows how your compliance obligations overlap across 14 frameworks anchored to CIS Controls v8.1. Meet one requirement. Satisfy many.">
+  <meta name="description" content="The Pistos platform: Skopein, Sentinel, Manthesis, and Aegis — four capabilities building one continuously audit-ready compliance posture.">
   <link rel="stylesheet" href="../css/site.css">
   <style>
+    /* ── Framework mapper (existing) ── */
     .fw-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px,1fr)); gap: 8px; margin-bottom: 1.5rem; }
     .fw-btn { background: var(--cream); border: 1px solid var(--border); border-radius: 4px; padding: 8px 10px; cursor: pointer; text-align: left; transition: all 0.15s; }
     .fw-btn:hover { background: var(--cream-dark); border-color: var(--gold); }
@@ -40,6 +41,116 @@
     .clear-link { font-size: 0.75rem; color: var(--text-muted); cursor: pointer; text-decoration: underline; margin-left: 8px; }
     .mapper-wrap { background: var(--cream); border: 1px solid var(--border); border-radius: 4px; padding: 1.5rem; overflow-x: auto; }
     .empty-state { text-align: center; padding: 3rem 1rem; color: var(--text-muted); font-size: 0.88rem; font-style: italic; }
+
+    /* ── Product prototype panels ── */
+    .product-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); margin-bottom: 0; }
+    .ptab { padding: 0.75rem 1.5rem; font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.08em; cursor: pointer; border-bottom: 3px solid transparent; color: var(--text-muted); transition: all 0.15s; background: none; border-top: none; border-left: none; border-right: none; }
+    .ptab:hover { color: var(--navy); }
+    .ptab.active { color: var(--navy); border-bottom-color: var(--gold); }
+    .proto-panel { display: none; }
+    .proto-panel.active { display: block; }
+
+    /* Skopein prototype */
+    .sk-proto { background: var(--cream); border: 1px solid var(--border); border-top: none; border-radius: 0 0 4px 4px; overflow: hidden; }
+    .sk-header { background: #0F1E33; padding: 0.75rem 1.25rem; display: flex; align-items: center; justify-content: space-between; }
+    .sk-header-title { color: var(--gold); font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.12em; }
+    .sk-status { font-size: 0.7rem; color: #4A8A70; background: rgba(15,110,86,0.15); padding: 3px 10px; border-radius: 20px; }
+    .sk-body { display: grid; grid-template-columns: 200px 1fr; min-height: 320px; }
+    .sk-sidebar { background: #0A1628; padding: 1rem; border-right: 1px solid rgba(196,170,136,0.12); }
+    .sk-nav-item { padding: 0.5rem 0.75rem; font-size: 0.75rem; color: #4A6A8A; border-radius: 3px; cursor: pointer; margin-bottom: 2px; display: flex; align-items: center; gap: 8px; }
+    .sk-nav-item.active { background: rgba(196,170,136,0.1); color: #C4AA88; }
+    .sk-nav-dot { width: 6px; height: 6px; border-radius: 50%; background: #4A6A8A; flex-shrink: 0; }
+    .sk-nav-item.active .sk-nav-dot { background: var(--gold); }
+    .sk-content { padding: 1.25rem; }
+    .sk-domain-label { font-family: 'Cinzel', serif; font-size: 0.65rem; color: #8AAABB; letter-spacing: 0.15em; margin-bottom: 0.75rem; display: block; }
+    .sk-finding-row { display: flex; align-items: flex-start; gap: 10px; padding: 0.6rem 0; border-bottom: 1px solid rgba(196,170,136,0.08); font-size: 0.78rem; }
+    .sk-finding-row:last-child { border-bottom: none; }
+    .sk-sev { font-size: 0.62rem; padding: 2px 7px; border-radius: 3px; font-weight: 600; white-space: nowrap; flex-shrink: 0; margin-top: 1px; }
+    .sev-high { background: rgba(180,50,50,0.2); color: #E88080; }
+    .sev-med { background: rgba(180,120,30,0.2); color: #D4A060; }
+    .sev-low { background: rgba(60,100,160,0.2); color: #7AAAD0; }
+    .sk-finding-text { color: #C8D8E8; flex: 1; line-height: 1.55; }
+    .sk-finding-cis { font-size: 0.62rem; color: #4A6A8A; white-space: nowrap; flex-shrink: 0; margin-top: 2px; }
+
+    /* Sentinel prototype */
+    .sn-proto { background: var(--cream); border: 1px solid var(--border); border-top: none; border-radius: 0 0 4px 4px; }
+    .sn-header { background: var(--navy); padding: 0.75rem 1.25rem; display: flex; align-items: center; justify-content: space-between; }
+    .sn-title { color: var(--cream); font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.1em; }
+    .sn-grade { font-family: 'Cinzel', serif; font-size: 0.9rem; padding: 4px 14px; border-radius: 3px; }
+    .grade-blue { background: #1B4A8A; color: #A8C8F0; }
+    .sn-body { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px; background: var(--border); }
+    .sn-cell { background: var(--cream); padding: 1rem 1.25rem; }
+    .sn-cell-dark { background: var(--cream-dark); }
+    .sn-ctl-name { font-size: 0.8rem; color: var(--navy); font-weight: 500; margin-bottom: 3px; }
+    .sn-ctl-reg { font-size: 0.67rem; color: var(--text-muted); margin-bottom: 0.5rem; }
+    .sn-status-bar { height: 4px; border-radius: 2px; margin-bottom: 0.4rem; }
+    .bar-green { background: #0F6E56; width: 100%; }
+    .bar-amber { background: #C4800A; width: 60%; }
+    .bar-red { background: #A03030; width: 25%; }
+    .bar-gray { background: var(--border); width: 100%; }
+    .sn-status-label { font-size: 0.68rem; color: var(--text-muted); }
+    .sn-evidence-tag { display: inline-block; font-size: 0.62rem; padding: 2px 7px; border-radius: 2px; background: rgba(15,110,86,0.12); color: #0F6E56; margin-top: 4px; }
+    .sn-score-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--border); border-top: 1px solid var(--border); }
+    .sn-score-cell { background: var(--cream-dark); padding: 0.75rem 1rem; text-align: center; }
+    .sn-score-num { font-family: 'Cinzel', serif; font-size: 1.25rem; color: var(--navy); display: block; }
+    .sn-score-lbl { font-size: 0.65rem; color: var(--text-muted); }
+
+    /* Manthesis prototype */
+    .mn-proto { background: var(--cream); border: 1px solid var(--border); border-top: none; border-radius: 0 0 4px 4px; }
+    .mn-header { background: #1A3A5A; padding: 0.75rem 1.25rem; display: flex; align-items: center; justify-content: space-between; }
+    .mn-title { color: var(--cream); font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.1em; }
+    .mn-body { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); }
+    .mn-cell { background: var(--cream); padding: 1rem 1.25rem; }
+    .mn-module-row { display: flex; align-items: center; gap: 10px; padding: 0.45rem 0; border-bottom: 1px solid var(--border); font-size: 0.78rem; }
+    .mn-module-row:last-child { border-bottom: none; }
+    .mn-check { width: 14px; height: 14px; border-radius: 2px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 0.55rem; color: white; }
+    .check-done { background: #0F6E56; }
+    .check-pend { background: var(--border); }
+    .mn-module-name { color: var(--text-mid); flex: 1; }
+    .mn-module-score { font-size: 0.7rem; color: var(--text-muted); }
+    .mn-tier-badge { font-size: 0.6rem; padding: 2px 6px; border-radius: 2px; white-space: nowrap; }
+    .tier-intro-badge { background: rgba(0,120,100,0.12); color: #0A7060; }
+    .tier-inter-badge { background: rgba(20,60,120,0.12); color: #1A4A8A; }
+    .mn-summary { background: var(--cream-dark); padding: 1rem 1.25rem; border-top: 1px solid var(--border); display: flex; gap: 2rem; align-items: center; }
+    .mn-sum-num { font-family: 'Cinzel', serif; font-size: 1.4rem; color: var(--navy); }
+    .mn-sum-lbl { font-size: 0.68rem; color: var(--text-muted); display: block; }
+
+    /* Aegis prototype */
+    .ag-proto { background: var(--cream); border: 1px solid var(--border); border-top: none; border-radius: 0 0 4px 4px; }
+    .ag-header { background: #1B2A4A; padding: 0.75rem 1.25rem; display: flex; align-items: center; justify-content: space-between; }
+    .ag-title { color: var(--cream); font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.1em; }
+    .ag-body { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); }
+    .ag-cell { background: var(--cream); padding: 1rem 1.25rem; }
+    .ag-cell-dark { background: var(--cream-dark); }
+    .ag-item { display: flex; justify-content: space-between; align-items: flex-start; padding: 0.5rem 0; border-bottom: 1px solid var(--border); font-size: 0.78rem; }
+    .ag-item:last-child { border-bottom: none; }
+    .ag-item-label { color: var(--text-mid); }
+    .ag-item-date { font-size: 0.68rem; color: var(--text-muted); white-space: nowrap; margin-left: 8px; }
+    .ag-badge { font-size: 0.62rem; padding: 2px 7px; border-radius: 2px; white-space: nowrap; flex-shrink: 0; }
+    .badge-done { background: rgba(15,110,86,0.12); color: #0F6E56; }
+    .badge-sched { background: rgba(30,60,120,0.12); color: #1A4A8A; }
+    .badge-due { background: rgba(180,100,20,0.15); color: #9A5A10; }
+    .ag-cal-row { display: flex; align-items: center; gap: 10px; padding: 0.45rem 0; border-bottom: 1px solid var(--border); font-size: 0.78rem; }
+    .ag-cal-row:last-child { border-bottom: none; }
+    .ag-cal-month { font-family: 'Cinzel', serif; font-size: 0.68rem; color: var(--gold); min-width: 32px; }
+    .ag-cal-item { color: var(--text-mid); flex: 1; }
+
+    /* Flow connector labels */
+    .flow-connect { display: grid; grid-template-columns: repeat(4,1fr); gap: 0; margin: 2rem 0 0; }
+    .flow-connect-item { text-align: center; padding: 0.75rem; border-top: 3px solid var(--border); position: relative; }
+    .flow-connect-item.active { border-top-color: var(--gold); }
+    .flow-connect-arrow { position: absolute; top: -10px; right: -12px; color: var(--gold); font-size: 0.7rem; z-index: 1; }
+    .flow-connect-label { font-family: 'Cinzel', serif; font-size: 0.68rem; letter-spacing: 0.1em; color: var(--text-muted); }
+    .flow-connect-item.active .flow-connect-label { color: var(--navy); }
+
+    @media(max-width:760px) {
+      .sk-body { grid-template-columns: 1fr; }
+      .sk-sidebar { display: none; }
+      .sn-body { grid-template-columns: 1fr; }
+      .mn-body { grid-template-columns: 1fr; }
+      .ag-body { grid-template-columns: 1fr; }
+      .sn-score-row { grid-template-columns: repeat(2,1fr); }
+    }
   </style>
 </head>
 <body>
@@ -67,7 +178,7 @@
       <div class="flow-arrow">&#9670;</div>
       <div class="flow-node">Manthesis<span>train the people</span></div>
       <div class="flow-arrow">&#9670;</div>
-      <div class="flow-node aegis">Aegis<span>operate the system</span></div>
+      <div class="flow-node" style="background:var(--navy);color:var(--cream);">Aegis<span style="color:#4A6A8A;">operate the system</span></div>
     </div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;">
       <div style="background:var(--cream);border:1px solid var(--border);border-radius:4px;padding:1.25rem;border-top:3px solid var(--navy);">
@@ -80,9 +191,9 @@
       </div>
       <div style="background:var(--cream);border:1px solid var(--border);border-radius:4px;padding:1.25rem;border-top:3px solid var(--navy);">
         <h4 style="font-size:0.88rem;color:var(--navy);margin-bottom:0.4rem;">Can we prove workforce competency?</h4>
-        <p style="font-size:0.82rem;color:var(--text-mid);font-weight:300;line-height:1.65;">Manthesis delivers structured training and AI-generated phishing simulations. Results feed directly into Sentinel evidence records.</p>
+        <p style="font-size:0.82rem;color:var(--text-mid);font-weight:300;line-height:1.65;">Manthesis delivers structured training across three depth levels. Results feed directly into Sentinel evidence records.</p>
       </div>
-      <div style="background:var(--cream);border:1px solid var(--border);border-radius:4px;padding:1.25rem;border-top:3px solid var(--teal);">
+      <div style="background:var(--cream);border:1px solid var(--border);border-radius:4px;padding:1.25rem;border-top:3px solid var(--navy);">
         <h4 style="font-size:0.88rem;color:var(--navy);margin-bottom:0.4rem;">Who operates all of this?</h4>
         <p style="font-size:0.82rem;color:var(--text-mid);font-weight:300;line-height:1.65;">Aegis is the vCISO service that operates Sentinel, Skopein, and Manthesis on your behalf — with regulatory filing support and board reporting.</p>
       </div>
@@ -90,8 +201,297 @@
   </div>
 </section>
 
-<!-- ── REGULATORY MAPPER ── -->
+<!-- ── PRODUCT PROTOTYPES ── -->
 <section class="section" style="background:var(--cream);">
+  <div class="container">
+    <span class="section-eyebrow">Inside the platform</span>
+    <h2 class="section-title">Each product. Working together.</h2>
+    <p class="section-sub">Every finding from Skopein flows into Sentinel. Every Manthesis training completion updates evidence records automatically. Aegis operates the entire system. The result is a single compliance posture — not four separate tools.</p>
+
+    <div class="product-tabs">
+      <button class="ptab active" onclick="showTab('skopein',this)">Skopein</button>
+      <button class="ptab" onclick="showTab('sentinel',this)">Sentinel</button>
+      <button class="ptab" onclick="showTab('manthesis',this)">Manthesis</button>
+      <button class="ptab" onclick="showTab('aegis',this)">Aegis</button>
+    </div>
+
+    <!-- SKOPEIN PROTOTYPE -->
+    <div id="proto-skopein" class="proto-panel active">
+      <div class="sk-proto">
+        <div class="sk-header">
+          <span class="sk-header-title">SKOPEIN — Technical Risk Assessment</span>
+          <span class="sk-status">&#9679; Scan complete</span>
+        </div>
+        <div class="sk-body">
+          <div class="sk-sidebar">
+            <div style="font-size:0.62rem;color:#3A5A7A;letter-spacing:0.12em;margin-bottom:0.75rem;font-family:'Cinzel',serif;">SCAN DOMAINS</div>
+            <div class="sk-nav-item active"><span class="sk-nav-dot"></span>External Posture</div>
+            <div class="sk-nav-item"><span class="sk-nav-dot"></span>Active Directory</div>
+            <div class="sk-nav-item"><span class="sk-nav-dot"></span>Microsoft 365</div>
+            <div class="sk-nav-item"><span class="sk-nav-dot"></span>Endpoints</div>
+            <div style="margin-top:1.5rem;font-size:0.62rem;color:#3A5A7A;letter-spacing:0.12em;font-family:'Cinzel',serif;">SUMMARY</div>
+            <div style="margin-top:0.5rem;">
+              <div style="font-size:0.72rem;color:#E88080;margin-bottom:4px;">&#9679; 4 High</div>
+              <div style="font-size:0.72rem;color:#D4A060;margin-bottom:4px;">&#9679; 7 Medium</div>
+              <div style="font-size:0.72rem;color:#7AAAD0;">&#9679; 3 Low</div>
+            </div>
+          </div>
+          <div class="sk-content" style="background:#0F1E33;">
+            <span class="sk-domain-label">EXTERNAL POSTURE — findings mapped to CIS v8.1</span>
+            <div class="sk-finding-row">
+              <span class="sk-sev sev-high">HIGH</span>
+              <span class="sk-finding-text">DMARC policy set to p=none — domain spoofing not prevented. Email authentication controls not enforced.</span>
+              <span class="sk-finding-cis">CIS 9.5</span>
+            </div>
+            <div class="sk-finding-row">
+              <span class="sk-sev sev-high">HIGH</span>
+              <span class="sk-finding-text">TLS 1.0 still negotiated on client portal — deprecated protocol in active use. PCI DSS 4.0 non-compliant.</span>
+              <span class="sk-finding-cis">CIS 3.10</span>
+            </div>
+            <div class="sk-finding-row">
+              <span class="sk-sev sev-med">MED</span>
+              <span class="sk-finding-text">SSL certificate expires in 11 days — no automated renewal configured. Outage risk if unaddressed.</span>
+              <span class="sk-finding-cis">CIS 4.1</span>
+            </div>
+            <div class="sk-finding-row">
+              <span class="sk-sev sev-med">MED</span>
+              <span class="sk-finding-text">Security headers missing: X-Frame-Options, Content-Security-Policy, HSTS not enforced.</span>
+              <span class="sk-finding-cis">CIS 4.2</span>
+            </div>
+            <div class="sk-finding-row">
+              <span class="sk-sev sev-low">LOW</span>
+              <span class="sk-finding-text">SPF record includes overly permissive +all mechanism — any host may send on behalf of domain.</span>
+              <span class="sk-finding-cis">CIS 9.5</span>
+            </div>
+            <div style="margin-top:1rem;padding-top:0.75rem;border-top:1px solid rgba(196,170,136,0.12);font-size:0.72rem;color:#4A6A8A;">
+              &#9670; All findings sent to Sentinel — evidence records and remediation tracking created automatically.
+            </div>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:0.8rem;color:var(--text-muted);margin-top:0.75rem;font-style:italic;">Skopein reads what is actually configured in your environment. Findings map automatically to CIS v8.1 safeguards and flow into Sentinel.</p>
+    </div>
+
+    <!-- SENTINEL PROTOTYPE -->
+    <div id="proto-sentinel" class="proto-panel">
+      <div class="sn-proto">
+        <div class="sn-header">
+          <span class="sn-title">SENTINEL — Compliance Management</span>
+          <span class="sn-grade grade-blue">NY DFS Grade: Blue</span>
+        </div>
+        <div class="sn-score-row">
+          <div class="sn-score-cell"><span class="sn-score-num">78%</span><span class="sn-score-lbl">Overall score</span></div>
+          <div class="sn-score-cell"><span class="sn-score-num">39</span><span class="sn-score-lbl">Controls implemented</span></div>
+          <div class="sn-score-cell"><span class="sn-score-num">8</span><span class="sn-score-lbl">Needs remediation</span></div>
+          <div class="sn-score-cell"><span class="sn-score-num">3</span><span class="sn-score-lbl">Not started</span></div>
+        </div>
+        <div class="sn-body">
+          <div class="sn-cell">
+            <div class="sn-ctl-name">MFA — Externally Exposed Apps</div>
+            <div class="sn-ctl-reg">NY DFS 500.12 · HIPAA 164.312 · CIS 6.3</div>
+            <div class="sn-status-bar bar-green"></div>
+            <span class="sn-status-label">Implemented</span>
+            <span class="sn-evidence-tag">&#10003; Skopein verified</span>
+          </div>
+          <div class="sn-cell sn-cell-dark">
+            <div class="sn-ctl-name">DMARC Implementation</div>
+            <div class="sn-ctl-reg">NY DFS 500.14 · CMMC SC.L2 · CIS 9.5</div>
+            <div class="sn-status-bar bar-red"></div>
+            <span class="sn-status-label" style="color:#A03030;">Needs remediation — Skopein finding</span>
+          </div>
+          <div class="sn-cell">
+            <div class="sn-ctl-name">Security Awareness Training</div>
+            <div class="sn-ctl-reg">NY DFS 500.14 · HIPAA 164.308 · CIS 14.1</div>
+            <div class="sn-status-bar bar-green"></div>
+            <span class="sn-status-label">Implemented</span>
+            <span class="sn-evidence-tag">&#10003; Manthesis records</span>
+          </div>
+          <div class="sn-cell sn-cell-dark">
+            <div class="sn-ctl-name">Annual Risk Assessment</div>
+            <div class="sn-ctl-reg">NY DFS 500.09 · HIPAA 164.308 · CIS 18.1</div>
+            <div class="sn-status-bar bar-amber"></div>
+            <span class="sn-status-label" style="color:#C4800A;">Partially implemented — due Apr 15</span>
+          </div>
+          <div class="sn-cell">
+            <div class="sn-ctl-name">Vendor Risk Management</div>
+            <div class="sn-ctl-reg">NY DFS 500.11 · HIPAA 164.308 · CIS 15.1</div>
+            <div class="sn-status-bar bar-green"></div>
+            <span class="sn-status-label">Implemented</span>
+            <span class="sn-evidence-tag">&#10003; 12 BAAs documented</span>
+          </div>
+          <div class="sn-cell sn-cell-dark">
+            <div class="sn-ctl-name">Audit Log Management</div>
+            <div class="sn-ctl-reg">NY DFS 500.06 · PCI DSS 10 · CIS 8.1</div>
+            <div class="sn-status-bar bar-green"></div>
+            <span class="sn-status-label">Implemented</span>
+            <span class="sn-evidence-tag">&#10003; Policy + evidence</span>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:0.8rem;color:var(--text-muted);margin-top:0.75rem;font-style:italic;">Sentinel tracks every control across every active framework. Skopein findings and Manthesis training results update evidence records automatically.</p>
+    </div>
+
+    <!-- MANTHESIS PROTOTYPE -->
+    <div id="proto-manthesis" class="proto-panel">
+      <div class="mn-proto">
+        <div class="mn-header">
+          <span class="mn-title">MANTHESIS — Security Awareness Training</span>
+          <span style="font-size:0.72rem;color:#7AAAD0;">Q2 campaign · 47 participants</span>
+        </div>
+        <div class="mn-body">
+          <div class="mn-cell">
+            <div style="font-size:0.68rem;color:var(--text-muted);font-family:'Cinzel',serif;letter-spacing:0.1em;margin-bottom:0.75rem;">INTRODUCTORY TRACK</div>
+            <div class="mn-module-row">
+              <div class="mn-check check-done">&#10003;</div>
+              <span class="mn-module-name">Phishing and Social Engineering</span>
+              <span class="mn-tier-badge tier-intro-badge">Intro</span>
+              <span class="mn-module-score">94%</span>
+            </div>
+            <div class="mn-module-row">
+              <div class="mn-check check-done">&#10003;</div>
+              <span class="mn-module-name">Password and Credential Security</span>
+              <span class="mn-tier-badge tier-intro-badge">Intro</span>
+              <span class="mn-module-score">88%</span>
+            </div>
+            <div class="mn-module-row">
+              <div class="mn-check check-done">&#10003;</div>
+              <span class="mn-module-name">Data Handling and Classification</span>
+              <span class="mn-tier-badge tier-intro-badge">Intro</span>
+              <span class="mn-module-score">91%</span>
+            </div>
+            <div class="mn-module-row">
+              <div class="mn-check check-done">&#10003;</div>
+              <span class="mn-module-name">Incident Recognition and Reporting</span>
+              <span class="mn-tier-badge tier-intro-badge">Intro</span>
+              <span class="mn-module-score">86%</span>
+            </div>
+            <div class="mn-module-row">
+              <div class="mn-check check-pend"></div>
+              <span class="mn-module-name" style="color:var(--text-muted);">Remote Work Security</span>
+              <span class="mn-tier-badge tier-intro-badge">Intro</span>
+              <span class="mn-module-score" style="color:var(--text-muted);">—</span>
+            </div>
+          </div>
+          <div class="mn-cell" style="background:var(--cream-dark);">
+            <div style="font-size:0.68rem;color:var(--text-muted);font-family:'Cinzel',serif;letter-spacing:0.1em;margin-bottom:0.75rem;">INTERMEDIATE TRACK</div>
+            <div class="mn-module-row">
+              <div class="mn-check check-done">&#10003;</div>
+              <span class="mn-module-name">Access Control and MFA</span>
+              <span class="mn-tier-badge tier-inter-badge">Inter</span>
+              <span class="mn-module-score">90%</span>
+            </div>
+            <div class="mn-module-row">
+              <div class="mn-check check-done">&#10003;</div>
+              <span class="mn-module-name">Vendor and Third-Party Risk</span>
+              <span class="mn-tier-badge tier-inter-badge">Inter</span>
+              <span class="mn-module-score">83%</span>
+            </div>
+            <div class="mn-module-row">
+              <div class="mn-check check-done">&#10003;</div>
+              <span class="mn-module-name">Audit Preparation and Evidence</span>
+              <span class="mn-tier-badge tier-inter-badge">Inter</span>
+              <span class="mn-module-score">89%</span>
+            </div>
+            <div class="mn-module-row">
+              <div class="mn-check check-pend"></div>
+              <span class="mn-module-name" style="color:var(--text-muted);">Insider Threat Recognition</span>
+              <span class="mn-tier-badge tier-inter-badge">Inter</span>
+              <span class="mn-module-score" style="color:var(--text-muted);">—</span>
+            </div>
+            <div class="mn-module-row">
+              <div class="mn-check check-pend"></div>
+              <span class="mn-module-name" style="color:var(--text-muted);">Regulatory Framework Deep Dive</span>
+              <span class="mn-tier-badge tier-inter-badge">Inter</span>
+              <span class="mn-module-score" style="color:var(--text-muted);">—</span>
+            </div>
+          </div>
+        </div>
+        <div class="mn-summary">
+          <div><span class="mn-sum-num">42 / 47</span><span class="mn-sum-lbl">Participants complete</span></div>
+          <div><span class="mn-sum-num">89%</span><span class="mn-sum-lbl">Avg. score</span></div>
+          <div><span class="mn-sum-num">5</span><span class="mn-sum-lbl">Remedial assigned</span></div>
+          <div style="margin-left:auto;font-size:0.72rem;color:#0F6E56;">&#9670; Results posted to Sentinel — CIS 14.1 evidence updated</div>
+        </div>
+      </div>
+      <p style="font-size:0.8rem;color:var(--text-muted);margin-top:0.75rem;font-style:italic;">Manthesis completion records update Sentinel evidence automatically. When an examiner asks for training documentation, it is already organized.</p>
+    </div>
+
+    <!-- AEGIS PROTOTYPE -->
+    <div id="proto-aegis" class="proto-panel">
+      <div class="ag-proto">
+        <div class="ag-header">
+          <span class="ag-title">AEGIS — Managed vCISO Service</span>
+          <span style="font-size:0.72rem;color:#7AAAD0;">Active engagement · Next delivery: Apr 15</span>
+        </div>
+        <div class="ag-body">
+          <div class="ag-cell">
+            <div style="font-size:0.68rem;color:var(--text-muted);font-family:'Cinzel',serif;letter-spacing:0.1em;margin-bottom:0.75rem;">DELIVERABLES — Q2</div>
+            <div class="ag-item">
+              <span class="ag-item-label">NY DFS Certification of Material Compliance</span>
+              <span class="ag-badge badge-due">Due Apr 15</span>
+            </div>
+            <div class="ag-item">
+              <span class="ag-item-label">Skopein quarterly scan — all domains</span>
+              <span class="ag-badge badge-done">Complete</span>
+            </div>
+            <div class="ag-item">
+              <span class="ag-item-label">Manthesis Q2 training campaign</span>
+              <span class="ag-badge badge-done">Complete</span>
+            </div>
+            <div class="ag-item">
+              <span class="ag-item-label">Board cybersecurity report — Q1</span>
+              <span class="ag-badge badge-done">Delivered</span>
+            </div>
+            <div class="ag-item">
+              <span class="ag-item-label">Annual risk assessment</span>
+              <span class="ag-badge badge-sched">In progress</span>
+            </div>
+            <div class="ag-item">
+              <span class="ag-item-label">Vendor risk review — 4 providers</span>
+              <span class="ag-badge badge-sched">Scheduled</span>
+            </div>
+          </div>
+          <div class="ag-cell ag-cell-dark">
+            <div style="font-size:0.68rem;color:var(--text-muted);font-family:'Cinzel',serif;letter-spacing:0.1em;margin-bottom:0.75rem;">REGULATORY CALENDAR</div>
+            <div class="ag-cal-row">
+              <span class="ag-cal-month">APR</span>
+              <span class="ag-cal-item">NY DFS Annual Certification filing</span>
+              <span class="ag-badge badge-due">15 days</span>
+            </div>
+            <div class="ag-cal-row">
+              <span class="ag-cal-month">JUN</span>
+              <span class="ag-cal-item">PCI DSS quarterly scan requirement</span>
+              <span class="ag-badge badge-sched">Scheduled</span>
+            </div>
+            <div class="ag-cal-row">
+              <span class="ag-cal-month">JUL</span>
+              <span class="ag-cal-item">Annual risk assessment completion</span>
+              <span class="ag-badge badge-sched">On track</span>
+            </div>
+            <div class="ag-cal-row">
+              <span class="ag-cal-month">SEP</span>
+              <span class="ag-cal-item">Manthesis Q3 training campaign</span>
+              <span class="ag-badge badge-sched">Planned</span>
+            </div>
+            <div class="ag-cal-row">
+              <span class="ag-cal-month">DEC</span>
+              <span class="ag-cal-item">Annual policy review and update</span>
+              <span class="ag-badge badge-sched">Planned</span>
+            </div>
+            <div style="margin-top:1rem;padding-top:0.75rem;border-top:1px solid var(--border);font-size:0.72rem;color:var(--text-muted);">
+              All deliverables tracked in Sentinel. Evidence records updated on completion.
+            </div>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:0.8rem;color:var(--text-muted);margin-top:0.75rem;font-style:italic;">Aegis operates Sentinel, Skopein, and Manthesis on your behalf — managing the regulatory calendar, filing obligations, and board reporting cycle.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── REGULATORY MAPPER ── -->
+<section class="section" style="background:var(--cream-dark);">
   <div class="container">
     <span class="section-eyebrow">Regulatory mapper</span>
     <h2 class="section-title">See exactly where your obligations overlap.</h2>
@@ -133,8 +533,8 @@
 <section class="section-sm" style="background:var(--navy);text-align:center;">
   <div class="container">
     <h2 style="color:#F5F1EB;margin-bottom:1rem;">See the full platform against your obligations.</h2>
-    <p style="color:#5A7A8A;max-width:500px;margin:0 auto 2rem;font-size:0.9rem;">Request a briefing and we will map Sentinel, Skopein, and Manthesis to your specific regulatory requirements.</p>
-    <a href="https://outlook.office.com/bookwithme/user/891e8d96d6eb4406b07253c122195c48@pistosip.com/meetingtype/pIMLaObjkEWSd-MMiQaGWw2?anonymous&ismsaljsauthenabled" class="btn btn-white">Request a briefing</a>
+    <p style="color:#5A7A8A;max-width:500px;margin:0 auto 2rem;font-size:0.9rem;">Request a briefing and we will walk you through Sentinel, Skopein, and Manthesis mapped to your specific regulatory requirements.</p>
+    <a href="/pages/contact.html" class="btn btn-white">Request a briefing</a>
   </div>
 </section>
 
@@ -142,6 +542,15 @@
 <script src="../js/layout.js"></script>
 <script src="../js/nav.js"></script>
 <script>
+// ── Tab switching ──
+function showTab(name, btn) {
+  document.querySelectorAll('.proto-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.ptab').forEach(b => b.classList.remove('active'));
+  document.getElementById('proto-' + name).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── Regulatory mapper ──
 const FRAMEWORKS = [
   {id:'nydfs',label:'NY DFS',sub:'23 NYCRR 500'},
   {id:'hipaa',label:'HIPAA',sub:'Security Rule'},
@@ -209,7 +618,6 @@ function render() {
   const sel = [...selected];
   const thead = document.getElementById('mapper-thead');
   const tbody = document.getElementById('mapper-tbody');
-
   let thHTML = '<tr><th style="min-width:50px">CIS</th><th style="min-width:110px">Domain</th><th style="min-width:200px">Safeguard</th><th style="min-width:40px">IG</th>';
   sel.forEach(fid => {
     const fw = FRAMEWORKS.find(f => f.id === fid);
@@ -218,21 +626,16 @@ function render() {
   if (sel.length) thHTML += '<th style="text-align:center;min-width:60px">All</th>';
   thHTML += '</tr>';
   thead.innerHTML = thHTML;
-
   let overlapCount = 0;
   let bodyHTML = '';
-
   SAFEGUARDS.forEach(sg => {
     const allMatch = sel.length > 0 && sel.every(fid => sg[fid] === 1);
     if (allMatch) overlapCount++;
-
     const show = activeFilter === 'all' ||
       (activeFilter === 'overlap' && allMatch && sel.length > 0) ||
       (activeFilter === 'IG1' && sg.ig === 'IG1') ||
       (activeFilter === 'IG2' && sg.ig === 'IG2');
-
     if (!show) return;
-
     const rowClass = allMatch ? 'all-match' : '';
     bodyHTML += `<tr class="${rowClass}">
       <td style="font-weight:500;white-space:nowrap">${sg.s}</td>
@@ -248,19 +651,15 @@ function render() {
     }
     bodyHTML += '</tr>';
   });
-
   if (!bodyHTML) {
     const cols = 4 + sel.length + (sel.length ? 1 : 0);
     bodyHTML = `<tr><td colspan="${cols}" class="empty-state">Select frameworks above to see the overlap map</td></tr>`;
   }
-
   tbody.innerHTML = bodyHTML;
-
   const pct = sel.length > 0 ? Math.round((overlapCount / SAFEGUARDS.length) * 100) : 0;
   document.getElementById('stat-sel').textContent = sel.length;
   document.getElementById('stat-overlap').textContent = sel.length > 0 ? overlapCount : '—';
   document.getElementById('stat-pct').textContent = sel.length > 0 ? pct + '%' : '—';
-
   document.querySelectorAll('.fw-btn').forEach(btn => {
     btn.classList.toggle('active', selected.has(btn.dataset.id));
   });
@@ -279,9 +678,7 @@ FRAMEWORKS.forEach(fw => {
   };
   grid.appendChild(btn);
 });
-
 document.getElementById('clear-btn').onclick = () => { selected.clear(); render(); };
-
 document.querySelectorAll('.filter-btn').forEach(btn => {
   btn.onclick = () => {
     activeFilter = btn.dataset.filter;
@@ -290,7 +687,6 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
     render();
   };
 });
-
 render();
 </script>
 </body>
