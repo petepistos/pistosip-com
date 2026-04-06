@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Client Portal — Coming Soon | Pistos</title>
+  <meta name="description" content="The Pistos client compliance portal is coming soon.">
+  <link rel="stylesheet" href="../css/site.css">
+  <style>
+    .coming-soon-wrap {
+      min-height: 60vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 6rem 2rem;
+    }
+    .coming-soon-wrap .def-diamond-ornament {
+      font-size: 1.5rem;
+      color: var(--gold);
+      display: block;
+      margin: 1.5rem 0;
+    }
+    .coming-soon-wrap p {
+      max-width: 480px;
+      font-size: 0.92rem;
+      color: var(--text-mid);
+      line-height: 1.85;
+      font-weight: 300;
+      margin: 0 auto 2rem;
+    }
+  </style>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+
+<section class="coming-soon-wrap">
+  <span class="section-eyebrow">Client Portal</span>
+  <h1 class="hero-headline" style="font-size:2rem;">Coming Soon.</h1>
+  <span class="def-diamond-ornament">&#9670;</span>
+  <p>The Pistos client compliance portal is currently in development. Existing clients — please contact your Pistos advisor directly for access to your compliance records.</p>
+  <a href="/pages/contact.html" class="btn btn-primary">Get in touch</a>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="../js/layout.js"></script>
+<script src="../js/nav.js"></script>
+</body>
+</html>
