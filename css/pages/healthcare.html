@@ -7,18 +7,31 @@
   <meta name="description" content="Continuous HIPAA, HITECH, and OCR compliance for healthcare organizations. AI-powered program management with examiner-ready evidence records.">
   <link rel="stylesheet" href="../css/site.css">
   <style>
-    .reg-detail-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 20px; }
+    /* Block 1: 7 client type tags — 4 top row, 3 bottom centered */
+    .client-types { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 1.5rem 0; max-width: 700px; }
+    .client-types-row2 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 0 0 1.5rem 0; max-width: 525px; }
+    .client-type { background: var(--cream-dark); border: 1px solid var(--border); border-radius: 2px; padding: 6px 14px; font-size: 0.78rem; color: var(--text-mid); font-family: 'Cinzel', serif; text-align: center; }
+
+    /* Block 2: Regulatory landscape — 4 even cards in a 2x2 */
+    .reg-detail-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
     .reg-detail-card { background: var(--cream-dark); border: 1px solid var(--border); border-top: 3px solid var(--teal); border-radius: 4px; padding: 1.5rem; }
     .reg-detail-card h4 { color: var(--navy); font-size: 0.92rem; margin-bottom: 0.3rem; }
     .reg-detail-card .reg-sub { font-size: 0.72rem; color: var(--text-muted); margin-bottom: 0.75rem; font-weight: 300; }
     .reg-detail-card p { font-size: 0.82rem; color: var(--text-mid); line-height: 1.7; font-weight: 300; }
-    .client-types { display: flex; flex-wrap: wrap; gap: 10px; margin: 1.5rem 0; }
-    .client-type { background: var(--cream-dark); border: 1px solid var(--border); border-radius: 2px; padding: 6px 14px; font-size: 0.78rem; color: var(--text-mid); font-family: 'Cinzel', serif; }
-    .ocr-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
-    .ocr-item { background: var(--cream); padding: 1.25rem; }
+
+    /* Block 3: OCR audit — 6 even cards in a 3x2 */
+    .ocr-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .ocr-item { background: var(--cream); border: 1px solid var(--border); border-radius: 4px; padding: 1.25rem; }
     .ocr-item h5 { font-size: 0.82rem; color: var(--navy); margin-bottom: 0.4rem; }
     .ocr-item p { font-size: 0.78rem; color: var(--text-mid); line-height: 1.6; font-weight: 300; }
     .ocr-item .answer { font-size: 0.78rem; color: var(--teal); font-style: italic; margin-top: 0.4rem; }
+
+    @media(max-width:760px) {
+      .client-types { grid-template-columns: repeat(2,1fr); }
+      .client-types-row2 { grid-template-columns: repeat(2,1fr); max-width: none; }
+      .reg-detail-grid { grid-template-columns: 1fr; }
+      .ocr-grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
@@ -30,11 +43,15 @@
     <h1 class="hero-headline" style="text-align:left;">OCR does not accept good intentions either.</h1>
     <span class="diamond" style="display:inline-block;">&#9670;</span>
     <p style="font-size:1rem;color:var(--text-mid);line-height:1.8;font-weight:300;margin-bottom:1.5rem;max-width:640px;">A single ransomware incident at a healthcare organization can trigger OCR investigation, breach notification obligations, and civil monetary penalties — regardless of whether a HIPAA Security Rule audit was ever conducted. The OCR audit protocol maps directly to what Pistos produces.</p>
+    <!-- Row 1: 4 tags -->
     <div class="client-types">
       <span class="client-type">Physician Groups</span>
       <span class="client-type">Health Plans</span>
       <span class="client-type">Hospitals</span>
       <span class="client-type">Health Systems</span>
+    </div>
+    <!-- Row 2: 3 tags -->
+    <div class="client-types-row2">
       <span class="client-type">Medical Device Manufacturers</span>
       <span class="client-type">Healthcare Technology</span>
       <span class="client-type">Business Associates</span>
@@ -43,6 +60,7 @@
   </div>
 </section>
 
+<!-- Block 2: Regulatory landscape — 4 cards, 2x2 -->
 <section class="section" style="background:var(--cream);">
   <div class="container">
     <span class="section-eyebrow">Regulatory landscape</span>
@@ -73,6 +91,7 @@
   </div>
 </section>
 
+<!-- Block 3: OCR audit protocol — 6 cards, 3x2 -->
 <section class="section" style="background:var(--cream-dark);">
   <div class="container">
     <span class="section-eyebrow">OCR audit protocol mapping</span>
@@ -87,7 +106,7 @@
       <div class="ocr-item">
         <h5>Workforce training records</h5>
         <p>Covered entities must train all workforce members on policies and procedures and document training completion.</p>
-        <p class="answer">Manthesis produces dated completion records and phishing simulation results for every staff member.</p>
+        <p class="answer">Manthesis produces dated completion records for every staff member, linked to the specific HIPAA requirements they satisfy.</p>
       </div>
       <div class="ocr-item">
         <h5>Access control evidence</h5>
@@ -126,3 +145,4 @@
 <script src="../js/nav.js"></script>
 </body>
 </html>
+
