@@ -1,4 +1,3 @@
-
 const isRoot = !window.location.pathname.includes('/pages/');
 const base = isRoot ? '' : '../';
 const NAV = `
@@ -9,7 +8,7 @@ const NAV = `
       <span class="nav-group-label">Products</span>
       <a href="${base}pages/skopein.html">Skopein</a>
       <a href="${base}pages/sentinel.html">Sentinel</a>
-      <a href="${base}pages/manthesis.html">Manthesis</a>
+      <a href="${base}pages/mathisi.html">Mathisi</a>
       <a href="${base}pages/aegis.html">Aegis</a>
       <span class="nav-divider"></span>
       <span class="nav-group-label">Industries</span>
@@ -31,13 +30,13 @@ const FOOTER = `
   <div class="footer-inner">
     <div class="footer-brand">
       <span class="serif" style="font-size:1.1rem;color:#F5F1EB;letter-spacing:0.08em;">&#960;&#953;&#963;&#964;&#972;&#962;&nbsp;&nbsp;Pistos</span>
-      <p>Continuous, evidence-based proof that your security controls satisfy your regulatory obligations. Anchored to CIS Controls v8.1. Built for financial services, healthcare, and defense.</p>
+      <p>Cybersecurity compliance programs for organizations under 500 employees. Designed by former partners from Accenture, EY, PwC, and Wipro. Built for financial services, healthcare, and defense.</p>
     </div>
     <div class="footer-col">
       <h4>Products</h4>
       <a href="${base}pages/skopein.html">Skopein</a>
       <a href="${base}pages/sentinel.html">Sentinel</a>
-      <a href="${base}pages/manthesis.html">Manthesis</a>
+      <a href="${base}pages/mathisi.html">Mathisi</a>
       <a href="${base}pages/aegis.html">Aegis</a>
     </div>
     <div class="footer-col">

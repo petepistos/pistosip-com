@@ -1,10 +1,11 @@
+mathisi.html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Manthesis — Security Awareness Training | Pistos</title>
-  <meta name="description" content="45-module training library plus AI-generated phishing simulations modeled on current attack patterns. Documented proof of workforce competency that satisfies examiner requirements.">
+  <meta name="description" content="45-module training library across three depth levels. Documented proof of workforce competency that satisfies examiner requirements.">
   <link rel="stylesheet" href="../css/site.css">
   <style>
     .module-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
@@ -17,10 +18,6 @@
     .topic-list { list-style: none; }
     .topic-list li { font-size: 0.8rem; color: var(--text-mid); padding: 0.3rem 0; border-bottom: 1px solid var(--border); font-weight: 300; }
     .topic-list li:last-child { border-bottom: none; }
-    .sim-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 20px; }
-    .sim-card { background: var(--cream-dark); border: 1px solid var(--border); border-radius: 4px; padding: 1.5rem; }
-    .sim-card h4 { color: var(--navy); font-size: 0.88rem; margin-bottom: 0.5rem; }
-    .sim-card p { font-size: 0.82rem; color: var(--text-mid); line-height: 1.65; font-weight: 300; }
     .flow-evidence { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--border); border-radius: 4px; overflow: hidden; margin: 2rem 0; }
     .flow-ev-step { background: var(--cream); padding: 1.25rem; }
     .flow-ev-step h4 { font-size: 0.82rem; color: var(--navy); margin-bottom: 0.4rem; }
@@ -30,6 +27,12 @@
     .reg-item { background: var(--cream); padding: 1rem 1.25rem; }
     .reg-item h5 { font-size: 0.8rem; color: var(--navy); margin-bottom: 3px; }
     .reg-item p { font-size: 0.75rem; color: var(--text-muted); font-weight: 300; }
+    /* 3x3 topic box grid */
+    .topic-box-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+    .topic-box { background: var(--cream-dark); border: 1px solid var(--border); border-radius: 4px; padding: 1.25rem; }
+    .topic-box h4 { color: var(--navy); font-size: 0.88rem; margin-bottom: 0.4rem; }
+    .topic-box p { font-size: 0.8rem; color: var(--text-mid); line-height: 1.65; font-weight: 300; }
+    @media(max-width:760px) { .module-grid { grid-template-columns: 1fr; } .topic-box-grid { grid-template-columns: 1fr; } .flow-evidence { grid-template-columns: 1fr 1fr; } }
   </style>
 </head>
 <body>
@@ -39,11 +42,11 @@
 <section class="hero">
   <div class="container" style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;text-align:left;">
     <div>
-      <span class="section-eyebrow">Security awareness &amp; phishing simulation</span>
-      <h1 style="margin-bottom:0.5rem;">Training that satisfies examiners. Simulations that reflect today's threats.</h1>
+      <span class="section-eyebrow">Security awareness training</span>
+      <h1 style="margin-bottom:0.5rem;">Training that satisfies examiners.</h1>
       <span class="diamond" style="display:inline-block;">&#9670;</span>
-      <p style="font-size:1rem;color:var(--text-mid);line-height:1.8;font-weight:300;margin-bottom:1.5rem;">Manthesis combines a structured 45-module training library with AI-generated phishing simulations modeled on current attack patterns. Results feed directly into Sentinel — producing the documented workforce competency record that every examiner asks for.</p>
-      <a href="/pages/contact.html" class="btn btn-primary">Learn more</a>
+      <p style="font-size:1rem;color:var(--text-mid);line-height:1.8;font-weight:300;margin-bottom:1.5rem;">Manthesis is a structured 45-module training library across three depth levels. Content is updated to reflect current attack patterns and regulatory requirements. Results feed directly into Sentinel — producing the documented workforce competency record that every examiner asks for.</p>
+      <a href="/pages/contact.html" class="btn btn-primary">Request a briefing</a>
     </div>
     <div class="def-card" style="max-width:360px;margin:0 auto;">
       <div class="def-card-top">
@@ -122,36 +125,48 @@
   </div>
 </section>
 
-<!-- ── PHISHING SIMULATION ── -->
+<!-- ── WHAT THE PROGRAM COVERS ── -->
 <section class="section" style="background:var(--cream-dark);">
   <div class="container">
-    <span class="section-eyebrow">Phishing simulation</span>
-    <h2 class="section-title">Simulations modeled on today's actual attacks.</h2>
-    <p class="section-sub">AI monitors CISA advisories and FBI IC3 threat feeds and generates phishing simulation templates modeled on the attack patterns currently targeting your industry. Your next simulation reflects this week's threats — not last year's templates.</p>
-    <div class="sim-grid">
-      <div class="sim-card">
-        <h4>IT security alert</h4>
-        <p>Credential harvesting via urgent IT notification. Simulates the most common vector targeting financial services staff — account lockout, password expiry, system access threats.</p>
+    <span class="section-eyebrow">Program design</span>
+    <h2 class="section-title">Built around what examiners look for.</h2>
+    <p class="section-sub">Every element of the Manthesis program is mapped to the specific training requirements in the regulations your organization faces — not a generic security awareness catalog.</p>
+    <div class="topic-box-grid">
+      <div class="topic-box">
+        <h4>Current threat content</h4>
+        <p>Training content is updated to reflect current attack vectors sourced from CISA advisories and FBI IC3 threat feeds. Staff are trained on the threats active in your industry today, not last year's examples.</p>
       </div>
-      <div class="sim-card">
-        <h4>Executive wire request</h4>
-        <p>Business Email Compromise simulation targeting accounts payable and finance staff. Models the CEO/CFO impersonation pattern responsible for the majority of wire fraud losses.</p>
+      <div class="topic-box">
+        <h4>Role-based delivery</h4>
+        <p>Introductory, intermediate, and advanced tracks ensure that training is appropriate to each staff member's role and system access level — satisfying role-based training requirements in CMMC and HIPAA.</p>
       </div>
-      <div class="sim-card">
-        <h4>DocuSign / document review</h4>
-        <p>Credential phishing via fake document signing request. Exploits the trust users place in document workflow tools — particularly effective against staff handling contracts and agreements.</p>
+      <div class="topic-box">
+        <h4>Dated completion records</h4>
+        <p>Every training completion is recorded with a timestamp, employee name, module, and score. When an examiner asks for training documentation, the record is already organized and ready.</p>
       </div>
-      <div class="sim-card">
-        <h4>HR policy notification</h4>
-        <p>Social engineering via fake HR communication — benefits updates, policy acknowledgments, open enrollment. Targets the authority users attribute to internal HR communications.</p>
+      <div class="topic-box">
+        <h4>Sentinel integration</h4>
+        <p>Training results post directly to the client's Sentinel compliance record — linked to the CIS controls and regulatory requirements they satisfy. No manual evidence entry required.</p>
       </div>
-      <div class="sim-card">
-        <h4>Vendor payment change</h4>
-        <p>BEC simulation targeting accounts payable — fake vendor banking detail update request. Models the pattern used in the majority of ACH and wire fraud incidents in financial services.</p>
+      <div class="topic-box">
+        <h4>Remedial assignment</h4>
+        <p>Staff who do not meet the required score are automatically assigned remedial training. The remediation is tracked and documented — closing the loop on the evidence record.</p>
       </div>
-      <div class="sim-card">
-        <h4>AI-generated custom templates</h4>
-        <p>New templates generated from current threat intelligence. When a new phishing pattern is identified in the wild, a matching simulation template is available within days.</p>
+      <div class="topic-box">
+        <h4>Annual program cycle</h4>
+        <p>Training campaigns are scheduled and managed on an annual cycle aligned to each client's regulatory calendar — NY DFS requires annual training, as does HIPAA, GLBA, and CMMC.</p>
+      </div>
+      <div class="topic-box">
+        <h4>Regulatory framework mapping</h4>
+        <p>Each module is tagged to the regulatory requirements it satisfies. A training completion record shows not just what was completed, but which NY DFS, HIPAA, or CMMC obligation it addresses.</p>
+      </div>
+      <div class="topic-box">
+        <h4>Board-level reporting</h4>
+        <p>Aggregate training completion rates, module scores, and program status are available in Sentinel's board reporting output — suitable for submission to regulators and board review.</p>
+      </div>
+      <div class="topic-box">
+        <h4>New hire onboarding</h4>
+        <p>New staff are enrolled in the introductory track automatically. CMMC requires training before system access is granted — Manthesis creates the documented record that satisfies this requirement.</p>
       </div>
     </div>
   </div>
@@ -161,28 +176,28 @@
 <section class="section" style="background:var(--navy);">
   <div class="container">
     <span class="section-eyebrow" style="color:#4A6A8A;">How results become evidence</span>
-    <h2 style="color:#F5F1EB;margin-bottom:0.5rem;">Simulation results feed Sentinel automatically.</h2>
-    <p style="color:#5A7A8A;max-width:660px;margin-bottom:2rem;font-size:0.92rem;font-weight:300;">Training completion and phishing simulation results are not stored in a separate system. They land directly in the client's Sentinel record — linked to the CIS controls they satisfy and the regulatory requirements they address.</p>
+    <h2 style="color:#F5F1EB;margin-bottom:0.5rem;">Training completions feed Sentinel automatically.</h2>
+    <p style="color:#5A7A8A;max-width:660px;margin-bottom:2rem;font-size:0.92rem;font-weight:300;">Training completion records are not stored in a separate system. They land directly in the client's Sentinel record — linked to the CIS controls they satisfy and the regulatory requirements they address.</p>
     <div class="flow-evidence">
       <div class="flow-ev-step">
         <span class="ev-num">01</span>
         <h4 style="color:#F5F1EB;">Campaign runs</h4>
-        <p style="color:#5A7A8A;">Phishing simulation deployed to targeted population. Click tracking, credential submission, and report actions all logged with timestamps.</p>
+        <p style="color:#5A7A8A;">Training campaign deployed to target population. Completion, scores, and time-on-module all logged with timestamps per employee.</p>
       </div>
       <div class="flow-ev-step" style="background:#0F1E33;">
         <span class="ev-num">02</span>
         <h4 style="color:#F5F1EB;">Results captured</h4>
-        <p style="color:#5A7A8A;">Pass, fail, and report rates recorded per employee. Remedial training automatically assigned to those who failed within 10 business days.</p>
+        <p style="color:#5A7A8A;">Pass and fail rates recorded per employee. Remedial training automatically assigned to those who did not meet the threshold within 10 business days.</p>
       </div>
       <div class="flow-ev-step">
         <span class="ev-num">03</span>
         <h4 style="color:#F5F1EB;">Sentinel updated</h4>
-        <p style="color:#5A7A8A;">Campaign results post to the client's Sentinel record. CIS 14.2, 14.5, and 14.6 evidence status updates automatically. Compliance score recalculates.</p>
+        <p style="color:#5A7A8A;">Results post to the client's Sentinel record. CIS 14.1, 14.2, and 14.5 evidence status updates automatically. Compliance score recalculates.</p>
       </div>
       <div class="flow-ev-step" style="background:#0F1E33;">
         <span class="ev-num">04</span>
         <h4 style="color:#F5F1EB;">Examiner-ready record</h4>
-        <p style="color:#5A7A8A;">Dated simulation record, participant list, results, and remediation documentation — all in one place when the examiner asks for training evidence.</p>
+        <p style="color:#5A7A8A;">Dated completion record, participant list, scores, and remediation documentation — organized and ready when the examiner asks for training evidence.</p>
       </div>
     </div>
   </div>
@@ -200,7 +215,7 @@
       <div class="reg-item"><h5>CMMC AT.L2-3.2.1</h5><p>Role-based security awareness training before access is granted</p></div>
       <div class="reg-item"><h5>NIST 800-171 3.2.1</h5><p>Ensure personnel are aware of security risks associated with their activities</p></div>
       <div class="reg-item"><h5>PCI DSS Req 12.6</h5><p>Formal security awareness program for all personnel</p></div>
-      <div class="reg-item"><h5>NACHA Rule 2.17</h5><p>Phishing simulation for ACH-access population, results reviewed annually</p></div>
+      <div class="reg-item"><h5>NACHA Rule 2.17</h5><p>Security awareness training for ACH-access population, results reviewed annually</p></div>
       <div class="reg-item"><h5>GLBA §314.4(e)</h5><p>Train staff to implement the information security program</p></div>
       <div class="reg-item"><h5>ISO 27001 A.7.2.2</h5><p>Awareness, education, and training on information security</p></div>
     </div>
@@ -210,9 +225,9 @@
 <!-- ── CTA ── -->
 <section class="section-sm" style="background:var(--navy);text-align:center;">
   <div class="container">
-    <h2 style="color:#F5F1EB;margin-bottom:1rem;">See Manthesis in action.</h2>
-    <p style="color:#5A7A8A;max-width:500px;margin:0 auto 2rem;font-size:0.9rem;">We will walk you through the training library and a live phishing simulation campaign against your target population.</p>
-    <a href="/pages/contact.html" class="btn btn-white">Request a walkthrough</a>
+    <h2 style="color:#F5F1EB;margin-bottom:1rem;">See Manthesis in context.</h2>
+    <p style="color:#5A7A8A;max-width:500px;margin:0 auto 2rem;font-size:0.9rem;">We will walk you through the training library and how it maps to your specific regulatory obligations.</p>
+    <a href="/pages/contact.html" class="btn btn-white">Request a briefing</a>
   </div>
 </section>
 
