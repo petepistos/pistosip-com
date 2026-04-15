@@ -186,3 +186,7 @@ p { font-weight: 300; }
 .nav-divider { display: inline-block; width: 1px; height: 16px; background: var(--border); margin: 0 0.5rem; align-self: center; flex-shrink: 0; }
 .nav-logo { margin-right: 1.5rem; }
 @media (max-width: 900px) { .nav-group-label { display: none; } .nav-divider { display: none; } .nav-logo img { height: 70px; margin: -8px 0; } .nav-inner { height: 64px; } }
+/* ── Logo & link overrides ───────────────────── */
+.nav-logo img { height: 60px !important; width: auto; display: block; }
+.nav-links a { color: #F5F1EB !important; opacity: 0.85; }
+.nav-links a:hover { opacity: 1; color: #F5F1EB !important; }
