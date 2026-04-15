@@ -3,7 +3,7 @@ const base = isRoot ? '' : '../';
 const NAV = `
 <nav class="nav">
   <div class="nav-inner">
-    <a href="${base}index.html" class="nav-logo"><img src="${base}images/pistos-logo_3.png?v=2" alt="Pistos Information Protection"></a>
+    <a href="${base}index.html" class="nav-logo"><img src="${base}images/pistos-logo_3.png?v=3" alt="Pistos Information Protection"></a>
     <div class="nav-links">
       <span class="nav-group-label">Products</span>
       <a href="${base}pages/skopein.html">Skopein</a>
