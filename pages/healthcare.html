@@ -7,14 +7,17 @@
   <meta name="description" content="Continuous HIPAA, HITECH, and OCR compliance for healthcare organizations. AI-powered program management with examiner-ready evidence records.">
   <link rel="stylesheet" href="../css/site.css">
   <style>
-    .reg-detail-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 20px; }
+    .reg-detail-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    @media(max-width:760px) { .reg-detail-grid { grid-template-columns: 1fr; } }
     .reg-detail-card { background: var(--cream-dark); border: 1px solid var(--border); border-top: 3px solid var(--teal); border-radius: 4px; padding: 1.5rem; }
     .reg-detail-card h4 { color: var(--navy); font-size: 0.92rem; margin-bottom: 0.3rem; }
     .reg-detail-card .reg-sub { font-size: 0.72rem; color: var(--text-muted); margin-bottom: 0.75rem; font-weight: 300; }
     .reg-detail-card p { font-size: 0.82rem; color: var(--text-mid); line-height: 1.7; font-weight: 300; }
     .client-types { display: flex; flex-wrap: wrap; gap: 10px; margin: 1.5rem 0; }
     .client-type { background: var(--cream-dark); border: 1px solid var(--border); border-radius: 2px; padding: 6px 14px; font-size: 0.78rem; color: var(--text-mid); font-family: 'Cinzel', serif; }
-    .ocr-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+    .ocr-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+    @media(max-width:900px) { .ocr-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media(max-width:560px) { .ocr-grid { grid-template-columns: 1fr; } }
     .ocr-item { background: var(--cream); padding: 1.25rem; }
     .ocr-item h5 { font-size: 0.82rem; color: var(--navy); margin-bottom: 0.4rem; }
     .ocr-item p { font-size: 0.78rem; color: var(--text-mid); line-height: 1.6; font-weight: 300; }

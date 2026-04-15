@@ -12,7 +12,8 @@
     .reg-detail-card h4 { color: var(--navy); font-size: 0.92rem; margin-bottom: 0.3rem; }
     .reg-detail-card .reg-sub { font-size: 0.72rem; color: var(--text-muted); margin-bottom: 0.75rem; font-weight: 300; }
     .reg-detail-card p { font-size: 0.82rem; color: var(--text-mid); line-height: 1.7; font-weight: 300; }
-    .cmmc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+    .cmmc-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+    @media(max-width:560px) { .cmmc-grid { grid-template-columns: 1fr; } }
     .cmmc-item { background: var(--cream); padding: 1.25rem; }
     .cmmc-item h5 { font-size: 0.82rem; color: var(--navy); margin-bottom: 4px; }
     .cmmc-item p { font-size: 0.78rem; color: var(--text-mid); line-height: 1.6; font-weight: 300; }

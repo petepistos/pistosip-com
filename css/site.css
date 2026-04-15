@@ -46,14 +46,15 @@ p { font-weight: 300; }
 
 /* ── Navigation ───────────────────────────────────────── */
 .nav { background: var(--navy); position: sticky; top: 0; z-index: 100; border-bottom: 1px solid rgba(196,170,136,0.2); }
-.nav-inner { display: flex; align-items: center; justify-content: space-between; height: 64px; max-width: 1140px; margin: 0 auto; padding: 0 2rem; }
-.nav-logo { font-family: 'Cinzel', serif; font-size: 1.1rem; color: #F5F1EB; letter-spacing: 0.08em; display: flex; align-items: center; gap: 10px; }
+.nav-inner { display: flex; align-items: center; justify-content: space-between; height: 80px; max-width: 1240px; margin: 0 auto; padding: 0 2rem; }
+.nav-logo { font-family: 'Cinzel', serif; font-size: 1.1rem; color: #F5F1EB; letter-spacing: 0.08em; display: flex; align-items: center; gap: 12px; }
 .nav-logo .pi { color: var(--gold); font-size: 1.3rem; }
+.nav-logo img { height: 64px; width: auto; display: block; }
 .nav-links { display: flex; align-items: center; gap: 2rem; }
 .nav-links a { font-size: 0.8rem; color: rgba(245,241,235,0.7); letter-spacing: 0.06em; font-family: 'Cinzel', serif; transition: color 0.2s; }
 .nav-links a:hover { color: #F5F1EB; }
 .nav-links a.active { color: var(--gold); }
-.nav-portal { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 7px 18px; font-family: 'Cinzel', serif; font-size: 0.72rem; letter-spacing: 0.1em; cursor: pointer; transition: all 0.2s; border-radius: 2px; }
+.nav-portal { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 6px 16px; font-family: 'Cinzel', serif; font-size: 0.7rem; letter-spacing: 0.1em; cursor: pointer; transition: all 0.2s; border-radius: 2px; line-height: 1.4; }
 .nav-portal:hover { background: var(--gold); color: var(--navy); }
 .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
 .nav-hamburger span { width: 24px; height: 1.5px; background: #F5F1EB; display: block; transition: all 0.3s; }
@@ -178,3 +179,10 @@ p { font-weight: 300; }
   .footer-inner { grid-template-columns: 1fr; }
   .footer-bottom { flex-direction: column; gap: 0.5rem; text-align: center; }
 }
+
+/* ── Nav adjustments ───────────────────────────────── */
+.nav-logo .pi { margin-right: 0.35rem; }
+.nav-group-label { font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); opacity: 0.7; padding: 0 0.25rem; pointer-events: none; white-space: nowrap; align-self: center; }
+.nav-divider { display: inline-block; width: 1px; height: 16px; background: var(--border); margin: 0 0.5rem; align-self: center; flex-shrink: 0; }
+.nav-logo { margin-right: 1.5rem; }
+@media (max-width: 900px) { .nav-group-label { display: none; } .nav-divider { display: none; } .nav-logo img { height: 48px; } .nav-inner { height: 64px; } }
