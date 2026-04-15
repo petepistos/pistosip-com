@@ -49,7 +49,7 @@ p { font-weight: 300; }
 .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 80px; max-width: 1240px; margin: 0 auto; padding: 0 2rem; }
 .nav-logo { font-family: 'Cinzel', serif; font-size: 1.1rem; color: #F5F1EB; letter-spacing: 0.08em; display: flex; align-items: center; gap: 12px; }
 .nav-logo .pi { color: var(--gold); font-size: 1.3rem; }
-.nav-logo img { height: 64px; width: auto; display: block; }
+.nav-logo img { height: 110px; width: auto; display: block; margin: -15px 0; }
 .nav-links { display: flex; align-items: center; gap: 2rem; }
 .nav-links a { font-size: 0.8rem; color: rgba(245,241,235,0.7); letter-spacing: 0.06em; font-family: 'Cinzel', serif; transition: color 0.2s; }
 .nav-links a:hover { color: #F5F1EB; }
