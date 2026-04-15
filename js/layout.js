@@ -17,6 +17,7 @@ const NAV = `
       <a href="${base}pages/defense.html">Defense</a>
       <span class="nav-divider"></span>
       <a href="${base}pages/about.html">About</a>
+      <a href="${base}pages/insights.html">Insights</a>
       <a href="${base}pages/contact.html">Contact</a>
       <a href="${base}pages/coming-soon.html" class="nav-portal">Access your portal</a>
     </div>
