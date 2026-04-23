@@ -3,217 +3,212 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Skopein — Technical Risk Assessment | Pistos</title>
-  <meta name="description" content="Skopein interrogates your actual environment — endpoints, domain controllers, network perimeter, and external attack surface. It goes where APIs cannot.">
-  <link rel="stylesheet" href="../css/site.css">
+  <title>Skopein — Vulnerability Management | Pistos Information Protection</title>
+  <meta name="description" content="Skopein is the vulnerability management pillar of the Pistos Aegis vCISO service. Internal and web application scanning, threat hunting, perimeter scans, and event log parsing — what's actually configured versus what vendors report.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
   <style>
-    .sk-hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
-    .vs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
-    .vs-col { padding: 1.5rem; }
-    .vs-col.them { background: var(--cream-dark); }
-    .vs-col.us { background: var(--navy); }
-    .vs-col h4 { font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1rem; }
-    .vs-col.them h4 { color: var(--text-muted); }
-    .vs-col.us h4 { color: var(--gold); }
-    .vs-item { font-size: 0.85rem; line-height: 1.65; margin-bottom: 0.6rem; padding-left: 1rem; position: relative; font-weight: 300; }
-    .vs-item::before { position: absolute; left: 0; }
-    .vs-col.them .vs-item { color: var(--text-mid); }
-    .vs-col.them .vs-item::before { content: '\2014'; color: var(--text-muted); }
-    .vs-col.us .vs-item { color: #C8D8E8; }
-    .vs-col.us .vs-item::before { content: '\25C6'; color: var(--gold); font-size: 0.6rem; top: 4px; }
-    .scan-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 1px; background: var(--border); }
-    .scan-item { background: var(--cream); padding: 1.25rem 1rem; border-bottom: 3px solid transparent; }
-    .scan-item.active { border-bottom-color: var(--navy); }
-    .scan-item h4 { font-size: 0.82rem; color: var(--navy); margin-bottom: 0.4rem; }
-    .scan-item p { font-size: 0.78rem; color: var(--text-mid); line-height: 1.6; font-weight: 300; }
-    .finding-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 16px; }
-    .finding-card { background: #0F1E33; border: 1px solid rgba(196,170,136,0.15); border-radius: 4px; padding: 1.5rem; }
-    .finding-card h4 { color: var(--gold); font-size: 0.78rem; letter-spacing: 0.08em; margin-bottom: 0.75rem; }
-    .finding-list { list-style: none; }
-    .finding-list li { font-size: 0.8rem; color: #8AAABB; padding: 0.35rem 0; padding-left: 1rem; position: relative; font-weight: 300; border-bottom: 1px solid rgba(196,170,136,0.08); }
-    .finding-list li:last-child { border-bottom: none; }
-    .finding-list li::before { content: '\25C6'; position: absolute; left: 0; color: var(--gold); font-size: 0.5rem; top: 7px; }
-    .flow-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--border); border-radius: 4px; overflow: hidden; }
-    .flow-step { background: var(--cream); padding: 1.25rem; }
-    .flow-step:nth-child(even) { background: var(--cream-dark); }
-    .flow-step h4 { font-size: 0.82rem; color: var(--navy); margin-bottom: 0.4rem; }
-    .flow-step p { font-size: 0.78rem; color: var(--text-mid); line-height: 1.6; font-weight: 300; }
-    .step-num { font-family: 'Cinzel', serif; font-size: 0.65rem; color: var(--gold); letter-spacing: 0.15em; display: block; margin-bottom: 0.4rem; }
-    @media(max-width:760px) { .sk-hero-grid { grid-template-columns: 1fr; } .vs-grid { grid-template-columns: 1fr; } .flow-grid { grid-template-columns: 1fr 1fr; } }
+    :root {
+      --navy-900: #152440;
+      --navy-700: #243860;
+      --ink-700:  #3A4760;
+      --ink-500:  #6B7386;
+      --gold:     #B8895A;
+      --gold-dk:  #9B7348;
+      --stone-50: #EFE9DB;
+      --stone-100:#E8E1D3;
+      --stone-200:#DED5C3;
+      --stone-300:#C9BEA7;
+      --serif:    'Cormorant Garamond', Garamond, Georgia, serif;
+      --sans:     'Inter', system-ui, -apple-system, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--stone-50); color: var(--navy-900); font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    a { color: var(--navy-700); text-decoration: none; }
+    a:hover { color: var(--gold); }
+    .container { max-width: 920px; margin: 0 auto; padding: 0 32px; }
+
+    .site-header { border-bottom: 0.5px solid var(--stone-300); padding: 22px 0; }
+    .site-header .row { display: flex; align-items: center; justify-content: space-between; }
+    .brand-mark { font-family: var(--serif); font-size: 22px; font-weight: 500; color: var(--navy-900); letter-spacing: 0.5px; }
+    .brand-mark .ip { font-family: var(--sans); font-size: 10px; font-weight: 500; letter-spacing: 3px; color: var(--gold); margin-left: 10px; text-transform: uppercase; }
+    .nav { display: flex; gap: 32px; align-items: center; font-size: 13px; letter-spacing: 0.3px; }
+    .nav a { color: var(--ink-700); }
+    .nav a:hover { color: var(--gold); }
+
+    .hero { padding: 72px 0 48px; text-align: center; }
+    .eyebrow { font-family: var(--sans); font-size: 11px; font-weight: 500; letter-spacing: 4px; color: var(--gold); text-transform: uppercase; margin: 0 0 18px 0; }
+    .hero h1 { font-family: var(--serif); font-size: 72px; font-weight: 500; color: var(--navy-900); margin: 0 0 10px 0; line-height: 1; }
+    .greek { font-family: var(--serif); font-size: 24px; font-style: italic; color: var(--ink-700); margin: 0 0 12px 0; }
+    .tagline { font-family: var(--sans); font-size: 12px; font-weight: 500; letter-spacing: 5px; color: var(--gold); text-transform: uppercase; margin: 0; }
+    .gold-rule { display: flex; align-items: center; justify-content: center; gap: 14px; margin: 28px 0 0 0; }
+    .gold-rule::before, .gold-rule::after { content: ""; display: block; width: 80px; height: 1px; background: var(--gold); }
+    .gold-rule .diamond { color: var(--gold); font-size: 14px; }
+
+    .intro { padding: 32px 0 12px; }
+    .intro p { font-size: 18px; line-height: 1.6; color: var(--ink-700); max-width: 720px; margin: 0 auto 16px auto; }
+
+    .modules { padding: 48px 0; }
+    .module { display: grid; grid-template-columns: 1fr 2fr; gap: 32px; padding: 22px 0; border-bottom: 0.5px solid var(--stone-300); }
+    .module:first-child { border-top: 0.5px solid var(--stone-300); }
+    .module-name { font-family: var(--serif); font-size: 22px; font-weight: 500; color: var(--navy-900); line-height: 1.2; }
+    .module-desc { font-size: 15px; line-height: 1.6; color: var(--ink-700); align-self: center; }
+
+    .context { padding: 72px 0 56px; border-top: 0.5px solid var(--stone-300); margin-top: 32px; }
+    .context h2 { font-family: var(--serif); font-size: 36px; font-weight: 500; color: var(--navy-900); margin: 0 0 24px 0; }
+    .context p { font-size: 16px; line-height: 1.7; color: var(--ink-700); margin: 0 0 16px 0; }
+
+    .siblings { padding: 56px 0; border-top: 0.5px solid var(--stone-300); text-align: center; }
+    .siblings .eyebrow { margin-bottom: 32px; }
+    .pillar-links { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 640px; margin: 0 auto; }
+    .pillar-link { display: block; padding: 28px 24px; background: var(--stone-100); border: 0.5px solid var(--stone-300); text-align: left; cursor: pointer; transition: background 160ms ease, border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease; }
+    .pillar-link:hover { background: #F4EEE0; border-color: var(--gold); transform: translateY(-2px); box-shadow: 0 4px 16px rgba(21, 36, 64, 0.08); }
+    .pillar-link .pname { font-family: var(--serif); font-size: 26px; font-weight: 500; color: var(--navy-900); margin: 0 0 4px 0; }
+    .pillar-link .pgreek { font-family: var(--serif); font-size: 14px; font-style: italic; color: var(--ink-700); margin: 0 0 8px 0; }
+    .pillar-link .ptag { font-family: var(--sans); font-size: 10.5px; font-weight: 500; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; }
+    .pillar-link .arrow { display: inline-block; margin-top: 16px; font-size: 13px; color: var(--ink-700); }
+    .pillar-link:hover .arrow { color: var(--gold); }
+
+    .cta { padding: 80px 0; text-align: center; border-top: 0.5px solid var(--stone-300); }
+    .cta h2 { font-family: var(--serif); font-size: 36px; font-weight: 500; color: var(--navy-900); margin: 0 0 16px 0; }
+    .cta p { font-size: 16px; color: var(--ink-700); margin: 0 auto 28px auto; max-width: 560px; }
+    .btn { display: inline-block; padding: 14px 32px; background: var(--navy-900); color: var(--stone-50); font-family: var(--sans); font-size: 13px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; border: 1px solid var(--navy-900); transition: background 160ms ease, color 160ms ease; }
+    .btn:hover { background: var(--gold); border-color: var(--gold); color: var(--stone-50); }
+
+    .site-footer { background: var(--navy-900); color: var(--stone-200); padding: 40px 0; margin-top: 40px; }
+    .site-footer .row { display: flex; justify-content: space-between; align-items: center; font-size: 12px; letter-spacing: 0.3px; }
+    .site-footer a { color: var(--stone-200); }
+    .site-footer a:hover { color: var(--gold); }
+
+    @media (max-width: 720px) {
+      .hero h1 { font-size: 52px; }
+      .module { grid-template-columns: 1fr; gap: 6px; }
+      .pillar-links { grid-template-columns: 1fr; }
+      .nav { display: none; }
+    }
+    .aegis-frame { padding: 48px 0 8px; border-bottom: 0.5px solid var(--stone-300); }
+    .aegis-frame .container { max-width: 760px; }
+    .aegis-lead { font-size: 16px; line-height: 1.75; color: var(--ink-700); margin: 0; text-align: center; }
+    .aegis-lead strong { color: var(--navy-900); font-weight: 500; }
   </style>
 </head>
+
 <body>
-<div id="nav-placeholder"></div>
 
-<section class="hero">
-  <div class="container">
-    <div class="sk-hero-grid">
-      <div style="text-align:left;">
-        <span class="section-eyebrow">Technical risk assessment</span>
-        <h1 style="margin-bottom:0.5rem;">Skopein goes where APIs cannot.</h1>
-        <span class="diamond" style="display:inline-block;">&#9670;</span>
-        <p style="font-size:1rem;color:var(--text-mid);line-height:1.8;font-weight:300;margin-bottom:0.75rem;">Other platforms ask your tools if they are compliant. Skopein finds out for itself. It interrogates your actual environment — reading what is configured, not what a vendor portal reports about itself.</p>
-        <p style="font-size:0.88rem;color:var(--text-muted);line-height:1.75;font-weight:300;font-style:italic;margin-bottom:1.5rem;border-left:3px solid var(--gold);padding-left:1rem;">Skopein is a technical interrogation and risk assessment tool — part of the Pistos Compliance Sentinel platform. It is not an evidence aggregator. It finds what is actually wrong so Sentinel can track it to resolution.</p>
-        <a href="https://outlook.office.com/bookwithme/user/891e8d96d6eb4406b07253c122195c48@pistosip.com/meetingtype/pIMLaObjkEWSd-MMiQaGWw2?anonymous&ismsaljsauthenabled" class="btn btn-primary">Request a technical briefing</a>
+  <header class="site-header">
+    <div class="container row">
+      <a href="../index.html" class="brand-mark">Pistos<span class="ip">Information Protection</span></a>
+      <nav class="nav">
+        <a href="../index.html#architecture">Aegis</a>
+        <a href="financial-services.html">Financial Services</a>
+        <a href="defense.html">Defense</a>
+        <a href="healthcare.html">Healthcare</a>
+        <a href="insights.html">Insights</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <p class="eyebrow">Aegis vCISO Services</p>
+      <h1>Skopein</h1>
+      <p class="greek">σκοπεῖν</p>
+      <p class="tagline">Vulnerability Management</p>
+      <div class="gold-rule"><span class="diamond">◆</span></div>
+    </div>
+  </section>
+
+  <section class="aegis-frame">
+    <div class="container">
+      <p class="aegis-lead"><strong>Aegis is a virtual CISO engagement</strong> — a seasoned security leader takes the helm of your cybersecurity program without the cost of a full-time hire. The vCISO sets strategy, carries weight in examiner and carrier conversations, and directs three coordinated service pillars: Mathisi, Sentinel, and Skopein.</p>
+    </div>
+  </section>
+
+  <section class="intro">
+    <div class="container">
+      <p>Skopein is the outward-looking pillar. It reads what is actually configured in your environment — not what vendor dashboards report — and maps that against what attackers can see from the internet.</p>
+      <p>Every finding is prioritized, attributed, and routed into the remediation process. The point is not to produce a longer list; it's to close gaps before an attacker or an examiner finds them first.</p>
+    </div>
+  </section>
+
+  <section class="modules">
+    <div class="container">
+
+      <div class="module">
+        <div class="module-name">Internal Vulnerability Scanning</div>
+        <div class="module-desc">Authenticated scans of your workstations, servers, and managed cloud tenants for missing patches, misconfigurations, and drift from the written baseline.</div>
       </div>
-      <div class="def-card" style="max-width:360px;margin:0 auto;">
-        <div class="def-card-top">
-          <p class="def-name">Skopein</p>
-          <p class="def-phonetic">sko &middot; pein</p>
-          <div class="def-rule-line"></div>
-          <span class="def-diamond-ornament">&#9670;</span>
-          <p class="def-tagline">To examine. To look closely.<br>To see what others miss.</p>
-        </div>
-        <div class="def-card-body">
-          <p class="def-desc" style="text-align:center;font-style:italic;">Technical interrogation of your actual environment. Not what your tools report — what is actually there.</p>
-        </div>
+
+      <div class="module">
+        <div class="module-name">Web Application Scanning</div>
+        <div class="module-desc">Dynamic scans of agency-facing sites, client portals, and custom web applications — testing for OWASP Top 10 flaws and the authentication weaknesses that lead to account takeover.</div>
+      </div>
+
+      <div class="module">
+        <div class="module-name">Threat Hunting</div>
+        <div class="module-desc">Active search through authentication logs, process telemetry, and network flow data for the indicators of compromise that pattern-based tools miss — credential misuse, lateral movement, persistence mechanisms.</div>
+      </div>
+
+      <div class="module">
+        <div class="module-name">Perimeter Scanning</div>
+        <div class="module-desc">External reconnaissance mapping what an attacker sees from the internet — exposed services, expired certificates, misconfigured DNS, leaked credentials in public repositories.</div>
+      </div>
+
+      <div class="module">
+        <div class="module-name">Event Log Parsing</div>
+        <div class="module-desc">Aggregation of Windows, Microsoft 365, and cloud service logs into a single searchable record — retained for the minimum window your insurers and regulators expect.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="context">
+    <div class="container">
+      <h2>How Skopein fits the program</h2>
+      <p>Skopein is the technical arm of the program — the one that produces evidence rather than documentation. Its findings feed directly into Sentinel's risk assessment (inherent risk ratings become defensible because they're backed by scan data), into Sentinel's quarterly posture reviews (controls are scored against what was actually observed, not what was written down), and into Mathisi's training content (phishing simulations pivot toward the attack patterns Skopein saw last month).</p>
+      <p>The difference between Skopein and running a vulnerability scanner once a quarter is continuity. The findings are tracked to closure. The scans are authenticated so they see what an unauthenticated scan misses. And the human analyst layer — the threat hunter — catches what automated tools were never built to find.</p>
+    </div>
+  </section>
+
+  <section class="siblings">
+    <div class="container">
+      <p class="eyebrow">Also part of the Sentinel Bundle</p>
+      <div class="pillar-links">
+        <a href="mathisi.html" class="pillar-link">
+          <div class="pname">Mathisi</div>
+          <div class="pgreek">Μάθηση</div>
+          <div class="ptag">Security Awareness</div>
+          <div class="arrow">Explore Mathisi →</div>
+        </a>
+        <a href="sentinel.html" class="pillar-link">
+          <div class="pname">Sentinel</div>
+          <div class="pgreek">sen · ti · nel</div>
+          <div class="ptag">Compliance Core</div>
+          <div class="arrow">Explore Sentinel →</div>
+        </a>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="section" style="background:var(--navy);">
-  <div class="container">
-    <span class="section-eyebrow" style="color:#4A6A8A;">What makes Skopein different</span>
-    <h2 style="color:#F5F1EB;margin-bottom:0.5rem;">The difference between asking and inspecting.</h2>
-    <p style="color:#5A7A8A;max-width:660px;margin-bottom:2.5rem;font-size:0.92rem;font-weight:300;">API-based platforms pull self-reported data from vendor portals. They confirm your tools exist. Skopein reads what those tools are actually doing — the configuration state of your environment as it exists right now, not as a dashboard represents it.</p>
-    <div class="vs-grid">
-      <div class="vs-col them">
-        <h4>API-based platforms</h4>
-        <p class="vs-item">Connects to vendor APIs and pulls self-reported configuration data</p>
-        <p class="vs-item">Confirms a firewall exists — not whether its rules are defensible</p>
-        <p class="vs-item">Cannot see on-premises Windows environments, GPO, or local policy state</p>
-        <p class="vs-item">Cannot assess external attack surface — DNS, SSL/TLS, email authentication</p>
-        <p class="vs-item">Marks the checkbox. Misses the misconfiguration.</p>
-      </div>
-      <div class="vs-col us">
-        <h4>Skopein</h4>
-        <p class="vs-item">Interrogates the actual environment — reads what is configured, not what is reported</p>
-        <p class="vs-item">Reads the firewall ruleset — flags the broad inbound rule exposing RDP</p>
-        <p class="vs-item">Runs locally on Windows endpoints and domain controllers — reads GPO, AD, local policy</p>
-        <p class="vs-item">Scans the external attack surface — DNS, SSL/TLS, SPF/DMARC/DKIM, security headers</p>
-        <p class="vs-item">Finds what has never been checked. Surfaces what an attacker finds first.</p>
-      </div>
+  <section class="cta">
+    <div class="container">
+      <h2>See Skopein against your environment.</h2>
+      <p>Request a briefing and we will outline a Skopein engagement scoped to your stack — endpoint count, cloud footprint, public-facing assets, and the frameworks that will consume its findings.</p>
+      <a href="contact.html" class="btn">Request a briefing</a>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="section" style="background:var(--cream);">
-  <div class="container">
-    <span class="section-eyebrow">Scan capabilities</span>
-    <h2 class="section-title">Five interrogation layers.</h2>
-    <p class="section-sub">Each Skopein module interrogates a distinct layer of your environment. Together they produce a complete technical risk picture mapped to CIS Controls v8.1 — which Sentinel tracks to resolution.</p>
-    <div class="scan-grid">
-      <div class="scan-item active">
-        <h4>Windows Endpoint</h4>
-        <p>Local policy state, GPO compliance against CIS benchmarks, Windows Defender configuration, firewall rules, patch status, local admin accounts, BitLocker encryption state.</p>
-      </div>
-      <div class="scan-item active">
-        <h4>Microsoft 365</h4>
-        <p>Entra ID configuration, MFA enforcement, conditional access policies, admin role assignments, guest account state, mailbox audit logging, DMARC/SPF/DKIM alignment.</p>
-      </div>
-      <div class="scan-item active">
-        <h4>Active Directory</h4>
-        <p>Stale accounts, privileged group membership, password policy, Kerberoastable service accounts, domain controller configuration, replication health.</p>
-      </div>
-      <div class="scan-item active">
-        <h4>External Attack Surface</h4>
-        <p>DNS configuration, SSL/TLS certificate validity and grade, SPF/DMARC/DKIM posture, exposed services, security headers, WHOIS, IP geolocation and reputation.</p>
-      </div>
-      <div class="scan-item active">
-        <h4>Web Application</h4>
-        <p>OWASP Top 10 exposure, HTTP security headers, TLS configuration, open redirects, cookie security flags, content security policy. In development.</p>
-      </div>
+  <footer class="site-footer">
+    <div class="container row">
+      <div>Pistos Information Protection</div>
+      <div><a href="contact.html">Contact</a></div>
     </div>
-  </div>
-</section>
+  </footer>
 
-<section class="section" style="background:var(--navy);">
-  <div class="container">
-    <span class="section-eyebrow" style="color:#4A6A8A;">What Skopein actually finds</span>
-    <h2 style="color:#F5F1EB;margin-bottom:0.5rem;">The things no vendor portal will tell you.</h2>
-    <p style="color:#5A7A8A;max-width:660px;margin-bottom:2.5rem;font-size:0.92rem;font-weight:300;">Real findings from Skopein assessments — in environments that had passed internal reviews, because those reviews asked the tools, and the tools said everything was fine.</p>
-    <div class="finding-grid">
-      <div class="finding-card">
-        <h4>NETWORK PERIMETER</h4>
-        <ul class="finding-list">
-          <li>Broad inbound rule allowing all traffic to internal subnets — present since 2019</li>
-          <li>Botnet filter license expired — signatures not updating for 14 months</li>
-          <li>Group VPN using deprecated encryption — DES/3DES in active use</li>
-          <li>SSL VPN certificate self-signed — client warnings suppressed by policy</li>
-        </ul>
-      </div>
-      <div class="finding-card">
-        <h4>ACTIVE DIRECTORY</h4>
-        <ul class="finding-list">
-          <li>23 accounts inactive for 90+ days — still enabled and licensed</li>
-          <li>Service account with Domain Admin — password set 6 years ago, never rotated</li>
-          <li>Password minimum: 8 characters — no MFA for legacy authentication</li>
-          <li>Five users with direct Domain Admin — no privileged access workstation</li>
-        </ul>
-      </div>
-      <div class="finding-card">
-        <h4>EXTERNAL POSTURE</h4>
-        <ul class="finding-list">
-          <li>DMARC set to p=none — domain spoofing not prevented</li>
-          <li>SSL certificate expires in 11 days — no automated renewal configured</li>
-          <li>TLS 1.0 still negotiated on client portal — PCI DSS 4.0 non-compliant</li>
-          <li>Security headers missing: X-Frame-Options, CSP, HSTS</li>
-        </ul>
-      </div>
-      <div class="finding-card">
-        <h4>ENDPOINT POLICY</h4>
-        <ul class="finding-list">
-          <li>BitLocker not enforced on 8 of 23 endpoints — GPO not applied to OU</li>
-          <li>Local admin enabled on all workstations — shared password</li>
-          <li>Windows Firewall disabled on three servers — never restored after troubleshooting</li>
-          <li>EDR agent absent on two critical servers — excluded during upgrade</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section" style="background:var(--cream-dark);">
-  <div class="container">
-    <span class="section-eyebrow">How Skopein connects to Sentinel</span>
-    <h2 class="section-title">Every finding becomes a tracked control gap.</h2>
-    <p class="section-sub">Skopein findings map to CIS Controls v8.1 safeguards, which map to every applicable regulatory framework in Sentinel — and are tracked to resolution with evidence.</p>
-    <div class="flow-grid">
-      <div class="flow-step">
-        <span class="step-num">01</span>
-        <h4>Finding surfaces in Skopein</h4>
-        <p>DMARC set to p=none on primary domain. Spoofing not prevented. External phishing risk: high.</p>
-      </div>
-      <div class="flow-step">
-        <span class="step-num">02</span>
-        <h4>Maps to CIS safeguard</h4>
-        <p>CIS 9.5 — Implement DMARC. IG2. Security function: Protect. Asset type: Network.</p>
-      </div>
-      <div class="flow-step">
-        <span class="step-num">03</span>
-        <h4>Sentinel surfaces regulatory gap</h4>
-        <p>NY DFS 500.14, HIPAA §164.308, CMMC SC.L2-3.13.8. Evidence status: Not implemented.</p>
-      </div>
-      <div class="flow-step">
-        <span class="step-num">04</span>
-        <h4>Remediation tracked to closure</h4>
-        <p>DMARC updated to p=reject. Skopein re-scan confirms. Evidence record updated. Score recalculates.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section-sm" style="background:var(--navy);text-align:center;">
-  <div class="container">
-    <h2 style="color:#F5F1EB;margin-bottom:1rem;">See what your environment actually looks like.</h2>
-    <p style="color:#5A7A8A;max-width:500px;margin:0 auto 2rem;font-size:0.9rem;">Request a Skopein assessment and we will show you what your tools have been missing.</p>
-    <a href="https://outlook.office.com/bookwithme/user/891e8d96d6eb4406b07253c122195c48@pistosip.com/meetingtype/pIMLaObjkEWSd-MMiQaGWw2?anonymous&ismsaljsauthenabled" class="btn btn-white">Request an assessment</a>
-  </div>
-</section>
-
-<div id="footer-placeholder"></div>
-<script src="../js/layout.js"></script>
-<script src="../js/nav.js"></script>
 </body>
 </html>

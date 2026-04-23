@@ -1,69 +1,99 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 460" role="img" aria-labelledby="diagram-title diagram-desc">
-  <title id="diagram-title">Pistos product architecture</title>
-  <desc id="diagram-desc">Aegis vCISO services delivering the Sentinel bundle of Mathisi training, Sentinel compliance core, and Skopein scanner — for organizations under 500 employees across insurance, defense, and healthcare verticals.</desc>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     viewBox="0 0 800 720" role="img" aria-labelledby="aegis-title aegis-desc"
+     font-family="'Cormorant Garamond', Garamond, Georgia, serif">
+  <title id="aegis-title">Pistos product architecture</title>
+  <desc id="aegis-desc">Aegis vCISO services umbrella over three pillars: Mathisi (Security and Awareness), Sentinel (Compliance Core), and Skopein (Vulnerability Management). Together they form the Sentinel Bundle for organizations under 500 employees across insurance, defense, and healthcare.</desc>
 
-  <defs>
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&amp;family=EB+Garamond:ital,wght@0,400;0,500;1,400&amp;display=swap');
-      .name { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 500; fill: #14263E; }
-      .greek { font-family: 'EB Garamond', Georgia, serif; font-style: italic; fill: #14263E; opacity: 0.75; }
-      .descriptor { font-family: 'EB Garamond', Georgia, serif; font-weight: 500; fill: #6E5018; letter-spacing: 0.18em; }
-      .tagline { font-family: 'EB Garamond', Georgia, serif; font-weight: 500; fill: #6E5018; letter-spacing: 0.22em; }
-      .bracket { stroke: #14263E; fill: none; stroke-width: 0.75; opacity: 0.5; }
-      .gold-line { stroke: #6E5018; fill: none; stroke-width: 0.6; opacity: 0.7; }
-    </style>
-  </defs>
+  <style>
+    .umbrella-name { font-size: 56px; font-weight: 500; fill: #152440; }
+    .umbrella-greek { font-size: 22px; font-style: italic; fill: #3A4760; font-family: 'Cormorant Garamond', Georgia, serif; }
+    .eyebrow-sm { font-family: 'Inter', system-ui, sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 5px; fill: #B8895A; }
+    .eyebrow-xs { font-family: 'Inter', system-ui, sans-serif; font-size: 10.5px; font-weight: 500; letter-spacing: 1.6px; fill: #B8895A; }
+    .pillar-name { font-size: 28px; font-weight: 500; fill: #152440; }
+    .pillar-greek { font-size: 14px; font-style: italic; fill: #3A4760; font-family: 'Cormorant Garamond', Georgia, serif; }
+    .module { font-family: 'Inter', system-ui, sans-serif; font-size: 12px; fill: #3A4760; }
+    .bundle { font-family: 'Inter', system-ui, sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 6px; fill: #152440; }
+    .sectors { font-family: 'Inter', system-ui, sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 4px; fill: #3A4760; }
+    .diamond { font-size: 14px; fill: #B8895A; font-family: Georgia, serif; }
+    .diamond-sm { font-size: 12px; fill: #B8895A; font-family: Georgia, serif; }
+    .rule-thin { stroke: #C9BEA7; stroke-width: 0.5; }
+    .rule-med { stroke: #C9BEA7; stroke-width: 0.6; }
+    .rule-gold { stroke: #B8895A; stroke-width: 0.6; }
+    a .pillar-name { transition: fill 120ms ease; }
+    a:hover .pillar-name { fill: #B8895A; }
+    a { cursor: pointer; }
+  </style>
 
-  <rect width="1000" height="460" fill="#E1DED2"/>
+  <rect width="800" height="720" fill="#EFE9DB"/>
 
-  <!-- ============================================================
-       AEGIS — the dominant element at top, no enclosing shape
-       ============================================================ -->
-  <text class="name" x="500" y="115" text-anchor="middle" font-size="56">Aegis</text>
-  <text class="greek" x="500" y="148" text-anchor="middle" font-size="22">αἰγίς</text>
-  <text class="descriptor" x="500" y="174" text-anchor="middle" font-size="11">vCISO  SERVICES</text>
+  <text x="400" y="95" text-anchor="middle" class="umbrella-name">Aegis</text>
+  <text x="400" y="126" text-anchor="middle" class="umbrella-greek">αἰγίς</text>
+  <text x="400" y="156" text-anchor="middle" class="eyebrow-sm">V C I S O &#160; &#160;S E R V I C E S</text>
 
-  <!-- Thin gold rule beneath Aegis, marking the visual transition into the bundle -->
-  <line class="gold-line" x1="380" y1="210" x2="620" y2="210"/>
+  <line x1="280" y1="180" x2="388" y2="180" class="rule-gold"/>
+  <text x="400" y="185" text-anchor="middle" class="diamond">◆</text>
+  <line x1="412" y1="180" x2="520" y2="180" class="rule-gold"/>
 
-  <!-- ============================================================
-       THE THREE PRODUCTS — in a row beneath Aegis
-       ============================================================ -->
-  <!-- Mathisi -->
-  <a href="pages/mathisi.html" style="cursor:pointer;">
-  <text class="name" x="320" y="270" text-anchor="middle" font-size="24">Mathisi</text>
-  <text class="greek" x="320" y="293" text-anchor="middle" font-size="14">Μάθηση</text>
-  <text class="descriptor" x="320" y="312" text-anchor="middle" font-size="8">SECURITY  AND  AWARENESS</text>
+  <a xlink:href="pages/mathisi.html" href="pages/mathisi.html" target="_top" aria-label="Mathisi pillar detail">
+    <text x="140" y="225" text-anchor="middle" class="pillar-name">Mathisi</text>
+    <text x="140" y="248" text-anchor="middle" class="pillar-greek">Μάθηση</text>
+    <text x="140" y="272" text-anchor="middle" class="eyebrow-xs">SECURITY &#160;AWARENESS</text>
+  </a>
+  <a xlink:href="pages/sentinel.html" href="pages/sentinel.html" target="_top" aria-label="Sentinel pillar detail">
+    <text x="400" y="225" text-anchor="middle" class="pillar-name">Sentinel</text>
+    <text x="400" y="248" text-anchor="middle" class="pillar-greek">sen · ti · nel</text>
+    <text x="400" y="272" text-anchor="middle" class="eyebrow-xs">COMPLIANCE &#160;CORE</text>
+  </a>
+  <a xlink:href="pages/skopein.html" href="pages/skopein.html" target="_top" aria-label="Skopein pillar detail">
+    <text x="660" y="225" text-anchor="middle" class="pillar-name">Skopein</text>
+    <text x="660" y="248" text-anchor="middle" class="pillar-greek">σκοπεῖν</text>
+    <text x="660" y="272" text-anchor="middle" class="eyebrow-xs">VULNERABILITY &#160;MANAGEMENT</text>
   </a>
 
-  <!-- Sentinel — center -->
-  <a href="pages/sentinel.html" style="cursor:pointer;">
-  <text class="name" x="500" y="270" text-anchor="middle" font-size="24">Sentinel</text>
-  <text class="greek" x="500" y="293" text-anchor="middle" font-size="14">sen · ti · nel</text>
-  <text class="descriptor" x="500" y="312" text-anchor="middle" font-size="8">COMPLIANCE  CORE</text>
-  </a>
+  <text x="270" y="240" text-anchor="middle" class="diamond-sm">◆</text>
+  <text x="530" y="240" text-anchor="middle" class="diamond-sm">◆</text>
 
-  <!-- Skopein -->
-  <a href="pages/skopein.html" style="cursor:pointer;">
-  <text class="name" x="680" y="270" text-anchor="middle" font-size="24">Skopein</text>
-  <text class="greek" x="680" y="293" text-anchor="middle" font-size="14">σκοπεῖν</text>
-  <text class="descriptor" x="680" y="312" text-anchor="middle" font-size="8">VULNERABILITY  MANAGEMENT</text>
-  </a>
+  <line x1="90" y1="295" x2="190" y2="295" class="rule-med"/>
+  <line x1="350" y1="295" x2="450" y2="295" class="rule-med"/>
+  <line x1="610" y1="295" x2="710" y2="295" class="rule-med"/>
 
-  <!-- Diamond ornaments separating the three products -->
-  <text x="410" y="278" text-anchor="middle" font-size="12" fill="#6E5018" opacity="0.85">◆</text>
-  <text x="590" y="278" text-anchor="middle" font-size="12" fill="#6E5018" opacity="0.85">◆</text>
+  <g text-anchor="middle" class="module">
+    <text x="140" y="325">Introduction to Cybersecurity</text>
+    <text x="140" y="349">Intermediate</text>
+    <text x="140" y="373">Advanced</text>
+    <text x="140" y="397">Training &amp; Awareness</text>
+    <text x="140" y="421">Phishing Simulations</text>
+    <text x="140" y="445">Real Security Events</text>
+  </g>
 
-  <!-- ============================================================
-       BRACKET — beneath the three products, marking them as bundle
-       ============================================================ -->
-  <path class="bracket" d="M 280 350 L 280 363 L 720 363 L 720 350"/>
-  <text class="descriptor" x="500" y="386" text-anchor="middle" font-size="10">THE  SENTINEL  BUNDLE</text>
+  <g text-anchor="middle" class="module">
+    <text x="400" y="325">Risk Assessment</text>
+    <text x="400" y="349">Incident Response</text>
+    <text x="400" y="373">Disaster Recovery</text>
+    <text x="400" y="397">Hardware &amp; Software Inventory</text>
+    <text x="400" y="421">Security Policies</text>
+    <text x="400" y="445">Technology Security Posture</text>
+    <text x="400" y="469">Process Security Posture</text>
+  </g>
 
-  <!-- ============================================================
-       INDUSTRY TAGLINE — bottom
-       ============================================================ -->
-  <line class="gold-line" x1="280" y1="425" x2="720" y2="425"/>
-  <text class="tagline" x="500" y="445" text-anchor="middle" font-size="11">INSURANCE   ◆   DEFENSE   ◆   HEALTHCARE</text>
+  <g text-anchor="middle" class="module">
+    <text x="660" y="325">Internal Vulnerability Scanning</text>
+    <text x="660" y="349">Web Application Scanning</text>
+    <text x="660" y="373">Threat Hunting</text>
+    <text x="660" y="397">Perimeter Scanning</text>
+    <text x="660" y="421">Event Log Parsing</text>
+  </g>
 
+  <line x1="80" y1="555" x2="720" y2="555" class="rule-med"/>
+  <text x="400" y="583" text-anchor="middle" class="bundle">T H E &#160;&#160;S E N T I N E L &#160;&#160;B U N D L E</text>
+  <line x1="80" y1="605" x2="720" y2="605" class="rule-med"/>
+
+  <text x="400" y="660" text-anchor="middle" class="sectors">
+    <tspan>I N S U R A N C E</tspan>
+    <tspan dx="10" fill="#B8895A" font-family="Georgia, serif">◆</tspan>
+    <tspan dx="10">D E F E N S E</tspan>
+    <tspan dx="10" fill="#B8895A" font-family="Georgia, serif">◆</tspan>
+    <tspan dx="10">H E A L T H C A R E</tspan>
+  </text>
 </svg>

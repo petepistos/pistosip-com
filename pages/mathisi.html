@@ -3,237 +3,217 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mathisi — Security Awareness Training | Pistos</title>
-  <meta name="description" content="45-module training library across three depth levels. Documented proof of workforce competency that satisfies examiner requirements.">
-  <link rel="stylesheet" href="../css/site.css">
+  <title>Mathisi — Security Awareness | Pistos Information Protection</title>
+  <meta name="description" content="Mathisi is the security awareness pillar of the Pistos Aegis vCISO service. Tiered training from foundational to advanced, monthly refreshers, phishing simulations, and debriefs of real security events — training records your examiner will actually ask to see.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
   <style>
-    .module-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
-    .module-tier { background: var(--cream); padding: 1.5rem; }
-    .tier-label { font-family: 'Cinzel', serif; font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; display: block; margin-bottom: 0.75rem; }
-    .tier-intro .tier-label { color: var(--teal); }
-    .tier-inter .tier-label { color: var(--navy); }
-    .tier-adv .tier-label { color: var(--amber); }
-    .tier-desc { font-size: 0.82rem; color: var(--text-mid); margin-bottom: 1rem; font-weight: 300; line-height: 1.65; }
-    .topic-list { list-style: none; }
-    .topic-list li { font-size: 0.8rem; color: var(--text-mid); padding: 0.3rem 0; border-bottom: 1px solid var(--border); font-weight: 300; }
-    .topic-list li:last-child { border-bottom: none; }
-    .flow-evidence { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--border); border-radius: 4px; overflow: hidden; margin: 2rem 0; }
-    .flow-ev-step { background: var(--cream); padding: 1.25rem; }
-    .flow-ev-step h4 { font-size: 0.82rem; color: var(--navy); margin-bottom: 0.4rem; }
-    .flow-ev-step p { font-size: 0.78rem; color: var(--text-mid); line-height: 1.6; font-weight: 300; }
-    .ev-num { font-family: 'Cinzel', serif; font-size: 0.65rem; color: var(--gold); letter-spacing: 0.15em; display: block; margin-bottom: 0.4rem; }
-    .reg-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
-    @media(max-width:900px) { .reg-row { grid-template-columns: repeat(2, 1fr); } }
-    @media(max-width:560px) { .reg-row { grid-template-columns: 1fr; } }
-    .reg-item { background: var(--cream); padding: 1rem 1.25rem; }
-    .reg-item h5 { font-size: 0.8rem; color: var(--navy); margin-bottom: 3px; }
-    .reg-item p { font-size: 0.75rem; color: var(--text-muted); font-weight: 300; }
-    /* 3x3 topic box grid */
-    .topic-box-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
-    .topic-box { background: var(--cream-dark); border: 1px solid var(--border); border-radius: 4px; padding: 1.25rem; }
-    .topic-box h4 { color: var(--navy); font-size: 0.88rem; margin-bottom: 0.4rem; }
-    .topic-box p { font-size: 0.8rem; color: var(--text-mid); line-height: 1.65; font-weight: 300; }
-    @media(max-width:760px) { .module-grid { grid-template-columns: 1fr; } .topic-box-grid { grid-template-columns: 1fr; } .flow-evidence { grid-template-columns: 1fr 1fr; } }
+    :root {
+      --navy-900: #152440;
+      --navy-700: #243860;
+      --ink-700:  #3A4760;
+      --ink-500:  #6B7386;
+      --gold:     #B8895A;
+      --gold-dk:  #9B7348;
+      --stone-50: #EFE9DB;
+      --stone-100:#E8E1D3;
+      --stone-200:#DED5C3;
+      --stone-300:#C9BEA7;
+      --serif:    'Cormorant Garamond', Garamond, Georgia, serif;
+      --sans:     'Inter', system-ui, -apple-system, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--stone-50); color: var(--navy-900); font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    a { color: var(--navy-700); text-decoration: none; }
+    a:hover { color: var(--gold); }
+    .container { max-width: 920px; margin: 0 auto; padding: 0 32px; }
+
+    .site-header { border-bottom: 0.5px solid var(--stone-300); padding: 22px 0; }
+    .site-header .row { display: flex; align-items: center; justify-content: space-between; }
+    .brand-mark { font-family: var(--serif); font-size: 22px; font-weight: 500; color: var(--navy-900); letter-spacing: 0.5px; }
+    .brand-mark .ip { font-family: var(--sans); font-size: 10px; font-weight: 500; letter-spacing: 3px; color: var(--gold); margin-left: 10px; text-transform: uppercase; }
+    .nav { display: flex; gap: 32px; align-items: center; font-size: 13px; letter-spacing: 0.3px; }
+    .nav a { color: var(--ink-700); }
+    .nav a:hover { color: var(--gold); }
+
+    .hero { padding: 72px 0 48px; text-align: center; }
+    .eyebrow { font-family: var(--sans); font-size: 11px; font-weight: 500; letter-spacing: 4px; color: var(--gold); text-transform: uppercase; margin: 0 0 18px 0; }
+    .hero h1 { font-family: var(--serif); font-size: 72px; font-weight: 500; color: var(--navy-900); margin: 0 0 10px 0; line-height: 1; }
+    .greek { font-family: var(--serif); font-size: 24px; font-style: italic; color: var(--ink-700); margin: 0 0 12px 0; }
+    .tagline { font-family: var(--sans); font-size: 12px; font-weight: 500; letter-spacing: 5px; color: var(--gold); text-transform: uppercase; margin: 0; }
+    .gold-rule { display: flex; align-items: center; justify-content: center; gap: 14px; margin: 28px 0 0 0; }
+    .gold-rule::before, .gold-rule::after { content: ""; display: block; width: 80px; height: 1px; background: var(--gold); }
+    .gold-rule .diamond { color: var(--gold); font-size: 14px; }
+
+    .intro { padding: 32px 0 12px; }
+    .intro p { font-size: 18px; line-height: 1.6; color: var(--ink-700); max-width: 720px; margin: 0 auto 16px auto; }
+
+    .modules { padding: 48px 0; }
+    .module { display: grid; grid-template-columns: 1fr 2fr; gap: 32px; padding: 22px 0; border-bottom: 0.5px solid var(--stone-300); }
+    .module:first-child { border-top: 0.5px solid var(--stone-300); }
+    .module-name { font-family: var(--serif); font-size: 22px; font-weight: 500; color: var(--navy-900); line-height: 1.2; }
+    .module-desc { font-size: 15px; line-height: 1.6; color: var(--ink-700); align-self: center; }
+
+    .context { padding: 72px 0 56px; border-top: 0.5px solid var(--stone-300); margin-top: 32px; }
+    .context h2 { font-family: var(--serif); font-size: 36px; font-weight: 500; color: var(--navy-900); margin: 0 0 24px 0; }
+    .context p { font-size: 16px; line-height: 1.7; color: var(--ink-700); margin: 0 0 16px 0; }
+
+    .siblings { padding: 56px 0; border-top: 0.5px solid var(--stone-300); text-align: center; }
+    .siblings .eyebrow { margin-bottom: 32px; }
+    .pillar-links { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 640px; margin: 0 auto; }
+    .pillar-link { display: block; padding: 28px 24px; background: var(--stone-100); border: 0.5px solid var(--stone-300); text-align: left; cursor: pointer; transition: background 160ms ease, border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease; }
+    .pillar-link:hover { background: #F4EEE0; border-color: var(--gold); transform: translateY(-2px); box-shadow: 0 4px 16px rgba(21, 36, 64, 0.08); }
+    .pillar-link .pname { font-family: var(--serif); font-size: 26px; font-weight: 500; color: var(--navy-900); margin: 0 0 4px 0; }
+    .pillar-link .pgreek { font-family: var(--serif); font-size: 14px; font-style: italic; color: var(--ink-700); margin: 0 0 8px 0; }
+    .pillar-link .ptag { font-family: var(--sans); font-size: 10.5px; font-weight: 500; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; }
+    .pillar-link .arrow { display: inline-block; margin-top: 16px; font-size: 13px; color: var(--ink-700); }
+    .pillar-link:hover .arrow { color: var(--gold); }
+
+    .cta { padding: 80px 0; text-align: center; border-top: 0.5px solid var(--stone-300); }
+    .cta h2 { font-family: var(--serif); font-size: 36px; font-weight: 500; color: var(--navy-900); margin: 0 0 16px 0; }
+    .cta p { font-size: 16px; color: var(--ink-700); margin: 0 auto 28px auto; max-width: 560px; }
+    .btn { display: inline-block; padding: 14px 32px; background: var(--navy-900); color: var(--stone-50); font-family: var(--sans); font-size: 13px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; border: 1px solid var(--navy-900); transition: background 160ms ease, color 160ms ease; }
+    .btn:hover { background: var(--gold); border-color: var(--gold); color: var(--stone-50); }
+
+    .site-footer { background: var(--navy-900); color: var(--stone-200); padding: 40px 0; margin-top: 40px; }
+    .site-footer .row { display: flex; justify-content: space-between; align-items: center; font-size: 12px; letter-spacing: 0.3px; }
+    .site-footer a { color: var(--stone-200); }
+    .site-footer a:hover { color: var(--gold); }
+
+    @media (max-width: 720px) {
+      .hero h1 { font-size: 52px; }
+      .module { grid-template-columns: 1fr; gap: 6px; }
+      .pillar-links { grid-template-columns: 1fr; }
+      .nav { display: none; }
+    }
+    .aegis-frame { padding: 48px 0 8px; border-bottom: 0.5px solid var(--stone-300); }
+    .aegis-frame .container { max-width: 760px; }
+    .aegis-lead { font-size: 16px; line-height: 1.75; color: var(--ink-700); margin: 0; text-align: center; }
+    .aegis-lead strong { color: var(--navy-900); font-weight: 500; }
   </style>
 </head>
+
 <body>
-<div id="nav-placeholder"></div>
 
-<!-- ── HERO ── -->
-<section class="hero">
-  <div class="container" style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;text-align:left;">
-    <div>
-      <span class="section-eyebrow">Security awareness training</span>
-      <h1 style="margin-bottom:0.5rem;">Training that satisfies examiners.</h1>
-      <span class="diamond" style="display:inline-block;">&#9670;</span>
-      <p style="font-size:1rem;color:var(--text-mid);line-height:1.8;font-weight:300;margin-bottom:1.5rem;">Mathisi is a structured 45-module training library across three depth levels. Content is updated to reflect current attack patterns and regulatory requirements. Results feed directly into Sentinel — producing the documented workforce competency record that every examiner asks for.</p>
-      <a href="/pages/contact.html" class="btn btn-primary">Request a briefing</a>
+  <header class="site-header">
+    <div class="container row">
+      <a href="../index.html" class="brand-mark">Pistos<span class="ip">Information Protection</span></a>
+      <nav class="nav">
+        <a href="../index.html#architecture">Aegis</a>
+        <a href="financial-services.html">Financial Services</a>
+        <a href="defense.html">Defense</a>
+        <a href="healthcare.html">Healthcare</a>
+        <a href="insights.html">Insights</a>
+        <a href="contact.html">Contact</a>
+      </nav>
     </div>
-    <div class="def-card" style="max-width:360px;margin:0 auto;">
-      <div class="def-card-top">
-        <p class="def-name">Mathisi</p>
-        <p class="def-phonetic">ma &middot; thi &middot; si</p>
-        <div class="def-rule-line"></div>
-        <span class="def-diamond-ornament">&#9670;</span>
-        <p class="def-tagline">The act of learning.<br>Knowledge that protects.</p>
-      </div>
-      <div class="def-card-body">
-        <p class="def-desc" style="text-align:center;font-style:italic;">Security awareness is a regulatory requirement. Mathisi makes it a defensible, documented, continuously current program.</p>
-      </div>
-    </div>
-  </div>
-</section>
+  </header>
 
-<!-- ── TRAINING LIBRARY ── -->
-<section class="section" style="background:var(--cream);">
-  <div class="container">
-    <span class="section-eyebrow">Training library</span>
-    <h2 class="section-title">45 modules. Three depth levels. One documented program.</h2>
-    <p class="section-sub">Every module covers a core security domain at three levels of depth — introductory for general staff, intermediate for those with system access, and advanced for technical and leadership roles.</p>
-    <div class="module-grid">
-      <div class="module-tier tier-intro">
-        <span class="tier-label">Introductory</span>
-        <p class="tier-desc">For all staff. Covers the fundamentals every employee in a regulated organization must understand to satisfy workforce training requirements.</p>
-        <ul class="topic-list">
-          <li>Introduction to cybersecurity</li>
-          <li>Phishing and social engineering</li>
-          <li>Password and credential security</li>
-          <li>Email security basics</li>
-          <li>Safe browsing and web threats</li>
-          <li>Physical security awareness</li>
-          <li>Data handling and classification</li>
-          <li>Incident recognition and reporting</li>
-          <li>Mobile device security</li>
-          <li>Remote work security</li>
-          <li>Regulatory compliance overview</li>
-        </ul>
-      </div>
-      <div class="module-tier tier-inter">
-        <span class="tier-label">Intermediate</span>
-        <p class="tier-desc">For staff with system access, administrative roles, or those handling sensitive data. Covers applied security concepts and organizational procedures.</p>
-        <ul class="topic-list">
-          <li>Access control and MFA</li>
-          <li>Security architecture overview</li>
-          <li>Vendor and third-party risk</li>
-          <li>Business continuity awareness</li>
-          <li>Secure configuration basics</li>
-          <li>Log awareness and anomaly recognition</li>
-          <li>Encryption in practice</li>
-          <li>Vulnerability management concepts</li>
-          <li>Insider threat recognition</li>
-          <li>Regulatory framework deep dive</li>
-          <li>Audit preparation and evidence</li>
-        </ul>
-      </div>
-      <div class="module-tier tier-adv">
-        <span class="tier-label">Advanced</span>
-        <p class="tier-desc">For technical staff, security leads, and executives. Covers governance, risk management, incident response, and regulatory accountability.</p>
-        <ul class="topic-list">
-          <li>Security governance and accountability</li>
-          <li>Risk assessment methodology</li>
-          <li>Incident response leadership</li>
-          <li>Network security architecture</li>
-          <li>Cloud security principles</li>
-          <li>Penetration testing concepts</li>
-          <li>Board-level cyber reporting</li>
-          <li>CMMC and defense compliance</li>
-          <li>HIPAA Security Officer obligations</li>
-          <li>NY DFS CISO requirements</li>
-          <li>Regulatory crosswalk and overlap</li>
-        </ul>
-      </div>
+  <section class="hero">
+    <div class="container">
+      <p class="eyebrow">Aegis vCISO Services</p>
+      <h1>Mathisi</h1>
+      <p class="greek">Μάθηση</p>
+      <p class="tagline">Security Awareness</p>
+      <div class="gold-rule"><span class="diamond">◆</span></div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ── WHAT THE PROGRAM COVERS ── -->
-<section class="section" style="background:var(--cream-dark);">
-  <div class="container">
-    <span class="section-eyebrow">Program design</span>
-    <h2 class="section-title">Built around what examiners look for.</h2>
-    <p class="section-sub">Every element of the Mathisi program is mapped to the specific training requirements in the regulations your organization faces — not a generic security awareness catalog.</p>
-    <div class="topic-box-grid">
-      <div class="topic-box">
-        <h4>Current threat content</h4>
-        <p>Training content is updated to reflect current attack vectors sourced from CISA advisories and FBI IC3 threat feeds. Staff are trained on the threats active in your industry today, not last year's examples.</p>
+  <section class="aegis-frame">
+    <div class="container">
+      <p class="aegis-lead"><strong>Aegis is a virtual CISO engagement</strong> — a seasoned security leader takes the helm of your cybersecurity program without the cost of a full-time hire. The vCISO sets strategy, carries weight in examiner and carrier conversations, and directs three coordinated service pillars: Mathisi, Sentinel, and Skopein.</p>
+    </div>
+  </section>
+
+  <section class="intro">
+    <div class="container">
+      <p>Mathisi is the pillar that reaches every employee. It moves the security program out of the filing cabinet and into the workday — through tiered training, monthly refreshers, realistic phishing simulations, and debriefs of real breaches relevant to your industry.</p>
+      <p>The aim is not to satisfy a training checkbox. The aim is that your workforce becomes the first line of defense — informed, practiced, and accountable.</p>
+    </div>
+  </section>
+
+  <section class="modules">
+    <div class="container">
+
+      <div class="module">
+        <div class="module-name">Introduction to Cybersecurity</div>
+        <div class="module-desc">Foundational training every employee takes at onboarding — the baseline vocabulary, the everyday threats, and the behaviors that prevent most incidents before they begin.</div>
       </div>
-      <div class="topic-box">
-        <h4>Role-based delivery</h4>
-        <p>Introductory, intermediate, and advanced tracks ensure that training is appropriate to each staff member's role and system access level — satisfying role-based training requirements in CMMC and HIPAA.</p>
+
+      <div class="module">
+        <div class="module-name">Intermediate</div>
+        <div class="module-desc">Role-specific training for staff with elevated access — producers, account managers, finance, HR — tuned to the attacks that target their specific workflows.</div>
       </div>
-      <div class="topic-box">
-        <h4>Dated completion records</h4>
-        <p>Every training completion is recorded with a timestamp, employee name, module, and score. When an examiner asks for training documentation, the record is already organized and ready.</p>
+
+      <div class="module">
+        <div class="module-name">Advanced</div>
+        <div class="module-desc">Deep training for IT leadership, privileged users, and designated incident handlers — how to recognize a live incident and how to act in the first fifteen minutes.</div>
       </div>
-      <div class="topic-box">
-        <h4>Sentinel integration</h4>
-        <p>Training results post directly to the client's Sentinel compliance record — linked to the CIS controls and regulatory requirements they satisfy. No manual evidence entry required.</p>
+
+      <div class="module">
+        <div class="module-name">Training &amp; Awareness</div>
+        <div class="module-desc">Monthly refreshers and annual workforce certifications — with dated completion records linked to each employee, ready for an examiner or underwriter to review.</div>
       </div>
-      <div class="topic-box">
-        <h4>Remedial assignment</h4>
-        <p>Staff who do not meet the required score are automatically assigned remedial training. The remediation is tracked and documented — closing the loop on the evidence record.</p>
+
+      <div class="module">
+        <div class="module-name">Phishing Simulations</div>
+        <div class="module-desc">Realistic phishing campaigns targeted to your industry and workflows, with after-click coaching for anyone who engages — no shame, no spectacle, just repetition.</div>
       </div>
-      <div class="topic-box">
-        <h4>Annual program cycle</h4>
-        <p>Training campaigns are scheduled and managed on an annual cycle aligned to each client's regulatory calendar — NY DFS requires annual training, as does HIPAA, GLBA, and CMMC.</p>
+
+      <div class="module">
+        <div class="module-name">Real Security Events</div>
+        <div class="module-desc">Debriefs of actual breaches at peer organizations — what happened, how it was noticed, what it cost, and what would have changed the outcome. Generic content doesn't move the needle; neighbors' stories do.</div>
       </div>
-      <div class="topic-box">
-        <h4>Regulatory framework mapping</h4>
-        <p>Each module is tagged to the regulatory requirements it satisfies. A training completion record shows not just what was completed, but which NY DFS, HIPAA, or CMMC obligation it addresses.</p>
-      </div>
-      <div class="topic-box">
-        <h4>Board-level reporting</h4>
-        <p>Aggregate training completion rates, module scores, and program status are available in Sentinel's board reporting output — suitable for submission to regulators and board review.</p>
-      </div>
-      <div class="topic-box">
-        <h4>New hire onboarding</h4>
-        <p>New staff are enrolled in the introductory track automatically. CMMC requires training before system access is granted — Mathisi creates the documented record that satisfies this requirement.</p>
+
+    </div>
+  </section>
+
+  <section class="context">
+    <div class="container">
+      <h2>How Mathisi fits the program</h2>
+      <p>Mathisi is the most visible pillar to your staff because it's the one they consume. But its value to the compliance program is less about what people watch and more about what it produces: dated training completion records, phishing simulation results linked to each employee, and the workforce competency documentation every major framework requires.</p>
+      <p>Those records feed directly into Sentinel's evidence base. When Sentinel surfaces a finding from Skopein — a misconfigured account, a stale permission, a repeated click on a phishing test — Mathisi is where the behavioral remediation happens. The three pillars close the loop: scan, document, train.</p>
+    </div>
+  </section>
+
+  <section class="siblings">
+    <div class="container">
+      <p class="eyebrow">Also part of the Sentinel Bundle</p>
+      <div class="pillar-links">
+        <a href="sentinel.html" class="pillar-link">
+          <div class="pname">Sentinel</div>
+          <div class="pgreek">sen · ti · nel</div>
+          <div class="ptag">Compliance Core</div>
+          <div class="arrow">Explore Sentinel →</div>
+        </a>
+        <a href="skopein.html" class="pillar-link">
+          <div class="pname">Skopein</div>
+          <div class="pgreek">σκοπεῖν</div>
+          <div class="ptag">Vulnerability Management</div>
+          <div class="arrow">Explore Skopein →</div>
+        </a>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ── EVIDENCE FLOW ── -->
-<section class="section" style="background:var(--navy);">
-  <div class="container">
-    <span class="section-eyebrow" style="color:#4A6A8A;">How results become evidence</span>
-    <h2 style="color:#F5F1EB;margin-bottom:0.5rem;">Training completions feed Sentinel automatically.</h2>
-    <p style="color:#5A7A8A;max-width:660px;margin-bottom:2rem;font-size:0.92rem;font-weight:300;">Training completion records are not stored in a separate system. They land directly in the client's Sentinel record — linked to the CIS controls they satisfy and the regulatory requirements they address.</p>
-    <div class="flow-evidence">
-      <div class="flow-ev-step">
-        <span class="ev-num">01</span>
-        <h4 style="color:#F5F1EB;">Campaign runs</h4>
-        <p style="color:#5A7A8A;">Training campaign deployed to target population. Completion, scores, and time-on-module all logged with timestamps per employee.</p>
-      </div>
-      <div class="flow-ev-step" style="background:#0F1E33;">
-        <span class="ev-num">02</span>
-        <h4 style="color:#F5F1EB;">Results captured</h4>
-        <p style="color:#5A7A8A;">Pass and fail rates recorded per employee. Remedial training automatically assigned to those who did not meet the threshold within 10 business days.</p>
-      </div>
-      <div class="flow-ev-step">
-        <span class="ev-num">03</span>
-        <h4 style="color:#F5F1EB;">Sentinel updated</h4>
-        <p style="color:#5A7A8A;">Results post to the client's Sentinel record. CIS 14.1, 14.2, and 14.5 evidence status updates automatically. Compliance score recalculates.</p>
-      </div>
-      <div class="flow-ev-step" style="background:#0F1E33;">
-        <span class="ev-num">04</span>
-        <h4 style="color:#F5F1EB;">Examiner-ready record</h4>
-        <p style="color:#5A7A8A;">Dated completion record, participant list, scores, and remediation documentation — organized and ready when the examiner asks for training evidence.</p>
-      </div>
+  <section class="cta">
+    <div class="container">
+      <h2>See Mathisi against your workforce.</h2>
+      <p>Request a briefing and we will tailor a Mathisi training roadmap to your industry, your headcount, and the regulatory training requirements your frameworks impose.</p>
+      <a href="contact.html" class="btn">Request a briefing</a>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ── REGULATORY REQUIREMENTS ── -->
-<section class="section" style="background:var(--cream);">
-  <div class="container">
-    <span class="section-eyebrow">Regulatory requirements satisfied</span>
-    <h2 class="section-title">Training is not optional in any regulated industry.</h2>
-    <p class="section-sub">Every applicable framework requires documented security awareness training. Mathisi satisfies them all through a single program — with the evidence records to prove it.</p>
-    <div class="reg-row">
-      <div class="reg-item"><h5>NY DFS 500.14</h5><p>Annual cybersecurity awareness training for all personnel</p></div>
-      <div class="reg-item"><h5>HIPAA §164.308(a)(5)</h5><p>Security awareness and training program for all workforce members</p></div>
-      <div class="reg-item"><h5>CMMC AT.L2-3.2.1</h5><p>Role-based security awareness training before access is granted</p></div>
-      <div class="reg-item"><h5>NIST 800-171 3.2.1</h5><p>Ensure personnel are aware of security risks associated with their activities</p></div>
-      <div class="reg-item"><h5>PCI DSS Req 12.6</h5><p>Formal security awareness program for all personnel</p></div>
-      <div class="reg-item"><h5>NACHA Rule 2.17</h5><p>Security awareness training for ACH-access population, results reviewed annually</p></div>
-      <div class="reg-item"><h5>GLBA §314.4(e)</h5><p>Train staff to implement the information security program</p></div>
-      <div class="reg-item"><h5>ISO 27001 A.7.2.2</h5><p>Awareness, education, and training on information security</p></div>
+  <footer class="site-footer">
+    <div class="container row">
+      <div>Pistos Information Protection</div>
+      <div><a href="contact.html">Contact</a></div>
     </div>
-  </div>
-</section>
+  </footer>
 
-<!-- ── CTA ── -->
-<section class="section-sm" style="background:var(--navy);text-align:center;">
-  <div class="container">
-    <h2 style="color:#F5F1EB;margin-bottom:1rem;">See Mathisi in context.</h2>
-    <p style="color:#5A7A8A;max-width:500px;margin:0 auto 2rem;font-size:0.9rem;">We will walk you through the training library and how it maps to your specific regulatory obligations.</p>
-    <a href="/pages/contact.html" class="btn btn-white">Request a briefing</a>
-  </div>
-</section>
-
-<div id="footer-placeholder"></div>
-<script src="../js/layout.js"></script>
-<script src="../js/nav.js"></script>
 </body>
 </html>
