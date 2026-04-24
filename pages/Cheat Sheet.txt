@@ -1,0 +1,86 @@
+FORCE TO RUN SCRIPT AS ADMIN
+Set-ExecutionPolicy -Scope LocalMachine -ExecutionPolicy RemoteSigned -Force
+
+SET PASSWORD TO NEVER EXPIRE:
+net user pistobga /active:yes
+net user pistobga /passwordreq:yes
+Set-LocalUser -Name "pistobga" -PasswordNeverExpires $true
+
+CHANGE PASSWORD
+net user pistobga newpassword
+
+
+SET COMPUTER TO NEVER SLEEP 
+powercfg /change monitor-timeout-ac 10; 
+powercfg /change monitor-timeout-dc 10; 
+powercfg /change standby-timeout-ac 0; 
+powercfg /change standby-timeout-dc 0; 
+powercfg /hibernate off; 
+powercfg /setacvalueindex SCHEME_CURRENT SUB_NONE CONSOLELOCK 1; 
+powercfg /setdcvalueindex SCHEME_CURRENT SUB_NONE CONSOLELOCK 1; 
+powercfg /setactive SCHEME_CURRENT; New-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\System' -Name 'InactivityTimeoutSecs' -Value 600 -PropertyType DWord -Force | Out-Null
+
+
+INSTALL SYSMON
+# Reinstall Sysmon from scratch using Pistos standard paths
+$SysmonDir    = 'C:\pistos\Sysmon'
+$SysmonZip    = Join-Path $SysmonDir 'Sysmon.zip'
+$SysmonExe    = Join-Path $SysmonDir 'Sysmon64.exe'
+$SysmonConfig = Join-Path $SysmonDir 'sysmonconfig.xml'
+$SysmonUrl    = 'https://download.sysinternals.com/files/Sysmon.zip'
+$SysmonCfgUrl = 'https://raw.githubusercontent.com/olafhartong/sysmon-modular/master/sysmonconfig.xml'
+# Ensure directory exists
+if (-not (Test-Path $SysmonDir)) { New-Item -ItemType Directory -Path $SysmonDir -Force | Out-Null }
+# Download Sysmon from Sysinternals
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+Invoke-WebRequest -Uri $SysmonUrl -OutFile $SysmonZip -UseBasicParsing -TimeoutSec 60
+Expand-Archive -Path $SysmonZip -DestinationPath $SysmonDir -Force
+Remove-Item $SysmonZip -Force -ErrorAction SilentlyContinue
+# Download Olaf Hartong modular production config
+Invoke-WebRequest -Uri $SysmonCfgUrl -OutFile $SysmonConfig -UseBasicParsing -TimeoutSec 30
+# Install with config
+& $SysmonExe -accepteula -i $SysmonConfig
+# Set the Sysmon operational log to 512 MB
+wevtutil.exe sl 'Microsoft-Windows-Sysmon/Operational' /ms:536870912 /e:true | Out-Null
+
+VERIFY THAT SYSMON IS ENABLED
+Start-Sleep -Seconds 3
+Get-Service -Name 'Sysmon64' | Select-Object Name, Status, StartType
+Get-WinEvent -LogName 'Microsoft-Windows-Sysmon/Operational' -MaxEvents 3 -ErrorAction SilentlyContinue | Select-Object TimeCreated, Id, ProviderName
+
+INCREASE SIZE OF DEFENDER OPERATIONAL LOG
+wevtutil.exe sl 'Microsoft-Windows-Windows Defender/Operational' /ms:536870912 /e:true
+
+
+
+
+
+
+
+
+
+
+
+./Generate-ManthesisAdvanced.ps1
+./Generate-ManthesisIntermediate.ps1
+./Generate-ManthesisIntroductory.ps1
+./Generate-ManthesisRealLife.ps1
+
+
+Link to Claude Dell Recovery chat
+https://claude.ai/share/5cd1b820-f5bc-4635-813c-c94ba9cd2e6b
+
+working with Gerard has been a challenge. He He built a very successful and thriving insurance agency, where many others have fallen prey to automation and buyouts by insurance wholesalers.   He's old school.  In working with him, I've had to put processes in place like complex passwords, and restricting users' ability to load software and hasn't taken kindly. Also, there was one instance where one of our techs accessed one of his employee's laptop at 9:03 (3 min outside of normal business hours) which blanked his screen while he was on the phone with a customer. I apologized for this oversight without calling it a "minor incident" (which it was, the tech was in and out in 2 minutes, after which the screen re-enabled.) He thinks that this "security thing" is disruptive.  In the letter i just showed you, I didn't mention that while he was chastising me for the dell issue, he never mentioned that he changed the password on the machine without telling me. Had i known, i would have taken the full proof Dell recovery route and turned a 4 hour hit and miss session over a teams meeting in which Michael had to hold his web-cam up to the screen for me to see what was going on. He told me that he was gonna return the laptop to dell because he "can't get into it" (Gerry does insurance, and does it well, technology, not so much.) The next day, we fully restored the laptop using Dell's Recovery, thereby rendering the laptop situation moot. His son Matt has been very cooperative and appreciative of all the work we've done. He worked at PwC as an auditor, and understands the importance of security compliance to the business. He's also his father's successor, and is careful not to jeopardize that inevitability. I have no idea why they tried to troubleshoot this on there own rather than calling me. May be Gerry realized that re-setting Michaels password may have made things worse and was embarrassed. 
+
+Write a short note to Gerry regarding his behavior in involving himself in CISO work, and causing problems in the process.  Play to his ego while gently but firmly stating that his involvement directly violates the NY DFS 23 NYCRR Section 500.04 Chief Information Security Officer "(a) Chief Information Security Officer. Each Covered Entity shall designate a qualified individual responsible for overseeing and implementing the Covered Entity’s cybersecurity program and enforcing its cybersecurity policy..."
+
+
+include an addendum to the Incident Response plan called When to Report and Incident:
+A cybersecurity incident becomes reportable to the FBI, the New York State Department of Financial Services, and the U.S. Department of Health and Human Services Office for Civil Rights based on different triggers, data types, and enforcement expectations, and those differences drive both your obligations and your risk. Reporting to the FBI is not legally required but is strongly recommended when the incident involves criminal activity such as ransomware, wire fraud, business email compromise, data theft, or an active intrusion. The FBI does not define “reportable data” in regulatory terms; instead, it focuses on evidence of a crime or operational impact, including stolen funds, compromised credentials, exfiltrated data tied to an attack, or indicators of ongoing threat activity. There are no direct penalties for failing to report, but not doing so can materially limit fund recovery, weaken cyber insurance claims, and eliminate access to law enforcement support.
+
+By contrast, reporting to NY DFS is mandatory for regulated entities and carries real enforcement exposure. An incident must be reported within 72 hours if it is likely to materially harm operations, involves ransomware or significant system compromise, or triggers notification to another regulator. The relevant data standard is Nonpublic Information (NPI), which includes personally identifiable information (such as Social Security numbers or driver’s license numbers), financial account and transaction data, authentication credentials, and business-sensitive information that could impact the organization if exposed. If NPI is accessed, exfiltrated, or reasonably believed to be at risk in a way that could affect the business or its customers, it is effectively reportable. Penalties for noncompliance include regulatory fines, formal enforcement actions, and reputational damage, particularly during annual certification reviews. In practice, DFS evaluates not just the incident but the strength of your controls, documentation, and response process, and weak governance often drives the outcome more than the breach itself.
+
+HIPAA reporting is narrower but more rigid, triggered specifically by the exposure or unauthorized access to Protected Health Information (PHI). PHI includes any health-related information—such as medical records, diagnoses, treatment details, or insurance and billing data—when tied to an identifiable individual through names, dates of birth, addresses, or similar identifiers. Even partial datasets can qualify if re-identification is possible. A breach is presumed reportable unless a documented risk assessment demonstrates a low probability that the data was compromised. If reportable, affected individuals must be notified within 60 days, and breaches involving 500 or more individuals must also be reported to HHS within that same timeframe, while smaller breaches are reported annually. Penalties range from $100 to $50,000 per violation, with annual caps exceeding $1.5 million per category, along with potential corrective action plans and public disclosure of larger breaches. In practice, enforcement actions are most often driven by failures in risk assessment, documentation, and timely notification rather than the breach event itself.
+
+Taken together, the decision logic is straightforward: if the incident involves criminal activity or financial impact, report to the FBI; if you are DFS-regulated and Nonpublic Information or operational integrity is at risk, report to NY DFS within 72 hours; and if PHI is exposed or accessed without authorization, assume HIPAA reporting unless you can clearly and defensibly prove otherwise.
+ 

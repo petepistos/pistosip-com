@@ -32,12 +32,12 @@
     a:hover { color: var(--gold); }
     .container { max-width: 920px; margin: 0 auto; padding: 0 32px; }
 
-    .site-header { border-bottom: 0.5px solid var(--stone-300); padding: 22px 0; }
-    .site-header .row { display: flex; align-items: center; justify-content: space-between; }
-    .brand-mark { font-family: var(--serif); font-size: 22px; font-weight: 500; color: var(--navy-900); letter-spacing: 0.5px; }
-    .brand-mark .ip { font-family: var(--sans); font-size: 10px; font-weight: 500; letter-spacing: 3px; color: var(--gold); margin-left: 10px; text-transform: uppercase; }
+    .site-header { background: var(--navy-900); padding: 0; }
+    .site-header .row { display: flex; align-items: center; justify-content: space-between; min-height: 80px; }
+    .brand-mark { display: flex; align-items: center; }
+    .brand-mark img { height: 110px; width: auto; display: block; margin: -15px 0; }
     .nav { display: flex; gap: 32px; align-items: center; font-size: 13px; letter-spacing: 0.3px; }
-    .nav a { color: var(--ink-700); }
+    .nav a { color: var(--stone-200); }
     .nav a:hover { color: var(--gold); }
 
     .hero { padding: 72px 0 48px; text-align: center; }
@@ -89,6 +89,8 @@
       .module { grid-template-columns: 1fr; gap: 6px; }
       .pillar-links { grid-template-columns: 1fr; }
       .nav { display: none; }
+      .brand-mark img { height: 64px; margin: 0; }
+      .site-header .row { min-height: 64px; }
     }
     .aegis-frame { padding: 48px 0 8px; border-bottom: 0.5px solid var(--stone-300); }
     .aegis-frame .container { max-width: 760px; }
@@ -101,7 +103,7 @@
 
   <header class="site-header">
     <div class="container row">
-      <a href="../index.html" class="brand-mark">Pistos<span class="ip">Information Protection</span></a>
+      <a href="../index.html" class="brand-mark"><img src="../images/pistos-logo_3.png" alt="Pistos Information Protection"></a>
       <nav class="nav">
         <a href="../index.html#architecture">Aegis</a>
         <a href="financial-services.html">Financial Services</a>
