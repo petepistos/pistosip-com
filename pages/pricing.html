@@ -5,17 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pricing | Pistos Information Protection</title>
   <meta name="description" content="Aegis managed vCISO and PCS standalone pricing. Flat monthly fees scaled to environment size." />
-  <link rel="stylesheet" href="../css/styles.css" />
+  <link rel="stylesheet" href="../css/site.css" />
   <style>
     /* Scoped to the pricing page only — safe to drop in without touching global CSS. */
 
     /* Aegis pricing scale */
     .aegis-block {
-      border: 1px solid rgba(255,255,255,0.12);
+      border: 1px solid rgba(0,0,0,0.12);
       border-radius: 4px;
       padding: 2.5rem 2.5rem;
       margin: 2.5rem 0 1rem;
-      background: rgba(255,255,255,0.02);
+      background: rgba(0,0,0,0.02);
     }
     .aegis-includes {
       list-style: none;
@@ -45,7 +45,7 @@
       opacity: 0.55;
     }
     .aegis-pricing {
-      border-top: 1px solid rgba(255,255,255,0.12);
+      border-top: 1px solid rgba(0,0,0,0.12);
       padding-top: 1.5rem;
     }
     .aegis-row {
@@ -53,7 +53,7 @@
       justify-content: space-between;
       align-items: baseline;
       padding: 0.85rem 0;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
       gap: 1rem;
     }
     .aegis-row:last-child { border-bottom: none; }
@@ -86,10 +86,10 @@
       .pricing-grid { grid-template-columns: 1fr; }
     }
     .tier {
-      border: 1px solid rgba(255,255,255,0.12);
+      border: 1px solid rgba(0,0,0,0.12);
       border-radius: 4px;
       padding: 2rem 1.75rem;
-      background: rgba(255,255,255,0.02);
+      background: rgba(0,0,0,0.02);
       display: flex;
       flex-direction: column;
     }
@@ -118,7 +118,7 @@
       opacity: 0.6;
       margin: 0 0 1.5rem;
       padding-bottom: 1.25rem;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
+      border-bottom: 1px solid rgba(0,0,0,0.08);
     }
     .tier ul {
       list-style: none;
@@ -152,7 +152,9 @@
   </style>
 </head>
 <body>
-  <main class="page">
+  <div id="nav-placeholder"></div>
+
+  <main>
 
     <!-- Hero -->
     <section class="hero hero-narrow">
@@ -294,5 +296,9 @@
     </section>
 
   </main>
+
+  <div id="footer-placeholder"></div>
+
+  <script src="../js/layout.js"></script>
 </body>
 </html>
