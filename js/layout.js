@@ -18,6 +18,7 @@ const NAV = `
       <span class="nav-divider"></span>
       <a href="${base}pages/about.html">About</a>
       <a href="${base}pages/insights.html">Insights</a>
+      <a href="${base}pages/pricing.html">Pricing</a>
       <a href="${base}pages/contact.html">Contact</a>
       <a href="${base}pages/coming-soon.html" class="nav-portal">Access your portal</a>
     </div>
@@ -49,6 +50,7 @@ const FOOTER = `
     <div class="footer-col">
       <h4>Company</h4>
       <a href="${base}pages/about.html">About Pistos</a>
+      <a href="${base}pages/pricing.html">Pricing</a>
       <a href="${base}pages/contact.html">Contact</a>
       <a href="${base}pages/coming-soon.html">Client Portal</a>
     </div>
