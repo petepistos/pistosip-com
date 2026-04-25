@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pricing | Pistos Information Protection</title>
+  <meta name="description" content="Aegis managed vCISO and PCS standalone pricing. Flat monthly fees scaled to environment size." />
+  <link rel="stylesheet" href="../css/styles.css" />
+  <style>
+    /* Scoped to the pricing page only — safe to drop in without touching global CSS. */
+
+    /* Aegis pricing scale */
+    .aegis-block {
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 4px;
+      padding: 2.5rem 2.5rem;
+      margin: 2.5rem 0 1rem;
+      background: rgba(255,255,255,0.02);
+    }
+    .aegis-includes {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 2.5rem;
+      column-count: 2;
+      column-gap: 2.5rem;
+    }
+    @media (max-width: 720px) {
+      .aegis-includes { column-count: 1; }
+      .aegis-block { padding: 1.75rem 1.5rem; }
+    }
+    .aegis-includes li {
+      font-size: 0.95rem;
+      line-height: 1.55;
+      padding: 0.45rem 0 0.45rem 1.1rem;
+      position: relative;
+      opacity: 0.9;
+      break-inside: avoid;
+    }
+    .aegis-includes li::before {
+      content: '\25C6';
+      position: absolute;
+      left: 0;
+      top: 0.55rem;
+      font-size: 0.55rem;
+      opacity: 0.55;
+    }
+    .aegis-pricing {
+      border-top: 1px solid rgba(255,255,255,0.12);
+      padding-top: 1.5rem;
+    }
+    .aegis-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 0.85rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      gap: 1rem;
+    }
+    .aegis-row:last-child { border-bottom: none; }
+    .aegis-row .range {
+      font-size: 1rem;
+      opacity: 0.85;
+    }
+    .aegis-row .price {
+      font-size: 1.3rem;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+    }
+    .aegis-row .price small {
+      font-size: 0.82rem;
+      opacity: 0.6;
+      font-weight: 400;
+      letter-spacing: 0;
+      margin-left: 0.15rem;
+    }
+
+    /* PCS tier grid */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin: 2.5rem 0 2rem;
+    }
+    @media (max-width: 900px) {
+      .pricing-grid { grid-template-columns: 1fr; }
+    }
+    .tier {
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 4px;
+      padding: 2rem 1.75rem;
+      background: rgba(255,255,255,0.02);
+      display: flex;
+      flex-direction: column;
+    }
+    .tier h3 {
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 500;
+      margin: 0 0 0.75rem;
+      opacity: 0.7;
+    }
+    .tier .tier-price {
+      font-size: 1.85rem;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      margin: 0 0 0.25rem;
+    }
+    .tier .tier-price small {
+      font-size: 0.85rem;
+      opacity: 0.6;
+      font-weight: 400;
+      letter-spacing: 0;
+    }
+    .tier .tier-min {
+      font-size: 0.85rem;
+      opacity: 0.6;
+      margin: 0 0 1.5rem;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .tier ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .tier ul li {
+      font-size: 0.92rem;
+      line-height: 1.55;
+      padding: 0.45rem 0 0.45rem 1.1rem;
+      position: relative;
+      opacity: 0.88;
+    }
+    .tier ul li::before {
+      content: '\25C6';
+      position: absolute;
+      left: 0;
+      top: 0.55rem;
+      font-size: 0.55rem;
+      opacity: 0.55;
+    }
+
+    .pricing-note {
+      font-size: 0.88rem;
+      opacity: 0.65;
+      max-width: 720px;
+      margin: 0 auto 2.5rem;
+      text-align: center;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+
+    <!-- Hero -->
+    <section class="hero hero-narrow">
+      <div class="container">
+        <p class="kicker">Engagement model</p>
+        <h1>Priced for the work, not the optics.</h1>
+        <div class="diamond">◆</div>
+        <p class="lead">
+          Pistos engagements are flat monthly fees, scaled to the size of the environment we are accountable for.
+          No per-control surcharges. No per-framework upsell. No surprise renewals. The vCISO advocacy, the
+          platform, and the practitioner delivery are included in a single, predictable number.
+        </p>
+      </div>
+    </section>
+
+    <!-- Aegis -->
+    <section class="content-section">
+      <div class="container">
+        <p class="kicker">Aegis — Managed vCISO</p>
+        <h2>One engagement. One platform. One outcome.</h2>
+        <p>
+          Aegis is the full Pistos engagement — a named, credentialed vCISO advocate, the integrated platform,
+          and the practitioner delivery that turns compliance obligations into a defensible program. The work
+          does not change with the size of your environment; the price does.
+        </p>
+
+        <div class="aegis-block">
+          <ul class="aegis-includes">
+            <li>Named, credentialed vCISO advocate</li>
+            <li>Skopein technical risk assessment — M365, Active Directory, external posture</li>
+            <li>Sentinel compliance platform with full framework mapping</li>
+            <li>Mathisi security awareness training for all employees</li>
+            <li>Policy and procedure templates mapped to your obligations</li>
+            <li>Continuous regulatory currency monitoring</li>
+            <li>Examiner, auditor, and carrier response support</li>
+            <li>Executive and board reporting</li>
+          </ul>
+
+          <div class="aegis-pricing">
+            <div class="aegis-row">
+              <span class="range">30 – 100 endpoints</span>
+              <span class="price">$8,000<small> / month</small></span>
+            </div>
+            <div class="aegis-row">
+              <span class="range">101 – 200 endpoints</span>
+              <span class="price">$10,000<small> / month</small></span>
+            </div>
+            <div class="aegis-row">
+              <span class="range">More than 200 endpoints</span>
+              <span class="price">Call</span>
+            </div>
+          </div>
+        </div>
+
+        <p class="pricing-note">
+          Endpoint counts include workstations, laptops, and servers under the organization's control.
+        </p>
+      </div>
+    </section>
+
+    <!-- PCS -->
+    <section class="content-section">
+      <div class="container">
+        <p class="kicker">PCS — Pistos Compliance Suite</p>
+        <h2>Standalone access for organizations with internal security staff.</h2>
+        <p>
+          PCS gives organizations direct access to the Pistos scanning platform — without the vCISO engagement.
+          Every finding is mapped to the regulatory frameworks that govern your industry, and every report is
+          paired with a remediation plan an auditor will recognize. Three tiers, scaled by the scanning surface
+          you need covered.
+        </p>
+
+        <div class="pricing-grid">
+
+          <!-- Tier I -->
+          <div class="tier">
+            <h3>Tier I</h3>
+            <p class="tier-price">$25<small> / endpoint / month</small></p>
+            <p class="tier-min">$750 monthly minimum</p>
+            <ul>
+              <li>Local configuration scanning — Windows workstations</li>
+              <li>Local configuration scanning — Linux systems</li>
+              <li>Microsoft 365 security configuration scanning</li>
+              <li>Google Workspace security configuration scanning</li>
+              <li>Findings mapped to NY DFS, HIPAA, CMMC, NIST, and other applicable frameworks</li>
+              <li>Framework-aligned remediation plan with every finding</li>
+              <li>Continuous re-scanning and currency</li>
+            </ul>
+          </div>
+
+          <!-- Tier II -->
+          <div class="tier">
+            <h3>Tier II</h3>
+            <p class="tier-price">$50<small> / endpoint / month</small></p>
+            <p class="tier-min">$1,500 monthly minimum</p>
+            <ul>
+              <li>Everything in Tier I</li>
+              <li>External internet-facing vulnerability scanner</li>
+              <li>Continuous external posture monitoring</li>
+              <li>Exposure findings mapped to applicable frameworks</li>
+              <li>Prioritized remediation guidance for external exposures</li>
+            </ul>
+          </div>
+
+          <!-- Tier III -->
+          <div class="tier">
+            <h3>Tier III</h3>
+            <p class="tier-price">$90<small> / endpoint / month</small></p>
+            <p class="tier-min">$2,500 monthly minimum</p>
+            <ul>
+              <li>Everything in Tier II</li>
+              <li>Web application scanner — passive and active modes, 61 checks</li>
+              <li>Coverage of all customer-owned web application domains</li>
+              <li>OWASP Top 10 findings mapped to applicable frameworks</li>
+              <li>Remediation guidance written for the development team, not the auditor</li>
+            </ul>
+          </div>
+
+        </div>
+
+        <p class="pricing-note">
+          PCS clients can transition to Aegis at any time. Most do, once the value of the vCISO advocacy
+          becomes evident in front of an examiner.
+        </p>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="content-section">
+      <div class="container" style="text-align:center;">
+        <p class="kicker">Get in touch</p>
+        <h2>The right starting point is a conversation.</h2>
+        <p class="lead" style="max-width:680px; margin:1rem auto 2rem;">
+          Tell us about your environment and your obligations. We will tell you which engagement fits,
+          and we will say so plainly if neither does.
+        </p>
+        <a href="contact.html" class="btn btn-primary">Request a briefing</a>
+      </div>
+    </section>
+
+  </main>
+</body>
+</html>
