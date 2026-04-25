@@ -7,9 +7,6 @@
   <meta name="description" content="Aegis managed vCISO and PCS standalone pricing. Flat monthly fees scaled to environment size." />
   <link rel="stylesheet" href="../css/site.css" />
   <style>
-    /* Scoped to the pricing page only — safe to drop in without touching global CSS. */
-
-    /* Aegis pricing scale */
     .aegis-block {
       border: 1px solid rgba(0,0,0,0.12);
       border-radius: 4px;
@@ -57,10 +54,7 @@
       gap: 1rem;
     }
     .aegis-row:last-child { border-bottom: none; }
-    .aegis-row .range {
-      font-size: 1rem;
-      opacity: 0.85;
-    }
+    .aegis-row .range { font-size: 1rem; opacity: 0.85; }
     .aegis-row .price {
       font-size: 1.3rem;
       font-weight: 400;
@@ -81,8 +75,6 @@
       letter-spacing: 0;
       margin-left: 0.15rem;
     }
-
-    /* PCS tier grid */
     .pricing-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -127,11 +119,7 @@
       padding-bottom: 1.25rem;
       border-bottom: 1px solid rgba(0,0,0,0.08);
     }
-    .tier ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
+    .tier ul { list-style: none; padding: 0; margin: 0; }
     .tier ul li {
       font-size: 0.92rem;
       line-height: 1.55;
@@ -147,7 +135,6 @@
       font-size: 0.55rem;
       opacity: 0.55;
     }
-
     .pricing-note {
       font-size: 0.88rem;
       opacity: 0.65;
@@ -163,7 +150,6 @@
 
   <main>
 
-    <!-- Hero -->
     <section class="hero hero-narrow">
       <div class="container">
         <p class="kicker">Engagement model</p>
@@ -178,7 +164,6 @@
       </div>
     </section>
 
-    <!-- Aegis -->
     <section class="content-section">
       <div class="container">
         <p class="kicker">Aegis — Managed vCISO</p>
@@ -221,7 +206,6 @@
       </div>
     </section>
 
-    <!-- PCS -->
     <section class="content-section">
       <div class="container">
         <p class="kicker">PCS — Pistos Compliance Suite</p>
@@ -235,7 +219,6 @@
 
         <div class="pricing-grid">
 
-          <!-- Tier I -->
           <div class="tier">
             <h3>Tier I</h3>
             <p class="tier-price">$25<small> / endpoint / month</small></p>
@@ -251,7 +234,6 @@
             </ul>
           </div>
 
-          <!-- Tier II -->
           <div class="tier">
             <h3>Tier II</h3>
             <p class="tier-price">$50<small> / endpoint / month</small></p>
@@ -265,7 +247,6 @@
             </ul>
           </div>
 
-          <!-- Tier III -->
           <div class="tier">
             <h3>Tier III</h3>
             <p class="tier-price">$90<small> / endpoint / month</small></p>
@@ -288,7 +269,6 @@
       </div>
     </section>
 
-    <!-- CTA -->
     <section class="content-section">
       <div class="container" style="text-align:center;">
         <p class="kicker">Get in touch</p>
