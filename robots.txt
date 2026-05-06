@@ -1,0 +1,11 @@
+﻿# pistosip.com â€” marketing site
+User-agent: *
+Allow: /
+Disallow: /sign-in
+Disallow: /sign-up
+Disallow: /resources
+Disallow: /pcs-details
+Disallow: /pct-details
+Disallow: /ciso-360
+
+Sitemap: https://pistosip.com/sitemap.xml
