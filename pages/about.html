@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About | Pistos Information Protection</title>
-  <meta name="description" content="Pistos Information Protection — AI-powered compliance management for financial services, healthcare, and defense. Built by practitioners for regulated organizations.">
+  <meta name="description" content="Pistos Information Protection — AI-powered compliance management for financial services, healthcare, and defense. Built by former Big-X partners with Fortune 500 credentials.">
   <link rel="stylesheet" href="../css/site.css">
   <style>
     .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
@@ -13,7 +13,24 @@
     .value-card h4 { color: var(--navy); font-size: 0.9rem; margin-bottom: 0.5rem; }
     .value-card p { font-size: 0.83rem; color: var(--text-mid); line-height: 1.7; font-weight: 300; }
     .pi-word { font-family: 'Cinzel', serif; font-size: 3rem; color: var(--gold); display: block; margin-bottom: 0.5rem; }
-    @media(max-width:760px) { .about-grid { grid-template-columns: 1fr; } }
+    .bio-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 3rem; align-items: start; }
+    .bio-stat { margin-bottom: 1.5rem; }
+    .bio-stat-num { font-family: Georgia, serif; font-size: 2.8rem; font-weight: 500; color: var(--navy); line-height: 1; }
+    .bio-stat-label { font-family: 'Cinzel', serif; font-size: 0.62rem; letter-spacing: 0.15em; color: var(--gold); text-transform: uppercase; margin-top: 0.25rem; }
+    .bio-rule { width: 32px; height: 1px; background: var(--gold); opacity: 0.6; margin: 1.5rem 0; }
+    .credential-list { list-style: none; padding: 0; margin: 0; }
+    .credential-list li { font-size: 0.85rem; color: var(--text-mid); font-weight: 300; line-height: 1.6; padding: 0.5rem 0; border-bottom: 1px solid var(--border); }
+    .credential-list li:last-child { border-bottom: none; }
+    .credential-list li strong { color: var(--navy); font-weight: 500; }
+    .press-item { padding: 1.25rem; background: var(--cream); border: 1px solid var(--border); border-radius: 4px; margin-bottom: 0.75rem; }
+    .press-item .press-pub { font-family: 'Cinzel', serif; font-size: 0.62rem; letter-spacing: 0.15em; color: var(--gold); text-transform: uppercase; margin-bottom: 0.4rem; }
+    .press-item p { font-size: 0.85rem; color: var(--text-mid); line-height: 1.65; font-weight: 300; margin: 0; }
+    .press-item a { color: var(--navy); text-decoration: none; font-weight: 500; }
+    .press-item a:hover { color: var(--gold); }
+    @media(max-width:760px) {
+      .about-grid { grid-template-columns: 1fr; }
+      .bio-grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
@@ -23,9 +40,71 @@
   <span class="hero-eyebrow">About Pistos</span>
   <h1 class="hero-headline">Built by practitioners.<br>For regulated organizations.</h1>
   <span class="hero-diamond">&#9670;</span>
-  <p class="hero-body">Pistos is a cybersecurity and compliance firm built on the premise that continuous audit readiness should not require an enterprise budget or an internal security team. We build and operate the systems that make it possible for any regulated organization to face an examiner with confidence — today and every day after.</p>
+  <p class="hero-body">Pistos is a cybersecurity compliance firm built on the premise that continuous audit readiness should not require an enterprise budget or an internal security team. PCS — the Pistos Compliance Suite — is the AI engine that makes it possible for any regulated organization to face an examiner with confidence, today and every day after.</p>
 </section>
 
+<!-- ── FOUNDER ── -->
+<section class="section" style="background:var(--cream);">
+  <div class="container">
+    <span class="section-eyebrow">The founder</span>
+    <h2 class="section-title">Pete Sfoglia</h2>
+    <div class="bio-grid">
+      <div>
+        <div class="bio-stat">
+          <div class="bio-stat-num">26+</div>
+          <div class="bio-stat-label">Years in cybersecurity compliance</div>
+        </div>
+        <div class="bio-rule"></div>
+        <ul class="credential-list">
+          <li><strong>Partner</strong> — Ernst &amp; Young</li>
+          <li><strong>Partner</strong> — Accenture</li>
+          <li><strong>Partner</strong> — PricewaterhouseCoopers</li>
+          <li><strong>Partner</strong> — Wipro</li>
+          <li><strong>Mentor</strong> — George Kurtz, CEO, CrowdStrike</li>
+          <li><strong>Press</strong> — Wall Street Journal / LiveMint</li>
+          <li><strong>Published</strong> — National Defense Magazine</li>
+          <li><strong>Published</strong> — Insurance Journal</li>
+          <li><strong>Published</strong> — Carrier Management</li>
+        </ul>
+      </div>
+      <div>
+        <p style="font-size:1rem;color:var(--text-mid);line-height:1.85;font-weight:300;margin-bottom:1.25rem;">Pete Sfoglia founded Pistos after more than two decades advising Fortune 500 institutions on cybersecurity compliance at the partner level across Ernst &amp; Young, Accenture, PricewaterhouseCoopers, and Wipro. His client work spanned financial services, energy, media, and manufacturing — including engagements with some of the largest financial institutions and energy companies in the United States.</p>
+        <p style="font-size:1rem;color:var(--text-mid);line-height:1.85;font-weight:300;margin-bottom:1.25rem;">At Pistos, Pete channels that institutional methodology into a platform and program designed for the organizations that need it most — regulated firms under 500 employees who face the same compliance obligations as the Fortune 500 but without the internal security staff to meet them.</p>
+        <p style="font-size:1rem;color:var(--text-mid);line-height:1.85;font-weight:300;margin-bottom:1.5rem;">Pete has written for National Defense Magazine and Insurance Journal on CMMC, NY DFS, third-party risk, and the intersection of AI and regulatory compliance. He was featured in Wall Street Journal coverage of the July 2024 CrowdStrike outage, drawing on his direct experience working alongside CrowdStrike CEO George Kurtz during a prior incident at McAfee.</p>
+        <div style="padding:1.25rem;background:var(--cream-dark);border:1px solid var(--border);border-radius:4px;border-left:3px solid var(--gold);">
+          <p style="font-size:0.88rem;color:var(--navy);font-style:italic;font-weight:300;margin:0;">"The compliance problems facing organizations under 500 employees are identical to the ones I solved for Fortune 500 institutions. The difference is that those institutions had a hundred-person security function. Pistos is what I would have built for them if they had to do it alone."</p>
+          <p style="font-size:0.78rem;color:var(--gold);font-family:'Cinzel',serif;letter-spacing:0.1em;margin-top:0.75rem;margin-bottom:0;">— Pete Sfoglia, Founder</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PUBLISHED WORK ── -->
+<section class="section" style="background:var(--cream-dark);">
+  <div class="container">
+    <span class="section-eyebrow">Published work &amp; press</span>
+    <h2 class="section-title">The perspective behind the platform.</h2>
+    <p class="section-sub" style="max-width:640px;">Pete has written on cybersecurity compliance since 2019 — CMMC, NY DFS, third-party risk, and the convergence of AI and regulation. His published work predates the platform and reflects the thinking that shaped it.</p>
+    <div style="max-width:700px;">
+      <div class="press-item">
+        <div class="press-pub">Wall Street Journal &middot; July 2024 &middot; via LiveMint</div>
+        <p>Featured commentary on the CrowdStrike global outage and CEO George Kurtz's leadership response — drawing on direct experience working alongside Kurtz at McAfee. <a href="https://www.livemint.com/technology/crowdstrikes-ceo-has-known-failure-but-never-like-this-11722145114958.html" target="_blank">Read the article &rarr;</a></p>
+      </div>
+      <div class="press-item">
+        <div class="press-pub">National Defense Magazine &middot; February 2025</div>
+        <p>The convergence of quantum computing, AI, and CMMC creates a compliance reckoning for the defense industrial base. <a href="https://www.nationaldefensemagazine.org/articles/2025/2/3/viewpoint-the-perfect-storm-quantum-computing-ai-and-cmmc" target="_blank">Read the article &rarr;</a></p>
+      </div>
+      <div class="press-item">
+        <div class="press-pub">Insurance Journal &middot; March 2019</div>
+        <p>A practical framework for NY DFS 23 NYCRR Part 500 third-party service provider compliance — written when the regulation was new and most agencies had no program at all. <a href="https://www.insurancejournal.com/news/east/2019/03/27/521905.htm" target="_blank">Read the article &rarr;</a></p>
+      </div>
+      <p style="font-size:0.83rem;color:var(--text-mid);font-weight:300;margin-top:1rem;"><a href="/pages/insights.html" style="color:var(--navy);font-weight:500;">See all published work &rarr;</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- ── NAME + MISSION ── -->
 <section class="section" style="background:var(--cream);">
   <div class="container">
     <div class="about-grid">
@@ -39,16 +118,17 @@
       <div>
         <span class="section-eyebrow">The mission</span>
         <h2 style="margin-bottom:1rem;">Compliance that keeps up.</h2>
-        <p style="font-size:0.92rem;color:var(--text-mid);line-height:1.85;font-weight:300;margin-bottom:1rem;">Pistos keeps regulated organizations continuously audit-ready through an AI-powered system that monitors the regulatory landscape, the vendor ecosystem, and the human risk layer simultaneously — so when an examiner arrives, the evidence is already there.</p>
+        <p style="font-size:0.92rem;color:var(--text-mid);line-height:1.85;font-weight:300;margin-bottom:1rem;">PCS — the Pistos Compliance Suite — keeps regulated organizations continuously audit-ready by generating the configurations, policies, training, DR/IR automation, and reports that a compliance program requires. The CISO layer, Aegis, is delivered either by Pistos or empowers the client's own internal CISO.</p>
         <p style="font-size:0.92rem;color:var(--text-mid);line-height:1.85;font-weight:300;">The reason no platform has solved continuous compliance currency before is that monitoring 14 regulatory frameworks, 172 CIS safeguards, 44 vendor products, and an evolving threat landscape simultaneously was a human labor problem of impossible scale. AI eliminates that constraint.</p>
         <div style="margin-top:1.5rem;padding:1.25rem;background:var(--cream-dark);border:1px solid var(--border);border-radius:4px;border-left:3px solid var(--gold);">
-          <p style="font-size:0.88rem;color:var(--navy);font-style:italic;font-weight:300;">"Faithful in discipline. Steadfast in execution. Accountable in outcome."</p>
+          <p style="font-size:0.88rem;color:var(--navy);font-style:italic;font-weight:300;margin:0;">"Faithful in discipline. Steadfast in execution. Accountable in outcome."</p>
         </div>
       </div>
     </div>
   </div>
 </section>
 
+<!-- ── VALUES ── -->
 <section class="section" style="background:var(--cream-dark);">
   <div class="container">
     <span class="section-eyebrow">Our values</span>
@@ -74,10 +154,11 @@
   </div>
 </section>
 
+<!-- ── CTA ── -->
 <section class="section" style="background:var(--navy);text-align:center;">
   <div class="container">
-    <span class="section-eyebrow" style="color:#4A6A8A;">Where we serve</span>
-    <h2 style="color:#F5F1EB;margin-bottom:1rem;">Raleigh, NC. Serving regulated organizations nationally.</h2>
+    <span class="section-eyebrow" style="color:#4A6A8A;">Serving regulated organizations nationally</span>
+    <h2 style="color:#F5F1EB;margin-bottom:1rem;">The conversation starts with your obligations.</h2>
     <p style="color:#5A7A8A;max-width:580px;margin:0 auto 2rem;font-size:0.92rem;font-weight:300;">Pistos serves financial services firms, healthcare organizations, and defense contractors across the United States — with deep expertise in NY DFS 23 NYCRR 500, HIPAA, CMMC 2.0, and the full family of overlapping frameworks that regulated industries navigate.</p>
     <a href="/pages/contact.html" class="btn btn-white">Get in touch</a>
   </div>
