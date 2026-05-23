@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Compliance Readiness Assessment | Pistos Information Protection</title>
+  <meta name="description" content="Is your compliance program examination-ready? Take the Pistos 6-question assessment to find out where you stand and which engagement fits your organization.">
+  <link rel="canonical" href="https://pistosip.com/pages/assessment.html">
+  <link rel="stylesheet" href="../css/site.css">
+  <style>
+    .assessment-wrap {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 4rem 2rem 6rem;
+    }
+    .assessment-intro {
+      text-align: center;
+      padding: 4rem 2rem 3rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .assessment-intro h1 {
+      font-family: Georgia, serif;
+      font-size: 2.4rem;
+      font-weight: 500;
+      color: var(--navy);
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+    .assessment-intro p {
+      font-size: 1rem;
+      color: var(--text-mid);
+      line-height: 1.8;
+      font-weight: 300;
+      margin-bottom: 2rem;
+    }
+    .progress-bar {
+      width: 100%;
+      height: 2px;
+      background: var(--border);
+      margin-bottom: 3rem;
+      border-radius: 1px;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--gold);
+      border-radius: 1px;
+      transition: width 0.4s ease;
+    }
+    .progress-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.15em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+    .question-block {
+      display: none;
+    }
+    .question-block.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .question-text {
+      font-family: Georgia, serif;
+      font-size: 1.5rem;
+      font-weight: 500;
+      color: var(--navy);
+      line-height: 1.35;
+      margin-bottom: 2rem;
+    }
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .option {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1rem 1.25rem;
+      background: var(--cream-dark);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      text-align: left;
+    }
+    .option:hover {
+      border-color: var(--navy);
+      background: #E8E1D3;
+    }
+    .option.selected {
+      border-color: var(--navy);
+      background: var(--cream);
+    }
+    .option-letter {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      color: var(--gold);
+      min-width: 18px;
+      margin-top: 2px;
+    }
+    .option-text {
+      font-size: 0.92rem;
+      color: var(--navy);
+      line-height: 1.5;
+      font-weight: 300;
+    }
+    .option.selected .option-text {
+      font-weight: 400;
+    }
+    .nav-btns {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 2.5rem;
+    }
+    .btn-back {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+    }
+    .btn-back:hover { color: var(--navy); }
+    .btn-next {
+      font-family: 'Cinzel', serif;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--cream);
+      background: var(--navy);
+      border: 1px solid var(--navy);
+      padding: 0.85rem 2rem;
+      cursor: pointer;
+      transition: background 0.15s;
+      border-radius: 2px;
+    }
+    .btn-next:hover { background: var(--gold); border-color: var(--gold); }
+    .btn-next:disabled { opacity: 0.35; cursor: default; }
+    .btn-next:disabled:hover { background: var(--navy); border-color: var(--navy); }
+
+    /* Results */
+    .result-block {
+      display: none;
+      animation: fadeIn 0.4s ease;
+    }
+    .result-block.active { display: block; }
+    .result-header {
+      text-align: center;
+      padding: 2rem 0 2.5rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 2.5rem;
+    }
+    .result-score-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+    .result-tier {
+      font-family: Georgia, serif;
+      font-size: 2rem;
+      font-weight: 500;
+      color: var(--navy);
+      line-height: 1.2;
+      margin-bottom: 0.75rem;
+    }
+    .result-sub {
+      font-size: 0.92rem;
+      color: var(--text-mid);
+      font-weight: 300;
+      line-height: 1.7;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    .result-findings {
+      margin-bottom: 2.5rem;
+    }
+    .result-findings h3 {
+      font-family: 'Cinzel', serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.15em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .finding-row {
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.88rem;
+    }
+    .finding-row:last-child { border-bottom: none; }
+    .finding-icon { color: var(--gold); font-size: 0.55rem; flex-shrink: 0; margin-top: 3px; }
+    .finding-text { color: var(--text-mid); font-weight: 300; line-height: 1.5; }
+    .result-recommendation {
+      background: var(--navy);
+      border-radius: 4px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    .result-recommendation h3 {
+      font-family: 'Cinzel', serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.15em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+    .result-recommendation p {
+      font-size: 0.92rem;
+      color: #C8D8E8;
+      line-height: 1.8;
+      font-weight: 300;
+      margin: 0;
+    }
+    .result-cta {
+      text-align: center;
+      padding: 2rem 0 0;
+    }
+    .result-cta p {
+      font-size: 0.88rem;
+      color: var(--text-mid);
+      font-weight: 300;
+      margin-bottom: 1.5rem;
+    }
+    .btn-restart {
+      background: none;
+      border: none;
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      cursor: pointer;
+      margin-top: 1rem;
+      display: block;
+      margin: 1rem auto 0;
+    }
+    .btn-restart:hover { color: var(--navy); }
+
+    @media(max-width:600px) {
+      .assessment-intro h1 { font-size: 1.8rem; }
+      .question-text { font-size: 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+
+<div class="assessment-wrap">
+
+  <!-- INTRO -->
+  <div id="intro" class="assessment-intro">
+    <span class="section-eyebrow">Compliance Readiness Assessment</span>
+    <h1>Is your compliance program examination-ready?</h1>
+    <p>Six questions. Two minutes. A clear picture of where your program stands — and which Pistos engagement fits your organization.</p>
+    <button class="btn btn-primary" onclick="startAssessment()">Begin the assessment</button>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="quiz" style="display:none;">
+    <span class="progress-label" id="progress-label">Question 1 of 6</span>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+
+    <!-- Q1 -->
+    <div class="question-block active" id="q1">
+      <p class="question-text">Which regulatory framework is your primary compliance obligation?</p>
+      <div class="options">
+        <div class="option" onclick="selectOption(this, 1, 0)"><span class="option-letter">A</span><span class="option-text">NY DFS 23 NYCRR 500 — insurance or financial services</span></div>
+        <div class="option" onclick="selectOption(this, 1, 0)"><span class="option-letter">B</span><span class="option-text">HIPAA / HITECH — healthcare or business associate</span></div>
+        <div class="option" onclick="selectOption(this, 1, 0)"><span class="option-letter">C</span><span class="option-text">CMMC 2.0 — defense contractor or subcontractor</span></div>
+        <div class="option" onclick="selectOption(this, 1, 0)"><span class="option-letter">D</span><span class="option-text">Multiple frameworks simultaneously</span></div>
+        <div class="option" onclick="selectOption(this, 1, 0)"><span class="option-letter">E</span><span class="option-text">Not certain — we know we have obligations but have not mapped them</span></div>
+      </div>
+      <div class="nav-btns">
+        <span></span>
+        <button class="btn-next" id="next-1" disabled onclick="nextQuestion(1)">Next &rarr;</button>
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="question-block" id="q2">
+      <p class="question-text">Does your organization have a designated CISO or Security Officer?</p>
+      <div class="options">
+        <div class="option" onclick="selectOption(this, 2, 3)"><span class="option-letter">A</span><span class="option-text">Yes — a dedicated, qualified CISO with a formal charter</span></div>
+        <div class="option" onclick="selectOption(this, 2, 1)"><span class="option-letter">B</span><span class="option-text">Informally — someone handles it alongside other responsibilities</span></div>
+        <div class="option" onclick="selectOption(this, 2, 0)"><span class="option-letter">C</span><span class="option-text">No — we do not have anyone in that role</span></div>
+      </div>
+      <div class="nav-btns">
+        <button class="btn-back" onclick="prevQuestion(2)">&larr; Back</button>
+        <button class="btn-next" id="next-2" disabled onclick="nextQuestion(2)">Next &rarr;</button>
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="question-block" id="q3">
+      <p class="question-text">How would you describe your current written information security program?</p>
+      <div class="options">
+        <div class="option" onclick="selectOption(this, 3, 3)"><span class="option-letter">A</span><span class="option-text">Complete and current — policies, procedures, and evidence records are maintained and dated</span></div>
+        <div class="option" onclick="selectOption(this, 3, 1)"><span class="option-letter">B</span><span class="option-text">Partially complete — some documentation exists but it is not current or comprehensive</span></div>
+        <div class="option" onclick="selectOption(this, 3, 0)"><span class="option-letter">C</span><span class="option-text">We do not have a documented security program</span></div>
+      </div>
+      <div class="nav-btns">
+        <button class="btn-back" onclick="prevQuestion(3)">&larr; Back</button>
+        <button class="btn-next" id="next-3" disabled onclick="nextQuestion(3)">Next &rarr;</button>
+      </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="question-block" id="q4">
+      <p class="question-text">When did your organization last complete a formal risk assessment?</p>
+      <div class="options">
+        <div class="option" onclick="selectOption(this, 4, 2)"><span class="option-letter">A</span><span class="option-text">Within the past 12 months — documented, with findings tracked</span></div>
+        <div class="option" onclick="selectOption(this, 4, 1)"><span class="option-letter">B</span><span class="option-text">One to two years ago</span></div>
+        <div class="option" onclick="selectOption(this, 4, 0)"><span class="option-letter">C</span><span class="option-text">Never, or we are not certain</span></div>
+      </div>
+      <div class="nav-btns">
+        <button class="btn-back" onclick="prevQuestion(4)">&larr; Back</button>
+        <button class="btn-next" id="next-4" disabled onclick="nextQuestion(4)">Next &rarr;</button>
+      </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="question-block" id="q5">
+      <p class="question-text">Have your employees completed security awareness training in the past 12 months?</p>
+      <div class="options">
+        <div class="option" onclick="selectOption(this, 5, 2)"><span class="option-letter">A</span><span class="option-text">Yes — with dated completion records linked to each employee</span></div>
+        <div class="option" onclick="selectOption(this, 5, 1)"><span class="option-letter">B</span><span class="option-text">Informally — some training occurred but records are incomplete</span></div>
+        <div class="option" onclick="selectOption(this, 5, 0)"><span class="option-letter">C</span><span class="option-text">No formal training has taken place</span></div>
+      </div>
+      <div class="nav-btns">
+        <button class="btn-back" onclick="prevQuestion(5)">&larr; Back</button>
+        <button class="btn-next" id="next-5" disabled onclick="nextQuestion(5)">Next &rarr;</button>
+      </div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="question-block" id="q6">
+      <p class="question-text">What is the primary driver bringing you here today?</p>
+      <div class="options">
+        <div class="option" onclick="selectOption(this, 6, 0)"><span class="option-letter">A</span><span class="option-text">An upcoming examination, audit, or certification deadline</span></div>
+        <div class="option" onclick="selectOption(this, 6, 0)"><span class="option-letter">B</span><span class="option-text">Pressure from carrier partners, clients, or investors</span></div>
+        <div class="option" onclick="selectOption(this, 6, 0)"><span class="option-letter">C</span><span class="option-text">A contract requirement (CMMC, HIPAA BAA, SOC 2)</span></div>
+        <div class="option" onclick="selectOption(this, 6, 0)"><span class="option-letter">D</span><span class="option-text">A recent security incident or near-miss</span></div>
+        <div class="option" onclick="selectOption(this, 6, 0)"><span class="option-letter">E</span><span class="option-text">Proactive — we want to build the program before we are required to</span></div>
+      </div>
+      <div class="nav-btns">
+        <button class="btn-back" onclick="prevQuestion(6)">&larr; Back</button>
+        <button class="btn-next" id="next-6" disabled onclick="showResults()">See my results &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="results" style="display:none;">
+    <div class="result-block active" id="result-content">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+
+</div>
+
+<div id="footer-placeholder"></div>
+<script src="../js/layout.js"></script>
+<script>
+  const scores = {};
+  const answers = {};
+
+  function startAssessment() {
+    document.getElementById('intro').style.display = 'none';
+    document.getElementById('quiz').style.display = 'block';
+    updateProgress(1);
+  }
+
+  function selectOption(el, qNum, score) {
+    // Deselect all options in this question
+    el.closest('.options').querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+    scores[qNum] = score;
+    answers[qNum] = el.querySelector('.option-text').textContent;
+    document.getElementById('next-' + qNum).disabled = false;
+  }
+
+  function updateProgress(qNum) {
+    const pct = ((qNum - 1) / 6) * 100;
+    document.getElementById('progress-fill').style.width = pct + '%';
+    document.getElementById('progress-label').textContent = 'Question ' + qNum + ' of 6';
+  }
+
+  function nextQuestion(current) {
+    document.getElementById('q' + current).classList.remove('active');
+    const next = current + 1;
+    document.getElementById('q' + next).classList.add('active');
+    updateProgress(next);
+    window.scrollTo({ top: document.getElementById('quiz').offsetTop - 40, behavior: 'smooth' });
+  }
+
+  function prevQuestion(current) {
+    document.getElementById('q' + current).classList.remove('active');
+    const prev = current - 1;
+    document.getElementById('q' + prev).classList.add('active');
+    updateProgress(prev);
+    window.scrollTo({ top: document.getElementById('quiz').offsetTop - 40, behavior: 'smooth' });
+  }
+
+  function showResults() {
+    const total = (scores[2] || 0) + (scores[3] || 0) + (scores[4] || 0) + (scores[5] || 0);
+    const maxScore = 10;
+
+    let tier, tierSub, recommendation, findings;
+
+    const framework = answers[1] || '';
+    const hasCISO = scores[2] === 3;
+    const hasPartialCISO = scores[2] === 1;
+    const driver = answers[6] || '';
+
+    const urgentDrivers = ['upcoming examination', 'Pressure from carrier', 'recent security incident'];
+    const isUrgent = urgentDrivers.some(d => driver.toLowerCase().includes(d.toLowerCase().split(' ')[0]));
+
+    if (total <= 3) {
+      tier = 'Aegis — Pistos-supplied CISO';
+      tierSub = 'Your program needs to be built from the ground up. The most effective path is a Pistos CISO who takes the helm, builds the program, and carries weight in front of examiners and carriers.';
+      recommendation = 'Based on your responses, we recommend the full Aegis engagement with a Pistos-supplied CISO. PCS will generate your configurations, policies, training, DR/IR automation, and reports. Your designated Pistos CISO will own the program, file your regulatory certifications, and represent your organization in examiner and carrier interactions.' + (isUrgent ? ' Given the urgency of your situation, we recommend scheduling a briefing this week.' : '');
+    } else if (total <= 7) {
+      tier = 'Aegis — Internal CISO Empowered by PCS';
+      tierSub = 'You have the foundation of a program and security leadership in place. The gap is depth and currency — PCS closes that gap without replacing your team.';
+      recommendation = 'Based on your responses, we recommend Aegis with your internal CISO empowered by PCS. PCS will generate the configurations, policies, training content, DR/IR automation, and customized reports that your CISO would otherwise spend their time producing. Your CISO leads. PCS does the engineering work behind them.';
+    } else {
+      tier = 'PCS Standalone';
+      tierSub = 'Your program has strong foundations. PCS gives your team the scanning depth, configuration management, and regulatory currency that no internal team can maintain manually.';
+      recommendation = 'Based on your responses, PCS standalone access may be the right starting point. You have internal security leadership and a documented program — PCS adds the scanning suite, configuration generation, and continuous regulatory currency your team needs to stay current without manual overhead. Most PCS clients eventually transition to Aegis; that option is always available.';
+    }
+
+    // Build findings
+    findings = [];
+    if (scores[2] === 0) findings.push('No designated CISO or Security Officer — required by NY DFS 500.04, HIPAA §164.308(a)(2), and CMMC PM controls');
+    if (scores[2] === 1) findings.push('Security function is informal — shared responsibility does not satisfy the designated CISO requirement under most frameworks');
+    if (scores[3] === 0) findings.push('No written security program — policies, procedures, and evidence records are required by every major framework');
+    if (scores[3] === 1) findings.push('Incomplete documentation — partially complete programs typically fail examinations on evidence currency and control coverage');
+    if (scores[4] === 0) findings.push('No formal risk assessment on record — required annually by NY DFS 500.09, HIPAA Security Rule, and CMMC');
+    if (scores[4] === 1) findings.push('Risk assessment is more than 12 months old — examiners require current assessments, not ones from prior cycles');
+    if (scores[5] === 0) findings.push('No security awareness training records — required by every major framework; absence is a common examination finding');
+    if (scores[5] === 1) findings.push('Training records are incomplete — examiners require dated completion records linked to each employee');
+
+    if (findings.length === 0) findings.push('Your program foundations are solid — the gaps are likely in depth, currency, and the operational overhead of maintaining them.');
+
+    const findingsHTML = findings.map(f =>
+      `<div class="finding-row"><span class="finding-icon">&#9670;</span><span class="finding-text">${f}</span></div>`
+    ).join('');
+
+    document.getElementById('result-content').innerHTML = `
+      <div class="result-header">
+        <span class="result-score-label">Your recommended engagement</span>
+        <div class="result-tier">${tier}</div>
+        <p class="result-sub">${tierSub}</p>
+      </div>
+      ${findings.length > 0 && !(findings[0].includes('foundations are solid')) ? `
+      <div class="result-findings">
+        <h3>Gaps identified</h3>
+        ${findingsHTML}
+      </div>` : ''}
+      <div class="result-recommendation">
+        <h3>Our recommendation</h3>
+        <p>${recommendation}</p>
+      </div>
+      <div class="result-cta">
+        <p>The next step is a conversation about your specific obligations and environment.</p>
+        <a href="/pages/contact.html" class="btn btn-primary">Request a briefing</a>
+        <button class="btn-restart" onclick="restartAssessment()">Start over</button>
+      </div>
+    `;
+
+    document.getElementById('quiz').style.display = 'none';
+    document.getElementById('results').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function restartAssessment() {
+    Object.keys(scores).forEach(k => delete scores[k]);
+    Object.keys(answers).forEach(k => delete answers[k]);
+    document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+    document.querySelectorAll('.btn-next').forEach(b => b.disabled = true);
+    document.querySelectorAll('.question-block').forEach(q => q.classList.remove('active'));
+    document.getElementById('q1').classList.add('active');
+    document.getElementById('results').style.display = 'none';
+    document.getElementById('quiz').style.display = 'block';
+    updateProgress(1);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
