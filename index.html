@@ -1,31 +1,28 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pistos | vCISO &amp; NY DFS Cybersecurity Compliance for Insurance Agencies</title>
-<meta name="description" content="Big-X partner-level cybersecurity compliance for organizations under 500 employees. Insurance agencies under NY DFS 23 NYCRR 500, defense subcontractors under CMMC 2.0, and HIPAA-covered entities. AI maintains the program. Practitioners deliver the work.">
+<meta name="description" content="AI-powered cybersecurity compliance platform for organizations under 500 employees. PCS builds your configurations, writes your policies, runs your scans, and generates your reports. Your CISO leads the program. AI does the engineering.">
 <link rel="canonical" href="https://pistosip.com/">
 
 <!-- Open Graph -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://pistosip.com/">
 <meta property="og:title" content="Pistos | vCISO &amp; NY DFS Cybersecurity Compliance for Insurance Agencies">
-<meta property="og:description" content="Big-X partner-level cybersecurity compliance for organizations under 500 employees. NY DFS, CMMC 2.0, HIPAA. AI maintains the program. Practitioners deliver the work.">
+<meta property="og:description" content="AI-powered cybersecurity compliance for organizations under 500 employees. NY DFS, CMMC 2.0, HIPAA. PCS builds the program. Practitioners lead the work.">
 <meta property="og:image" content="https://pistosip.com/images/pistos-logo_3.png">
 <meta property="og:site_name" content="Pistos Information Protection">
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Pistos | vCISO &amp; NY DFS Cybersecurity Compliance">
-<meta name="twitter:description" content="Big-X partner-level compliance programs for insurance agencies, defense subs, and healthcare. NY DFS, CMMC 2.0, HIPAA.">
+<meta name="twitter:description" content="AI-powered compliance platform for insurance agencies, defense subs, and healthcare. NY DFS, CMMC 2.0, HIPAA. PCS builds the program. Practitioners lead.">
 <meta name="twitter:image" content="https://pistosip.com/images/pistos-logo_3.png">
 
 <link rel="stylesheet" href="css/site.css">
 <style>
-  /* ============================================================
-     Existing component styles from prior version of index.html
-     ============================================================ */
   .pillar-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:0; border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
   .pillar { padding:2rem 1.75rem; border-right:1px solid var(--border); background:var(--cream); }
   .pillar:last-child { border-right:none; }
@@ -33,22 +30,15 @@
   .pillar h3 { font-size:0.95rem; color:var(--navy); margin-bottom:0.6rem; font-weight:500; line-height:1.35; }
   .pillar p { font-size:0.82rem; color:var(--text-mid); line-height:1.75; font-weight:300; }
 
-  /* AI grid â€” always 5 even columns (kept from original) */
   .ai-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:0; border-bottom:1px solid var(--border); }
   .ai-card { background:var(--cream); padding:1.5rem 1.25rem; border-right:1px solid var(--border); }
   .ai-card:last-child { border-right:none; }
 
-  /* ============================================================
-     NEW: Architecture diagram section
-     ============================================================ */
   .architecture-section { background:var(--cream); padding:4rem 1.5rem 4.5rem; border-bottom:1px solid var(--border); text-align:center; }
   .architecture-caption { font-family:Georgia,serif; font-style:italic; font-size:0.95rem; color:var(--text-mid); max-width:520px; margin:0 auto 2rem; line-height:1.6; }
   .architecture-diagram { max-width:880px; width:100%; margin:0 auto; display:block; }
   .architecture-tagline { font-family:'Cinzel',serif; font-size:0.72rem; letter-spacing:0.22em; color:var(--gold); margin-top:1.75rem; }
 
-  /* ============================================================
-     NEW: 95% operational model section
-     ============================================================ */
   .model-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2rem; max-width:780px; margin:2.5rem auto 0; }
   .model-cell { text-align:center; padding:0 0.5rem; }
   .model-percent { font-family:Georgia,serif; font-weight:500; font-size:3.4rem; line-height:1; color:var(--navy); margin-bottom:0.75rem; }
@@ -57,18 +47,12 @@
   .model-label { font-family:'Cinzel',serif; font-size:0.65rem; font-weight:500; letter-spacing:0.18em; text-transform:uppercase; color:var(--gold); margin-bottom:0.75rem; }
   .model-detail { font-size:0.82rem; line-height:1.65; color:var(--text-mid); font-weight:300; }
 
-  /* ============================================================
-     NEW: Eight frameworks by industry â€” replaces market-strip
-     ============================================================ */
   .frameworks-grid { display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:1.5rem; max-width:820px; margin:2.5rem auto 0; }
   .framework-cell { text-align:center; padding:1.5rem 1rem; background:var(--cream); border:1px solid var(--border); border-radius:2px; }
   .framework-industry { font-family:Georgia,serif; font-weight:500; font-size:1.15rem; color:var(--navy); margin-bottom:0.5rem; }
   .framework-cell-rule { width:32px; height:1px; background:var(--gold); margin:0 auto 1rem; opacity:0.7; }
   .framework-list { font-size:0.82rem; line-height:1.85; color:var(--text-mid); font-weight:300; }
 
-  /* ============================================================
-     NEW: Three vertical entry points
-     ============================================================ */
   .verticals { display:grid; grid-template-columns:1fr; gap:0; max-width:760px; margin:2.5rem auto 0; }
   .vertical-entry { text-align:center; padding:2.5rem 1.5rem; border-top:1px solid var(--border); }
   .vertical-entry:first-child { border-top:none; padding-top:1.5rem; }
@@ -78,9 +62,6 @@
   .vertical-cta { font-family:'Cinzel',serif; font-size:0.7rem; font-weight:500; letter-spacing:0.18em; text-transform:uppercase; color:var(--gold); text-decoration:none; border-bottom:1px solid var(--gold); padding-bottom:2px; }
   .vertical-cta:hover { opacity:0.7; }
 
-  /* ============================================================
-     NEW: Insights credential line
-     ============================================================ */
   .insights-line { text-align:center; padding:3rem 1.5rem; background:var(--cream); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
   .insights-line p { font-family:Georgia,serif; font-style:italic; font-size:0.92rem; line-height:1.75; color:var(--text-mid); max-width:620px; margin:0 auto; }
   .insights-line a { color:var(--gold); text-decoration:none; font-style:normal; font-weight:500; border-bottom:1px solid var(--gold); padding-bottom:1px; }
@@ -111,7 +92,7 @@
   "alternateName": "Pistos IP",
   "url": "https://pistosip.com",
   "logo": "https://pistosip.com/images/pistos-logo_3.png",
-  "description": "Virtual CISO and cybersecurity compliance programs for organizations under 500 employees. Specializing in NY DFS 23 NYCRR 500, CMMC 2.0, HIPAA, and eight authoritative frameworks. Built by former Big-X partners and senior managers.",
+  "description": "AI-powered virtual CISO and cybersecurity compliance platform for organizations under 500 employees. PCS generates secure configurations, policies, training, DR/IR automation, and scanner-driven reporting across NY DFS 23 NYCRR 500, CMMC 2.0, HIPAA, and eight authoritative frameworks.",
   "foundingDate": "2019",
   "areaServed": [
     { "@type": "State", "name": "New York" },
@@ -137,7 +118,7 @@
     {
       "@type": "Question",
       "name": "What is a virtual CISO (vCISO)?",
-      "acceptedAnswer": { "@type": "Answer", "text": "A virtual CISO is an outsourced Chief Information Security Officer who provides executive-level cybersecurity leadership and compliance program management on a fractional basis. Pistos delivers vCISO services with the depth of former Big-X partners, at a fraction of in-house cost." }
+      "acceptedAnswer": { "@type": "Answer", "text": "A virtual CISO is an outsourced Chief Information Security Officer who provides executive-level cybersecurity leadership and compliance program management on a fractional basis. Pistos delivers vCISO services backed by PCS — an AI platform that generates configurations, policies, training, and reporting — giving clients the depth of former Big-X partners at a fraction of in-house cost." }
     },
     {
       "@type": "Question",
@@ -152,7 +133,7 @@
     {
       "@type": "Question",
       "name": "How is Pistos different from Vanta or Drata?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Vanta and Drata are evidence-collection platforms that give you a dashboard and expect you to build the program yourself. Pistos delivers the compliance program as finished work, including the vCISO who carries weight in examiner interactions, vendor reviews, and 500.17 attestations." }
+      "acceptedAnswer": { "@type": "Answer", "text": "Vanta and Drata are evidence-collection platforms that give you a dashboard and expect you to build the program yourself. Pistos delivers the compliance program as finished work — PCS generates your configurations, policies, training, and DR/IR automation, while the Pistos vCISO carries weight in examiner interactions, vendor reviews, and 500.17 attestations." }
     }
   ]
 }
@@ -162,26 +143,26 @@
 
 <div id="nav-placeholder"></div>
 
-<!-- â”€â”€ HERO â”€â”€ -->
+<!-- ── HERO ── -->
 <section class="hero">
   <span class="hero-eyebrow">Pistos Information Protection</span>
-  <h1 class="hero-headline">Cybersecurity Compliance.<br>Built by Practitioners. Delivered at Scale.</h1>
+  <h1 class="hero-headline">Your Security Program,<br>Engineered by AI. Led by a Practitioner.</h1>
   <span class="hero-diamond">&#9670;</span>
-  <p class="hero-sub">Designed by former partners and senior managers from Accenture, Deloitte, EY, and PwC &mdash; professionals who built and advised cybersecurity compliance programs for Fortune 500 institutions across financial services, healthcare, and defense.</p>
-  <p class="hero-body">Pistos brings that institutional methodology to organizations under 500 employees, delivered through a continuous platform and a vCISO advocate who carries weight in the rooms where compliance is decided.</p>
+  <p class="hero-sub">PCS &mdash; the Pistos Compliance Suite &mdash; generates your configurations, writes your policies, runs your scans, and produces your reports. Designed by former partners from Accenture, Deloitte, EY, and PwC who built compliance programs for Fortune 500 institutions across financial services, healthcare, and defense.</p>
+  <p class="hero-body">Pistos brings that institutional methodology to organizations under 500 employees, delivered through an AI platform that operates at a depth and scale no human team could sustain alone.</p>
   <div class="hero-btns">
     <a href="/pages/contact.html" class="btn btn-primary">Request a briefing</a>
-    <a href="#architecture" class="btn btn-outline">See the architecture</a>
+    <a href="#pcs" class="btn btn-outline">See what PCS builds</a>
   </div>
 </section>
 
-<!-- â”€â”€ ARCHITECTURE DIAGRAM â”€â”€ -->
+<!-- ── ARCHITECTURE DIAGRAM ── -->
 <section class="architecture-section" id="architecture">
   <p class="architecture-caption">One vCISO engagement. One platform. One outcome.</p>
   <object data="images/pistos-architecture.svg" type="image/svg+xml" class="architecture-diagram" aria-label="Pistos product architecture: Aegis vCISO services delivering the Sentinel bundle of Mathisi security and awareness, Sentinel compliance core, and Skopein vulnerability management — for organizations under 500 employees across insurance, defense, and healthcare verticals."></object>
 </section>
 
-<!-- â”€â”€ THREE PILLARS â”€â”€ -->
+<!-- ── THREE PILLARS ── -->
 <div class="pillar-grid">
   <div class="pillar">
     <span class="pillar-num">01</span>
@@ -200,7 +181,7 @@
   </div>
 </div>
 
-<!-- â”€â”€ THE PISTOS MODEL â€” 95% finished compliance program â”€â”€ -->
+<!-- ── THE PISTOS MODEL ── -->
 <section class="section" style="background:var(--cream);">
   <div class="container">
     <span class="section-eyebrow">The Pistos model</span>
@@ -229,46 +210,46 @@
   </div>
 </section>
 
-<!-- â”€â”€ AI BANNER â”€â”€ -->
-<div class="ai-banner">
+<!-- ── AI BANNER ── -->
+<div class="ai-banner" id="pcs">
   <div class="ai-banner-inner">
-    <h2>AI maintains the program. Practitioners deliver the work.</h2>
-    <p>Other GRC platforms store what was true when you entered it. Pistos uses AI to monitor the regulatory landscape, the framework versions, and the vendor ecosystem continuously &mdash; updating your compliance posture automatically as the world changes. That continuous mapping does more than maintain currency: Pistos uses it to build complete security architectures from compliance requirements all the way through tool selection and deployment. AI handles what should be automated &mdash; currency, mapping, architecture, recommendation. Practitioners handle what cannot be &mdash; judgment, advocacy, and the conversations where credentialed expertise carries weight.</p>
+    <h2>PCS doesn't monitor your security program. It builds it.</h2>
+    <p>Most platforms store what you enter and remind you when something is overdue. PCS actively generates the work &mdash; producing the configurations your tools require, the training your people need, the policies your frameworks demand, and the evidence your examiners will ask for. Two paths, one platform: Aegis clients get a Pistos vCISO backed by PCS. Organizations with an internal CISO get PCS as their force multiplier.</p>
   </div>
 </div>
 
-<!-- â”€â”€ AI GRID â€” 5 even columns (kept from original, tightened to current positioning) â”€â”€ -->
+<!-- ── AI GRID ── -->
 <div class="ai-grid">
   <div class="ai-card">
-    <span class="ai-trigger">Vendor releases new version</span>
-    <p class="ai-what">Evaluates release notes against control mappings. Updates vendor coverage ratings automatically. Flags stale mappings before they affect your posture.</p>
-    <span class="ai-result">Current stack coverage score &mdash; always.</span>
+    <span class="ai-trigger">Secure configurations</span>
+    <p class="ai-what">Generates and updates hardening scripts for Microsoft GPO, CrowdStrike, SonicWall, and the major security toolsets your environment runs &mdash; mapped to your applicable frameworks and updated as requirements change.</p>
+    <span class="ai-result">Configurations that reflect current requirements &mdash; always.</span>
   </div>
   <div class="ai-card">
-    <span class="ai-trigger">Regulation amends</span>
-    <p class="ai-what">Monitors Federal Register, agency feeds, and NIST publications. Identifies affected controls. Flags clients for re-assessment before the next audit cycle.</p>
-    <span class="ai-result">Your program reflects today's requirements.</span>
+    <span class="ai-trigger">Targeted training</span>
+    <p class="ai-what">Develops training modules specific to the threats targeting your industry, your toolset, and your regulatory obligations &mdash; updated continuously as the threat landscape shifts.</p>
+    <span class="ai-result">Training that reflects today's attacks, not last year's.</span>
   </div>
   <div class="ai-card">
-    <span class="ai-trigger">Critical CVE published</span>
-    <p class="ai-what">Cross-references the CVE against client scan data. Identifies exposed organizations. Surfaces prioritized remediation directly in Sentinel.</p>
-    <span class="ai-result">Exposures identified before they ask.</span>
+    <span class="ai-trigger">Policies and procedures</span>
+    <p class="ai-what">Writes policies tied to your specific frameworks and the detailed procedures that tell your staff exactly how to implement them &mdash; not generic templates that require a consultant to interpret.</p>
+    <span class="ai-result">Documentation your examiners can rely on.</span>
   </div>
   <div class="ai-card">
-    <span class="ai-trigger">New threat pattern emerges</span>
-    <p class="ai-what">Monitors CISA advisories and FBI IC3 threat feeds. Updates training content to reflect the attack vectors currently targeting your industry.</p>
-    <span class="ai-result">Training reflects today's threats.</span>
+    <span class="ai-trigger">DR and IR automation</span>
+    <p class="ai-what">Builds and maintains your disaster recovery and incident response plans &mdash; automated workflows, decision trees, and escalation paths designed to function under actual incident conditions.</p>
+    <span class="ai-result">Plans that work when you need them.</span>
   </div>
   <div class="ai-card">
-    <span class="ai-trigger">Framework version updates</span>
-    <p class="ai-what">Maps the delta between versions across the eight authoritative frameworks. Flags controls requiring re-evaluation without manual intervention.</p>
-    <span class="ai-result">Framework currency maintained automatically.</span>
+    <span class="ai-trigger">Integrated scanner suite</span>
+    <p class="ai-what">Runs external vulnerability, web application, and internal network scans &mdash; and updates its own detection logic continuously. Reports are customized to your business context and regulatory obligations, not generic CVE lists.</p>
+    <span class="ai-result">Findings your team can act on immediately.</span>
   </div>
 </div>
 
 <div class="divider"></div>
 
-<!-- â”€â”€ EIGHT AUTHORITATIVE FRAMEWORKS BY INDUSTRY â”€â”€ -->
+<!-- ── EIGHT AUTHORITATIVE FRAMEWORKS BY INDUSTRY ── -->
 <section class="section" style="background:var(--cream-dark);">
   <div class="container">
     <span class="section-eyebrow">Eight authoritative frameworks</span>
@@ -312,7 +293,7 @@
   </div>
 </section>
 
-<!-- â”€â”€ THREE VERTICAL ENTRY POINTS â”€â”€ -->
+<!-- ── THREE VERTICAL ENTRY POINTS ── -->
 <section class="section" style="background:var(--cream);">
   <div class="container">
     <span class="section-eyebrow">Who we serve</span>
@@ -344,7 +325,7 @@
   </div>
 </section>
 
-<!-- â”€â”€ THE PROBLEM â”€â”€ -->
+<!-- ── THE PROBLEM ── -->
 <section class="section" style="background:var(--cream-dark);">
   <div class="container">
     <span class="section-eyebrow">The compliance evidence problem</span>
@@ -371,18 +352,18 @@
   </div>
 </section>
 
-<!-- â”€â”€ INSIGHTS LINE â”€â”€ -->
+<!-- ── INSIGHTS LINE ── -->
 <div class="insights-line">
   <p>Founded by <strong>Pete Sfoglia</strong>, former partner at EY and Accenture, and mentor to CrowdStrike CEO George Kurtz. Pistos principals have published on cybersecurity compliance in <em>National Defense Magazine</em>, <em>Insurance Journal</em>, and <em>Carrier Management</em>. <a href="/pages/insights.html">Read the published work</a>.</p>
 </div>
 
-<!-- â”€â”€ MISSION BAR â”€â”€ -->
+<!-- ── MISSION BAR ── -->
 <div class="mission-bar">
   <h3>Meet one. Satisfy many.</h3>
   <p>One mapping anchors every framework. One program. Every obligation.</p>
 </div>
 
-<!-- â”€â”€ FINAL CTA â”€â”€ -->
+<!-- ── FINAL CTA ── -->
 <section class="section-sm" style="background:var(--navy);text-align:center;">
   <div class="container">
     <span class="section-eyebrow" style="color:#4A6A8A;">Get in touch</span>
