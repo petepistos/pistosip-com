@@ -43,7 +43,7 @@
   <div class="container">
     <div class="contact-grid">
 
-      <div class="contact-form" data-fs-success>
+      <div class="contact-form">
 
         <div class="fs-success-msg">
           <h3>Request received.</h3>
@@ -130,12 +130,20 @@
 <script src="../js/layout.js"></script>
 <script src="../js/nav.js"></script>
 
-<!-- Formspree Ajax -->
 <script>
-  window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
-  formspree('initForm', { formElement: '#contact-form', formId: 'xwvzqlvw' });
+  document.getElementById('contact-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = this.querySelector('[data-fs-submit-btn]');
+    if(btn) btn.disabled = true;
+    const res = await fetch(this.action, { method: 'POST', body: new FormData(this), headers: { 'Accept': 'application/json' } });
+    if(res.ok) {
+      this.style.display = 'none';
+      document.querySelector('.fs-success-msg').style.display = 'block';
+    } else {
+      if(btn) btn.disabled = false;
+    }
+  });
 </script>
-<script src="https://unpkg.com/@formspree/ajax@1" defer></script>
 
 </body>
 </html>
