@@ -13,29 +13,23 @@
     .form-group label { display: block; font-size: 0.78rem; font-family: 'Cinzel', serif; color: var(--navy); letter-spacing: 0.08em; margin-bottom: 0.4rem; }
     .form-group input, .form-group select, .form-group textarea { width: 100%; background: var(--cream); border: 1px solid var(--border); border-radius: 2px; padding: 10px 14px; font-size: 0.88rem; color: var(--text-dark); font-family: 'Source Sans 3', sans-serif; outline: none; transition: border-color 0.2s; }
     .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--navy); }
+    .form-group input[aria-invalid="true"], .form-group select[aria-invalid="true"], .form-group textarea[aria-invalid="true"] { border-color: #c0392b; }
     .form-group textarea { min-height: 120px; resize: vertical; }
     .contact-info h3 { font-size: 1rem; color: var(--navy); margin-bottom: 0.5rem; }
     .contact-info p { font-size: 0.88rem; color: var(--text-mid); font-weight: 300; line-height: 1.7; margin-bottom: 1.5rem; }
     .contact-detail { display: flex; align-items: baseline; gap: 12px; margin-bottom: 0.5rem; }
     .contact-detail-label { font-family: 'Cinzel', serif; font-size: 0.65rem; color: var(--gold); letter-spacing: 0.15em; text-transform: uppercase; min-width: 60px; }
     .contact-detail-value { font-size: 0.85rem; color: var(--text-mid); font-weight: 300; }
+    .fs-error-msg { font-size: 0.78rem; color: #c0392b; margin-top: 0.3rem; display: block; }
+    .fs-success-msg { display: none; text-align: center; padding: 2rem 1rem; }
+    .fs-success-msg h3 { color: var(--navy); font-size: 1rem; margin-bottom: 0.5rem; }
+    .fs-success-msg p { font-size: 0.88rem; color: var(--text-mid); font-weight: 300; }
+    [data-fs-success] .fs-success-msg { display: block; }
+    [data-fs-success] form { display: none; }
     @media(max-width:760px) { .contact-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
-<header style="border-bottom: 0.5px solid #C9BEA7; padding: 22px 32px; background: #EFE9DB; font-family: 'Inter', system-ui, -apple-system, sans-serif;">
-  <div style="max-width: 920px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between;">
-    <a href="../index.html" style="font-family: 'Cormorant Garamond', Garamond, Georgia, serif; font-size: 22px; font-weight: 500; color: #152440; text-decoration: none; letter-spacing: 0.5px;">Pistos<span style="font-family: 'Inter', system-ui, sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 3px; color: #B8895A; margin-left: 10px; text-transform: uppercase;">Information Protection</span></a>
-    <nav style="display: flex; gap: 32px; align-items: center; font-size: 13px; letter-spacing: 0.3px;">
-      <a href="../index.html#architecture" style="color: #3A4760; text-decoration: none;">Aegis</a>
-      <a href="financial-services.html" style="color: #3A4760; text-decoration: none;">Financial Services</a>
-      <a href="defense.html" style="color: #3A4760; text-decoration: none;">Defense</a>
-      <a href="healthcare.html" style="color: #3A4760; text-decoration: none;">Healthcare</a>
-      <a href="insights.html" style="color: #3A4760; text-decoration: none;">Insights</a>
-      <a href="contact.html" style="color: #3A4760; text-decoration: none;">Contact</a>
-    </nav>
-  </div>
-</header>
 <div id="nav-placeholder"></div>
 
 <section class="hero" style="padding:4rem 2rem 3rem;">
@@ -48,24 +42,40 @@
 <section class="section" style="background:var(--cream-dark);">
   <div class="container">
     <div class="contact-grid">
-      <div class="contact-form">
-        <h3 style="font-size:1rem;color:var(--navy);margin-bottom:1.25rem;">Request a briefing</h3>
-        <form action="mailto:pete@pistosip.com" method="post" enctype="text/plain">
+
+      <div class="contact-form" data-fs-success>
+
+        <div class="fs-success-msg">
+          <h3>Request received.</h3>
+          <p>Thank you — we will be in touch shortly to schedule your briefing.</p>
+        </div>
+
+        <form id="contact-form" action="https://formspree.io/f/xwvzqlvw" method="POST">
+          <input type="hidden" name="_subject" value="Briefing request — pistosip.com">
+
+          <h3 style="font-size:1rem;color:var(--navy);margin-bottom:1.25rem;">Request a briefing</h3>
+
           <div class="form-group">
-            <label>Name</label>
-            <input type="text" name="name" placeholder="Your full name">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" placeholder="Your full name" data-fs-field required>
+            <span class="fs-error-msg" data-fs-error="name"></span>
           </div>
+
           <div class="form-group">
-            <label>Organization</label>
-            <input type="text" name="organization" placeholder="Company or institution">
+            <label for="organization">Organization</label>
+            <input type="text" id="organization" name="organization" placeholder="Company or institution" data-fs-field>
+            <span class="fs-error-msg" data-fs-error="organization"></span>
           </div>
+
           <div class="form-group">
-            <label>Email</label>
-            <input type="email" name="email" placeholder="your@organization.com">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="your@organization.com" data-fs-field required>
+            <span class="fs-error-msg" data-fs-error="email"></span>
           </div>
+
           <div class="form-group">
-            <label>Primary regulatory framework</label>
-            <select name="framework">
+            <label for="framework">Primary regulatory framework</label>
+            <select id="framework" name="framework" data-fs-field>
               <option value="">Select your primary obligation</option>
               <option>NY DFS 23 NYCRR 500</option>
               <option>HIPAA / OCR</option>
@@ -78,13 +88,20 @@
               <option>Other / Not sure</option>
             </select>
           </div>
+
           <div class="form-group">
-            <label>What brings you here</label>
-            <textarea name="message" placeholder="Tell us about your current compliance situation, an upcoming examination, or what you are looking to solve."></textarea>
+            <label for="message">What brings you here</label>
+            <textarea id="message" name="message" placeholder="Tell us about your current compliance situation, an upcoming examination, or what you are looking to solve." data-fs-field></textarea>
+            <span class="fs-error-msg" data-fs-error="message"></span>
           </div>
-          <button type="submit" class="btn btn-primary" style="width:100%;">Send request</button>
+
+          <span class="fs-error-msg" data-fs-error></span>
+
+          <button type="submit" class="btn btn-primary" style="width:100%;" data-fs-submit-btn>Send request</button>
         </form>
+
       </div>
+
       <div class="contact-info">
         <h3>Pistos Information Protection LLC</h3>
         <p>We serve financial services firms, healthcare organizations, and defense contractors navigating complex, overlapping regulatory obligations. Every engagement starts with a conversation about your specific situation.</p>
@@ -104,6 +121,7 @@
           <p style="font-size:0.82rem;color:var(--text-mid);font-weight:300;">Access your compliance portal at <a href="https://app.pistosip.com" style="color:var(--navy);text-decoration:underline;">app.pistosip.com</a></p>
         </div>
       </div>
+
     </div>
   </div>
 </section>
@@ -111,5 +129,13 @@
 <div id="footer-placeholder"></div>
 <script src="../js/layout.js"></script>
 <script src="../js/nav.js"></script>
+
+<!-- Formspree Ajax -->
+<script>
+  window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
+  formspree('initForm', { formElement: '#contact-form', formId: 'xwvzqlvw' });
+</script>
+<script src="https://unpkg.com/@formspree/ajax@1" defer></script>
+
 </body>
 </html>
