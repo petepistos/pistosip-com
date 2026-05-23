@@ -5,25 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mathisi — Security Awareness | Pistos Information Protection</title>
   <meta name="description" content="Mathisi is the security awareness pillar of the Pistos Aegis CISO enablement program. Tiered training from foundational to advanced, monthly refreshers, phishing simulations, and debriefs of real security events — training records your examiner will actually ask to see.">
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-
+  <link rel="stylesheet" href="../css/site.css">
   <style>
     :root {
-      --navy-900: #152440;
-      --navy-700: #243860;
-      --ink-700:  #3A4760;
-      --ink-500:  #6B7386;
-      --gold:     #B8895A;
-      --gold-dk:  #9B7348;
-      --stone-50: #EFE9DB;
-      --stone-100:#E8E1D3;
-      --stone-200:#DED5C3;
-      --stone-300:#C9BEA7;
-      --serif:    'Cormorant Garamond', Garamond, Georgia, serif;
-      --sans:     'Inter', system-ui, -apple-system, sans-serif;
+      --navy-900: #152440; --navy-700: #243860; --ink-700: #3A4760; --ink-500: #6B7386;
+      --gold: #B8895A; --gold-dk: #9B7348; --stone-50: #EFE9DB; --stone-100: #E8E1D3;
+      --stone-200: #DED5C3; --stone-300: #C9BEA7;
+      --serif: 'Cormorant Garamond', Garamond, Georgia, serif;
+      --sans: 'Inter', system-ui, -apple-system, sans-serif;
     }
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
@@ -31,15 +23,6 @@
     a { color: var(--navy-700); text-decoration: none; }
     a:hover { color: var(--gold); }
     .container { max-width: 920px; margin: 0 auto; padding: 0 32px; }
-
-    .site-header { background: var(--navy-900); padding: 0; }
-    .site-header .row { display: flex; align-items: center; justify-content: space-between; min-height: 80px; }
-    .brand-mark { display: flex; align-items: center; }
-    .brand-mark img { height: 110px; width: auto; display: block; margin: -15px 0; }
-    .nav { display: flex; gap: 32px; align-items: center; font-size: 13px; letter-spacing: 0.3px; }
-    .nav a { color: var(--stone-200); }
-    .nav a:hover { color: var(--gold); }
-
     .hero { padding: 72px 0 48px; text-align: center; }
     .eyebrow { font-family: var(--sans); font-size: 11px; font-weight: 500; letter-spacing: 4px; color: var(--gold); text-transform: uppercase; margin: 0 0 18px 0; }
     .hero h1 { font-family: var(--serif); font-size: 72px; font-weight: 500; color: var(--navy-900); margin: 0 0 10px 0; line-height: 1; }
@@ -48,72 +31,45 @@
     .gold-rule { display: flex; align-items: center; justify-content: center; gap: 14px; margin: 28px 0 0 0; }
     .gold-rule::before, .gold-rule::after { content: ""; display: block; width: 80px; height: 1px; background: var(--gold); }
     .gold-rule .diamond { color: var(--gold); font-size: 14px; }
-
     .intro { padding: 32px 0 12px; }
     .intro p { font-size: 18px; line-height: 1.6; color: var(--ink-700); max-width: 720px; margin: 0 auto 16px auto; }
-
     .modules { padding: 48px 0; }
     .module { display: grid; grid-template-columns: 1fr 2fr; gap: 32px; padding: 22px 0; border-bottom: 0.5px solid var(--stone-300); }
     .module:first-child { border-top: 0.5px solid var(--stone-300); }
     .module-name { font-family: var(--serif); font-size: 22px; font-weight: 500; color: var(--navy-900); line-height: 1.2; }
     .module-desc { font-size: 15px; line-height: 1.6; color: var(--ink-700); align-self: center; }
-
     .context { padding: 72px 0 56px; border-top: 0.5px solid var(--stone-300); margin-top: 32px; }
     .context h2 { font-family: var(--serif); font-size: 36px; font-weight: 500; color: var(--navy-900); margin: 0 0 24px 0; }
     .context p { font-size: 16px; line-height: 1.7; color: var(--ink-700); margin: 0 0 16px 0; }
-
     .siblings { padding: 56px 0; border-top: 0.5px solid var(--stone-300); text-align: center; }
     .siblings .eyebrow { margin-bottom: 32px; }
     .pillar-links { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 640px; margin: 0 auto; }
     .pillar-link { display: block; padding: 28px 24px; background: var(--stone-100); border: 0.5px solid var(--stone-300); text-align: left; cursor: pointer; transition: background 160ms ease, border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease; }
-    .pillar-link:hover { background: #F4EEE0; border-color: var(--gold); transform: translateY(-2px); box-shadow: 0 4px 16px rgba(21, 36, 64, 0.08); }
+    .pillar-link:hover { background: #F4EEE0; border-color: var(--gold); transform: translateY(-2px); box-shadow: 0 4px 16px rgba(21,36,64,0.08); }
     .pillar-link .pname { font-family: var(--serif); font-size: 26px; font-weight: 500; color: var(--navy-900); margin: 0 0 4px 0; }
     .pillar-link .pgreek { font-family: var(--serif); font-size: 14px; font-style: italic; color: var(--ink-700); margin: 0 0 8px 0; }
     .pillar-link .ptag { font-family: var(--sans); font-size: 10.5px; font-weight: 500; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; }
     .pillar-link .arrow { display: inline-block; margin-top: 16px; font-size: 13px; color: var(--ink-700); }
     .pillar-link:hover .arrow { color: var(--gold); }
-
     .cta { padding: 80px 0; text-align: center; border-top: 0.5px solid var(--stone-300); }
     .cta h2 { font-family: var(--serif); font-size: 36px; font-weight: 500; color: var(--navy-900); margin: 0 0 16px 0; }
     .cta p { font-size: 16px; color: var(--ink-700); margin: 0 auto 28px auto; max-width: 560px; }
     .btn { display: inline-block; padding: 14px 32px; background: var(--navy-900); color: var(--stone-50); font-family: var(--sans); font-size: 13px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; border: 1px solid var(--navy-900); transition: background 160ms ease, color 160ms ease; }
     .btn:hover { background: var(--gold); border-color: var(--gold); color: var(--stone-50); }
-
-    .site-footer { background: var(--navy-900); color: var(--stone-200); padding: 40px 0; margin-top: 40px; }
-    .site-footer .row { display: flex; justify-content: space-between; align-items: center; font-size: 12px; letter-spacing: 0.3px; }
-    .site-footer a { color: var(--stone-200); }
-    .site-footer a:hover { color: var(--gold); }
-
-    @media (max-width: 720px) {
-      .hero h1 { font-size: 52px; }
-      .module { grid-template-columns: 1fr; gap: 6px; }
-      .pillar-links { grid-template-columns: 1fr; }
-      .nav { display: none; }
-      .brand-mark img { height: 64px; margin: 0; }
-      .site-header .row { min-height: 64px; }
-    }
     .aegis-frame { padding: 48px 0 8px; border-bottom: 0.5px solid var(--stone-300); }
     .aegis-frame .container { max-width: 760px; }
     .aegis-lead { font-size: 16px; line-height: 1.75; color: var(--ink-700); margin: 0; text-align: center; }
     .aegis-lead strong { color: var(--navy-900); font-weight: 500; }
+    @media (max-width: 720px) {
+      .hero h1 { font-size: 52px; }
+      .module { grid-template-columns: 1fr; gap: 6px; }
+      .pillar-links { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
-
 <body>
 
-  <header class="site-header">
-    <div class="container row">
-      <a href="../index.html" class="brand-mark"><img src="../images/pistos-logo_3.png" alt="Pistos Information Protection"></a>
-      <nav class="nav">
-        <a href="../index.html#architecture">Aegis</a>
-        <a href="financial-services.html">Financial Services</a>
-        <a href="defense.html">Defense</a>
-        <a href="healthcare.html">Healthcare</a>
-        <a href="insights.html">Insights</a>
-        <a href="contact.html">Contact</a>
-      </nav>
-    </div>
-  </header>
+<div id="nav-placeholder"></div>
 
   <section class="hero">
     <div class="container">
@@ -127,7 +83,7 @@
 
   <section class="aegis-frame">
     <div class="container">
-      <p class="aegis-lead"><strong>Aegis is the CISO enablement layer of the Pistos platform</strong> — powered by PCS, the AI engine that generates configurations, policies, training, and reports. Aegis delivers CISO-level accountability two ways: Pistos supplies a named senior advisor as your designated CISO, or your internal CISO runs the program backed by the full capability of PCS.
+      <p class="aegis-lead"><strong>Aegis is the CISO enablement layer of the Pistos platform</strong> — powered by PCS, the AI engine that generates configurations, policies, training, and reports. Aegis delivers CISO-level accountability two ways: Pistos supplies a named senior advisor as your designated CISO, or your internal CISO runs the program backed by the full capability of PCS.</p>
     </div>
   </section>
 
@@ -140,37 +96,30 @@
 
   <section class="modules">
     <div class="container">
-
       <div class="module">
         <div class="module-name">Introduction to Cybersecurity</div>
         <div class="module-desc">Foundational training every employee takes at onboarding — the baseline vocabulary, the everyday threats, and the behaviors that prevent most incidents before they begin.</div>
       </div>
-
       <div class="module">
         <div class="module-name">Intermediate</div>
         <div class="module-desc">Role-specific training for staff with elevated access — producers, account managers, finance, HR — tuned to the attacks that target their specific workflows.</div>
       </div>
-
       <div class="module">
         <div class="module-name">Advanced</div>
         <div class="module-desc">Deep training for IT leadership, privileged users, and designated incident handlers — how to recognize a live incident and how to act in the first fifteen minutes.</div>
       </div>
-
       <div class="module">
         <div class="module-name">Training &amp; Awareness</div>
         <div class="module-desc">Monthly refreshers and annual workforce certifications — with dated completion records linked to each employee, ready for an examiner or underwriter to review.</div>
       </div>
-
       <div class="module">
         <div class="module-name">Phishing Simulations</div>
         <div class="module-desc">Realistic phishing campaigns targeted to your industry and workflows, with after-click coaching for anyone who engages — no shame, no spectacle, just repetition.</div>
       </div>
-
       <div class="module">
         <div class="module-name">Real Security Events</div>
         <div class="module-desc">Debriefs of actual breaches at peer organizations — what happened, how it was noticed, what it cost, and what would have changed the outcome. Generic content doesn't move the needle; neighbors' stories do.</div>
       </div>
-
     </div>
   </section>
 
@@ -210,12 +159,8 @@
     </div>
   </section>
 
-  <footer class="site-footer">
-    <div class="container row">
-      <div>Pistos Information Protection</div>
-      <div><a href="contact.html">Contact</a></div>
-    </div>
-  </footer>
+<div id="footer-placeholder"></div>
+<script src="../js/layout.js"></script>
 
 </body>
 </html>
