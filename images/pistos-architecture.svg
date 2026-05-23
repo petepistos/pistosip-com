@@ -35,7 +35,7 @@
   <text x="400" y="185" text-anchor="middle" class="diamond">◆</text>
   <line x1="412" y1="180" x2="520" y2="180" class="rule-gold"/>
 
-  <a xlink:href="../pages/mathisi.html" href="pages/mathisi.html" target="_top" aria-label="Mathisi pillar detail">
+  <a xlink:href="../pages/mathisi.html" href="..pages/mathisi.html" target="_top" aria-label="Mathisi pillar detail">
     <text x="140" y="225" text-anchor="middle" class="pillar-name">Mathisi</text>
     <text x="140" y="248" text-anchor="middle" class="pillar-greek">Μάθηση</text>
     <text x="140" y="272" text-anchor="middle" class="eyebrow-xs">SECURITY &#160;AWARENESS</text>
@@ -45,7 +45,7 @@
     <text x="400" y="248" text-anchor="middle" class="pillar-greek">sen · ti · nel</text>
     <text x="400" y="272" text-anchor="middle" class="eyebrow-xs">COMPLIANCE &#160;CORE</text>
   </a>
-  <a xlink:href="../pages/skopein.html" href="pages/skopein.html" target="_top" aria-label="Skopein pillar detail">
+  <a xlink:href="../pages/skopein.html" href="..pages/skopein.html" target="_top" aria-label="Skopein pillar detail">
     <text x="660" y="225" text-anchor="middle" class="pillar-name">Skopein</text>
     <text x="660" y="248" text-anchor="middle" class="pillar-greek">σκοπεῖν</text>
     <text x="660" y="272" text-anchor="middle" class="eyebrow-xs">VULNERABILITY &#160;MANAGEMENT</text>
