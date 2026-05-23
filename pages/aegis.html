@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aegis — Managed vCISO Service | Pistos</title>
-  <meta name="description" content="Fully managed vCISO service operating Sentinel, Skopein, and Mathisi on your behalf. Regulatory filing support, examiner preparation, and board reporting.">
+  <title>Aegis — CISO Enablement | Pistos</title>
+  <meta name="description" content="Aegis is the Pistos CISO enablement program — powered by PCS. Pistos supplies the CISO, or your internal CISO runs the program. Either way, PCS does the engineering work.">
   <link rel="stylesheet" href="../css/site.css">
   <style>
     .service-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: 20px; }
@@ -32,6 +32,26 @@
     .vs-simple-col.before .vs-li::before { content: '—'; color: var(--text-muted); }
     .vs-simple-col.after .vs-li { color: #C8D8E8; }
     .vs-simple-col.after .vs-li::before { content: '\25C6'; color: var(--gold); font-size: 0.55rem; top: 4px; }
+    .path-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .path-card { border-radius: 4px; padding: 1.75rem; }
+    .path-card.pistos { background: var(--navy); }
+    .path-card.internal { background: var(--cream-dark); border: 1px solid var(--border); }
+    .path-label { font-family: 'Cinzel', serif; font-size: 0.65rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 0.75rem; display: block; }
+    .path-card.pistos .path-label { color: var(--gold); }
+    .path-card.internal .path-label { color: var(--gold); }
+    .path-card h3 { font-size: 1.15rem; margin-bottom: 0.75rem; font-weight: 500; }
+    .path-card.pistos h3 { color: #F5F1EB; }
+    .path-card.internal h3 { color: var(--navy); }
+    .path-card p { font-size: 0.85rem; line-height: 1.75; font-weight: 300; }
+    .path-card.pistos p { color: #8AAABB; }
+    .path-card.internal p { color: var(--text-mid); }
+    .path-rule { width: 32px; height: 1px; background: var(--gold); opacity: 0.6; margin: 1rem 0; }
+    @media(max-width:760px) {
+      .path-grid { grid-template-columns: 1fr; }
+      .vs-simple { grid-template-columns: 1fr; }
+      .includes-grid { grid-template-columns: 1fr; }
+      .who-grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
@@ -41,10 +61,10 @@
 <section class="hero">
   <div class="container" style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;text-align:left;">
     <div>
-      <span class="section-eyebrow">Managed vCISO service</span>
-      <h1 style="margin-bottom:0.5rem;">Expert governance. The platform does the work.</h1>
+      <span class="section-eyebrow">CISO Enablement</span>
+      <h1 style="margin-bottom:0.5rem;">The CISO layer your compliance program requires. Powered by PCS.</h1>
       <span class="diamond" style="display:inline-block;">&#9670;</span>
-      <p style="font-size:1rem;color:var(--text-mid);line-height:1.8;font-weight:300;margin-bottom:1.5rem;">Aegis is the Pistos vCISO service — operating Sentinel, Skopein, and Mathisi on your behalf. Regulatory filings, examiner preparation, board reporting, and annual risk assessment, all backed by the only compliance system that stays current without human intervention.</p>
+      <p style="font-size:1rem;color:var(--text-mid);line-height:1.8;font-weight:300;margin-bottom:1.5rem;">Every major compliance framework requires qualified, accountable security leadership — not just a platform. Aegis delivers that leadership layer two ways: Pistos supplies the CISO, or your internal CISO runs the program. Either way, PCS does the engineering work behind it.</p>
       <a href="/pages/contact.html" class="btn btn-primary">Schedule a briefing</a>
     </div>
     <div class="def-card" style="max-width:360px;margin:0 auto;">
@@ -56,18 +76,43 @@
         <p class="def-tagline">Protection and authority.<br>A shield of oversight.</p>
       </div>
       <div class="def-card-body">
-        <p class="def-desc" style="text-align:center;font-style:italic;">The human governance layer that regulated organizations need — delivered through the platform that keeps everything current.</p>
+        <p class="def-desc" style="text-align:center;font-style:italic;">The CISO enablement layer that regulated organizations need — powered by the AI engine that keeps everything current.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TWO DELIVERY PATHS ── -->
+<section class="section" style="background:var(--cream-dark);">
+  <div class="container">
+    <span class="section-eyebrow">Two ways to engage Aegis</span>
+    <h2 class="section-title">Same platform. Same program. Your choice of who leads it.</h2>
+    <p class="section-sub">Aegis is not defined by who fills the CISO role — it is defined by what gets built and maintained. PCS generates the configurations, policies, training, DR/IR automation, and reports. The CISO provides the judgment, accountability, and regulatory credibility that no platform can substitute.</p>
+    <div class="path-grid">
+      <div class="path-card pistos">
+        <span class="path-label">Pistos-supplied CISO</span>
+        <h3>Pistos provides a named senior advisor as your designated CISO.</h3>
+        <div class="path-rule"></div>
+        <p>A former Big-X partner serves as your named CISO — responsible for your compliance program, regulatory filings, board reporting, and examiner interactions. PCS runs the program continuously. Your Pistos CISO carries the weight in the rooms where compliance is decided.</p>
+        <p style="margin-top:1rem;">Best for organizations without a dedicated internal security function that need both the platform and the practitioner.</p>
+      </div>
+      <div class="path-card internal">
+        <span class="path-label">Client's internal CISO</span>
+        <h3>Your CISO leads the program. PCS does the engineering work.</h3>
+        <div class="path-rule"></div>
+        <p>Your internal CISO retains ownership of the program — and gains a platform that generates the configurations, policies, training, DR/IR automation, and reports they would otherwise spend their time producing manually. PCS is the force multiplier that lets your CISO lead rather than administer.</p>
+        <p style="margin-top:1rem;">Best for organizations with an existing CISO who needs the depth and currency that a single practitioner cannot sustain alone.</p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ── BEFORE / AFTER ── -->
-<section class="section" style="background:var(--cream-dark);">
+<section class="section" style="background:var(--cream);">
   <div class="container">
     <span class="section-eyebrow">What changes with Aegis</span>
     <h2 class="section-title">From reactive to continuously audit-ready.</h2>
-    <p class="section-sub">Most organizations without a dedicated security function operate in a state of periodic compliance — scrambling before an audit, quiet after. Aegis changes that structure permanently.</p>
+    <p class="section-sub">Most organizations operate in a state of periodic compliance — scrambling before an audit, quiet after. Aegis changes that structure permanently.</p>
     <div class="vs-simple">
       <div class="vs-simple-col before">
         <h4>Without Aegis</h4>
@@ -94,15 +139,15 @@
 </section>
 
 <!-- ── WHAT'S INCLUDED ── -->
-<section class="section" style="background:var(--cream);">
+<section class="section" style="background:var(--cream-dark);">
   <div class="container">
     <span class="section-eyebrow">Service scope</span>
     <h2 class="section-title">Everything included in Aegis.</h2>
-    <p class="section-sub">Aegis is not a retainer for ad hoc advice. It is a structured managed service with defined deliverables tied to your regulatory calendar.</p>
+    <p class="section-sub">Aegis is not a retainer for ad hoc advice. It is a structured program with defined deliverables tied to your regulatory calendar — delivered by PCS and overseen by a designated CISO.</p>
     <div class="includes-grid">
       <div class="includes-item">
         <h5>Sentinel operation</h5>
-        <p>Full operation of the Sentinel compliance platform — control tracking, evidence review, scoring, and gap remediation management on your behalf.</p>
+        <p>Full operation of the Sentinel compliance platform — control tracking, evidence review, scoring, and gap remediation management.</p>
       </div>
       <div class="includes-item">
         <h5>Skopein assessments</h5>
@@ -110,7 +155,7 @@
       </div>
       <div class="includes-item">
         <h5>Mathisi program management</h5>
-        <p>Training campaign scheduling, phishing simulation deployment, results review, and remedial training assignment — all managed by Pistos.</p>
+        <p>Training campaign scheduling, phishing simulation deployment, results review, and remedial training assignment — managed and current.</p>
       </div>
       <div class="includes-item">
         <h5>Annual risk assessment</h5>
@@ -133,8 +178,8 @@
         <p>Third-party security assessment coordination — vendor questionnaires, contract security language review, and ongoing vendor risk tracking in Sentinel.</p>
       </div>
       <div class="includes-item">
-        <h5>Policy maintenance</h5>
-        <p>All 15 security policies maintained current as regulations amend. Policy review cycle managed by Pistos — no manual policy update process required.</p>
+        <h5>Policy and procedure maintenance</h5>
+        <p>All security policies and supporting procedures maintained current as regulations amend — generated and updated by PCS, reviewed by the designated CISO.</p>
       </div>
       <div class="includes-item">
         <h5>Incident response support</h5>
@@ -145,19 +190,19 @@
 </section>
 
 <!-- ── WHO AEGIS IS FOR ── -->
-<section class="section" style="background:var(--cream-dark);">
+<section class="section" style="background:var(--cream);">
   <div class="container">
     <span class="section-eyebrow">Who Aegis serves</span>
-    <h2 class="section-title">Expert governance for organizations without an internal security function.</h2>
-    <p class="section-sub">Aegis clients share a common profile: significant regulatory obligations, no dedicated CISO, and a recognition that compliance cannot be managed as a periodic event.</p>
+    <h2 class="section-title">CISO enablement for organizations at every stage of security maturity.</h2>
+    <p class="section-sub">Whether you have no internal security function or an established CISO who needs more depth, Aegis delivers the platform and the program structure to keep your compliance posture current.</p>
     <div class="who-grid">
       <div class="who-card">
         <h4>Financial services firms</h4>
-        <p>Banks, credit unions, broker-dealers, insurance carriers, RIAs, and payment processors subject to NY DFS, GLBA, PCI DSS, and SEC cybersecurity rules — without a dedicated security staff.</p>
+        <p>Banks, credit unions, broker-dealers, insurance carriers, RIAs, and payment processors subject to NY DFS, GLBA, PCI DSS, and SEC cybersecurity rules.</p>
       </div>
       <div class="who-card">
         <h4>Healthcare organizations</h4>
-        <p>Physician groups, health plans, specialty practices, and healthcare technology companies subject to HIPAA and OCR audit protocol — without a Security Officer with the bandwidth to operate the program.</p>
+        <p>Physician groups, health plans, specialty practices, and healthcare technology companies subject to HIPAA and the OCR audit protocol.</p>
       </div>
       <div class="who-card">
         <h4>Defense contractors</h4>
@@ -171,16 +216,16 @@
 <section class="section" style="background:var(--navy);">
   <div class="container">
     <span class="section-eyebrow" style="color:#4A6A8A;">Regulatory governance requirements</span>
-    <h2 style="color:#F5F1EB;margin-bottom:0.5rem;">Every major framework requires a qualified security function.</h2>
-    <p style="color:#5A7A8A;max-width:660px;margin-bottom:2rem;font-size:0.92rem;font-weight:300;">Aegis satisfies the human governance requirements that no platform can fulfill on its own — the CISO designation, the board reporting obligation, the examiner accountability, the qualified oversight of the security program.</p>
+    <h2 style="color:#F5F1EB;margin-bottom:0.5rem;">Every major framework requires a qualified, designated security function.</h2>
+    <p style="color:#5A7A8A;max-width:660px;margin-bottom:2rem;font-size:0.92rem;font-weight:300;">Aegis satisfies the human governance requirements that no platform can fulfill on its own — the CISO designation, the board reporting obligation, the examiner accountability, the qualified oversight of the security program. Pistos-supplied or client's own: the regulatory requirement is met either way.</p>
     <div class="service-grid">
       <div class="service-card" style="border-left-color:var(--gold);background:#0F1E33;border-color:#1B2A4A;">
         <h4 style="color:#F5F1EB;">NY DFS 500.04</h4>
-        <p style="color:#5A7A8A;">Covered entities must designate a qualified CISO responsible for overseeing and implementing the cybersecurity program. Aegis fulfills this obligation through a named senior advisor.</p>
+        <p style="color:#5A7A8A;">Covered entities must designate a qualified CISO responsible for overseeing and implementing the cybersecurity program. Aegis fulfills this obligation through a named designated CISO.</p>
       </div>
       <div class="service-card" style="border-left-color:var(--gold);background:#0F1E33;border-color:#1B2A4A;">
         <h4 style="color:#F5F1EB;">HIPAA §164.308(a)(2)</h4>
-        <p style="color:#5A7A8A;">Covered entities must identify a Security Official responsible for developing and implementing required policies and procedures. Aegis provides the designated Security Officer function.</p>
+        <p style="color:#5A7A8A;">Covered entities must identify a Security Official responsible for developing and implementing required policies and procedures. Aegis provides or empowers the designated Security Officer function.</p>
       </div>
       <div class="service-card" style="border-left-color:var(--gold);background:#0F1E33;border-color:#1B2A4A;">
         <h4 style="color:#F5F1EB;">CMMC PM Controls</h4>
@@ -197,8 +242,8 @@
 <!-- ── CTA ── -->
 <section class="section-sm" style="background:var(--cream);text-align:center;">
   <div class="container">
-    <h2 style="margin-bottom:1rem;">Let us operate your compliance program.</h2>
-    <p style="color:var(--text-mid);max-width:500px;margin:0 auto 2rem;font-size:0.9rem;">Request a briefing and we will walk you through the Aegis engagement model against your specific regulatory obligations.</p>
+    <h2 style="margin-bottom:1rem;">Let us walk you through the Aegis engagement model.</h2>
+    <p style="color:var(--text-mid);max-width:500px;margin:0 auto 2rem;font-size:0.9rem;">Whether you need Pistos to supply the CISO or want to empower your internal team, the conversation starts the same way.</p>
     <a href="/pages/contact.html" class="btn btn-primary">Schedule a briefing</a>
   </div>
 </section>
