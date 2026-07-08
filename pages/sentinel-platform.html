@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pistos Compliance Sentinel — The Platform | Pistos Information Protection</title>
+  <meta name="description" content="Pistos Compliance Sentinel is the platform behind every Aegis engagement: a living NY DFS risk assessment, evidence vault, policy library, and IR/DR plan, scored and examiner-ready.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --navy-900: #152440;
+      --navy-700: #243860;
+      --ink-700:  #3A4760;
+      --ink-500:  #6B7386;
+      --gold:     #B8895A;
+      --gold-dk:  #9B7348;
+      --stone-50: #EFE9DB;
+      --stone-100:#E8E1D3;
+      --stone-200:#DED5C3;
+      --stone-300:#C9BEA7;
+      --serif:    'Cormorant Garamond', Garamond, Georgia, serif;
+      --sans:     'Inter', system-ui, -apple-system, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--stone-50); color: var(--navy-900); font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    a { color: var(--navy-700); text-decoration: none; }
+    a:hover { color: var(--gold); }
+    .container { max-width: 1020px; margin: 0 auto; padding: 0 32px; }
+
+    .site-header { background: var(--navy-900); padding: 0; }
+    .site-header .row { display: flex; align-items: center; justify-content: space-between; min-height: 80px; }
+    .brand-mark { display: flex; align-items: center; }
+    .brand-mark img { height: 110px; width: auto; display: block; margin: -15px 0; }
+    .nav { display: flex; gap: 32px; align-items: center; font-size: 13px; letter-spacing: 0.3px; }
+    .nav a { color: var(--stone-200); }
+    .nav a:hover { color: var(--gold); }
+
+    .hero { padding: 72px 0 40px; text-align: center; }
+    .eyebrow { font-family: var(--sans); font-size: 11px; font-weight: 500; letter-spacing: 4px; color: var(--gold); text-transform: uppercase; margin: 0 0 18px 0; }
+    .hero h1 { font-family: var(--serif); font-size: 52px; font-weight: 500; color: var(--navy-900); margin: 0 auto 18px auto; line-height: 1.1; max-width: 820px; }
+    .hero .sub { font-size: 17px; line-height: 1.7; color: var(--ink-700); max-width: 760px; margin: 0 auto; }
+    .gold-rule { display: flex; align-items: center; justify-content: center; gap: 14px; margin: 28px 0 0 0; }
+    .gold-rule::before, .gold-rule::after { content: ""; display: block; width: 80px; height: 1px; background: var(--gold); }
+    .gold-rule .diamond { color: var(--gold); font-size: 14px; }
+
+    /* Screenshot frame: navy browser bar, gold hairline */
+    .shot { margin: 0; }
+    .shot .frame { background: #fff; border: 1px solid var(--stone-300); box-shadow: 0 18px 44px rgba(21,36,64,.14); }
+    .shot .bar { display: flex; align-items: center; gap: 6px; background: var(--navy-900); padding: 9px 14px; }
+    .shot .bar span { width: 9px; height: 9px; border-radius: 50%; background: var(--stone-300); opacity: .55; }
+    .shot .bar span:first-child { background: var(--gold); opacity: 1; }
+    .shot img { display: block; width: 100%; height: auto; }
+    .shot figcaption { font-size: 12.5px; letter-spacing: .4px; color: var(--ink-500); text-align: center; margin-top: 12px; }
+
+    .hero-shot { padding: 34px 0 8px; }
+    .hero-shot .frame { max-width: 900px; margin: 0 auto; }
+
+    .feature { padding: 64px 0 8px; }
+    .feature .grid { display: grid; grid-template-columns: 5fr 7fr; gap: 44px; align-items: center; }
+    .feature.flip .grid { grid-template-columns: 7fr 5fr; }
+    .feature.flip .copy { order: 2; }
+    .feature.flip .shot { order: 1; }
+    .feature h2 { font-family: var(--serif); font-size: 32px; font-weight: 500; color: var(--navy-900); margin: 0 0 14px 0; line-height: 1.15; }
+    .feature p { font-size: 15.5px; line-height: 1.7; color: var(--ink-700); margin: 0; }
+    .feature .knum { font-family: var(--sans); font-size: 11px; font-weight: 500; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; margin: 0 0 10px 0; }
+
+    .materiality-band { background: var(--navy-900); padding: 56px 0; margin-top: 64px; }
+    .materiality-band .eyebrow { color: var(--gold); text-align: center; }
+    .materiality-band h2 { font-family: var(--serif); font-size: 29px; font-weight: 500; color: var(--stone-50); text-align: center; margin: 0 auto 16px; max-width: 720px; line-height: 1.2; }
+    .materiality-band p { font-size: 15px; line-height: 1.75; color: #B8C4D4; text-align: center; max-width: 640px; margin: 0 auto; }
+    .materiality-band p strong { color: var(--stone-50); font-weight: 500; }
+
+    .cta { padding: 88px 0 80px; text-align: center; border-top: 0.5px solid var(--stone-300); margin-top: 72px; }
+    .cta h2 { font-family: var(--serif); font-size: 36px; font-weight: 500; color: var(--navy-900); margin: 0 0 16px 0; }
+    .cta p { font-size: 16px; color: var(--ink-700); margin: 0 auto 28px auto; max-width: 560px; }
+    .btn { display: inline-block; padding: 14px 32px; background: var(--navy-900); color: var(--stone-50); font-family: var(--sans); font-size: 13px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; border: 1px solid var(--navy-900); transition: background 160ms ease, color 160ms ease; }
+    .btn:hover { background: var(--gold); border-color: var(--gold); color: var(--stone-50); }
+
+    .site-footer { background: var(--navy-900); color: var(--stone-200); padding: 40px 0; margin-top: 40px; }
+    .site-footer .row { display: flex; justify-content: space-between; align-items: center; font-size: 12px; letter-spacing: 0.3px; }
+    .site-footer a { color: var(--stone-200); }
+    .site-footer a:hover { color: var(--gold); }
+
+    @media (max-width: 820px) {
+      .hero h1 { font-size: 36px; }
+      .feature .grid, .feature.flip .grid { grid-template-columns: 1fr; gap: 22px; }
+      .feature.flip .copy { order: 1; }
+      .feature.flip .shot { order: 2; }
+      .nav { display: none; }
+      .brand-mark img { height: 64px; margin: 0; }
+      .site-header .row { min-height: 64px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="site-header">
+    <div class="container row">
+      <a href="../index.html" class="brand-mark"><img src="../images/pistos-logo_3.png" alt="Pistos Information Protection"></a>
+      <nav class="nav">
+        <a href="../index.html#architecture">Aegis</a>
+        <a href="financial-services.html">Financial Services</a>
+        <a href="defense.html">Defense</a>
+        <a href="healthcare.html">Healthcare</a>
+        <a href="insights.html">Insights</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <p class="eyebrow">Pistos Compliance Sentinel</p>
+      <h1>Your agency's cybersecurity program. Documented, scored, and examiner-ready.</h1>
+      <p class="sub">Pistos Compliance Sentinel is the platform behind every Aegis engagement: a living risk assessment, evidence vault, policy library, and incident response plan for your agency, mapped control by control to NY DFS 23 NYCRR 500. It is not another checkbox tool. It is how your vCISO runs your program, and how you see exactly where you stand.</p>
+      <div class="gold-rule"><span class="diamond">◆</span></div>
+    </div>
+  </section>
+
+  <section class="hero-shot">
+    <div class="container">
+      <figure class="shot">
+        <div class="frame">
+          <div class="bar"><span></span><span></span><span></span></div>
+          <img src="../images/pcs-posture.png" alt="Sentinel posture grade and NY DFS compliance score for a sample agency" loading="eager">
+        </div>
+        <figcaption>A posture grade and NY DFS compliance score, computed from the controls that apply to your agency.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="feature">
+    <div class="container">
+      <div class="grid">
+        <div class="copy">
+          <p class="knum">Posture</p>
+          <h2>Know where you stand at a glance</h2>
+          <p>Every client gets a posture grade and an NY DFS compliance score computed from the controls that actually apply to the agency. In scope, compliant, non-compliant, weighted by inherent risk. When an examiner or carrier asks where you are, the answer is on one screen: risk assessment, control weaknesses, policies, training, and the IR/DR plan, all behind one login.</p>
+        </div>
+        <figure class="shot">
+          <div class="frame">
+            <div class="bar"><span></span><span></span><span></span></div>
+            <img src="../images/pcs-client-view.png" alt="Sentinel client view with posture score and program tabs" loading="lazy">
+          </div>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="feature flip">
+    <div class="container">
+      <div class="grid">
+        <div class="copy">
+          <p class="knum">Risk Assessment</p>
+          <h2>A risk assessment that stays alive</h2>
+          <p>Forty-five grouped controls across agency process, AMS, Microsoft 365, Windows endpoints, and internet presence. Evidence attaches to the control it proves, each determination carries a date and a status, and Skopein scanner results import directly, so technical findings update your assessment instead of dying in a PDF.</p>
+        </div>
+        <figure class="shot">
+          <div class="frame">
+            <div class="bar"><span></span><span></span><span></span></div>
+            <img src="../images/pcs-risk-assessment.png" alt="Sentinel risk assessment controls with evidence status determinations" loading="lazy">
+          </div>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="feature">
+    <div class="container">
+      <div class="grid">
+        <div class="copy">
+          <p class="knum">Client Portal</p>
+          <h2>Built for how agencies actually work</h2>
+          <p>Your staff sees a clean portal with their score, their peer-group benchmark, and exactly what needs attention. Your MSP sees the technology controls they manage. Your vCISO sees everything. When the year's attestation is submitted, editing locks for review, creating a defensible record of who attested to what, and when.</p>
+        </div>
+        <figure class="shot">
+          <div class="frame">
+            <div class="bar"><span></span><span></span><span></span></div>
+            <img src="../images/pcs-portal.png" alt="Sentinel client portal with score, peer benchmark, and grouped controls" loading="lazy">
+          </div>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="feature flip">
+    <div class="container">
+      <div class="grid">
+        <div class="copy">
+          <p class="knum">IR / DR</p>
+          <h2>The plan you reach for at 2 a.m.</h2>
+          <p>A full Incident Response and Disaster Recovery plan lives inside the platform: activation criteria, phased steps with owners and time targets, progress tracking, and two sentences of practical implementation guidance under every task. When something breaks, the plan is a login away, not a binder no one can find.</p>
+        </div>
+        <figure class="shot">
+          <div class="frame">
+            <div class="bar"><span></span><span></span><span></span></div>
+            <img src="../images/pcs-irdr.png" alt="Sentinel incident response plan with phased steps and guidance" loading="lazy">
+          </div>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="materiality-band">
+    <div class="container">
+      <p class="eyebrow">Materiality First</p>
+      <h2>Not every control carries the same weight. Sentinel knows which ones do.</h2>
+      <p>A risk assessment that treats every control as equal buries the ones that matter. Sentinel weights each control by inherent risk and the data it protects, so your score reflects real exposure, not a checklist average. <strong>The controls that guard client data rank first</strong>, exactly as an examiner would rank them.</p>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="container">
+      <h2>Sentinel is included in every Aegis engagement.</h2>
+      <p>See where your agency stands against NY DFS 23 NYCRR 500. Request a walkthrough and we will show you the platform on a live sample agency.</p>
+      <a href="contact.html" class="btn">Request a walkthrough</a>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container row">
+      <div>Pistos Information Protection</div>
+      <div><a href="contact.html">Contact</a></div>
+    </div>
+  </footer>
+
+</body>
+</html>
