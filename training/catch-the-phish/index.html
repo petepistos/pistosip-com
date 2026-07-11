@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Catch the Phish interactive email-security challenge">
+  <title>Catch the Phish | PCS Training</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">P</div>
+        <div>
+          <h1>Catch the Phish</h1>
+          <p>Ten rounds. Four realistic emails each. One malicious message.</p>
+        </div>
+      </div>
+      <div class="scorebox" aria-live="polite">
+        <strong id="scoreText">0 / 10</strong>
+        <span id="streakText">Current streak: 0</span>
+      </div>
+    </header>
+
+    <section class="start" id="startScreen">
+      <h2>Can you catch the phish?</h2>
+      <p class="lead">
+        Each module presents four realistic email screenshots. Exactly one is phishing.
+        Inspect sender details, reply-to addresses, links, attachments, tone, and business
+        context before making your selection. The scenarios become progressively harder.
+      </p>
+
+      <div class="rules">
+        <div class="rule">
+          <b>Inspect first</b>
+          <span>Open technical details before selecting. Strong phishing detection often depends on metadata, not spelling mistakes.</span>
+        </div>
+        <div class="rule">
+          <b>Choose once</b>
+          <span>Your first selection counts. The correct answer and warning signs are revealed immediately.</span>
+        </div>
+        <div class="rule">
+          <b>Fresh replay sets</b>
+          <span>The library rotates through 30 email packs—120 messages total—so repeat attempts contain fewer duplicates.</span>
+        </div>
+      </div>
+
+      <button class="primary" id="startBtn" type="button">Begin Challenge</button>
+    </section>
+
+    <main id="gameScreen" class="hidden">
+      <div class="progress-wrap">
+        <div class="progress-labels">
+          <b id="moduleCount">Module 1 of 10</b>
+          <span id="answeredCount">0 answered</span>
+        </div>
+        <div class="progress-track" aria-hidden="true">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+      </div>
+
+      <div class="module-head">
+        <div>
+          <h2 id="moduleTitle"></h2>
+          <p id="moduleBrief"></p>
+        </div>
+        <div class="difficulty" id="difficulty"></div>
+      </div>
+
+      <div class="email-grid" id="emailGrid"></div>
+
+      <section id="feedback" class="feedback hidden" aria-live="polite"></section>
+
+      <div class="next-row">
+        <button class="primary hidden" id="nextBtn" type="button">Next Module</button>
+      </div>
+    </main>
+
+    <section id="resultScreen" class="result hidden">
+      <h2>Challenge complete</h2>
+      <div class="big" id="finalScore"></div>
+      <p id="finalRating"></p>
+      <div class="result-grid" id="resultGrid"></div>
+      <button class="primary" id="restartBtn" type="button">Try a Fresh Set</button>
+    </section>
+
+    <footer class="footnote">
+      PCS Training simulation. All organizations, names, domains, links, attachments,
+      logos, and events shown here are fictional or used in a fictional context.
+      All external domains use the reserved <code>.example</code> suffix.
+    </footer>
+  </div>
+
+  <noscript>This challenge requires JavaScript.</noscript>
+  <script src="email-library.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
