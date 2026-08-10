@@ -54,6 +54,7 @@ const FOOTER = `
       <a href="${base}pages/contact.html">Contact</a>
       <a href="${base}pages/coming-soon.html">Client Portal</a>
       <a href="${base}pages/privacy.html">Privacy</a>
+      <a href="${base}pages/terms.html">Terms of Use</a>
     </div>
   </div>
   <div class="footer-bottom">
