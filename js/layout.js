@@ -53,6 +53,7 @@ const FOOTER = `
       <a href="${base}pages/pricing.html">Pricing</a>
       <a href="${base}pages/contact.html">Contact</a>
       <a href="${base}pages/coming-soon.html">Client Portal</a>
+      <a href="${base}pages/privacy.html">Privacy</a>
     </div>
   </div>
   <div class="footer-bottom">
