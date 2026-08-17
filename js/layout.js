@@ -20,7 +20,7 @@ const NAV = `
       <a href="${base}pages/insights.html">Insights</a>
       <a href="${base}pages/pricing.html">Pricing</a>
       <a href="${base}pages/contact.html">Contact</a>
-      <a href="${base}pages/coming-soon.html" class="nav-portal">Access your portal</a>
+      <a href="https://app.pistosip.com" class="nav-portal">Launch PCS</a>
     </div>
     <div class="nav-hamburger" aria-label="Menu">
       <span></span><span></span><span></span>
@@ -52,7 +52,7 @@ const FOOTER = `
       <a href="${base}pages/about.html">About Pistos</a>
       <a href="${base}pages/pricing.html">Pricing</a>
       <a href="${base}pages/contact.html">Contact</a>
-      <a href="${base}pages/coming-soon.html">Client Portal</a>
+      <a href="https://app.pistosip.com">Client Portal</a>
       <a href="${base}pages/privacy.html">Privacy</a>
       <a href="${base}pages/terms.html">Terms of Use</a>
     </div>
