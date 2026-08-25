@@ -3,7 +3,7 @@
      viewBox="0 0 800 720" role="img" aria-labelledby="aegis-title aegis-desc"
      font-family="'Cormorant Garamond', Garamond, Georgia, serif">
   <title id="aegis-title">Pistos product architecture</title>
-  <desc id="aegis-desc">Aegis vCISO services umbrella over three pillars: Mathisi (Security and Awareness), Sentinel (Compliance Core), and Skopein (Vulnerability Management). Together they form the Sentinel Bundle for organizations under 500 employees across insurance, defense, and healthcare.</desc>
+  <desc id="aegis-desc">Aegis vCISO services umbrella over the PCS platform: Mathisi (Security and Awareness), PCS Compliance Core, and Skopein (Vulnerability Management). Together they form PCS — Pistos Compliance Sentinel — for organizations under 500 employees across insurance, defense, and healthcare.</desc>
 
   <style>
     .umbrella-name { font-size: 56px; font-weight: 500; fill: #152440; }
@@ -40,9 +40,9 @@
     <text x="140" y="248" text-anchor="middle" class="pillar-greek">Μάθηση</text>
     <text x="140" y="272" text-anchor="middle" class="eyebrow-xs">SECURITY &#160;AWARENESS</text>
   </a>
-  <a xlink:href="../pages/sentinel.html" href="../pages/sentinel.html" target="_top" aria-label="Sentinel pillar detail">
-    <text x="400" y="225" text-anchor="middle" class="pillar-name">Sentinel</text>
-    <text x="400" y="248" text-anchor="middle" class="pillar-greek">sen · ti · nel</text>
+  <a xlink:href="../pages/pcs.html" href="../pages/pcs.html" target="_top" aria-label="PCS compliance core detail">
+    <text x="400" y="225" text-anchor="middle" class="pillar-name">PCS</text>
+    <text x="400" y="248" text-anchor="middle" class="pillar-greek">Pistos Compliance Sentinel</text>
     <text x="400" y="272" text-anchor="middle" class="eyebrow-xs">COMPLIANCE &#160;CORE</text>
   </a>
   <a xlink:href="../pages/skopein.html" href="../pages/skopein.html" target="_top" aria-label="Skopein pillar detail">
@@ -86,7 +86,7 @@
   </g>
 
   <line x1="80" y1="555" x2="720" y2="555" class="rule-med"/>
-  <text x="400" y="583" text-anchor="middle" class="bundle">T H E &#160;&#160;S E N T I N E L &#160;&#160;B U N D L E</text>
+  <text x="400" y="583" text-anchor="middle" class="bundle">K N O W &#160;&#160;&#9670;&#160;&#160; P R O V E &#160;&#160;&#9670;&#160;&#160; P R E S E N T</text>
   <line x1="80" y1="605" x2="720" y2="605" class="rule-med"/>
 
   <text x="400" y="660" text-anchor="middle" class="sectors">

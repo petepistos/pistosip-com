@@ -1,13 +1,21 @@
 const isRoot = !window.location.pathname.includes('/pages/');
 const base = isRoot ? '' : '../';
+const LAUNCH_BANNER = `
+<div class="launch-banner">
+  <a href="${base}pages/pcs.html">
+    <span>Pistos Compliance Sentinel V1 will be released on <span class="lb-date">September 10</span>!</span>
+    <span class="lb-diamond">&#9670;</span>
+    <span>See what it does</span>
+  </a>
+</div>`;
 const NAV = `
 <nav class="nav">
   <div class="nav-inner">
     <a href="${base}index.html" class="nav-logo"><img src="${base}images/pistos-logo_3.png?v=3" alt="Pistos Information Protection"></a>
     <div class="nav-links">
-      <span class="nav-group-label">Products</span>
+      <span class="nav-group-label">Platform</span>
+      <a href="${base}pages/pcs.html">PCS</a>
       <a href="${base}pages/skopein.html">Skopein</a>
-      <a href="${base}pages/sentinel.html">Sentinel</a>
       <a href="${base}pages/mathisi.html">Mathisi</a>
       <a href="${base}pages/aegis.html">Aegis</a>
       <span class="nav-divider"></span>
@@ -35,9 +43,9 @@ const FOOTER = `
       <p>Cybersecurity compliance programs for organizations under 500 employees. Designed by former partners from Accenture, EY, PwC, and Wipro. Built for financial services, healthcare, and defense.</p>
     </div>
     <div class="footer-col">
-      <h4>Products</h4>
+      <h4>Platform</h4>
+      <a href="${base}pages/pcs.html">PCS</a>
       <a href="${base}pages/skopein.html">Skopein</a>
-      <a href="${base}pages/sentinel.html">Sentinel</a>
       <a href="${base}pages/mathisi.html">Mathisi</a>
       <a href="${base}pages/aegis.html">Aegis</a>
     </div>
@@ -62,5 +70,5 @@ const FOOTER = `
     <p class="footer-tagline">Faithful in discipline. Steadfast in execution. Accountable in outcome.</p>
   </div>
 </footer>`;
-document.getElementById('nav-placeholder').innerHTML = NAV;
+document.getElementById('nav-placeholder').innerHTML = LAUNCH_BANNER + NAV;
 document.getElementById('footer-placeholder').innerHTML = FOOTER;
