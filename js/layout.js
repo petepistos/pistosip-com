@@ -14,7 +14,7 @@ const NAV = `
     <a href="${base}index.html" class="nav-logo"><img src="${base}images/pistos-logo_3.png?v=3" alt="Pistos Information Protection"></a>
     <div class="nav-links">
       <span class="nav-group-label">Platform</span>
-      <a href="${base}pages/pcs.html">PCS</a>
+      <a href="${base}pages/pcs.html">Sentinel</a>
       <a href="${base}pages/skopein.html">Skopein</a>
       <a href="${base}pages/mathisi.html">Mathisi</a>
       <a href="${base}pages/aegis.html">Aegis</a>
@@ -44,7 +44,7 @@ const FOOTER = `
     </div>
     <div class="footer-col">
       <h4>Platform</h4>
-      <a href="${base}pages/pcs.html">PCS</a>
+      <a href="${base}pages/pcs.html">Sentinel</a>
       <a href="${base}pages/skopein.html">Skopein</a>
       <a href="${base}pages/mathisi.html">Mathisi</a>
       <a href="${base}pages/aegis.html">Aegis</a>
