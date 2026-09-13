@@ -78,11 +78,11 @@
   </g>
 
   <g text-anchor="middle" class="module">
-    <text x="660" y="325">Internal Vulnerability Scanning</text>
-    <text x="660" y="349">Web Application Scanning</text>
-    <text x="660" y="373">Threat Hunting</text>
-    <text x="660" y="397">Perimeter Scanning</text>
-    <text x="660" y="421">Event Log Parsing</text>
+    <text x="660" y="325">Windows &amp; Linux endpoints</text>
+    <text x="660" y="349">Microsoft 365 &amp; Google Workspace</text>
+    <text x="660" y="373">Active Directory</text>
+    <text x="660" y="397">External perimeter</text>
+    <text x="660" y="421">Web application</text>
   </g>
 
   <line x1="80" y1="555" x2="720" y2="555" class="rule-med"/>

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Skopein — Vulnerability Management | Pistos Information Protection</title>
-  <meta name="description" content="Skopein is the vulnerability management pillar of the Pistos Aegis CISO enablement program. Internal and web application scanning, threat hunting, perimeter scans, and event log parsing — what's actually configured versus what vendors report.">
+  <meta name="description" content="Skopein is the built-in scanner suite inside PCS — seven read-only scanners covering Windows and Linux endpoints, Microsoft 365, Google Workspace, Active Directory, the external perimeter, and web applications, each scored into your risk assessment.">
 <link rel="canonical" href="https://pistosip.com/pages/skopein.html">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://pistosip.com/pages/skopein.html">
@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="Pistos Information Protection">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Skopein — Vulnerability Management | Pistos">
-<meta name="twitter:description" content="Internal scanning, web application scanning, threat hunting, perimeter scans — what's actually configured versus what vendors report.">
+<meta name="twitter:description" content="Seven read-only scanners — Windows and Linux endpoints, Microsoft 365, Google Workspace, Active Directory, external perimeter, and web applications — each scored into your PCS risk assessment.">
 <meta name="twitter:image" content="https://pistosip.com/images/pistos-logo_3.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -100,32 +100,40 @@
 
   <section class="intro">
     <div class="container">
-      <p>Skopein is the outward-looking pillar. It reads what is actually configured in your environment — not what vendor dashboards report — and maps that against what attackers can see from the internet.</p>
-      <p>Every finding is prioritized, attributed, and routed into the remediation process. The point is not to produce a longer list; it's to close gaps before an attacker or an examiner finds them first.</p>
+      <p>Skopein is the built-in scanner suite inside PCS. Its seven read-only scanners read what is actually configured in your environment — not what vendor dashboards report — and map that against what attackers can see from the internet.</p>
+      <p>Each scanner is scored out of 25 into the PCS risk assessment, and every finding is prioritized, attributed, and paired with remediation guidance. The point is not to produce a longer list; it's to close gaps before an attacker or an examiner finds them first.</p>
     </div>
   </section>
 
   <section class="modules">
     <div class="container">
       <div class="module">
-        <div class="module-name">Internal Vulnerability Scanning</div>
-        <div class="module-desc">Authenticated scans of your workstations, servers, and managed cloud tenants for missing patches, misconfigurations, and drift from the written baseline.</div>
+        <div class="module-name">Windows Endpoint Scanner</div>
+        <div class="module-desc">Read-only checks of Windows workstations and servers — patch state, disk encryption, endpoint protection, account and firewall configuration, and drift from the written baseline.</div>
       </div>
       <div class="module">
-        <div class="module-name">Web Application Scanning</div>
-        <div class="module-desc">Dynamic scans of agency-facing sites, client portals, and custom web applications — testing for OWASP Top 10 flaws and the authentication weaknesses that lead to account takeover.</div>
+        <div class="module-name">Linux Endpoint Scanner</div>
+        <div class="module-desc">Read-only checks of Linux systems — package and patch currency, hardening, service exposure, and configuration drift against the standard you set.</div>
       </div>
       <div class="module">
-        <div class="module-name">Threat Hunting</div>
-        <div class="module-desc">Active search through authentication logs, process telemetry, and network flow data for the indicators of compromise that pattern-based tools miss — credential misuse, lateral movement, persistence mechanisms.</div>
+        <div class="module-name">Microsoft 365 Scanner</div>
+        <div class="module-desc">Reads your Microsoft 365 tenant configuration — MFA enforcement, admin roles, mail and sharing policy, and the identity settings that decide whether an account can be taken over.</div>
       </div>
       <div class="module">
-        <div class="module-name">Perimeter Scanning</div>
-        <div class="module-desc">External reconnaissance mapping what an attacker sees from the internet — exposed services, expired certificates, misconfigured DNS, leaked credentials in public repositories.</div>
+        <div class="module-name">Google Workspace Scanner</div>
+        <div class="module-desc">Reads your Google Workspace tenant configuration — two-step enforcement, admin roles, sharing controls, and the identity settings that govern access to your data.</div>
       </div>
       <div class="module">
-        <div class="module-name">Event Log Parsing</div>
-        <div class="module-desc">Aggregation of Windows, Microsoft 365, and cloud service logs into a single searchable record — retained for the minimum window your insurers and regulators expect.</div>
+        <div class="module-name">Active Directory Scanner</div>
+        <div class="module-desc">Reads your Active Directory — privileged group membership, stale and dormant accounts, password policy, and the misconfigurations that let an attacker move laterally.</div>
+      </div>
+      <div class="module">
+        <div class="module-name">External Perimeter Scanner</div>
+        <div class="module-desc">Maps what an attacker sees from the internet — exposed services, open ports, expired certificates, and misconfigured DNS across your internet-facing devices.</div>
+      </div>
+      <div class="module">
+        <div class="module-name">Web Application Scanner</div>
+        <div class="module-desc">Scans agency-facing sites, client portals, and custom web applications for OWASP Top 10 flaws and the authentication weaknesses that lead to account takeover.</div>
       </div>
     </div>
   </section>
@@ -134,7 +142,7 @@
     <div class="container">
       <h2>How Skopein fits the program</h2>
       <p>Skopein is the technical arm of the program — the one that produces evidence rather than documentation. Every finding lands on the control it answers, with the date it was found: nobody retypes anything, and the score moves because the scan moved it. Those findings drive the PCS risk assessment (inherent risk ratings are defensible because scan data stands behind them), the quarterly posture reviews (controls are scored against what was actually observed, not what was written down), and Mathisi's training content (phishing simulations pivot toward the attack patterns Skopein saw last month).</p>
-      <p>The difference between Skopein and running a vulnerability scanner once a quarter is continuity. The findings are tracked to closure. The scans are authenticated so they see what an unauthenticated scan misses. And the human analyst layer — the threat hunter — catches what automated tools were never built to find.</p>
+      <p>The difference between Skopein and running a vulnerability scanner once a quarter is continuity. Every scanner is read-only — it reads configuration and reports, it does not change your systems — and each is scored out of 25 into the risk assessment, so the number the scan produces is the number your assessment carries. Findings are tracked to closure, and the next scan proves the fix.</p>
     </div>
   </section>
 

@@ -3,7 +3,7 @@ const base = isRoot ? '' : '../';
 const LAUNCH_BANNER = `
 <div class="launch-banner">
   <a href="${base}pages/pcs.html">
-    <span>Pistos Compliance Sentinel V1 will be released on <span class="lb-date">September 10</span>!</span>
+    <span>Pistos Compliance Sentinel V1 is <span class="lb-date">now live</span></span>
     <span class="lb-diamond">&#9670;</span>
     <span>See what it does</span>
   </a>
