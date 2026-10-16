@@ -71,4 +71,17 @@ const FOOTER = `
   </div>
 </footer>`;
 document.getElementById('nav-placeholder').innerHTML = LAUNCH_BANNER + NAV;
+// The menu button works on every page, not only those that also load nav.js.
+(() => {
+  const button = document.querySelector('.nav-hamburger');
+  const links = document.querySelector('.nav-links');
+  if (!button || !links || button.dataset.wired) return;
+  button.dataset.wired = '1';
+  button.setAttribute('role', 'button');
+  button.setAttribute('tabindex', '0');
+  button.setAttribute('aria-expanded', 'false');
+  const toggle = () => button.setAttribute('aria-expanded', String(links.classList.toggle('open')));
+  button.addEventListener('click', e => { e.stopImmediatePropagation(); toggle(); });
+  button.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
+})();
 document.getElementById('footer-placeholder').innerHTML = FOOTER;
