@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Quantum Computing and Cybersecurity — Intermediate — Intermediate</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#F5F1EB;--surface:#ffffff;--surface2:#EDE8E0;
+  --border:#D6CCBC;--text:#2E2A25;--muted:#5A4E3F;
+  --primary:#1B2A4A;
+  --radius:10px;
+}
+body{background:var(--bg);color:var(--text);font-family:"IBM Plex Sans",sans-serif;min-height:100vh;}
+/* TOPBAR */
+.topbar{background:#fff;border-bottom:1.5px solid var(--border);padding:0 28px;height:90px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;}
+.topbar-logo{display:flex;align-items:center;gap:12px;}
+.topbar-logo img{height:38px;width:auto;}
+.topbar-title{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--text);font-weight:600;letter-spacing:-0.2px;}
+/* NAV */
+.nav-bar{background:#fff;border-bottom:1px solid var(--border);padding:0 28px;display:flex;align-items:center;gap:8px;overflow-x:auto;height:44px;}
+.nav-pill{background:none;border:none;padding:6px 14px;border-radius:20px;font-size:12px;cursor:pointer;color:var(--muted);white-space:nowrap;font-family:"IBM Plex Mono",monospace;transition:all .15s;}
+.nav-pill:hover{background:var(--surface2);color:var(--text);}
+.nav-pill.active{background:#1B2A4A;color:#fff;font-weight:600;}
+.menu-card{background:var(--bg);border-radius:var(--radius);padding:14px 16px;margin-bottom:10px;cursor:pointer;transition:transform .1s;}
+.menu-card:hover{transform:translateX(-2px);}
+.mc-top{display:flex;align-items:center;gap:10px;margin-bottom:4px;}
+.mc-num{font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:700;}
+.mc-title{font-size:13px;font-weight:600;color:var(--text);}
+.mc-desc{font-size:11px;color:var(--muted);padding-left:26px;}
+/* PAGE HEADER */
+.page-header{background:#fff;border-bottom:1.5px solid var(--border);padding:14px 28px;display:flex;align-items:center;gap:20px;}
+.ph-section{font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:700;color:#1B2A4A;white-space:nowrap;}
+.ph-sub{font-size:12px;color:var(--muted);flex:1;}
+.play-btn{background:#1B2A4A;color:#fff;border:none;padding:8px 18px;border-radius:6px;font-size:12px;cursor:pointer;font-family:"IBM Plex Mono",monospace;white-space:nowrap;}
+.play-btn:hover{opacity:.88;}
+/* NARRATION BAR */
+.narr-bar{background:#fff;border-bottom:1px solid var(--border);padding:10px 28px;display:none;align-items:center;gap:14px;}
+.narr-bar.active{display:flex;}
+.narr-text{font-size:12px;color:var(--muted);flex:1;font-style:italic;}
+.narr-stop{background:none;border:1.5px solid var(--border);padding:5px 12px;border-radius:5px;font-size:11px;cursor:pointer;font-family:"IBM Plex Mono",monospace;}
+/* TWO-COLUMN */
+.page-cols{display:flex;height:calc(100vh - 148px);overflow:hidden;}
+.col-diagram{width:52%;border-right:1px solid var(--border);position:sticky;top:0;height:100%;display:flex;align-items:center;justify-content:center;padding:24px;background:#fff;overflow:hidden;}
+.svg-pad{width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
+.svg-pad svg{max-width:100%;max-height:100%;}
+.col-content{flex:1;overflow-y:auto;padding:20px 24px;scrollbar-width:thin;scrollbar-color:var(--border) transparent;}
+/* BLOCKS */
+.hl-block{background:#fff;border-radius:var(--radius);margin-bottom:12px;border-left:4px solid transparent;transition:all .2s;cursor:pointer;display:flex;overflow:hidden;}
+.hl-block:hover{box-shadow:0 2px 8px rgba(0,0,0,0.07);}
+.hl-block.lit{border-left-color:var(--primary-lit,#C4AA88);background:rgba(196,170,136,0.10);box-shadow:0 0 0 1.5px rgba(196,170,136,0.25);}
+.hl-block.done{border-left-color:#A08860;background:rgba(160,136,96,0.08);}
+.hl-bar{width:4px;flex-shrink:0;}
+.hl-inner{padding:14px 16px;flex:1;}
+.blk-title{font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;}
+.blk-body{font-size:13px;line-height:1.65;color:var(--muted);}
+/* SVG highlight */
+.svg-hl .hl-rect{transition:opacity .3s;opacity:0.4;}
+.svg-hl.lit .hl-rect{opacity:1;}
+/* QUIZ */
+#quiz{display:none;padding:28px;max-width:780px;margin:0 auto;}
+.quiz-heading{font-family:"IBM Plex Mono",monospace;font-size:14px;font-weight:700;margin-bottom:24px;}
+.q-card{background:#fff;border-radius:var(--radius);padding:20px;margin-bottom:16px;border-left:4px solid transparent;}
+.q-num{font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:700;margin-bottom:6px;}
+.q-text{font-size:14px;font-weight:500;margin-bottom:14px;line-height:1.5;}
+.q-opts{display:flex;flex-direction:column;gap:8px;}
+.q-opt{text-align:left;background:var(--bg);border:1.5px solid var(--border);border-radius:7px;padding:10px 14px;font-size:13px;cursor:pointer;transition:all .15s;}
+.q-opt:hover{background:var(--surface2);border-color:var(--primary);}
+.q-opt.correct{background:rgba(160,136,96,0.18);border-color:#A08860;color:#2d6a2d;font-weight:600;}
+.q-opt.wrong{background:rgba(27,42,74,0.10);border-color:#1B2A4A;color:#8b1a1a;}
+.q-exp{font-size:12px;line-height:1.6;color:var(--muted);margin-top:12px;padding-left:12px;border-left:3px solid transparent;display:none;}
+.q-exp.show{display:block;}
+/* SCORE */
+.score-panel{background:#fff;border-radius:var(--radius);padding:28px;margin-top:24px;text-align:center;display:none;}
+.score-big{font-family:"IBM Plex Mono",monospace;font-size:48px;font-weight:700;color:#1B2A4A;}
+.score-grade{font-family:"IBM Plex Mono",monospace;font-size:22px;color:var(--muted);margin-top:4px;}
+.score-comment{font-size:14px;color:var(--muted);margin-top:12px;}
+.score-retry{background:#1B2A4A;color:#fff;border:none;padding:10px 24px;border-radius:6px;font-size:13px;cursor:pointer;margin-top:16px;font-family:"IBM Plex Mono",monospace;}
+/* MOBILE */
+@media(max-width:700px){
+  .page-cols{flex-direction:column;height:auto;}
+  .col-diagram{width:100%;height:260px;border-right:none;border-bottom:1px solid var(--border);position:relative;}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-logo">
+    <img src="../images/pistos-logo.png" style="height:72px;width:auto;display:block;" alt="Pistos Information Protection">
+    <div>
+      <div class="topbar-title">Quantum Computing and Cybersecurity — Intermediate</div>
+    </div>
+  </div>
+</div>
+
+<div class="nav-bar" id="navBar">
+  <button class="nav-pill active" id="nav-pg1" onclick="gotoPage('pg1')">Overview</button>
+  <button class="nav-pill" id="nav-pg2" onclick="gotoPage('pg2')">Post-Quantum Cryptographic Standards</button><button class="nav-pill" id="nav-pg3" onclick="gotoPage('pg3')">Organizational Cryptographic Risk Assessment</button><button class="nav-pill" id="nav-pg4" onclick="gotoPage('pg4')">Migration Strategy and Implementation</button><button class="nav-pill" id="nav-pg5" onclick="gotoPage('pg5')">Summary</button><button class="nav-pill" id="nav-quiz" onclick="gotoPage('quiz')">Quiz</button>
+</div>
+
+<div class="narr-bar" id="narrBar">
+  <div class="narr-text" id="narrText">Narration playing…</div>
+  <button class="narr-stop" onclick="stopNarr()">&#9632; Stop</button>
+</div>
+
+<div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
+<div class="page" id="pg1">
+  <div class="page-header">
+    <div class="ph-section"> — Quantum Algorithm Mechanics</div>
+    <div class="ph-sub">How Shor's and Grover's algorithms work and what they break</div>
+    <button class="play-btn" id="play-pg1" onclick="togglePlay('pg1')">&#9654; Play Narration</button>
+  </div>
+  <div class="page-cols">
+    <div class="col-diagram">
+      <div class="svg-pad"><svg viewBox="0 0 520 340" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+<defs>
+  <radialGradient id="halo" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#C4AA88" stop-opacity="0.55"/>
+    <stop offset="100%" stop-color="#C4AA88" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient id="scr" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="#2a3a5e"/><stop offset="100%" stop-color="#0f1a32"/>
+  </linearGradient>
+  <linearGradient id="goldB" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="#E8D4B0"/><stop offset="100%" stop-color="#A08860"/>
+  </linearGradient>
+  <linearGradient id="navyB" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="#2a3a5e"/><stop offset="100%" stop-color="#1B2A4A"/>
+  </linearGradient>
+  <filter id="sh" x="-20%" y="-20%" width="140%" height="140%">
+    <feGaussianBlur stdDeviation="2.5"/>
+  </filter>
+  <marker id="arr" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="5" markerHeight="5" orient="auto">
+    <path d="M0,1 L7,4 L0,7 Z" fill="#A08860"/>
+  </marker>
+  <marker id="arr_r" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="5" markerHeight="5" orient="auto">
+    <path d="M0,1 L7,4 L0,7 Z" fill="#9B2B2B"/>
+  </marker>
+</defs>
+<!-- Background -->
+<rect width="520" height="340" fill="#0f1a32"/>
+<rect width="520" height="340" fill="url(#scr)" opacity="0.4"/>
+<!-- dot pattern -->
+<pattern id="dp" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
+  <circle cx="1" cy="1" r="0.8" fill="#C4AA88" opacity="0.05"/>
+</pattern>
+<rect width="520" height="340" fill="url(#dp)"/>
+<!-- Title bar -->
+<rect x="0" y="0" width="520" height="38" fill="#0f1a32" opacity="0.85"/>
+<line x1="18" y1="38" x2="502" y2="38" stroke="#C4AA88" stroke-width="0.5" opacity="0.4"/>
+<text x="260" y="24" text-anchor="middle" font-size="12" fill="#C4AA88" font-weight="700" font-family="IBM Plex Mono,monospace" letter-spacing="2.5">QUANTUM ALGORITHM IMPACT ON CRYPTOGRAPHY</text>
+<line x1="260" y1="44" x2="260" y2="334" stroke="#A08860" stroke-width="0.4" opacity="0.25" stroke-dasharray="4,5"/>
+<line x1="18" y1="189" x2="502" y2="189" stroke="#A08860" stroke-width="0.4" opacity="0.25" stroke-dasharray="4,5"/>
+<g transform="translate(124,98) scale(1.4)">
+<circle cx="-12" cy="0" r="9" fill="#1B2A4A" stroke="#9B2B2B" stroke-width="1.8"/>
+<circle cx="-12" cy="0" r="5" fill="none" stroke="#9B2B2B" stroke-width="1.2"/>
+<line x1="-3" y1="0" x2="18" y2="0" stroke="#9B2B2B" stroke-width="2.2" stroke-linecap="round"/>
+<line x1="14" y1="0" x2="14" y2="5" stroke="#9B2B2B" stroke-width="2" stroke-linecap="round"/>
+<line x1="10" y1="0" x2="10" y2="5" stroke="#9B2B2B" stroke-width="2" stroke-linecap="round"/>
+</g>
+<line x1="110" y1="102" x2="100" y2="112" stroke="#9B2B2B" stroke-width="2" stroke-linecap="round"/>
+<line x1="130" y1="96" x2="136" y2="108" stroke="#9B2B2B" stroke-width="2" stroke-linecap="round"/>
+<rect x="88" y="120" width="20" height="12" rx="1" fill="#9B2B2B" opacity="0.2" stroke="#9B2B2B" stroke-width="0.6"/>
+<text x="98" y="128" text-anchor="middle" font-size="6" fill="#9B2B2B" font-weight="700" font-family="IBM Plex Mono,monospace">RSA</text>
+<rect x="110" y="120" width="20" height="12" rx="1" fill="#9B2B2B" opacity="0.2" stroke="#9B2B2B" stroke-width="0.6"/>
+<text x="120" y="128" text-anchor="middle" font-size="6" fill="#9B2B2B" font-weight="700" font-family="IBM Plex Mono,monospace">ECDH</text>
+<rect x="132" y="120" width="20" height="12" rx="1" fill="#9B2B2B" opacity="0.2" stroke="#9B2B2B" stroke-width="0.6"/>
+<text x="142" y="128" text-anchor="middle" font-size="6" fill="#9B2B2B" font-weight="700" font-family="IBM Plex Mono,monospace">ECDSA</text>
+<rect x="154" y="120" width="20" height="12" rx="1" fill="#9B2B2B" opacity="0.2" stroke="#9B2B2B" stroke-width="0.6"/>
+<text x="164" y="128" text-anchor="middle" font-size="6" fill="#9B2B2B" font-weight="700" font-family="IBM Plex Mono,monospace">DH</text>
+<text x="130" y="144" text-anchor="middle" font-size="6.5" fill="#9B2B2B" font-weight="700" font-family="IBM Plex Mono,monospace">COMPLETELY BROKEN</text>
+<text x="130" y="162" text-anchor="middle" font-size="10" fill="#C4AA88" font-weight="700" font-family="IBM Plex Mono,monospace" letter-spacing="1.5">SHOR'S ALGORITHM</text>
+<text x="390" y="70" text-anchor="middle" font-size="8" fill="#A08860" font-weight="700" font-family="IBM Plex Mono,monospace">AES-128</text>
+<rect x="354" y="76" width="36" height="16" rx="2" fill="#9B2B2B" opacity="0.3" stroke="#9B2B2B" stroke-width="0.8"/>
+<rect x="390" y="76" width="36" height="16" rx="2" fill="#0f1a32" opacity="0.6"/>
+<text x="372" y="87" text-anchor="middle" font-size="6" fill="#9B2B2B" font-weight="700" font-family="IBM Plex Mono,monospace">64-bit</text>
+<text x="408" y="87" text-anchor="middle" font-size="6" fill="#2a3a5e" font-family="IBM Plex Mono,monospace">gone</text>
+<text x="390" y="106" text-anchor="middle" font-size="8" fill="#2d6a2d" font-weight="700" font-family="IBM Plex Mono,monospace">AES-256</text>
+<rect x="354" y="110" width="72" height="16" rx="2" fill="#2d6a2d" opacity="0.25" stroke="#2d6a2d" stroke-width="0.8"/>
+<text x="390" y="121" text-anchor="middle" font-size="6" fill="#2d6a2d" font-weight="700" font-family="IBM Plex Mono,monospace">128-bit equiv. — SAFE</text>
+<text x="390" y="138" text-anchor="middle" font-size="6.5" fill="#A08860" font-family="IBM Plex Mono,monospace">Halves effective key length</text>
+<text x="390" y="160" text-anchor="middle" font-size="10" fill="#C4AA88" font-weight="700" font-family="IBM Plex Mono,monospace" letter-spacing="1.5">GROVER'S ALGORITHM</text>
+<circle cx="130" cy="233" r="26" fill="#1B2A4A" stroke="#A08860" stroke-width="1.2"/>
+<text x="130" y="241" text-anchor="middle" font-size="7" fill="#A08860" font-weight="700" font-family="IBM Plex Mono,monospace">2025</text>
+<text x="130" y="251" text-anchor="middle" font-size="6" fill="#9B2B2B" font-family="IBM Plex Mono,monospace">COLLECT NOW</text>
+<line x1="130" y1="259" x2="130" y2="271" stroke="#A08860" stroke-width="0.8"/>
+<text x="130" y="283" text-anchor="middle" font-size="7" fill="#A08860" font-weight="700" font-family="IBM Plex Mono,monospace">2030–2035</text>
+<text x="130" y="293" text-anchor="middle" font-size="6" fill="#9B2B2B" font-family="IBM Plex Mono,monospace">DECRYPT LATER</text>
+<text x="130" y="311" text-anchor="middle" font-size="10" fill="#C4AA88" font-weight="700" font-family="IBM Plex Mono,monospace" letter-spacing="1.5">HARVEST NOW DECRYPT LATER</text>
+<text x="390" y="215" text-anchor="middle" font-size="7" fill="#A08860" font-weight="700" font-family="IBM Plex Mono,monospace">MIGRATION TIMELINE</text>
+<circle cx="348" cy="239" r="5" fill="#5BA3D9" stroke="#0f1a32" stroke-width="0.5"/>
+<text x="348" y="229" text-anchor="middle" font-size="5" fill="#5BA3D9" font-family="IBM Plex Mono,monospace">2024</text>
+<text x="348" y="250" text-anchor="middle" font-size="5" fill="#D6CCBC" font-family="IBM Plex Mono,monospace">Start</text>
+<line x1="353" y1="239" x2="371" y2="239" stroke="#A08860" stroke-width="0.6"/>
+<circle cx="376" cy="239" r="5" fill="#A08860" stroke="#0f1a32" stroke-width="0.5"/>
+<text x="376" y="229" text-anchor="middle" font-size="5" fill="#A08860" font-family="IBM Plex Mono,monospace">2026</text>
+<text x="376" y="250" text-anchor="middle" font-size="5" fill="#D6CCBC" font-family="IBM Plex Mono,monospace">Standards</text>
+<line x1="381" y1="239" x2="399" y2="239" stroke="#A08860" stroke-width="0.6"/>
+<circle cx="404" cy="239" r="5" fill="#C4AA88" stroke="#0f1a32" stroke-width="0.5"/>
+<text x="404" y="229" text-anchor="middle" font-size="5" fill="#C4AA88" font-family="IBM Plex Mono,monospace">2028</text>
+<text x="404" y="250" text-anchor="middle" font-size="5" fill="#D6CCBC" font-family="IBM Plex Mono,monospace">Migrate</text>
+<line x1="409" y1="239" x2="427" y2="239" stroke="#A08860" stroke-width="0.6"/>
+<circle cx="432" cy="239" r="5" fill="#2d6a2d" stroke="#0f1a32" stroke-width="0.5"/>
+<text x="432" y="229" text-anchor="middle" font-size="5" fill="#2d6a2d" font-family="IBM Plex Mono,monospace">2030</text>
+<text x="432" y="250" text-anchor="middle" font-size="5" fill="#D6CCBC" font-family="IBM Plex Mono,monospace">Deadline</text>
+<text x="390" y="265" text-anchor="middle" font-size="6.5" fill="#A08860" font-family="IBM Plex Mono,monospace">Start now — migration takes years</text>
+<text x="390" y="287" text-anchor="middle" font-size="10" fill="#C4AA88" font-weight="700" font-family="IBM Plex Mono,monospace" letter-spacing="1.5">TIMELINE UNCERTAINTY</text>
+</svg></div>
+    </div>
+    <div class="col-content" id="cc-pg1">
+      
+<div class="hl-block" id="pg1-b0" onclick="jumpToBlock('pg1',0)">
+  <div class="hl-bar" style="background:#1B2A4A;"></div>
+  <div class="hl-inner">
+    <div class="blk-title" style="color:#1B2A4A;">Shor's algorithm achieves exponential speedup through quantum Fourier transform</div>
+    <div class="blk-body">Shor's algorithm solves the integer factorization problem — given a large composite number N, find its prime factors — in polynomial time on a quantum computer, compared to exponential time on the best known classical algorithms. The key quantum operation is the Quantum Fourier Transform, which finds the period of a mathematical function exponentially faster than classical methods. The period-finding result is then converted to the prime factors through classical post-processing. For RSA-2048, the best classical factoring algorithm (general number field sieve) would require computational resources exceeding all current computing capacity. A fault-tolerant quantum computer with approximately 4,000 logical qubits running Shor's algorithm would factor RSA-2048 in hours. The same principle applies to the discrete logarithm problem, breaking Diffie-Hellman and elliptic curve cryptography on the same hardware.</div>
+  </div>
+</div>
+<div class="hl-block" id="pg1-b1" onclick="jumpToBlock('pg1',1)">
+  <div class="hl-bar" style="background:#C4AA88;"></div>
+  <div class="hl-inner">
+    <div class="blk-title" style="color:#C4AA88;">Grover's algorithm provides quadratic speedup for unstructured search problems</div>
+    <div class="blk-body">Grover's algorithm solves unstructured search — finding a specific item in an unsorted list of N items — in O(√N) operations, compared to O(N) for classical brute force. Applied to symmetric key search, this means a quantum computer searches a keyspace of 2^n in approximately 2^(n/2) operations — effectively halving the key length. AES-128 would provide approximately 64 bits of effective security against a quantum adversary; AES-256 would provide approximately 128 bits. This reduction is significant but manageable: the current recommendation is to use AES-256 for symmetric encryption (already widely deployed) and SHA-384 or SHA-512 for hash functions. Grover's speedup is quadratic, not exponential — it does not break symmetric cryptography but rather reduces its effective key length by half.</div>
+  </div>
+</div>
+<div class="hl-block" id="pg1-b2" onclick="jumpToBlock('pg1',2)">
+  <div class="hl-bar" style="background:#A08860;"></div>
+  <div class="hl-inner">
+    <div class="blk-title" style="color:#A08860;">Current quantum hardware and the gap to cryptographically relevant capability</div>
+    <div class="blk-body">As of 2025, the leading quantum computing platforms — IBM's Eagle/Heron processors, Google's Sycamore series, IonQ's trapped-ion systems — operate with hundreds of physical qubits. The relationship between physical qubits and the logical qubits needed for cryptographic algorithms is unfavorable: error correction overhead means that achieving one logical qubit requires approximately 1,000 to 10,000 physical qubits, depending on the error correction code and the physical error rate. Factoring RSA-2048 with Shor's algorithm would require roughly 4,000 logical qubits, translating to between 4 million and 40 million physical qubits depending on hardware quality. Current systems are orders of magnitude below this threshold. However, the trajectory of improvements — better error rates, more qubits, improved error correction codes — is being tracked by every major cryptographic standards body and national security agency as the basis for migration timelines.</div>
+  </div>
+</div>
+<div class="hl-block" id="pg1-b3" onclick="jumpToBlock('pg1',3)">
+  <div class="hl-bar" style="background:#1B2A4A;"></div>
+  <div class="hl-inner">
+    <div class="blk-title" style="color:#1B2A4A;">Which cryptographic algorithms are broken, weakened, or unaffected by quantum computing</div>
+    <div class="blk-body">The cryptographic impact of quantum computing is algorithm-specific. Asymmetric algorithms based on integer factorization (RSA) and discrete logarithm (Diffie-Hellman, ECDH, ECDSA) are broken by Shor's algorithm — they provide zero security against a cryptographically relevant quantum computer. Symmetric encryption (AES) is weakened by Grover's algorithm but remains usable with doubled key length (AES-256 remains viable). Hash functions (SHA-2, SHA-3) are similarly weakened but viable with increased output length. Symmetric MACs are generally unaffected. Code-based, lattice-based, hash-based, and multivariate cryptographic systems — the basis of NIST's post-quantum standards — are believed to be resistant to both Shor's and Grover's algorithms with current parameter sizes.</div>
+  </div>
+</div>
+    </div>
+  </div>
+</div>
+<div class="page" id="pg2" style="display:none;">
+  <div class="page-header">
+    <div class="ph-section"> — Post-Quantum Cryptographic Standards</div>
+    <div class="ph-sub">NIST's standardized algorithms and their technical foundations</div>
+    <button class="play-btn" id="play-pg2" onclick="togglePlay('pg2')">&#9654; Play Narration</button>
+  </div>
+  <div class="page-cols">
+    <div class="col-diagram">
+      <div class="svg-pad"><svg viewBox="0 0 520 340" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+<defs>
+  <radialGradient id="halo" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#C4AA88" stop-opacity="0.55"/>
+    <stop offset="100%" stop-color="#C4AA88" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient id="scr" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="#2a3a5e"/><stop offset="100%" stop-color="#0f1a32"/>
+  </linearGradient>
+  <linearGradient id="goldB" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="#E8D4B0"/><stop offset="100%" stop-color="#A08860"/>
+  </linearGradient>
+  <linearGradient id="navyB" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="#2a3a5e"/><stop offset="100%" stop-color="#1B2A4A"/>
+  </linearGradient>
+  <filter id="sh" x="-20%" y="-20%" width="140%" height="140%">
+    <feGaussianBlur stdDeviation="2.5"/>
+  </filter>
+  <marker id="arr" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="5" markerHeight="5" orient="auto">
+    <path d="M0,1 L7,4 L0,7 Z" fill="#A08860"/>
+  </marker>
+  <marker id="arr_r" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="5" markerHeight="5" orient="auto">
+    <path d="M0,1 L7,4 L0,7 Z" fill="#9B2B2B"/>
+  </marker>
+</defs>
+<!-- Background -->
+<rect width="520" height="340" fill="#0f1a32"/>
+<rect width="520" height="340" fill="url(#scr)" opacity="0.4"/>
+<!-- dot pattern -->
+<pattern id="dp" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
+  <circle cx="1" cy="1" r="0.8" fill="#C4AA88" opacity="0.05"/>
+</pattern>
+<rect width="520" height="340" fill="url(#dp)"/>
+<!-- Title bar -->
+<rect x="0" y="0" width="520" height="38" fill="#0f1a32" opacity="0.85"/>
+<line x1="18" y1="38" x2="502" y2="38" stroke="#C4AA88" stroke-width="0.5" opacity="0.4"/>
+<text x="260" y="24" text-anchor="middle" font-size="12" fill="#C4AA88" font-weight="700" font-family="IBM Plex Mono,monospace" letter-spacing="2.5">NIST POST-QUANTUM ALGORITHM STANDARDS</text>
+<line x1="260" y1="44" x2="260" y2="334" stroke="#A08860" stroke-width="0.4" opacity="0.25" stroke-dasharray="4,5"/>
+<line x1="18" y1="189" x2="502" y2="189" stroke="#A08860" stroke-width="0.4" opacity="0.25" stroke-dasharray="4,5"/>
+<circle cx="130" cy="84" r="28" fill="#1B2A4A" stroke="#C4AA88" stroke-width="1.5"/>
+<text x="130" y="82" text-anchor="middle" font-size="9" fill="#C4AA88" font-weight="700" font-family="IBM Plex Mono,monospace">ML-KEM</text>
+<text x="130" y="94" text-anchor="middle" font-size="7" fill="#D6CCBC" font-family="IBM Plex Mono,monospace">KYBER</text>
+<text x="130" y="114" text-anchor="middle" font-size="7" fill="#C4AA88" font-weight="700" font-family="IBM Plex Mono,monospace">Key Encapsulation</text>
+<text x="130" y="126" text-anchor="middle" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Mono,monospace">Replaces RSA/ECDH</text>
+<rect x="110" y="134" width="40" height="12" rx="2" fill="#C4AA88" opacity="0.2" stroke="#C4AA88" stroke-width="0.6"/>
+<text x="130" y="143" text-anchor="middle" font-size="6.5" fill="#C4AA88" font-weight="700" font-family="IBM Plex Mono,monospace">FIPS 203</text>
+<circle cx="390" cy="84" r="28" fill="#1B2A4A" stroke="#5BA3D9" stroke-width="1.5"/>
+<text x="390" y="82" text-anchor="middle" font-size="9" fill="#5BA3D9" font-weight="700" font-family="IBM Plex Mono,monospace">ML-DSA</text>
+<text x="390" y="94" text-anchor="middle" font-size="7" fill="#D6CCBC" font-family="IBM Plex Mono,monospace">DILITHIUM</text>
+<text x="390" y="114" text-anchor="middle" font-size="7" fill="#5BA3D9" font-weight="700" font-family="IBM Plex Mono,monospace">Digital Signatures</text>
+<text x="390" y="126" text-anchor="middle" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Mono,monospace">Replaces ECDSA/RSA sig</text>
+<rect x="370" y="134" width="40" height="12" rx="2" fill="#5BA3D9" opacity="0.2" stroke="#5BA3D9" stroke-width="0.6"/>
+<text x="390" y="143" text-anchor="middle" font-size="6.5" fill="#5BA3D9" font-weight="700" font-family="IBM Plex Mono,monospace">FIPS 204</text>
+<circle cx="130" cy="229" r="28" fill="#1B2A4A" stroke="#7EC8A0" stroke-width="1.5"/>
+<text x="130" y="227" text-anchor="middle" font-size="9" fill="#7EC8A0" font-weight="700" font-family="IBM Plex Mono,monospace">SLH-DSA</text>
+<text x="130" y="239" text-anchor="middle" font-size="7" fill="#D6CCBC" font-family="IBM Plex Mono,monospace">SPHINCS+</text>
+<text x="130" y="259" text-anchor="middle" font-size="7" fill="#7EC8A0" font-weight="700" font-family="IBM Plex Mono,monospace">Hash-based Sigs</text>
+<text x="130" y="271" text-anchor="middle" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Mono,monospace">Conservative option</text>
+<rect x="110" y="279" width="40" height="12" rx="2" fill="#7EC8A0" opacity="0.2" stroke="#7EC8A0" stroke-width="0.6"/>
+<text x="130" y="288" text-anchor="middle" font-size="6.5" fill="#7EC8A0" font-weight="700" font-family="IBM Plex Mono,monospace">FIPS 205</text>
+<circle cx="390" cy="229" r="28" fill="#1B2A4A" stroke="#A08860" stroke-width="1.5"/>
+<text x="390" y="227" text-anchor="middle" font-size="9" fill="#A08860" font-weight="700" font-family="IBM Plex Mono,monospace">HYBRID</text>
+<text x="390" y="239" text-anchor="middle" font-size="7" fill="#D6CCBC" font-family="IBM Plex Mono,monospace">X25519+Kyber</text>
+<text x="390" y="259" text-anchor="middle" font-size="7" fill="#A08860" font-weight="700" font-family="IBM Plex Mono,monospace">Classical + PQC</text>
+<text x="390" y="271" text-anchor="middle" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Mono,monospace">Both threats covered</text>
+<rect x="370" y="279" width="40" height="12" rx="2" fill="#A08860" opacity="0.2" stroke="#A08860" stroke-width="0.6"/>
+<text x="390" y="288" text-anchor="middle" font-size="6.5" fill="#A08860" font-weight="700" font-family="IBM Plex Mono,monospace">Transition</text>
+</svg></div>
+    </div>
+    <div class="col-content" id="cc-pg2">
+      
+<div class="hl-block" id="pg2-b0" onclick="jumpToBlock('pg2',0)">
+  <div class="hl-bar" style="background:#1B2A4A;"></div>
+  <div class="hl-inner">
+    <div class="blk-title" style="color:#1B2A4A;">CRYSTALS-Kyber: lattice-based key encapsulation mechanism</div>
+    <div class="blk-body">CRYSTALS-Kyber (formally ML-KEM under FIPS 203) is the primary NIST-standardized post-quantum key encapsulation mechanism, replacing RSA and Diffie-Hellman for key exchange. Kyber's security is based on the hardness of the Module Learning With Errors (MLWE) problem — a computational problem involving solving a system of equations with intentionally introduced errors in a high-dimensional lattice structure. No efficient classical or quantum algorithm for solving MLWE is known. Kyber is designed to be efficient for implementation: it produces compact key material, has fast key generation and encapsulation operations, and has been extensively analyzed for side-channel vulnerabilities. Kyber is available in three parameter sets (512, 768, 1024) providing approximately 128, 192, and 256 bits of classical security respectively.</div>
+  </div>
+</div>
+<div class="hl-block" id="pg2-b1" onclick="jumpToBlock('pg2',1)">
+  <div class="hl-bar" style="background:#C4AA88;"></div>
+  <div class="hl-inner">
+    <div class="blk-title" style="color:#C4AA88;">CRYSTALS-Dilithium and FALCON: lattice-based digital signatures</div>
+    <div class="blk-body">CRYSTALS-Dilithium (formally ML-DSA under FIPS 204) is the primary NIST-standardized post-quantum digital signature algorithm, also based on Module Learning With Errors. Dilithium produces larger signatures than RSA or ECDSA but offers strong security guarantees and efficient implementation. FALCON (formally FN-DSA under FIPS 206) is an alternative lattice-based signature scheme based on NTRU lattices, producing significantly smaller signatures than Dilithium at the cost of more complex implementation — particularly for embedded systems and constrained environments. Both are suitable for TLS certificates, code signing, and document authentication. FALCON is preferred where signature size is the dominant constraint; Dilithium is preferred where implementation simplicity and broad platform support matter more.</div>
+  </div>
+</div>
+<div class="hl-block" id="pg2-b2" onclick="jumpToBlock('pg2',2)">
+  <div class="hl-bar" style="background:#A08860;"></div>
+  <div class="hl-inner">
+    <div class="blk-title" style="color:#A08860;">SPHINCS+: hash-based signatures as a conservative fallback</div>
+    <div class="blk-body">SPHINCS+ (formally SLH-DSA under FIPS 205) is a stateless hash-based signature scheme whose security relies exclusively on the properties of cryptographic hash functions — which are well-understood and not believed to be affected by quantum computing in any fundamental way. SPHINCS+ signatures are significantly larger than lattice-based alternatives (typically 8-50 KB depending on parameter selection), and signing is computationally slower. However, its security assumptions are the most conservative of the standardized post-quantum algorithms: even if lattice-based cryptography were found to have unexpected weaknesses, SPHINCS+ would remain secure. It is appropriate for long-term signing use cases where signature size and signing speed are less critical than maximum security assurance, such as root certificate authorities and software signing keys for critical infrastructure.</div>
+  </div>
+</div>
+<div class="hl-block" id="pg2-b3" onclick="jumpToBlock('pg2',3)">
+  <div class="hl-bar" style="background:#1B2A4A;"></div>
+  <div class="hl-inner">
+    <div class="blk-title" style="color:#1B2A4A;">Algorithm agility and hybrid deployment during the transition period</div>
+    <div class="blk-body">During the transition period before post-quantum algorithms are universally deployed and validated, hybrid cryptography combines classical and post-quantum algorithms in the same handshake: the key exchange uses both X25519 (classical elliptic curve) and Kyber, with the resulting keys combined so that breaking either algorithm alone is insufficient to compromise the session. This hybrid approach is being deployed in TLS 1.3 and SSH by major vendors including Google, Cloudflare, and AWS. It provides protection against the harvest-now-decrypt-later threat while maintaining backward compatibility. The hybrid approach also provides insurance against unexpected weaknesses discovered in the new post-quantum algorithms, since security requires breaking both the classical and post-quantum components simultaneously.</div>
+  </div>
+</div>
+    </div>
+  </div>
+</div>
+<div class="page" id="pg3" style="display:none;">
+  <div class="page-header">
+    <div class="ph-section"> — Organizational Cryptographic Risk Assessment</div>
+    <div class="ph-sub">Identifying and prioritizing what needs to migrate</div>
+    <button class="play-btn" id="play-pg3" onclick="togglePlay('pg3')">&#9654; Play Narration</button>
+  </div>
+  <div class="page-cols">
+    <div class="col-diagram">
+      <div class="svg-pad"><svg viewBox="0 0 520 340" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+<defs>
+  <radialGradient id="halo" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#C4AA88" stop-opacity="0.55"/>
+    <stop offset="100%" stop-color="#C4AA88" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient id="scr" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="#2a3a5e"/><stop offset="100%" stop-color="#0f1a32"/>
+  </linearGradient>
+  <linearGradient id="goldB" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="#E8D4B0"/><stop offset="100%" stop-color="#A08860"/>
+  </linearGradient>
+  <linearGradient id="navyB" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="#2a3a5e"/><stop offset="100%" stop-color="#1B2A4A"/>
+  </linearGradient>
+  <filter id="sh" x="-20%" y="-20%" width="140%" height="140%">
+    <feGaussianBlur stdDeviation="2.5"/>
+  </filter>
+  <marker id="arr" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="5" markerHeight="5" orient="auto">
+    <path d="M0,1 L7,4 L0,7 Z" fill="#A08860"/>
+  </marker>
+  <marker id="arr_r" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="5" markerHeight="5" orient="auto">
+    <path d="M0,1 L7,4 L0,7 Z" fill="#9B2B2B"/>
+  </marker>
+</defs>
+<!-- Background -->
+<rect width="520" height="340" fill="#0f1a32"/>
+<rect width="520" height="340" fill="url(#scr)" opacity="0.4"/>
+<!-- dot pattern -->
+<pattern id="dp" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
+  <circle cx="1" cy="1" r="0.8" fill="#C4AA88" opacity="0.05"/>
+</pattern>
+<rect width="520" height="340" fill="url(#dp)"/>
+<!-- Title bar -->
+<rect x="0" y="0" width="520" height="38" fill="#0f1a32" opacity="0.85"/>
+<line x1="18" y1="38" x2="502" y2="38" stroke="#C4AA88" stroke-width="0.5" opacity="0.4"/>
+<text x="260" y="24" text-anchor="middle" font-size="12" fill="#C4AA88" font-weight="700" font-family="IBM Plex Mono,monospace" letter-spacing="2.5">CRYPTOGRAPHIC RISK PRIORITIZATION MATRIX</text>
+<line x1="260" y1="44" x2="260" y2="334" stroke="#A08860" stroke-width="0.4" opacity="0.25" stroke-dasharray="4,5"/>
+<line x1="18" y1="189" x2="502" y2="189" stroke="#A08860" stroke-width="0.4" opacity="0.25" stroke-dasharray="4,5"/>
+<text x="90" y="68" font-size="6" fill="#A08860" font-family="IBM Plex Mono,monospace">SENSITIVITY</text>
+<text x="130" y="50" text-anchor="middle" font-size="6" fill="#A08860" font-family="IBM Plex Mono,monospace">CONFIDENTIALITY LIFETIME →</text>
+<rect x="82" y="76" width="32" height="32" fill="#2d6a2d" opacity="0.2" stroke="#0f1a32" stroke-width="0.4"/>
+<rect x="114" y="76" width="32" height="32" fill="#A08860" opacity="0.2" stroke="#0f1a32" stroke-width="0.4"/>
+<rect x="146" y="76" width="32" height="32" fill="#9B2B2B" opacity="0.2" stroke="#0f1a32" stroke-width="0.4"/>
+<text x="75" y="90" font-size="5.5" fill="#2d6a2d" font-family="IBM Plex Mono,monospace">HIGH</text>
+<rect x="82" y="108" width="32" height="32" fill="#A08860" opacity="0.2" stroke="#0f1a32" stroke-width="0.4"/>
+<rect x="114" y="108" width="32" height="32" fill="#A08860" opacity="0.2" stroke="#0f1a32" stroke-width="0.4"/>
+<rect x="146" y="108" width="32" height="32" fill="#9B2B2B" opacity="0.2" stroke="#0f1a32" stroke-width="0.4"/>
+<text x="75" y="122" font-size="5.5" fill="#A08860" font-family="IBM Plex Mono,monospace">MED</text>
+<rect x="82" y="140" width="32" height="32" fill="#2d6a2d" opacity="0.2" stroke="#0f1a32" stroke-width="0.4"/>
+<rect x="114" y="140" width="32" height="32" fill="#A08860" opacity="0.2" stroke="#0f1a32" stroke-width="0.4"/>
+<rect x="146" y="140" width="32" height="32" fill="#A08860" opacity="0.2" stroke="#0f1a32" stroke-width="0.4"/>
+<text x="75" y="154" font-size="5.5" fill="#9B2B2B" font-family="IBM Plex Mono,monospace">LOW</text>
+<text x="98" y="72" text-anchor="middle" font-size="5.5" fill="#2d6a2d" font-family="IBM Plex Mono,monospace">SHORT</text>
+<text x="130" y="72" text-anchor="middle" font-size="5.5" fill="#A08860" font-family="IBM Plex Mono,monospace">MED</text>
+<text x="162" y="72" text-anchor="middle" font-size="5.5" fill="#9B2B2B" font-family="IBM Plex Mono,monospace">LONG</text>
+<rect x="342" y="64" width="96" height="88" rx="5" fill="#1B2A4A" stroke="#9B2B2B" stroke-width="1"/>
+<text x="390" y="80" text-anchor="middle" font-size="9" fill="#9B2B2B" font-weight="700" font-family="IBM Plex Mono,monospace">URGENT</text>
+<text x="390" y="96" text-anchor="middle" font-size="7" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">High sensitivity +</text>
+<text x="390" y="109" text-anchor="middle" font-size="7" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">long lifetime.</text>
+<text x="390" y="122" text-anchor="middle" font-size="7" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Root CA keys,</text>
+<text x="390" y="135" text-anchor="middle" font-size="7" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">trade secrets.</text>
+<rect x="342" y="209" width="96" height="88" rx="5" fill="#1B2A4A" stroke="#A08860" stroke-width="1"/>
+<text x="390" y="225" text-anchor="middle" font-size="9" fill="#A08860" font-weight="700" font-family="IBM Plex Mono,monospace">MEDIUM</text>
+<text x="390" y="241" text-anchor="middle" font-size="7" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Plan migration</text>
+<text x="390" y="254" text-anchor="middle" font-size="7" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">for phase 2.</text>
+<text x="390" y="267" text-anchor="middle" font-size="7" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Lower urgency,</text>
+<text x="390" y="280" text-anchor="middle" font-size="7" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">still important.</text>
+<rect x="82" y="209" width="96" height="88" rx="5" fill="#1B2A4A" stroke="#2d6a2d" stroke-width="1"/>
+<text x="130" y="225" text-anchor="middle" font-size="9" fill="#2d6a2d" font-weight="700" font-family="IBM Plex Mono,monospace">MONITOR</text>
+<text x="130" y="241" text-anchor="middle" font-size="7" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Low sensitivity +</text>
+<text x="130" y="254" text-anchor="middle" font-size="7" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">short lifetime.</text>
+<text x="130" y="267" text-anchor="middle" font-size="7" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Final phase only.</text>
+</svg></div>
+    </div>
+    <div class="col-content" id="cc-pg3">
+      
+<div class="hl-block" id="pg3-b0" onclick="jumpToBlock('pg3',0)">
+  <div class="hl-bar" style="background:#1B2A4A;"></div>
+  <div class="hl-inner">
+    <div class="blk-title" style="color:#1B2A4A;">Cryptographic discovery: building a complete inventory of algorithm usage</div>
+    <div class="blk-body">The first step in quantum risk assessment is knowing exactly what cryptographic algorithms are in use and where. This is harder than it sounds — cryptography is embedded throughout modern IT infrastructure in ways that are not always visible: TLS certificates on web servers and internal services, SSH keys for server administration, certificates in VPN concentrators and firewalls, public key infrastructure (PKI) roots and intermediates, code signing certificates, email encryption and signing (S/MIME, PGP), database encryption keys, hardware security modules, embedded device firmware signing, and API authentication credentials. Commercial tools — Cryptosense, Venafi, Keyfactor — can scan networks and code repositories to identify cryptographic algorithm usage. Manual assessment is also necessary for custom applications and embedded systems that automated tools may not reach.</div>
+  </div>
+</div>
+<div class="hl-block" id="pg3-b1" onclick="jumpToBlock('pg3',1)">
+  <div class="hl-bar" style="background:#C4AA88;"></div>
+  <div class="hl-inner">
+    <div class="blk-title" style="color:#C4AA88;">Risk prioritization: time sensitivity and data lifetime</div>
+    <div class="blk-body">Not all cryptographic usage poses equal quantum risk. The relevant variables are: the sensitivity of the data being protected (how much harm results from future exposure), the required confidentiality period (how long the data must remain secret), and the likelihood that quantum computers will become capable before the data's sensitivity expires. A TLS connection protecting a web browsing session has a confidentiality requirement measured in minutes — even if that session's data is captured today and decrypted in ten years, the harm is minimal. A contract encrypted today containing trade secrets that remain valuable for twenty years is at high risk from harvest-now-decrypt-later. A certificate authority's root signing key, used to sign certificates for the next decade, is at extremely high risk if the signed certificates rely on RSA or ECDSA. Risk prioritization should be driven by data sensitivity multiplied by required confidentiality lifetime.</div>
+  </div>
+</div>
+<div class="hl-block" id="pg3-b2" onclick="jumpToBlock('pg3',2)">
+  <div class="hl-bar" style="background:#A08860;"></div>
+  <div class="hl-inner">
+    <div class="blk-title" style="color:#A08860;">Migration complexity: the different challenges of different cryptographic assets</div>
+    <div class="blk-body">Different types of cryptographic assets pose different migration challenges. TLS certificates have short validity periods and are managed by commercial PKI — they can typically be replaced with new post-quantum or hybrid certificates through normal renewal processes. SSH keys are typically user-managed and require organizational campaigns to update. VPN and firewall firmware must be updated to support new algorithms — requiring vendor coordination and potentially hardware replacement if the firmware cannot be updated. PKI infrastructure — certificate authority hierarchies — must be rebuilt with post-quantum algorithms, which requires careful coordination to avoid breaking certificate validation chains. Custom application code may have cryptographic algorithm names hardcoded, requiring development work. Hardware security modules may need firmware updates or replacement. Embedded systems with non-updateable firmware are the most challenging category.</div>
+  </div>
+</div>
+<div class="hl-block" id="pg3-b3" onclick="jumpToBlock('pg3',3)">
+  <div class="hl-bar" style="background:#1B2A4A;"></div>
+  <div class="hl-inner">
+    <div class="blk-title" style="color:#1B2A4A;">Supply chain cryptographic risk and vendor migration planning</div>
+    <div class="blk-body">Most cryptographic exposure in an organization is not in code the organization wrote but in products and services it procures. The organization's quantum risk profile includes the quantum readiness of every vendor who handles its data or whose software it runs. Cloud service providers, SaaS applications, payment processors, network hardware vendors, and security tool vendors all implement cryptography that will need to migrate. Organizations should include post-quantum migration status in vendor security questionnaires, track vendor roadmaps for algorithm migration, prefer vendors who have published post-quantum migration plans with timelines, and include post-quantum migration requirements in new vendor contracts. The supply chain dimension of quantum risk is often larger than the internal dimension — vendor dependencies often drive the overall migration timeline more than internal development capacity.</div>
+  </div>
+</div>
+    </div>
+  </div>
+</div>
+<div class="page" id="pg4" style="display:none;">
+  <div class="page-header">
+    <div class="ph-section"> — Migration Strategy and Implementation</div>
+    <div class="ph-sub">Executing the transition to post-quantum cryptography</div>
+    <button class="play-btn" id="play-pg4" onclick="togglePlay('pg4')">&#9654; Play Narration</button>
+  </div>
+  <div class="page-cols">
+    <div class="col-diagram">
+      <div class="svg-pad"><svg viewBox="0 0 520 340" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+<defs>
+  <radialGradient id="halo" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#C4AA88" stop-opacity="0.55"/>
+    <stop offset="100%" stop-color="#C4AA88" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient id="scr" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="#2a3a5e"/><stop offset="100%" stop-color="#0f1a32"/>
+  </linearGradient>
+  <linearGradient id="goldB" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="#E8D4B0"/><stop offset="100%" stop-color="#A08860"/>
+  </linearGradient>
+  <linearGradient id="navyB" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="#2a3a5e"/><stop offset="100%" stop-color="#1B2A4A"/>
+  </linearGradient>
+  <filter id="sh" x="-20%" y="-20%" width="140%" height="140%">
+    <feGaussianBlur stdDeviation="2.5"/>
+  </filter>
+  <marker id="arr" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="5" markerHeight="5" orient="auto">
+    <path d="M0,1 L7,4 L0,7 Z" fill="#A08860"/>
+  </marker>
+  <marker id="arr_r" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="5" markerHeight="5" orient="auto">
+    <path d="M0,1 L7,4 L0,7 Z" fill="#9B2B2B"/>
+  </marker>
+</defs>
+<!-- Background -->
+<rect width="520" height="340" fill="#0f1a32"/>
+<rect width="520" height="340" fill="url(#scr)" opacity="0.4"/>
+<!-- dot pattern -->
+<pattern id="dp" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
+  <circle cx="1" cy="1" r="0.8" fill="#C4AA88" opacity="0.05"/>
+</pattern>
+<rect width="520" height="340" fill="url(#dp)"/>
+<!-- Title bar -->
+<rect x="0" y="0" width="520" height="38" fill="#0f1a32" opacity="0.85"/>
+<line x1="18" y1="38" x2="502" y2="38" stroke="#C4AA88" stroke-width="0.5" opacity="0.4"/>
+<text x="260" y="24" text-anchor="middle" font-size="12" fill="#C4AA88" font-weight="700" font-family="IBM Plex Mono,monospace" letter-spacing="2.5">PQC MIGRATION ROADMAP</text>
+<line x1="260" y1="44" x2="260" y2="334" stroke="#A08860" stroke-width="0.4" opacity="0.25" stroke-dasharray="4,5"/>
+<line x1="18" y1="189" x2="502" y2="189" stroke="#A08860" stroke-width="0.4" opacity="0.25" stroke-dasharray="4,5"/>
+<rect x="28" y="85" width="88" height="100" rx="6" fill="#1B2A4A" stroke="#C4AA88" stroke-width="1.2"/>
+<rect x="28" y="85" width="88" height="18" rx="4" fill="#C4AA88" opacity="0.15"/>
+<text x="72" y="98" text-anchor="middle" font-size="7" fill="#C4AA88" font-weight="700" font-family="IBM Plex Mono,monospace">PHASE 1</text>
+<text x="72" y="115" text-anchor="middle" font-size="8" fill="#C4AA88" font-weight="700" font-family="IBM Plex Mono,monospace">DISCOVERY + CBOM</text>
+<text x="72" y="130" text-anchor="middle" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Scan all systems</text>
+<text x="72" y="143" text-anchor="middle" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Document algorithm,</text>
+<text x="72" y="156" text-anchor="middle" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">key size, owner</text>
+<rect x="52" y="163" width="40" height="12" rx="2" fill="#C4AA88" opacity="0.2" stroke="#C4AA88" stroke-width="0.5"/>
+<text x="72" y="172" text-anchor="middle" font-size="6" fill="#C4AA88" font-family="IBM Plex Mono,monospace">FIPS 203</text>
+<line x1="116" y1="135" x2="147" y2="135" stroke="#C4AA88" stroke-width="1" marker-end="url(#arr)" opacity="0.5"/>
+<rect x="147" y="85" width="88" height="100" rx="6" fill="#1B2A4A" stroke="#5BA3D9" stroke-width="1.2"/>
+<rect x="147" y="85" width="88" height="18" rx="4" fill="#5BA3D9" opacity="0.15"/>
+<text x="191" y="98" text-anchor="middle" font-size="7" fill="#5BA3D9" font-weight="700" font-family="IBM Plex Mono,monospace">PHASE 2</text>
+<text x="191" y="115" text-anchor="middle" font-size="8" fill="#5BA3D9" font-weight="700" font-family="IBM Plex Mono,monospace">RISK ASSESSMENT</text>
+<text x="191" y="130" text-anchor="middle" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Sensitivity × lifetime</text>
+<text x="191" y="143" text-anchor="middle" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Identify urgent assets</text>
+<text x="191" y="156" text-anchor="middle" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Plan migration sequence</text>
+<rect x="171" y="163" width="40" height="12" rx="2" fill="#5BA3D9" opacity="0.2" stroke="#5BA3D9" stroke-width="0.5"/>
+<text x="191" y="172" text-anchor="middle" font-size="6" fill="#5BA3D9" font-family="IBM Plex Mono,monospace">Priority</text>
+<line x1="235" y1="135" x2="266" y2="135" stroke="#5BA3D9" stroke-width="1" marker-end="url(#arr)" opacity="0.5"/>
+<rect x="266" y="85" width="88" height="100" rx="6" fill="#1B2A4A" stroke="#A08860" stroke-width="1.2"/>
+<rect x="266" y="85" width="88" height="18" rx="4" fill="#A08860" opacity="0.15"/>
+<text x="310" y="98" text-anchor="middle" font-size="7" fill="#A08860" font-weight="700" font-family="IBM Plex Mono,monospace">PHASE 3</text>
+<text x="310" y="115" text-anchor="middle" font-size="8" fill="#A08860" font-weight="700" font-family="IBM Plex Mono,monospace">MIGRATE HIGH-PRIORITY</text>
+<text x="310" y="130" text-anchor="middle" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Hybrid TLS deployment</text>
+<text x="310" y="143" text-anchor="middle" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">X25519 + Kyber</text>
+<text x="310" y="156" text-anchor="middle" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Migrate root CA</text>
+<rect x="290" y="163" width="40" height="12" rx="2" fill="#A08860" opacity="0.2" stroke="#A08860" stroke-width="0.5"/>
+<text x="310" y="172" text-anchor="middle" font-size="6" fill="#A08860" font-family="IBM Plex Mono,monospace">In progress</text>
+<line x1="354" y1="135" x2="385" y2="135" stroke="#A08860" stroke-width="1" marker-end="url(#arr)" opacity="0.5"/>
+<rect x="385" y="85" width="88" height="100" rx="6" fill="#1B2A4A" stroke="#2d6a2d" stroke-width="1.2"/>
+<rect x="385" y="85" width="88" height="18" rx="4" fill="#2d6a2d" opacity="0.15"/>
+<text x="429" y="98" text-anchor="middle" font-size="7" fill="#2d6a2d" font-weight="700" font-family="IBM Plex Mono,monospace">PHASE 4</text>
+<text x="429" y="115" text-anchor="middle" font-size="8" fill="#2d6a2d" font-weight="700" font-family="IBM Plex Mono,monospace">FULL PQC + AGILITY</text>
+<text x="429" y="130" text-anchor="middle" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Replace all classical PKI</text>
+<text x="429" y="143" text-anchor="middle" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">CBOM automation</text>
+<text x="429" y="156" text-anchor="middle" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Continuous inventory</text>
+<rect x="409" y="163" width="40" height="12" rx="2" fill="#2d6a2d" opacity="0.2" stroke="#2d6a2d" stroke-width="0.5"/>
+<text x="429" y="172" text-anchor="middle" font-size="6" fill="#2d6a2d" font-family="IBM Plex Mono,monospace">Complete</text>
+<text x="260" y="268" text-anchor="middle" font-size="8" fill="#A08860" font-family="IBM Plex Mono,monospace" letter-spacing="1">discover → assess → migrate → full agility</text>
+</svg></div>
+    </div>
+    <div class="col-content" id="cc-pg4">
+      
+<div class="hl-block" id="pg4-b0" onclick="jumpToBlock('pg4',0)">
+  <div class="hl-bar" style="background:#1B2A4A;"></div>
+  <div class="hl-inner">
+    <div class="blk-title" style="color:#1B2A4A;">Establishing a cryptographic bill of materials and migration registry</div>
+    <div class="blk-body">A cryptographic bill of materials (CBOM) is a structured inventory documenting every cryptographic asset in the organization: what algorithm is in use, where it is deployed, what data or communication it protects, when it was last rotated, and its migration status. The CBOM is the operational foundation of the migration program — without it, migration efforts are uncoordinated and assets are inadvertently missed. The CBOM should be maintained as a living document with ownership assigned to specific teams and integration with the organization's broader asset management program. Migration status tracking — not started, in assessment, in development, in testing, migrated — allows program leadership to track progress, identify bottlenecks, and report status to senior management and regulators.</div>
+  </div>
+</div>
+<div class="hl-block" id="pg4-b1" onclick="jumpToBlock('pg4',1)">
+  <div class="hl-bar" style="background:#C4AA88;"></div>
+  <div class="hl-inner">
+    <div class="blk-title" style="color:#C4AA88;">Building crypto agility into new systems and applications</div>
+    <div class="blk-body">Crypto agility is the design property that allows a system's cryptographic algorithms to be changed without requiring a full system rebuild. In practice, this means: abstracting cryptographic operations behind library interfaces rather than calling specific algorithm implementations directly, using configuration files to specify algorithm parameters rather than hardcoding them, designing key management systems to support multiple algorithm types simultaneously, and documenting algorithm dependencies in architecture design documents. New systems built with crypto agility can be migrated to post-quantum algorithms through configuration changes and library updates rather than architectural redesign. Organizations that are building or purchasing new systems should require crypto agility as a design requirement and include it in software security assessments and vendor evaluations.</div>
+  </div>
+</div>
+<div class="hl-block" id="pg4-b2" onclick="jumpToBlock('pg4',2)">
+  <div class="hl-bar" style="background:#A08860;"></div>
+  <div class="hl-inner">
+    <div class="blk-title" style="color:#A08860;">Managing the PKI transition: certificate authority migration</div>
+    <div class="blk-body">Public key infrastructure is the backbone of organizational authentication and encryption: it issues and validates the certificates used for TLS, VPN, code signing, email, and device authentication. Migrating PKI to post-quantum algorithms requires planning at the hierarchy level — new root certificate authorities must be established using post-quantum or hybrid algorithms, subordinate CAs must be issued under the new roots, and end-entity certificates must be re-issued under the new subordinate CAs. This is a multi-year process because root CA certificates have very long validity periods and the new root must be distributed to all relying systems before end-entity certificates under it can be trusted. The transition must be designed to maintain compatibility with systems that cannot yet validate post-quantum signatures, requiring hybrid or dual-certificate approaches during the overlap period.</div>
+  </div>
+</div>
+<div class="hl-block" id="pg4-b3" onclick="jumpToBlock('pg4',3)">
+  <div class="hl-bar" style="background:#1B2A4A;"></div>
+  <div class="hl-inner">
+    <div class="blk-title" style="color:#1B2A4A;">Regulatory requirements and compliance timelines for post-quantum migration</div>
+    <div class="blk-body">Post-quantum cryptography migration is moving from a best-practice recommendation to a regulatory requirement in several sectors. The United States government has mandated migration of federal information systems to NIST-approved post-quantum algorithms with a target of 2035 for full migration. CISA and NSA have issued guidance for critical infrastructure sectors. Financial sector regulators are beginning to address quantum risk in supervisory guidance. Insurance carriers are beginning to include quantum readiness in cybersecurity questionnaires. Organizations in regulated industries should treat the NIST PQC standards as the baseline for compliance planning, monitor sector-specific regulatory guidance for additional requirements, and be prepared to demonstrate migration progress in regulatory examinations. Early migration is both a security investment and a compliance positioning advantage.</div>
+  </div>
+</div>
+    </div>
+  </div>
+</div>
+<div class="page" id="pg5" style="display:none;">
+  <div class="page-header">
+    <div class="ph-section"> — Summary</div>
+    <div class="ph-sub">Key concepts from this module</div>
+    <button class="play-btn" id="play-pg5" onclick="togglePlay('pg5')">&#9654; Play Narration</button>
+  </div>
+  <div class="page-cols">
+    <div class="col-diagram">
+      <div class="svg-pad"><svg viewBox="0 0 520 340" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+<defs>
+  <radialGradient id="halo" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#C4AA88" stop-opacity="0.55"/>
+    <stop offset="100%" stop-color="#C4AA88" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient id="scr" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="#2a3a5e"/><stop offset="100%" stop-color="#0f1a32"/>
+  </linearGradient>
+  <linearGradient id="goldB" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="#E8D4B0"/><stop offset="100%" stop-color="#A08860"/>
+  </linearGradient>
+  <linearGradient id="navyB" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="#2a3a5e"/><stop offset="100%" stop-color="#1B2A4A"/>
+  </linearGradient>
+  <filter id="sh" x="-20%" y="-20%" width="140%" height="140%">
+    <feGaussianBlur stdDeviation="2.5"/>
+  </filter>
+  <marker id="arr" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="5" markerHeight="5" orient="auto">
+    <path d="M0,1 L7,4 L0,7 Z" fill="#A08860"/>
+  </marker>
+  <marker id="arr_r" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="5" markerHeight="5" orient="auto">
+    <path d="M0,1 L7,4 L0,7 Z" fill="#9B2B2B"/>
+  </marker>
+</defs>
+<!-- Background -->
+<rect width="520" height="340" fill="#0f1a32"/>
+<rect width="520" height="340" fill="url(#scr)" opacity="0.4"/>
+<!-- dot pattern -->
+<pattern id="dp" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
+  <circle cx="1" cy="1" r="0.8" fill="#C4AA88" opacity="0.05"/>
+</pattern>
+<rect width="520" height="340" fill="url(#dp)"/>
+<!-- Title bar -->
+<rect x="0" y="0" width="520" height="38" fill="#0f1a32" opacity="0.85"/>
+<line x1="18" y1="38" x2="502" y2="38" stroke="#C4AA88" stroke-width="0.5" opacity="0.4"/>
+<text x="260" y="24" text-anchor="middle" font-size="12" fill="#C4AA88" font-weight="700" font-family="IBM Plex Mono,monospace" letter-spacing="2.5">QUANTUM CRYPTOGRAPHY — SUMMARY</text>
+<line x1="260" y1="44" x2="260" y2="334" stroke="#A08860" stroke-width="0.4" opacity="0.25" stroke-dasharray="4,5"/>
+<line x1="18" y1="189" x2="502" y2="189" stroke="#A08860" stroke-width="0.4" opacity="0.25" stroke-dasharray="4,5"/>
+<g transform="translate(130,102)">
+<ellipse cx="0" cy="24" rx="15.399999999999999" ry="3" fill="#0f1a32" opacity="0.3"/>
+<polygon points="0,-22 22,22 -22,22" fill="#1B2A4A" stroke="#9B2B2B" stroke-width="1.8"/>
+<text x="0" y="18" text-anchor="middle" font-size="15.399999999999999" fill="#9B2B2B" font-weight="700" font-family="IBM Plex Mono,monospace">!</text>
+</g><text x="130" y="138" text-anchor="middle" font-size="8" fill="#9B2B2B" font-weight="700" font-family="IBM Plex Mono,monospace">ALGORITHM IMPACT</text>
+<text x="130" y="150" text-anchor="middle" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Mono,monospace">Shor: RSA/ECC gone entirely</text>
+<text x="130" y="161" text-anchor="middle" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Mono,monospace">Grover: halves sym key length</text>
+<g transform="translate(390,102) scale(1.5)">
+<circle cx="-12" cy="0" r="9" fill="#1B2A4A" stroke="#C4AA88" stroke-width="1.8"/>
+<circle cx="-12" cy="0" r="5" fill="none" stroke="#C4AA88" stroke-width="1.2"/>
+<line x1="-3" y1="0" x2="18" y2="0" stroke="#C4AA88" stroke-width="2.2" stroke-linecap="round"/>
+<line x1="14" y1="0" x2="14" y2="5" stroke="#C4AA88" stroke-width="2" stroke-linecap="round"/>
+<line x1="10" y1="0" x2="10" y2="5" stroke="#C4AA88" stroke-width="2" stroke-linecap="round"/>
+</g>
+<text x="390" y="140" text-anchor="middle" font-size="8" fill="#C4AA88" font-weight="700" font-family="IBM Plex Mono,monospace">NIST STANDARDS</text>
+<text x="390" y="152" text-anchor="middle" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Mono,monospace">ML-KEM · ML-DSA · SLH-DSA</text>
+<rect x="94" y="219" width="72" height="58" rx="5" fill="#1B2A4A" stroke="#9B2B2B" stroke-width="1"/>
+<rect x="103" y="225" width="18" height="18" fill="#2d6a2d" opacity="0.25"/>
+<rect x="121" y="225" width="18" height="18" fill="#A08860" opacity="0.25"/>
+<rect x="139" y="225" width="18" height="18" fill="#9B2B2B" opacity="0.25"/>
+<rect x="103" y="243" width="18" height="18" fill="#A08860" opacity="0.25"/>
+<rect x="121" y="243" width="18" height="18" fill="#9B2B2B" opacity="0.25"/>
+<rect x="139" y="243" width="18" height="18" fill="#9B2B2B" opacity="0.25"/>
+<rect x="103" y="261" width="18" height="18" fill="#9B2B2B" opacity="0.25"/>
+<rect x="121" y="261" width="18" height="18" fill="#9B2B2B" opacity="0.25"/>
+<rect x="139" y="261" width="18" height="18" fill="#9B2B2B" opacity="0.25"/>
+<text x="130" y="287" text-anchor="middle" font-size="8" fill="#A08860" font-weight="700" font-family="IBM Plex Mono,monospace">RISK PRIORITY</text>
+<text x="130" y="298" text-anchor="middle" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Mono,monospace">Sensitivity × Lifetime matrix</text>
+<circle cx="360" cy="239" r="8" fill="#1B2A4A" stroke="#C4AA88" stroke-width="1"/>
+<text x="360" y="243" text-anchor="middle" font-size="5" fill="#C4AA88" font-weight="700" font-family="IBM Plex Mono,monospace">1</text>
+<circle cx="380" cy="239" r="8" fill="#1B2A4A" stroke="#5BA3D9" stroke-width="1"/>
+<text x="380" y="243" text-anchor="middle" font-size="5" fill="#5BA3D9" font-weight="700" font-family="IBM Plex Mono,monospace">2</text>
+<circle cx="400" cy="239" r="8" fill="#1B2A4A" stroke="#A08860" stroke-width="1"/>
+<text x="400" y="243" text-anchor="middle" font-size="5" fill="#A08860" font-weight="700" font-family="IBM Plex Mono,monospace">3</text>
+<circle cx="420" cy="239" r="8" fill="#1B2A4A" stroke="#2d6a2d" stroke-width="1"/>
+<text x="420" y="243" text-anchor="middle" font-size="5" fill="#2d6a2d" font-weight="700" font-family="IBM Plex Mono,monospace">4</text>
+<text x="390" y="263" text-anchor="middle" font-size="8" fill="#2d6a2d" font-weight="700" font-family="IBM Plex Mono,monospace">MIGRATION ROADMAP</text>
+<text x="390" y="275" text-anchor="middle" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Mono,monospace">4 phases · CBOM continuous</text>
+</svg></div>
+    </div>
+    <div class="col-content" id="cc-pg5">
+      
+<div class="hl-block" id="pg5-b0" onclick="jumpToBlock('pg5',0)">
+  <div class="hl-bar" style="background:#1B2A4A;"></div>
+  <div class="hl-inner">
+    <div class="blk-title" style="color:#1B2A4A;">Shor's algorithm exponentially breaks RSA/DH/ECC; Grover's quadratically weakens symmetric crypto</div>
+    <div class="blk-body">Shor's uses Quantum Fourier Transform to solve period-finding, achieving polynomial-time factoring. RSA, DH, ECDH, ECDSA are broken outright. Grover's halves effective symmetric key length — AES-256 and SHA-384/512 remain viable with current parameter choices.</div>
+  </div>
+</div>
+<div class="hl-block" id="pg5-b1" onclick="jumpToBlock('pg5',1)">
+  <div class="hl-bar" style="background:#C4AA88;"></div>
+  <div class="hl-inner">
+    <div class="blk-title" style="color:#C4AA88;">NIST's post-quantum standards: Kyber (key exchange), Dilithium/FALCON (signatures), SPHINCS+ (hash-based fallback)</div>
+    <div class="blk-body">All are believed resistant to Shor's and Grover's algorithms. Hybrid deployment combines classical and post-quantum algorithms during transition, protecting against harvest-now-decrypt-later while maintaining backward compatibility.</div>
+  </div>
+</div>
+<div class="hl-block" id="pg5-b2" onclick="jumpToBlock('pg5',2)">
+  <div class="hl-bar" style="background:#A08860;"></div>
+  <div class="hl-inner">
+    <div class="blk-title" style="color:#A08860;">Risk assessment prioritizes by data sensitivity × required confidentiality lifetime</div>
+    <div class="blk-body">Long-lived sensitive data — trade secrets, CA root keys, regulated records — needs migration urgency proportionate to their confidentiality requirements. Cryptographic discovery tools and a CBOM are the operational foundation. Supply chain vendor migration planning is as important as internal migration.</div>
+  </div>
+</div>
+<div class="hl-block" id="pg5-b3" onclick="jumpToBlock('pg5',3)">
+  <div class="hl-bar" style="background:#1B2A4A;"></div>
+  <div class="hl-inner">
+    <div class="blk-title" style="color:#1B2A4A;">Migration requires crypto agility, PKI hierarchy planning, and regulatory compliance timelines</div>
+    <div class="blk-body">New systems should be built with algorithm-agnostic interfaces. PKI migration requires new root establishment and multi-year certificate rollover. US federal mandate targets 2035; regulated industries should monitor sector-specific guidance and treat early migration as a compliance advantage.</div>
+  </div>
+</div>
+    </div>
+  </div>
+</div>
+
+<div id="quiz">
+  <div class="quiz-heading">Knowledge Check — Quantum Computing and Cybersecurity — Intermediate</div>
+  
+<div class="q-card" id="qc0">
+  <div class="q-num" style="color:#1B2A4A;">Q1</div>
+  <div class="q-text">Shor's algorithm achieves exponential speedup over classical factoring by using which quantum operation?</div>
+  <div class="q-opts"><button class="q-opt" data-qi="0" data-oi="0" onclick="answerQ(0,0)">Quantum entanglement to test all factors simultaneously</button><button class="q-opt" data-qi="0" data-oi="1" onclick="answerQ(0,1)">The Quantum Fourier Transform to solve the period-finding problem efficiently</button><button class="q-opt" data-qi="0" data-oi="2" onclick="answerQ(0,2)">Grover amplitude amplification applied to the factoring search space</button><button class="q-opt" data-qi="0" data-oi="3" onclick="answerQ(0,3)">Quantum annealing to minimize the factoring energy function</button></div>
+  <div class="q-exp" id="qe0" style="border-left-color:#1B2A4A;"></div>
+</div>
+<div class="q-card" id="qc1">
+  <div class="q-num" style="color:#A08860;">Q2</div>
+  <div class="q-text">Why does AES-256 remain a viable symmetric encryption choice in a post-quantum world, while AES-128 does not?</div>
+  <div class="q-opts"><button class="q-opt" data-qi="1" data-oi="0" onclick="answerQ(1,0)">AES-256 uses a different cipher mode that Grover's algorithm cannot analyze</button><button class="q-opt" data-qi="1" data-oi="1" onclick="answerQ(1,1)">Grover's algorithm halves the effective key length — AES-128 becomes 64-bit effective security (insufficient), while AES-256 becomes 128-bit effective security (adequate)</button><button class="q-opt" data-qi="1" data-oi="2" onclick="answerQ(1,2)">AES-256 incorporates post-quantum lattice mathematics in its key schedule</button><button class="q-opt" data-qi="1" data-oi="3" onclick="answerQ(1,3)">NIST exempted AES-256 from quantum vulnerability assessment</button></div>
+  <div class="q-exp" id="qe1" style="border-left-color:#A08860;"></div>
+</div>
+<div class="q-card" id="qc2">
+  <div class="q-num" style="color:#C4AA88;">Q3</div>
+  <div class="q-text">What distinguishes SPHINCS+ from CRYSTALS-Kyber and Dilithium in terms of security assumptions?</div>
+  <div class="q-opts"><button class="q-opt" data-qi="2" data-oi="0" onclick="answerQ(2,0)">SPHINCS+ is faster and produces smaller output than the lattice-based algorithms</button><button class="q-opt" data-qi="2" data-oi="1" onclick="answerQ(2,1)">SPHINCS+ relies only on the security of cryptographic hash functions, while the lattice-based algorithms rely on the hardness of MLWE — a newer and less extensively studied problem</button><button class="q-opt" data-qi="2" data-oi="2" onclick="answerQ(2,2)">SPHINCS+ is a key encapsulation mechanism while the others are signature schemes</button><button class="q-opt" data-qi="2" data-oi="3" onclick="answerQ(2,3)">SPHINCS+ is standardized under a different FIPS number and not recommended for general use</button></div>
+  <div class="q-exp" id="qe2" style="border-left-color:#C4AA88;"></div>
+</div>
+<div class="q-card" id="qc3">
+  <div class="q-num" style="color:#A08860;">Q4</div>
+  <div class="q-text">An organization's risk assessment identifies two systems: a TLS certificate protecting customer web sessions (1-hour sensitivity) and an RSA-encrypted archive of trade secrets that must remain confidential for 20 years. How should migration priority be determined?</div>
+  <div class="q-opts"><button class="q-opt" data-qi="3" data-oi="0" onclick="answerQ(3,0)">Both systems should be migrated simultaneously as they use the same RSA algorithm</button><button class="q-opt" data-qi="3" data-oi="1" onclick="answerQ(3,1)">The trade secrets archive is the urgent priority — its 20-year confidentiality requirement means harvest-now-decrypt-later attacks represent a current real threat; the web session TLS certificate is lower priority</button><button class="q-opt" data-qi="3" data-oi="2" onclick="answerQ(3,2)">The web session TLS certificate is higher priority because it is internet-facing</button><button class="q-opt" data-qi="3" data-oi="3" onclick="answerQ(3,3)">Both should wait until post-quantum algorithms are universally deployed in browsers</button></div>
+  <div class="q-exp" id="qe3" style="border-left-color:#A08860;"></div>
+</div>
+<div class="q-card" id="qc4">
+  <div class="q-num" style="color:#1B2A4A;">Q5</div>
+  <div class="q-text">What is the purpose of deploying hybrid cryptography (e.g., X25519+Kyber) in TLS connections during the post-quantum transition?</div>
+  <div class="q-opts"><button class="q-opt" data-qi="4" data-oi="0" onclick="answerQ(4,0)">It reduces the computational overhead of post-quantum algorithms by sharing work with classical algorithms</button><button class="q-opt" data-qi="4" data-oi="1" onclick="answerQ(4,1)">It simultaneously protects against harvest-now-decrypt-later attacks while maintaining compatibility with systems that don't yet support post-quantum algorithms, and provides insurance if either algorithm has unexpected weaknesses</button><button class="q-opt" data-qi="4" data-oi="2" onclick="answerQ(4,2)">It is required by NIST FIPS 203 for all TLS implementations during the transition period</button><button class="q-opt" data-qi="4" data-oi="3" onclick="answerQ(4,3)">It allows servers to downgrade to classical-only cryptography if the client doesn't support post-quantum</button></div>
+  <div class="q-exp" id="qe4" style="border-left-color:#1B2A4A;"></div>
+</div>
+<div class="q-card" id="qc5">
+  <div class="q-num" style="color:#A08860;">Q6</div>
+  <div class="q-text">A cryptographic bill of materials (CBOM) identifies that your organization's VPN concentrator uses RSA-2048 for authentication and cannot be updated via firmware — it requires hardware replacement. How does this affect migration planning?</div>
+  <div class="q-opts"><button class="q-opt" data-qi="5" data-oi="0" onclick="answerQ(5,0)">The VPN concentrator can be exempted from migration because it is a network device, not a data store</button><button class="q-opt" data-qi="5" data-oi="1" onclick="answerQ(5,1)">This creates a hard dependency: the VPN migration is constrained by hardware procurement timelines, not internal development capacity, and should be escalated as a multi-year capital project requiring immediate planning</button><button class="q-opt" data-qi="5" data-oi="2" onclick="answerQ(5,2)">The concentrator should be disabled until it can be replaced, as RSA-2048 is no longer secure</button><button class="q-opt" data-qi="5" data-oi="3" onclick="answerQ(5,3)">RSA-2048 VPNs can continue operating indefinitely because the quantum threat is speculative</button></div>
+  <div class="q-exp" id="qe5" style="border-left-color:#A08860;"></div>
+</div>
+  <div class="score-panel" id="scorePanel">
+    <div class="score-big" id="scoreBig"></div>
+    <div class="score-grade" id="scoreGrade"></div>
+    <div class="score-comment" id="scoreComment"></div>
+    <button class="score-retry" onclick="retryQuiz()">Retry Quiz</button>
+  </div>
+</div>
+
+<script>
+const HL_COLOR={
+  'pg1':["#1B2A4A","#C4AA88","#A08860","#1B2A4A"],
+  'pg2':["#1B2A4A","#C4AA88","#A08860","#1B2A4A"],
+  'pg3':["#1B2A4A","#C4AA88","#A08860","#1B2A4A"],
+  'pg4':["#1B2A4A","#C4AA88","#A08860","#1B2A4A"],
+  'pg5':["#1B2A4A","#C4AA88","#A08860","#1B2A4A"],
+};
+
+const NARR={
+  'pg1':['Shor\'s algorithm achieves its exponential speedup by reducing the integer factorization problem to a period-finding problem, then using the Quantum Fourier Transform — a quantum analogue of the classical Fast Fourier Transform — to solve period-finding exponentially faster than any classical method. The Quantum Fourier Transform operates on a superposition of all possible values simultaneously, extracting period information through quantum interference in a way that classical computers cannot replicate. Once the period is found, a classical calculation converts it to the prime factors. The entire algorithm runs in polynomial time — roughly O((log N)³) quantum operations for an n-bit number — compared to the sub-exponential but super-polynomial time of the best classical algorithms. The discrete logarithm problem, which underlies Diffie-Hellman and elliptic curve cryptography, is solved by a closely related application of the same quantum Fourier transform technique.','Grover\'s algorithm achieves its quadratic speedup through a technique called amplitude amplification. Starting with a uniform superposition over all possible keys, Grover iteratively applies an operation that increases the amplitude (probability) of the correct key while decreasing the amplitude of all incorrect keys. After approximately √N iterations (for a search space of N items), measuring the quantum state yields the correct answer with high probability. Applied to AES-128 with a 2^128 keyspace, Grover\'s needs approximately 2^64 iterations — the same computational cost as a classical brute-force search of a 64-bit keyspace. AES-256 with its 2^256 keyspace requires approximately 2^128 Grover iterations, equivalent to a classical 128-bit brute-force — which remains computationally infeasible. This is why doubling symmetric key lengths is the recommended mitigation for Grover\'s threat.','The gap between current quantum hardware and the capability needed to threaten current encryption is measured in multiple orders of magnitude of physical qubit quality and quantity. Current quantum processors have physical error rates of approximately 0.1-1% per gate operation. Fault-tolerant quantum computation — required for running algorithms as long as Shor\'s on RSA-2048 — requires physical error rates below approximately 0.1% with substantial error correction overhead. Quantum error correction uses redundancy: a logical qubit is encoded across many physical qubits, with the encoding able to detect and correct errors during computation. The overhead factor (physical qubits per logical qubit) ranges from hundreds to tens of thousands depending on the error correction code and the achieved physical error rate. Reaching the millions of physical qubits needed for cryptographically relevant computation requires sustained progress on both qubit count and error rate — progress that is measured and tracked, but not imminent.','The quantum vulnerability landscape for cryptography divides cleanly into three categories. Algorithms based on mathematical problems that Shor\'s algorithm solves efficiently — RSA, Diffie-Hellman, ECDH, ECDSA, DSA — provide no security against a cryptographically relevant quantum computer: breaking them is reduced from infeasible to computationally tractable. Algorithms whose security is reduced but not eliminated by Grover\'s — AES, SHA-2, SHA-3, HMAC — remain viable with parameter adjustments, specifically doubling key and output lengths. Algorithms based on mathematical problems where no efficient quantum algorithm is known — lattice problems, hash-based constructions, code-based cryptography, multivariate equations — are the basis of post-quantum cryptography and are believed to remain secure against quantum adversaries with current parameter choices.'],
+  'pg2':['Kyber\'s security reduction to Module Learning With Errors makes it structurally different from RSA or Diffie-Hellman. In RSA, the security is based on the difficulty of factoring a specific number — an n-bit RSA key provides n-bit modulus-level security. In Kyber, the security is based on the difficulty of distinguishing a particular type of noisy linear equation system from a random system — a problem in high-dimensional lattice mathematics. The best known algorithms for solving MLWE scale exponentially in the lattice dimension, and no quantum speedup analogous to Shor\'s has been found for lattice problems. Kyber\'s efficiency profile is favorable for network protocols: key encapsulation and decapsulation are fast, and key sizes are significantly more compact than post-quantum alternatives based on codes or multivariate systems. This made Kyber the practical choice for TLS and other high-throughput protocols.','Digital signature algorithms impose different engineering constraints than key encapsulation. Signatures must be verifiable by parties who were not involved in their creation — a certificate signed by a root CA must be verifiable by every browser worldwide years after the signing event. This creates a long-term security requirement: the signing algorithm must remain secure for the entire period during which signed objects need to be validated. Dilithium\'s large signature size relative to ECDSA (approximately 2-3 KB versus 64 bytes for P-256 ECDSA) has implications for protocols that transmit signatures frequently, such as TLS handshakes. FALCON\'s significantly smaller signatures (approximately 650 bytes for FALCON-512 versus 2.5 KB for Dilithium3) make it attractive for bandwidth-constrained scenarios, but its implementation complexity — particularly for constant-time implementation to resist timing attacks — makes it more challenging to deploy correctly.','SPHINCS+ occupies a unique position in the post-quantum signature landscape as the algorithm with the most conservative security assumptions. Its security relies only on the collision resistance and preimage resistance of the underlying hash function — properties that are well-studied and understood, and that Grover\'s algorithm affects only marginally (requiring larger hash output sizes, already standard practice). If lattice-based cryptography were found to have an unexpected structural weakness — a possibility that cannot be ruled out for algorithms whose security reductions are more complex — SPHINCS+ would remain secure. This makes it the appropriate choice for the highest-stakes signing applications: root certificate authorities, software signing keys for critical infrastructure, and long-lived document signatures where the signing event may need to be trusted decades from now. Its size and performance costs are acceptable in these contexts.','Hybrid cryptographic deployments address the transition period challenge: how do you protect data today from harvest-now-decrypt-later attacks without abandoning backward compatibility with systems that have not yet migrated to post-quantum algorithms? The hybrid approach runs both a classical key exchange (typically X25519 elliptic curve Diffie-Hellman) and a post-quantum key encapsulation (Kyber) in the same protocol handshake, then combines the resulting shared secrets — typically by hashing them together — to produce the session key. Compromising this session key requires breaking both the classical and post-quantum components simultaneously. Google deployed X25519+Kyber hybrid TLS in Chrome in 2023; Cloudflare and AWS have followed. The hybrid approach is formalized in IETF standards for TLS 1.3 and SSH. It is the recommended deployment pattern for any organization migrating its internet-facing services in advance of full ecosystem post-quantum support.'],
+  'pg3':['Cryptographic discovery requires a multi-pronged approach because cryptography is embedded at every layer of modern infrastructure. Network scanning tools can identify TLS certificates on listening ports and extract their algorithm and key size information. Certificate management platforms maintain inventories of certificates issued by internal PKI and can identify algorithm usage across the portfolio. Code analysis tools scan source repositories for cryptographic API calls, identifying where specific algorithms are invoked. Infrastructure-as-code repositories and configuration management databases document cryptographic settings for servers, firewalls, and network devices. Vendor documentation and software bills of materials identify cryptographic algorithms in commercial products. The combination of automated scanning and targeted manual review produces the comprehensive inventory that migration planning requires. Organizations that have not started this inventory should treat it as an immediate priority — it is the prerequisite for all subsequent planning.','Risk prioritization using data sensitivity and confidentiality lifetime produces a matrix that identifies migration urgency. Quadrant 1: highly sensitive data with long required confidentiality (decades) — trade secrets in long-term contracts, root CA signing keys, strategic plans, biometric data — requires immediate migration priority because the harvest-now-decrypt-later window is already open. Quadrant 2: highly sensitive data with short required confidentiality (hours to months) — individual customer transactions, session tokens, ephemeral communications — has lower urgency because the data will have lost its sensitivity before quantum computers mature. Quadrant 3: low sensitivity data with long retention — general business records, marketing materials — has lower urgency because the consequences of future exposure are limited. Quadrant 4: low sensitivity, short retention — transient operational data — has the lowest priority. This framework produces a prioritized migration schedule rather than a uniform \'migrate everything at once\' approach that is practically infeasible.','The migration complexity assessment must account for the full replacement cycle for each asset type, not just the technical effort of algorithm substitution. TLS certificates typically have one-year validity periods; transitioning to post-quantum certificates requires updating the issuing CA, updating the certificate configuration, and renewing at the next scheduled renewal — manageable within a normal operational cadence. SSH keys have no expiration and must be actively replaced through organizational campaigns; this requires identifying all key holders, generating new keys, updating authorized_keys files on all target servers, and decommissioning old keys — a significant operational effort for large organizations. VPN concentrator and firewall algorithm support depends on vendor firmware updates; timeline is driven by vendor release schedules, not internal development capacity. Custom application code requires development effort proportional to how deeply cryptographic operations are embedded versus how cleanly they are abstracted.','The quantum risk exposure from supply chain cryptography can exceed the organization\'s internal exposure. Consider an organization that has successfully migrated all internal systems to post-quantum algorithms but continues to transmit sensitive data to a payment processor using RSA-encrypted API calls, a cloud storage provider using RSA-signed access tokens, and a SaaS vendor whose internal storage uses RSA-encrypted database fields. Each of these relationships represents continued quantum vulnerability for the organization\'s data despite internal migration completion. Supply chain quantum risk management requires vendor questionnaires that specifically ask about post-quantum migration planning, preference for vendors who have published timelines and made demonstrable progress, contractual requirements for migration in new vendor agreements, and a monitoring process that tracks vendor migration progress over time. CISA and other agencies are beginning to issue guidance on supply chain quantum risk.'],
+  'pg4':['The cryptographic bill of materials transforms the discovery phase output into a managed operational asset. A well-designed CBOM includes fields for: asset identifier and location, cryptographic algorithm and key size, protection purpose (what data or communication it protects), data sensitivity and required confidentiality period, migration priority based on risk assessment, asset owner and responsible team, migration status, target algorithm for migration, planned migration date, and completion verification method. The CBOM is ideally integrated with existing IT asset management or vulnerability management platforms so that migration status can be reported alongside other security metrics. Quarterly or semi-annual CBOM reviews ensure that new cryptographic deployments are captured, that migration progress is tracked, and that the risk prioritization remains current as the threat timeline and regulatory requirements evolve.','Crypto agility is both a design principle and an implementation requirement. At the protocol level, agility means using standards that support algorithm negotiation — TLS 1.3 already supports this; the post-quantum cipher suites are being added as extensions to the existing negotiation framework. At the library level, agility means using cryptographic libraries that abstract algorithm selection — OpenSSL, BouncyCastle, and others are adding post-quantum algorithm support as drop-in options for existing API consumers. At the application level, agility means that algorithm identifiers, key sizes, and similar parameters are stored in configuration or database fields rather than compiled into code — changing the algorithm requires a configuration change and key rotation rather than a code deployment. Organizations conducting code security reviews should explicitly evaluate new applications for crypto agility and flag hardcoded algorithm references as findings requiring remediation.','PKI migration is the most complex and long-horizon element of the post-quantum transition for most organizations. The challenge is that trust in certificates depends on a chain from the end-entity certificate back through intermediate CA certificates to a root CA certificate that is distributed to all relying parties — browsers, operating systems, applications. A new post-quantum root CA must be distributed to all relying parties before the certificates it issues can be trusted. Browser vendors and operating system vendors are the gatekeepers for public trust roots; their inclusion policies and timelines drive the overall transition schedule for publicly trusted certificates. Internal PKI for private networks is more controllable — the organization distributes its own trust anchors — but still requires careful sequencing to avoid breaking authentication for any system that depends on certificate validation during the transition.','The US government\'s quantum migration mandate provides a reference timeline for organizations in regulated sectors and those who contract with the federal government. NIST\'s post-quantum standards (FIPS 203, 204, 205, published in 2024) are the baseline. NSA\'s CNSS Policy 15 governs National Security Systems. OMB M-23-02 established quantum migration requirements for federal agencies. The 2035 target for full federal migration is an anchor point — regulated industries typically follow federal timelines with a short lag. Financial regulators, healthcare regulators, and critical infrastructure sector authorities are all developing sector-specific quantum migration guidance. Organizations that begin migration planning now — establishing a CBOM, completing risk assessment, and migrating highest-priority assets in the near term — will be in a significantly stronger position when regulatory requirements arrive than those who wait for mandates before beginning.'],
+  'pg5':['Shor\'s algorithm uses the Quantum Fourier Transform to solve integer factorization in polynomial time, breaking RSA, Diffie-Hellman, and elliptic curve cryptography entirely. Grover\'s algorithm provides a quadratic speedup for symmetric key search, halving effective key lengths — manageable by using AES-256 and SHA-384/512. Understanding the specific mathematical problems each algorithm attacks determines which cryptographic implementations need replacement versus parameter adjustment.','NIST\'s 2024 post-quantum standards provide the migration targets: CRYSTALS-Kyber (ML-KEM) for key encapsulation, CRYSTALS-Dilithium (ML-DSA) and FALCON (FN-DSA) for signatures, and SPHINCS+ (SLH-DSA) as a hash-based conservative fallback. Hybrid deployment combining classical and post-quantum algorithms is the recommended approach during the transition period, protecting against harvest-now-decrypt-later while maintaining compatibility.','Organizational risk assessment starts with cryptographic discovery — building a complete CBOM across all systems, applications, and vendor dependencies. Risk prioritization uses data sensitivity multiplied by required confidentiality lifetime to identify migration urgency. Supply chain cryptographic risk from vendor dependencies frequently exceeds internal risk and must be managed through vendor questionnaires, contractual requirements, and roadmap monitoring.','Migration execution requires crypto agility in new systems, careful sequencing of PKI hierarchy replacement, and regulatory compliance planning. The US federal mandate targets 2035; regulated industries are developing sector-specific requirements. Organizations that begin now — establishing a CBOM, completing risk assessment, and migrating highest-priority assets — will be positioned ahead of regulatory mandates rather than responding to them.'],
+};
+
+const CNT={'pg1':4,'pg2':4,'pg3':4,'pg4':4,'pg5':4};
+
+const ANSWERS=[1,1,1,1,1,1];
+const SCORE_COMMENTS=["Keep reviewing — this material is important for your security.","Keep reviewing — this material is important for your security.","Keep reviewing — this material is important for your security.","Good foundation. Review the explanations and try once more.","Solid performance. You understand most of the material well.","Very strong — just one or two areas to revisit.","Outstanding — perfect score. You have mastered this module."];
+const QUIZ_COLORS=["#1B2A4A","#A08860","#C4AA88","#A08860","#1B2A4A","#A08860"];
+const GRADE_LABELS=["—","—","—","C","B","A","A+"];
+const N_QUIZ=6;
+
+let curPage='home', narr=null, narrPid=null, narrIdx=0, narrRunning=false;
+
+function gotoPage(pid){
+  document.querySelectorAll('.page,[id="home"],[id="quiz"]').forEach(el=>el.style.display='none');
+  const el=document.getElementById(pid);
+  if(el)el.style.display=(pid==='quiz')?'block':'block';
+  curPage=pid;
+  document.querySelectorAll('.nav-pill').forEach(p=>p.classList.remove('active'));
+  const np=document.getElementById('nav-'+pid);
+  if(np)np.classList.add('active');
+  stopNarr();
+  if(pid!=='home'&&pid!=='quiz')window.scrollTo(0,0);
+}
+function togglePlay(pid){
+  if(narrRunning&&narrPid===pid){stopNarr();return;}
+  stopNarr();
+  narrPid=pid; narrIdx=0; narrRunning=true;
+  clearBlockStates(pid);
+  playBlock(pid,0);
+  const nb=document.getElementById('narrBar');
+  if(nb)nb.classList.add('active');
+}
+
+function playBlock(pid,idx){
+  const scripts=NARR[pid]||[];
+  if(idx>=scripts.length){narrRunning=false;markBlockDone(pid,idx-1);updateNarrBar('Narration complete.');return;}
+  if(idx>0)markBlockDone(pid,idx-1);
+  highlightBlock(pid,idx);
+  const text=scripts[idx];
+  updateNarrBar(text.substring(0,80)+(text.length>80?'…':''));
+  const utter=new SpeechSynthesisUtterance(text);
+  utter.rate=0.95; utter.pitch=1; utter.volume=1;
+  utter.onend=function(){if(narrRunning)playBlock(pid,idx+1);};
+  narr=utter;
+  window.speechSynthesis.speak(utter);
+}
+
+function stopNarr(){
+  window.speechSynthesis.cancel();
+  narrRunning=false; narr=null;
+  const nb=document.getElementById('narrBar');
+  if(nb)nb.classList.remove('active');
+  const btn=narrPid?document.getElementById('play-'+narrPid):null;
+  if(btn)btn.innerHTML='&#9654; Play Narration';
+}
+
+function updateNarrBar(txt){
+  const el=document.getElementById('narrText');
+  if(el)el.textContent=txt;
+}
+
+function highlightBlock(pid,idx){
+  const pid_blocks=document.querySelectorAll('#'+pid+' .hl-block');
+  pid_blocks.forEach((b,i)=>{
+    b.classList.remove('lit');
+    if(i===idx)b.classList.add('lit');
+  });
+  const colors=HL_COLOR[pid]||[];
+  const col=colors[idx]||'#C4AA88';
+  document.querySelectorAll('#'+pid+' .hl-block').forEach((b,i)=>{
+    if(i===idx)b.style.setProperty('--primary-lit',col);
+  });
+  // SVG highlight
+  document.querySelectorAll('#'+pid+' .svg-hl').forEach((g,i)=>{
+    g.classList.remove('lit');
+    if(i===idx)g.classList.add('lit');
+  });
+  // scroll block into view in col-content
+  const block=document.getElementById(pid+'-b'+idx);
+  const col_cont=document.getElementById('cc-'+pid);
+  if(block&&col_cont){
+    const bTop=block.offsetTop-col_cont.offsetTop;
+    col_cont.scrollTo({top:bTop-20,behavior:'smooth'});
+  }
+}
+
+function markBlockDone(pid,idx){
+  const b=document.getElementById(pid+'-b'+idx);
+  if(b){b.classList.remove('lit');b.classList.add('done');}
+}
+
+function clearBlockStates(pid){
+  document.querySelectorAll('#'+pid+' .hl-block').forEach(b=>b.classList.remove('lit','done'));
+  document.querySelectorAll('#'+pid+' .svg-hl').forEach(g=>g.classList.remove('lit'));
+}
+
+function jumpToBlock(pid,idx){
+  if(narrRunning&&narrPid===pid){
+    window.speechSynthesis.cancel();
+    narrIdx=idx;
+    playBlock(pid,idx);
+  }
+}
+
+// QUIZ
+let answers_given=new Array(N_QUIZ).fill(null);
+let quiz_done=false;
+
+function answerQ(qi,oi){
+  if(answers_given[qi]!==null)return;
+  answers_given[qi]=oi;
+  const correct=ANSWERS[qi];
+  const card=document.getElementById('qc'+qi);
+  card.querySelectorAll('.q-opt').forEach((o,i)=>{
+    o.style.cursor='default';
+    if(i===correct)o.classList.add('correct');
+    else if(i===oi&&oi!==correct)o.classList.add('wrong');
+  });
+  const exp=document.getElementById('qe'+qi);
+  if(exp){exp.textContent="{}" ; /* filled per question */ }
+  // fill explanation
+  const exps=["Shor's algorithm reduces factorization to period-finding, then uses the Quantum Fourier Transform to solve period-finding exponentially faster than any classical method. The QFT exploits quantum superposition and interference to extract period information in polynomial time.","Grover's quadratic speedup effectively halves symmetric key lengths. AES-128 provides only ~64 bits of effective security against a quantum adversary — below the 128-bit minimum considered adequate. AES-256 provides ~128 bits of effective quantum security, which remains computationally infeasible to attack. Doubling the key length is the recommended mitigation.","SPHINCS+'s security relies exclusively on well-understood hash function properties (collision resistance, preimage resistance). The lattice-based algorithms rely on MLWE hardness — a strong assumption but less studied than hash function security. If lattice cryptography had an unexpected weakness, SPHINCS+ would remain secure. This makes it the conservative choice for highest-stakes applications.","Risk priority is determined by sensitivity × required confidentiality lifetime. Trade secrets needing 20-year confidentiality are at immediate risk from harvest-now-decrypt-later: adversaries may already be collecting this traffic to decrypt later. Web session data has a 1-hour sensitivity window — even if decrypted in 10 years, the harm is minimal. The archive demands urgent migration.","Hybrid deployment combines a classical key exchange with a post-quantum key encapsulation, combining the results. This protects current traffic against future quantum decryption while maintaining compatibility. Breaking the session requires defeating both algorithms simultaneously — providing insurance against weaknesses in either. It is the recommended approach for internet-facing services before full post-quantum ecosystem deployment.","Hardware devices with non-updateable firmware represent the most complex migration challenge because they cannot be remediated through software changes. The migration timeline is constrained by hardware procurement, budget cycles, and deployment logistics — often a 2-5 year horizon. This must be escalated immediately and planned as a capital project, with compensating controls (network isolation, enhanced monitoring) applied in the interim."];
+  if(exp){exp.textContent=exps[qi];exp.classList.add('show');}
+  card.style.borderLeftColor=QUIZ_COLORS[qi];
+  // check if all answered
+  if(answers_given.every(a=>a!==null))showScore();
+}
+
+function showScore(){
+  let correct=0;
+  answers_given.forEach((a,i)=>{if(a===ANSWERS[i])correct++;});
+  const panel=document.getElementById('scorePanel');
+  document.getElementById('scoreBig').textContent=correct+'/'+N_QUIZ;
+  document.getElementById('scoreGrade').textContent=GRADE_LABELS[correct]||'';
+  document.getElementById('scoreComment').textContent=SCORE_COMMENTS[correct]||'';
+  if(panel)panel.style.display='block';
+  panel.scrollIntoView({behavior:'smooth'});
+}
+
+function retryQuiz(){
+  answers_given=new Array(N_QUIZ).fill(null);
+  document.querySelectorAll('.q-opt').forEach(o=>{o.classList.remove('correct','wrong');o.style.cursor='pointer';});
+  document.querySelectorAll('.q-exp').forEach(e=>{e.classList.remove('show');e.textContent='';});
+  document.querySelectorAll('.q-card').forEach(c=>c.style.borderLeftColor='transparent');
+  document.getElementById('scorePanel').style.display='none';
+  window.scrollTo(0,0);
+}
+</script>
+</body>
+</html>

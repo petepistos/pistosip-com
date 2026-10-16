@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Data Protection and DLP — Intermediate — Intermediate</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#F5F1EB;--surface:#ffffff;--surface2:#EDE8E0;
+  --border:#D6CCBC;--text:#2E2A25;--muted:#5A4E3F;
+  --primary:#1B2A4A;
+  --radius:10px;
+}
+body{background:var(--bg);color:var(--text);font-family:"IBM Plex Sans",sans-serif;min-height:100vh;}
+/* TOPBAR */
+.topbar{background:#fff;border-bottom:1.5px solid var(--border);padding:0 28px;height:90px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;}
+.topbar-logo{display:flex;align-items:center;gap:12px;}
+.topbar-logo img{height:38px;width:auto;}
+.topbar-title{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--text);font-weight:600;letter-spacing:-0.2px;}
+/* NAV */
+.nav-bar{background:#fff;border-bottom:1px solid var(--border);padding:0 28px;display:flex;align-items:center;gap:8px;overflow-x:auto;height:44px;}
+.nav-pill{background:none;border:none;padding:6px 14px;border-radius:20px;font-size:12px;cursor:pointer;color:var(--muted);white-space:nowrap;font-family:"IBM Plex Mono",monospace;transition:all .15s;}
+.nav-pill:hover{background:var(--surface2);color:var(--text);}
+.nav-pill.active{background:#1B2A4A;color:#fff;font-weight:600;}
+.menu-card{background:var(--bg);border-radius:var(--radius);padding:14px 16px;margin-bottom:10px;cursor:pointer;transition:transform .1s;}
+.menu-card:hover{transform:translateX(-2px);}
+.mc-top{display:flex;align-items:center;gap:10px;margin-bottom:4px;}
+.mc-num{font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:700;}
+.mc-title{font-size:13px;font-weight:600;color:var(--text);}
+.mc-desc{font-size:11px;color:var(--muted);padding-left:26px;}
+/* PAGE HEADER */
+.page-header{background:#fff;border-bottom:1.5px solid var(--border);padding:14px 28px;display:flex;align-items:center;gap:20px;}
+.ph-section{font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:700;color:#1B2A4A;white-space:nowrap;}
+.ph-sub{font-size:12px;color:var(--muted);flex:1;}
+.play-btn{background:#1B2A4A;color:#fff;border:none;padding:8px 18px;border-radius:6px;font-size:12px;cursor:pointer;font-family:"IBM Plex Mono",monospace;white-space:nowrap;}
+.play-btn:hover{opacity:.88;}
+/* NARRATION BAR */
+.narr-bar{background:#fff;border-bottom:1px solid var(--border);padding:10px 28px;display:none;align-items:center;gap:14px;}
+.narr-bar.active{display:flex;}
+.narr-text{font-size:12px;color:var(--muted);flex:1;font-style:italic;}
+.narr-stop{background:none;border:1.5px solid var(--border);padding:5px 12px;border-radius:5px;font-size:11px;cursor:pointer;font-family:"IBM Plex Mono",monospace;}
+/* TWO-COLUMN */
+.page-cols{display:flex;height:calc(100vh - 148px);overflow:hidden;}
+.col-diagram{width:52%;border-right:1px solid var(--border);position:sticky;top:0;height:100%;display:flex;align-items:center;justify-content:center;padding:24px;background:#fff;overflow:hidden;}
+.svg-pad{width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
+.svg-pad svg{max-width:100%;max-height:100%;}
+.col-content{flex:1;overflow-y:auto;padding:20px 24px;scrollbar-width:thin;scrollbar-color:var(--border) transparent;}
+/* BLOCKS */
+.hl-block{background:#fff;border-radius:var(--radius);margin-bottom:12px;border-left:4px solid transparent;transition:all .2s;cursor:pointer;display:flex;overflow:hidden;}
+.hl-block:hover{box-shadow:0 2px 8px rgba(0,0,0,0.07);}
+.hl-block.lit{border-left-color:var(--primary-lit,#C4AA88);background:rgba(196,170,136,0.10);box-shadow:0 0 0 1.5px rgba(196,170,136,0.25);}
+.hl-block.done{border-left-color:#A08860;background:rgba(160,136,96,0.08);}
+.hl-bar{width:4px;flex-shrink:0;}
+.hl-inner{padding:14px 16px;flex:1;}
+.blk-title{font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;}
+.blk-body{font-size:13px;line-height:1.65;color:var(--muted);}
+/* SVG highlight */
+.svg-hl .hl-rect{transition:opacity .3s;opacity:0.4;}
+.svg-hl.lit .hl-rect{opacity:1;}
+/* QUIZ */
+#quiz{display:none;padding:28px;max-width:780px;margin:0 auto;}
+.quiz-heading{font-family:"IBM Plex Mono",monospace;font-size:14px;font-weight:700;margin-bottom:24px;}
+.q-card{background:#fff;border-radius:var(--radius);padding:20px;margin-bottom:16px;border-left:4px solid transparent;}
+.q-num{font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:700;margin-bottom:6px;}
+.q-text{font-size:14px;font-weight:500;margin-bottom:14px;line-height:1.5;}
+.q-opts{display:flex;flex-direction:column;gap:8px;}
+.q-opt{text-align:left;background:var(--bg);border:1.5px solid var(--border);border-radius:7px;padding:10px 14px;font-size:13px;cursor:pointer;transition:all .15s;}
+.q-opt:hover{background:var(--surface2);border-color:var(--primary);}
+.q-opt.correct{background:rgba(160,136,96,0.18);border-color:#A08860;color:#2d6a2d;font-weight:600;}
+.q-opt.wrong{background:rgba(27,42,74,0.10);border-color:#1B2A4A;color:#8b1a1a;}
+.q-exp{font-size:12px;line-height:1.6;color:var(--muted);margin-top:12px;padding-left:12px;border-left:3px solid transparent;display:none;}
+.q-exp.show{display:block;}
+/* SCORE */
+.score-panel{background:#fff;border-radius:var(--radius);padding:28px;margin-top:24px;text-align:center;display:none;}
+.score-big{font-family:"IBM Plex Mono",monospace;font-size:48px;font-weight:700;color:#1B2A4A;}
+.score-grade{font-family:"IBM Plex Mono",monospace;font-size:22px;color:var(--muted);margin-top:4px;}
+.score-comment{font-size:14px;color:var(--muted);margin-top:12px;}
+.score-retry{background:#1B2A4A;color:#fff;border:none;padding:10px 24px;border-radius:6px;font-size:13px;cursor:pointer;margin-top:16px;font-family:"IBM Plex Mono",monospace;}
+/* MOBILE */
+@media(max-width:700px){
+  .page-cols{flex-direction:column;height:auto;}
+  .col-diagram{width:100%;height:260px;border-right:none;border-bottom:1px solid var(--border);position:relative;}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-logo">
+    <img src="../images/pistos-logo.png" style="height:72px;width:auto;display:block;" alt="Pistos Information Protection">
+    <div>
+      <div class="topbar-title">Data Protection and DLP — Intermediate</div>
+    </div>
+  </div>
+</div>
+
+<div class="nav-bar" id="navBar">
+  <button class="nav-pill active" id="nav-pg1" onclick="gotoPage('pg1')">Overview</button>
+  <button class="nav-pill" id="nav-pg2" onclick="gotoPage('pg2')">DLP Technical Implementation</button><button class="nav-pill" id="nav-pg3" onclick="gotoPage('pg3')">Encryption and Key Management</button><button class="nav-pill" id="nav-pg4" onclick="gotoPage('pg4')">Regulatory Compliance and Data Breach Response</button><button class="nav-pill" id="nav-pg5" onclick="gotoPage('pg5')">Summary</button><button class="nav-pill" id="nav-quiz" onclick="gotoPage('quiz')">Quiz</button>
+</div>
+
+<div class="narr-bar" id="narrBar">
+  <div class="narr-text" id="narrText">Narration playing…</div>
+  <button class="narr-stop" onclick="stopNarr()">&#9632; Stop</button>
+</div>
+
+<div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
+<div class="page" id="pg1">
+  <div class="page-header">
+    <div class="ph-section"> — Data Classification and Governance</div>
+    <div class="ph-sub">Building and enforcing a classification framework that protects sensitive data</div>
+    <button class="play-btn" id="play-pg1" onclick="togglePlay('pg1')">&#9654; Play Narration</button>
+  </div>
+  <div class="page-cols">
+    <div class="col-diagram">
+      <div class="svg-pad"><svg viewBox="0 0 520 340" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+<defs>
+  <radialGradient id="halo" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#C4AA88" stop-opacity="0.55"/>
+    <stop offset="100%" stop-color="#C4AA88" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient id="scr" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="#2a3a5e"/><stop offset="100%" stop-color="#0f1a32"/>
+  </linearGradient>
+  <linearGradient id="goldB" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="#E8D4B0"/><stop offset="100%" stop-color="#A08860"/>
+  </linearGradient>
+  <linearGradient id="navyB" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="#2a3a5e"/><stop offset="100%" stop-color="#1B2A4A"/>
+  </linearGradient>
+  <filter id="sh" x="-20%" y="-20%" width="140%" height="140%">
+    <feGaussianBlur stdDeviation="2.5"/>
+  </filter>
+  <marker id="arr" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="5" markerHeight="5" orient="auto">
+    <path d="M0,1 L7,4 L0,7 Z" fill="#A08860"/>
+  </marker>
+  <marker id="arr_r" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="5" markerHeight="5" orient="auto">
+    <path d="M0,1 L7,4 L0,7 Z" fill="#9B2B2B"/>
+  </marker>
+</defs>
+<!-- Background -->
+<rect width="520" height="340" fill="#0f1a32"/>
+<rect width="520" height="340" fill="url(#scr)" opacity="0.4"/>
+<!-- dot pattern -->
+<pattern id="dp" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
+  <circle cx="1" cy="1" r="0.8" fill="#C4AA88" opacity="0.05"/>
+</pattern>
+<rect width="520" height="340" fill="url(#dp)"/>
+<!-- Title bar -->
+<rect x="0" y="0" width="520" height="38" fill="#0f1a32" opacity="0.85"/>
+<line x1="18" y1="38" x2="502" y2="38" stroke="#C4AA88" stroke-width="0.5" opacity="0.4"/>
+<text x="260" y="24" text-anchor="middle" font-size="12" fill="#C4AA88" font-weight="700" font-family="IBM Plex Mono,monospace" letter-spacing="2.5">CLASSIFICATION AND GOVERNANCE</text>
+<line x1="260" y1="44" x2="260" y2="334" stroke="#A08860" stroke-width="0.4" opacity="0.25" stroke-dasharray="4,5"/>
+<line x1="18" y1="189" x2="502" y2="189" stroke="#A08860" stroke-width="0.4" opacity="0.25" stroke-dasharray="4,5"/>
+<g transform="translate(130,72)">
+<rect x="-45" y="-36" width="90" height="14" rx="2" fill="#1B2A4A" stroke="#C4AA88" stroke-width="1.2"/>
+<text x="0" y="-27" text-anchor="middle" font-size="6.5" fill="#C4AA88" font-weight="600" font-family="IBM Plex Mono,monospace">Public</text>
+<rect x="-40" y="-18" width="80" height="14" rx="2" fill="#1B2A4A" stroke="#A08860" stroke-width="1.2"/>
+<text x="0" y="-9" text-anchor="middle" font-size="6.5" fill="#A08860" font-weight="600" font-family="IBM Plex Mono,monospace">Internal</text>
+<rect x="-35" y="0" width="70" height="14" rx="2" fill="#1B2A4A" stroke="#D6CCBC" stroke-width="1.2"/>
+<text x="0" y="9" text-anchor="middle" font-size="6.5" fill="#D6CCBC" font-weight="600" font-family="IBM Plex Mono,monospace">Confidential</text>
+<rect x="-30" y="18" width="60" height="14" rx="2" fill="#1B2A4A" stroke="#2a3a5e" stroke-width="1.2"/>
+<text x="0" y="27" text-anchor="middle" font-size="6.5" fill="#2a3a5e" font-weight="600" font-family="IBM Plex Mono,monospace">Restricted</text>
+</g><text x="130" y="96" text-anchor="middle" font-size="8" fill="#C4AA88" font-weight="700" font-family="IBM Plex Mono,monospace">4-LEVEL FRAMEWORK</text>
+<circle cx="88" cy="112" r="2.5" fill="#C4AA88" opacity="0.7"/>
+<text x="95" y="116" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Public</text>
+<circle cx="88" cy="126" r="2.5" fill="#C4AA88" opacity="0.7"/>
+<text x="95" y="130" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Internal</text>
+<circle cx="88" cy="140" r="2.5" fill="#C4AA88" opacity="0.7"/>
+<text x="95" y="144" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Confidential</text>
+<circle cx="88" cy="154" r="2.5" fill="#C4AA88" opacity="0.7"/>
+<text x="95" y="158" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Restricted</text>
+<g transform="translate(390,64)">
+<ellipse cx="0" cy="26" rx="15.399999999999999" ry="4" fill="#0f1a32" opacity="0.3" filter="url(#sh)"/>
+<path d="M0,-22 L22,-16 L22,6 Q22,26 0,30 Q-22,26 -22,6 L-22,-16 Z" fill="#1B2A4A" stroke="#5BA3D9" stroke-width="1.8"/>
+</g><text x="390" y="96" text-anchor="middle" font-size="8" fill="#5BA3D9" font-weight="700" font-family="IBM Plex Mono,monospace">AUTOMATED LABELING</text>
+<circle cx="348" cy="112" r="2.5" fill="#5BA3D9" opacity="0.7"/>
+<text x="355" y="116" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Rule-based + ML classifiers</text>
+<circle cx="348" cy="126" r="2.5" fill="#5BA3D9" opacity="0.7"/>
+<text x="355" y="130" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Labels travel with files</text>
+<circle cx="348" cy="140" r="2.5" fill="#5BA3D9" opacity="0.7"/>
+<text x="355" y="144" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Trigger DLP + encryption</text>
+<circle cx="348" cy="154" r="2.5" fill="#5BA3D9" opacity="0.7"/>
+<text x="355" y="158" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Custom content training</text>
+<g transform="translate(130,217)">
+<circle cx="0" cy="0" r="7" fill="#C4AA88" stroke="#0f1a32" stroke-width="0.8"/>
+<line x1="0" y1="0" x2="0.0" y2="-30.0" stroke="#A08860" stroke-width="0.8" opacity="0.6"/>
+<circle cx="0.0" cy="-30.0" r="5" fill="#1B2A4A" stroke="#A08860" stroke-width="0.8"/>
+<line x1="0" y1="0" x2="30.0" y2="0.0" stroke="#A08860" stroke-width="0.8" opacity="0.6"/>
+<circle cx="30.0" cy="0.0" r="5" fill="#1B2A4A" stroke="#A08860" stroke-width="0.8"/>
+<line x1="0" y1="0" x2="0.0" y2="30.0" stroke="#A08860" stroke-width="0.8" opacity="0.6"/>
+<circle cx="0.0" cy="30.0" r="5" fill="#1B2A4A" stroke="#A08860" stroke-width="0.8"/>
+<line x1="0" y1="0" x2="-30.0" y2="0.0" stroke="#A08860" stroke-width="0.8" opacity="0.6"/>
+<circle cx="-30.0" cy="0.0" r="5" fill="#1B2A4A" stroke="#A08860" stroke-width="0.8"/>
+</g><text x="130" y="241" text-anchor="middle" font-size="8" fill="#A08860" font-weight="700" font-family="IBM Plex Mono,monospace">DATA DISCOVERY</text>
+<circle cx="88" cy="257" r="2.5" fill="#A08860" opacity="0.7"/>
+<text x="95" y="261" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Scan shares + SharePoint</text>
+<circle cx="88" cy="271" r="2.5" fill="#A08860" opacity="0.7"/>
+<text x="95" y="275" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Find data you did not know</text>
+<circle cx="88" cy="285" r="2.5" fill="#A08860" opacity="0.7"/>
+<text x="95" y="289" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Unclassified = unprotected</text>
+<circle cx="88" cy="299" r="2.5" fill="#A08860" opacity="0.7"/>
+<text x="95" y="303" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Endpoint + cloud scanning</text>
+<g transform="translate(390,213)">
+<path d="M-19,-24 L11,-24 L19,-16 L19,24 L-19,24 Z" fill="#1B2A4A" stroke="#A08860" stroke-width="0.8"/>
+<path d="M11,-24 L11,-16 L19,-16" fill="none" stroke="#A08860" stroke-width="0.6"/>
+<text x="0" y="-10" text-anchor="middle" font-size="5" fill="#A08860" font-weight="700" font-family="IBM Plex Mono,monospace">RECORDS </text>
+<line x1="-15" y1="-2" x2="15" y2="-2" stroke="#D6CCBC" stroke-width="0.7" opacity="0.8"/>
+<line x1="-15" y1="6" x2="15" y2="6" stroke="#D6CCBC" stroke-width="0.7" opacity="0.8"/>
+</g><text x="390" y="241" text-anchor="middle" font-size="8" fill="#2d6a2d" font-weight="700" font-family="IBM Plex Mono,monospace">RECORDS MANAGEMENT</text>
+<circle cx="348" cy="257" r="2.5" fill="#2d6a2d" opacity="0.7"/>
+<text x="355" y="261" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Retention labels enforce</text>
+<circle cx="348" cy="271" r="2.5" fill="#2d6a2d" opacity="0.7"/>
+<text x="355" y="275" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Legal hold automation</text>
+<circle cx="348" cy="285" r="2.5" fill="#2d6a2d" opacity="0.7"/>
+<text x="355" y="289" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Scheduled deletion</text>
+<circle cx="348" cy="299" r="2.5" fill="#2d6a2d" opacity="0.7"/>
+<text x="355" y="303" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">FRCP e-discovery ready</text>
+</svg></div>
+    </div>
+    <div class="col-content" id="cc-pg1">
+      
+<div class="hl-block" id="pg1-b0" onclick="jumpToBlock('pg1',0)">
+  <div class="hl-bar" style="background:#1B2A4A;"></div>
+  <div class="hl-inner">
+    <div class="blk-title" style="color:#1B2A4A;">Designing an effective data classification framework</div>
+    <div class="blk-body">An effective data classification framework must balance completeness with usability. Frameworks with too many classification levels — seven or more — produce decision fatigue and inconsistent classification because employees cannot reliably distinguish between adjacent levels. Most effective frameworks use four levels: public (freely shareable), internal (business use), confidential (restricted distribution), and restricted or highly confidential (most sensitive, strictest controls). Each level must have clear, specific examples that are recognizable to employees across different business functions. The framework must align with regulatory requirements: data subject to NY DFS 23 NYCRR 500, HIPAA, PCI DSS, or GLBA must be identifiable within the classification scheme and must receive controls appropriate to their regulatory category. Framework adoption requires executive sponsorship, training, and tooling that makes correct classification the path of least resistance.</div>
+  </div>
+</div>
+<div class="hl-block" id="pg1-b1" onclick="jumpToBlock('pg1',1)">
+  <div class="hl-bar" style="background:#C4AA88;"></div>
+  <div class="hl-inner">
+    <div class="blk-title" style="color:#C4AA88;">Information protection labels and automated classification</div>
+    <div class="blk-body">Manual classification by data creators is inconsistent and does not retroactively classify existing data. Automated classification tools analyze data content and apply labels based on policy rules — either as suggestions that users confirm or as automatic application without user intervention. Microsoft Purview Information Protection (formerly Azure Information Protection) applies sensitivity labels based on content matching, document templates, and machine learning classifiers. Labels travel with files and emails, persisting through downloads, forwards, and copies. Labels can trigger DLP policies, encryption, access restrictions, and visual markings (headers, footers, watermarks). Trainable classifiers use machine learning to identify content categories that cannot be expressed as simple pattern matches — specific document types, communication topics, or proprietary terminology — providing classification coverage beyond rule-based approaches.</div>
+  </div>
+</div>
+<div class="hl-block" id="pg1-b2" onclick="jumpToBlock('pg1',2)">
+  <div class="hl-bar" style="background:#A08860;"></div>
+  <div class="hl-inner">
+    <div class="blk-title" style="color:#A08860;">Data discovery: finding sensitive data you do not know you have</div>
+    <div class="blk-body">Data governance starts with knowing what data you have and where it lives. Most organizations underestimate the volume and distribution of their sensitive data — copies proliferate through email attachments, SharePoint shares, personal cloud storage, and local drives in ways that are not tracked by any system of record. Data discovery tools scan file systems, cloud storage, databases, and email archives for content that matches sensitive data patterns. Microsoft Purview's data map catalogs data assets across on-premises and cloud storage with classification labels and access patterns. The discovery process frequently surfaces unexpected concentrations of sensitive data: a SharePoint site shared with the entire organization that contains employee salary information, an email distribution list archive containing customer PII, or a shared drive folder with years of client contracts. Discovery output drives remediation — securing or deleting improperly stored sensitive data.</div>
+  </div>
+</div>
+<div class="hl-block" id="pg1-b3" onclick="jumpToBlock('pg1',3)">
+  <div class="hl-bar" style="background:#A08860;"></div>
+  <div class="hl-inner">
+    <div class="blk-title" style="color:#A08860;">Records management and retention governance</div>
+    <div class="blk-body">Not all data should be kept indefinitely, and regulatory requirements mandate minimum retention periods for specific data categories. Records management programs define retention policies that specify how long each type of record must be kept, when it can be deleted, and what triggers a legal hold that overrides normal retention. Microsoft Purview's records management assigns retention labels to data based on content classification, regulatory mapping, and business rules. Retention labels can be applied automatically to SharePoint sites, OneDrive, Exchange mailboxes, and Teams messages. Disposition review workflows require human review before records are permanently deleted — providing a checkpoint to identify records that have ongoing legal or regulatory hold requirements. Immutable retention labels mark records as unmodifiable and undeletable for the retention period, satisfying regulatory requirements for tamper-evident record-keeping.</div>
+  </div>
+</div>
+    </div>
+  </div>
+</div>
+<div class="page" id="pg2" style="display:none;">
+  <div class="page-header">
+    <div class="ph-section"> — DLP Technical Implementation</div>
+    <div class="ph-sub">Configuring and tuning data loss prevention policies</div>
+    <button class="play-btn" id="play-pg2" onclick="togglePlay('pg2')">&#9654; Play Narration</button>
+  </div>
+  <div class="page-cols">
+    <div class="col-diagram">
+      <div class="svg-pad"><svg viewBox="0 0 520 340" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+<defs>
+  <radialGradient id="halo" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#C4AA88" stop-opacity="0.55"/>
+    <stop offset="100%" stop-color="#C4AA88" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient id="scr" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="#2a3a5e"/><stop offset="100%" stop-color="#0f1a32"/>
+  </linearGradient>
+  <linearGradient id="goldB" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="#E8D4B0"/><stop offset="100%" stop-color="#A08860"/>
+  </linearGradient>
+  <linearGradient id="navyB" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="#2a3a5e"/><stop offset="100%" stop-color="#1B2A4A"/>
+  </linearGradient>
+  <filter id="sh" x="-20%" y="-20%" width="140%" height="140%">
+    <feGaussianBlur stdDeviation="2.5"/>
+  </filter>
+  <marker id="arr" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="5" markerHeight="5" orient="auto">
+    <path d="M0,1 L7,4 L0,7 Z" fill="#A08860"/>
+  </marker>
+  <marker id="arr_r" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="5" markerHeight="5" orient="auto">
+    <path d="M0,1 L7,4 L0,7 Z" fill="#9B2B2B"/>
+  </marker>
+</defs>
+<!-- Background -->
+<rect width="520" height="340" fill="#0f1a32"/>
+<rect width="520" height="340" fill="url(#scr)" opacity="0.4"/>
+<!-- dot pattern -->
+<pattern id="dp" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
+  <circle cx="1" cy="1" r="0.8" fill="#C4AA88" opacity="0.05"/>
+</pattern>
+<rect width="520" height="340" fill="url(#dp)"/>
+<!-- Title bar -->
+<rect x="0" y="0" width="520" height="38" fill="#0f1a32" opacity="0.85"/>
+<line x1="18" y1="38" x2="502" y2="38" stroke="#C4AA88" stroke-width="0.5" opacity="0.4"/>
+<text x="260" y="24" text-anchor="middle" font-size="12" fill="#C4AA88" font-weight="700" font-family="IBM Plex Mono,monospace" letter-spacing="2.5">DLP POLICY ARCHITECTURE</text>
+<line x1="260" y1="44" x2="260" y2="334" stroke="#A08860" stroke-width="0.4" opacity="0.25" stroke-dasharray="4,5"/>
+<line x1="18" y1="189" x2="502" y2="189" stroke="#A08860" stroke-width="0.4" opacity="0.25" stroke-dasharray="4,5"/>
+<g transform="translate(130,64)">
+<ellipse cx="0" cy="20" rx="12.6" ry="3" fill="#0f1a32" opacity="0.3"/>
+<path d="M-9,0 Q-9,-18 0,-18 Q9,-18 9,0" fill="none" stroke="#C4AA88" stroke-width="2.2" stroke-linecap="round"/>
+<rect x="-13" y="0" width="26" height="18" rx="3" fill="#1B2A4A" stroke="#C4AA88" stroke-width="1.6"/>
+<circle cx="0" cy="7" r="4" fill="#C4AA88" opacity="0.8"/>
+</g><text x="130" y="96" text-anchor="middle" font-size="8" fill="#C4AA88" font-weight="700" font-family="IBM Plex Mono,monospace">LAYERED CONDITIONS</text>
+<circle cx="88" cy="112" r="2.5" fill="#C4AA88" opacity="0.7"/>
+<text x="95" y="116" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Content match</text>
+<circle cx="88" cy="126" r="2.5" fill="#C4AA88" opacity="0.7"/>
+<text x="95" y="130" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">External recipient check</text>
+<circle cx="88" cy="140" r="2.5" fill="#C4AA88" opacity="0.7"/>
+<text x="95" y="144" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Quantity threshold</text>
+<circle cx="88" cy="154" r="2.5" fill="#C4AA88" opacity="0.7"/>
+<text x="95" y="158" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Confidence level → action</text>
+<g transform="translate(390,64)">
+<ellipse cx="0" cy="26" rx="15.399999999999999" ry="4" fill="#0f1a32" opacity="0.3" filter="url(#sh)"/>
+<path d="M0,-22 L22,-16 L22,6 Q22,26 0,30 Q-22,26 -22,6 L-22,-16 Z" fill="#1B2A4A" stroke="#5BA3D9" stroke-width="1.8"/>
+</g><text x="390" y="96" text-anchor="middle" font-size="8" fill="#5BA3D9" font-weight="700" font-family="IBM Plex Mono,monospace">ACTION TIERS</text>
+<circle cx="348" cy="112" r="2.5" fill="#5BA3D9" opacity="0.7"/>
+<text x="355" y="116" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Block (high confidence)</text>
+<circle cx="348" cy="126" r="2.5" fill="#5BA3D9" opacity="0.7"/>
+<text x="355" y="130" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Warn+override (medium)</text>
+<circle cx="348" cy="140" r="2.5" fill="#5BA3D9" opacity="0.7"/>
+<text x="355" y="144" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Log only (low)</text>
+<circle cx="348" cy="154" r="2.5" fill="#5BA3D9" opacity="0.7"/>
+<text x="355" y="158" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Tune before enforcing</text>
+<g transform="translate(130,211)">
+<ellipse cx="0" cy="22" rx="14.0" ry="3" fill="#0f1a32" opacity="0.3"/>
+<polygon points="0,-20 20,20 -20,20" fill="#1B2A4A" stroke="#A08860" stroke-width="1.8"/>
+<text x="0" y="16" text-anchor="middle" font-size="14.0" fill="#A08860" font-weight="700" font-family="IBM Plex Mono,monospace">!</text>
+</g><text x="130" y="241" text-anchor="middle" font-size="8" fill="#A08860" font-weight="700" font-family="IBM Plex Mono,monospace">ENDPOINT DLP</text>
+<circle cx="88" cy="257" r="2.5" fill="#A08860" opacity="0.7"/>
+<text x="95" y="261" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">USB copy control</text>
+<circle cx="88" cy="271" r="2.5" fill="#A08860" opacity="0.7"/>
+<text x="95" y="275" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Print restriction</text>
+<circle cx="88" cy="285" r="2.5" fill="#A08860" opacity="0.7"/>
+<text x="95" y="289" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Cloud upload block</text>
+<circle cx="88" cy="299" r="2.5" fill="#A08860" opacity="0.7"/>
+<text x="95" y="303" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Clipboard + screen capture</text>
+<g transform="translate(390,217)">
+<circle cx="0" cy="0" r="7" fill="#C4AA88" stroke="#0f1a32" stroke-width="0.8"/>
+<line x1="0" y1="0" x2="0.0" y2="-30.0" stroke="#A08860" stroke-width="0.8" opacity="0.6"/>
+<circle cx="0.0" cy="-30.0" r="5" fill="#1B2A4A" stroke="#A08860" stroke-width="0.8"/>
+<line x1="0" y1="0" x2="30.0" y2="0.0" stroke="#A08860" stroke-width="0.8" opacity="0.6"/>
+<circle cx="30.0" cy="0.0" r="5" fill="#1B2A4A" stroke="#A08860" stroke-width="0.8"/>
+<line x1="0" y1="0" x2="0.0" y2="30.0" stroke="#A08860" stroke-width="0.8" opacity="0.6"/>
+<circle cx="0.0" cy="30.0" r="5" fill="#1B2A4A" stroke="#A08860" stroke-width="0.8"/>
+<line x1="0" y1="0" x2="-30.0" y2="0.0" stroke="#A08860" stroke-width="0.8" opacity="0.6"/>
+<circle cx="-30.0" cy="0.0" r="5" fill="#1B2A4A" stroke="#A08860" stroke-width="0.8"/>
+</g><text x="390" y="241" text-anchor="middle" font-size="8" fill="#2d6a2d" font-weight="700" font-family="IBM Plex Mono,monospace">CLOUD DLP / CASB</text>
+<circle cx="348" cy="257" r="2.5" fill="#2d6a2d" opacity="0.7"/>
+<text x="355" y="261" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Discover sanctioned SaaS</text>
+<circle cx="348" cy="271" r="2.5" fill="#2d6a2d" opacity="0.7"/>
+<text x="355" y="275" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Block shadow IT uploads</text>
+<circle cx="348" cy="285" r="2.5" fill="#2d6a2d" opacity="0.7"/>
+<text x="355" y="289" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Apply DLP to cloud storage</text>
+<circle cx="348" cy="299" r="2.5" fill="#2d6a2d" opacity="0.7"/>
+<text x="355" y="303" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Non-approved destinations</text>
+</svg></div>
+    </div>
+    <div class="col-content" id="cc-pg2">
+      
+<div class="hl-block" id="pg2-b0" onclick="jumpToBlock('pg2',0)">
+  <div class="hl-bar" style="background:#1B2A4A;"></div>
+  <div class="hl-inner">
+    <div class="blk-title" style="color:#1B2A4A;">DLP policy design: sensitive information types and conditions</div>
+    <div class="blk-body">DLP policy effectiveness depends on the precision of the sensitive information type definitions and the conditions under which policies trigger. Overly broad policies (match any document mentioning 'confidential') produce high false positive rates that overwhelm reviewers and train users to route around DLP. Overly narrow policies miss actual data loss events. Effective DLP uses layered conditions: content must match a sensitive information type (credit card number format) AND the recipient must be external AND the quantity must exceed a threshold (more than 5 card numbers) before triggering a policy action. Confidence levels in sensitive information type matches (high, medium, low) allow policies to apply different actions based on match certainty — block for high confidence, warn and allow override for medium confidence, log only for low confidence.</div>
+  </div>
+</div>
+<div class="hl-block" id="pg2-b1" onclick="jumpToBlock('pg2',1)">
+  <div class="hl-bar" style="background:#C4AA88;"></div>
+  <div class="hl-inner">
+    <div class="blk-title" style="color:#C4AA88;">Endpoint DLP: extending data protection to device-level actions</div>
+    <div class="blk-body">Traditional DLP monitors data moving through network channels — email, web upload, cloud sync. Endpoint DLP (Microsoft Purview Endpoint DLP, Forcepoint, Digital Guardian) monitors data at the device level, controlling actions regardless of network path. Endpoint DLP can control: copy to USB storage, copy to network share, print to local or network printers, upload to cloud storage (OneDrive, Dropbox, Google Drive at the application level), screen capture, clipboard operations, and application-level controls that prevent certain applications from accessing sensitive documents. Device-level monitoring is necessary because users who encounter network-level DLP controls may work around them through personal devices, personal hotspots, or physical media. Endpoint DLP completes the coverage by controlling the data at the source, independent of how it is transmitted.</div>
+  </div>
+</div>
+<div class="hl-block" id="pg2-b2" onclick="jumpToBlock('pg2',2)">
+  <div class="hl-bar" style="background:#A08860;"></div>
+  <div class="hl-inner">
+    <div class="blk-title" style="color:#A08860;">DLP for cloud applications: CASB and inline monitoring</div>
+    <div class="blk-body">Cloud Access Security Broker (CASB) solutions extend DLP controls to sanctioned and unsanctioned cloud applications. CASB deployment modes include API-based (connects directly to sanctioned cloud application APIs to inspect content already in cloud storage), reverse proxy (intercepts user access to cloud applications through a proxy, enabling inline DLP and access control), and forward proxy (deployed on the network to inspect and control cloud access from managed devices). API-based CASB provides retroactive scanning of content already in cloud storage and policy enforcement on sharing and access changes. Inline CASB provides real-time control of data movement during uploads and downloads. Shadow IT discovery — identifying unsanctioned cloud services in use — is a key CASB capability, because users routinely upload sensitive data to personal cloud storage, consumer file sharing services, and AI productivity tools that are not approved for organizational data.</div>
+  </div>
+</div>
+<div class="hl-block" id="pg2-b3" onclick="jumpToBlock('pg2',3)">
+  <div class="hl-bar" style="background:#A08860;"></div>
+  <div class="hl-inner">
+    <div class="blk-title" style="color:#A08860;">DLP alert triage and response workflow</div>
+    <div class="blk-body">DLP policies generate alerts that require human review and response. Without effective triage and response workflows, DLP alerts accumulate unreviewed — providing false compliance assurance while offering no actual data protection. Effective DLP operations require: alert prioritization that surfaces high-severity events (large volumes of highly sensitive data moving to external destinations) before low-severity ones (a single internal email mentioning 'confidential'), clear triage criteria that allow analysts to quickly determine whether an alert represents a genuine policy violation or a false positive, user justification capture that allows users to provide business context before escalating to manual review, and resolution workflows that feed back into policy tuning — if a specific sender-recipient pair consistently generates false positives, a narrower policy or an allowlist entry resolves the alert volume without reducing protection.</div>
+  </div>
+</div>
+    </div>
+  </div>
+</div>
+<div class="page" id="pg3" style="display:none;">
+  <div class="page-header">
+    <div class="ph-section"> — Encryption and Key Management</div>
+    <div class="ph-sub">Protecting data at rest and in transit at the enterprise level</div>
+    <button class="play-btn" id="play-pg3" onclick="togglePlay('pg3')">&#9654; Play Narration</button>
+  </div>
+  <div class="page-cols">
+    <div class="col-diagram">
+      <div class="svg-pad"><svg viewBox="0 0 520 340" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+<defs>
+  <radialGradient id="halo" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#C4AA88" stop-opacity="0.55"/>
+    <stop offset="100%" stop-color="#C4AA88" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient id="scr" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="#2a3a5e"/><stop offset="100%" stop-color="#0f1a32"/>
+  </linearGradient>
+  <linearGradient id="goldB" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="#E8D4B0"/><stop offset="100%" stop-color="#A08860"/>
+  </linearGradient>
+  <linearGradient id="navyB" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="#2a3a5e"/><stop offset="100%" stop-color="#1B2A4A"/>
+  </linearGradient>
+  <filter id="sh" x="-20%" y="-20%" width="140%" height="140%">
+    <feGaussianBlur stdDeviation="2.5"/>
+  </filter>
+  <marker id="arr" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="5" markerHeight="5" orient="auto">
+    <path d="M0,1 L7,4 L0,7 Z" fill="#A08860"/>
+  </marker>
+  <marker id="arr_r" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="5" markerHeight="5" orient="auto">
+    <path d="M0,1 L7,4 L0,7 Z" fill="#9B2B2B"/>
+  </marker>
+</defs>
+<!-- Background -->
+<rect width="520" height="340" fill="#0f1a32"/>
+<rect width="520" height="340" fill="url(#scr)" opacity="0.4"/>
+<!-- dot pattern -->
+<pattern id="dp" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
+  <circle cx="1" cy="1" r="0.8" fill="#C4AA88" opacity="0.05"/>
+</pattern>
+<rect width="520" height="340" fill="url(#dp)"/>
+<!-- Title bar -->
+<rect x="0" y="0" width="520" height="38" fill="#0f1a32" opacity="0.85"/>
+<line x1="18" y1="38" x2="502" y2="38" stroke="#C4AA88" stroke-width="0.5" opacity="0.4"/>
+<text x="260" y="24" text-anchor="middle" font-size="12" fill="#C4AA88" font-weight="700" font-family="IBM Plex Mono,monospace" letter-spacing="2.5">ENTERPRISE ENCRYPTION ARCHITECTURE</text>
+<line x1="260" y1="44" x2="260" y2="334" stroke="#A08860" stroke-width="0.4" opacity="0.25" stroke-dasharray="4,5"/>
+<line x1="18" y1="189" x2="502" y2="189" stroke="#A08860" stroke-width="0.4" opacity="0.25" stroke-dasharray="4,5"/>
+<g transform="translate(130,64)">
+<ellipse cx="0" cy="20" rx="12.6" ry="3" fill="#0f1a32" opacity="0.3"/>
+<path d="M-9,0 Q-9,-18 0,-18 Q9,-18 9,0" fill="none" stroke="#C4AA88" stroke-width="2.2" stroke-linecap="round"/>
+<rect x="-13" y="0" width="26" height="18" rx="3" fill="#1B2A4A" stroke="#C4AA88" stroke-width="1.6"/>
+<circle cx="0" cy="7" r="4" fill="#C4AA88" opacity="0.8"/>
+</g><text x="130" y="96" text-anchor="middle" font-size="8" fill="#C4AA88" font-weight="700" font-family="IBM Plex Mono,monospace">DATA AT REST</text>
+<circle cx="88" cy="112" r="2.5" fill="#C4AA88" opacity="0.7"/>
+<text x="95" y="116" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">BitLocker/FileVault endpoints</text>
+<circle cx="88" cy="126" r="2.5" fill="#C4AA88" opacity="0.7"/>
+<text x="95" y="130" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">DB Transparent Encryption</text>
+<circle cx="88" cy="140" r="2.5" fill="#C4AA88" opacity="0.7"/>
+<text x="95" y="144" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Encrypted backups</text>
+<circle cx="88" cy="154" r="2.5" fill="#C4AA88" opacity="0.7"/>
+<text x="95" y="158" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">AES-256 standard minimum</text>
+<g transform="translate(390,64)">
+<ellipse cx="0" cy="26" rx="15.399999999999999" ry="4" fill="#0f1a32" opacity="0.3" filter="url(#sh)"/>
+<path d="M0,-22 L22,-16 L22,6 Q22,26 0,30 Q-22,26 -22,6 L-22,-16 Z" fill="#1B2A4A" stroke="#5BA3D9" stroke-width="1.8"/>
+</g><text x="390" y="96" text-anchor="middle" font-size="8" fill="#5BA3D9" font-weight="700" font-family="IBM Plex Mono,monospace">DATA IN TRANSIT</text>
+<circle cx="348" cy="112" r="2.5" fill="#5BA3D9" opacity="0.7"/>
+<text x="355" y="116" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">TLS 1.3 minimum</text>
+<circle cx="348" cy="126" r="2.5" fill="#5BA3D9" opacity="0.7"/>
+<text x="355" y="130" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">HTTPS enforcement</text>
+<circle cx="348" cy="140" r="2.5" fill="#5BA3D9" opacity="0.7"/>
+<text x="355" y="144" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Certificate pinning: APIs</text>
+<circle cx="348" cy="154" r="2.5" fill="#5BA3D9" opacity="0.7"/>
+<text x="355" y="158" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Deprecate TLS 1.0/1.1</text>
+<g transform="translate(130,217) scale(1.3)">
+<circle cx="-12" cy="0" r="9" fill="#1B2A4A" stroke="#A08860" stroke-width="1.8"/>
+<circle cx="-12" cy="0" r="5" fill="none" stroke="#A08860" stroke-width="1.2"/>
+<line x1="-3" y1="0" x2="18" y2="0" stroke="#A08860" stroke-width="2.2" stroke-linecap="round"/>
+<line x1="14" y1="0" x2="14" y2="5" stroke="#A08860" stroke-width="2" stroke-linecap="round"/>
+<line x1="10" y1="0" x2="10" y2="5" stroke="#A08860" stroke-width="2" stroke-linecap="round"/>
+</g>
+<text x="130" y="241" text-anchor="middle" font-size="8" fill="#A08860" font-weight="700" font-family="IBM Plex Mono,monospace">KEY MANAGEMENT</text>
+<circle cx="88" cy="257" r="2.5" fill="#A08860" opacity="0.7"/>
+<text x="95" y="261" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">HSM for root keys</text>
+<circle cx="88" cy="271" r="2.5" fill="#A08860" opacity="0.7"/>
+<text x="95" y="275" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Generate·Distribute·Rotate</text>
+<circle cx="88" cy="285" r="2.5" fill="#A08860" opacity="0.7"/>
+<text x="95" y="289" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Revoke·Archive lifecycle</text>
+<circle cx="88" cy="299" r="2.5" fill="#A08860" opacity="0.7"/>
+<text x="95" y="303" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Separate from data storage</text>
+<g transform="translate(390,217)">
+<circle cx="0" cy="0" r="7" fill="#C4AA88" stroke="#0f1a32" stroke-width="0.8"/>
+<line x1="0" y1="0" x2="0.0" y2="-30.0" stroke="#A08860" stroke-width="0.8" opacity="0.6"/>
+<circle cx="0.0" cy="-30.0" r="5" fill="#1B2A4A" stroke="#A08860" stroke-width="0.8"/>
+<line x1="0" y1="0" x2="30.0" y2="0.0" stroke="#A08860" stroke-width="0.8" opacity="0.6"/>
+<circle cx="30.0" cy="0.0" r="5" fill="#1B2A4A" stroke="#A08860" stroke-width="0.8"/>
+<line x1="0" y1="0" x2="0.0" y2="30.0" stroke="#A08860" stroke-width="0.8" opacity="0.6"/>
+<circle cx="0.0" cy="30.0" r="5" fill="#1B2A4A" stroke="#A08860" stroke-width="0.8"/>
+<line x1="0" y1="0" x2="-30.0" y2="0.0" stroke="#A08860" stroke-width="0.8" opacity="0.6"/>
+<circle cx="-30.0" cy="0.0" r="5" fill="#1B2A4A" stroke="#A08860" stroke-width="0.8"/>
+</g><text x="390" y="241" text-anchor="middle" font-size="8" fill="#2d6a2d" font-weight="700" font-family="IBM Plex Mono,monospace">CRYPTO AGILITY</text>
+<circle cx="348" cy="257" r="2.5" fill="#2d6a2d" opacity="0.7"/>
+<text x="355" y="261" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Abstract algorithm selection</text>
+<circle cx="348" cy="271" r="2.5" fill="#2d6a2d" opacity="0.7"/>
+<text x="355" y="275" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">CBOM documents all algos</text>
+<circle cx="348" cy="285" r="2.5" fill="#2d6a2d" opacity="0.7"/>
+<text x="355" y="289" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Design for PQC migration</text>
+<circle cx="348" cy="299" r="2.5" fill="#2d6a2d" opacity="0.7"/>
+<text x="355" y="303" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">No hard-coded algorithms</text>
+</svg></div>
+    </div>
+    <div class="col-content" id="cc-pg3">
+      
+<div class="hl-block" id="pg3-b0" onclick="jumpToBlock('pg3',0)">
+  <div class="hl-bar" style="background:#1B2A4A;"></div>
+  <div class="hl-inner">
+    <div class="blk-title" style="color:#1B2A4A;">Enterprise encryption strategy: at rest, in transit, and in use</div>
+    <div class="blk-body">A complete enterprise encryption strategy addresses data in three states. Data at rest: storage encryption protects data on disks, databases, and backup media against physical theft or unauthorized access to storage systems. Full-disk encryption (BitLocker for Windows, FileVault for macOS) protects endpoint devices. Database Transparent Data Encryption (TDE) encrypts database files at the storage layer. Encrypted backup storage ensures that backup media loss does not constitute data exposure. Data in transit: TLS 1.2 or 1.3 protects data moving across networks. VPN tunnels protect remote access traffic. Encrypted API channels protect integration data flows. Data in use: the most technically challenging state — data must be decrypted to be processed. Confidential computing (Intel SGX, AMD SEV, Microsoft Azure confidential VMs) provides hardware-enforced isolation for processing sensitive data, preventing even the cloud provider from accessing decrypted data.</div>
+  </div>
+</div>
+<div class="hl-block" id="pg3-b1" onclick="jumpToBlock('pg3',1)">
+  <div class="hl-bar" style="background:#C4AA88;"></div>
+  <div class="hl-inner">
+    <div class="blk-title" style="color:#C4AA88;">Key management: the critical operational challenge of encryption</div>
+    <div class="blk-body">Encryption is only as strong as key management. Keys stored alongside the data they encrypt provide no protection — anyone who accesses the storage accesses both the data and the key. Effective key management requires: key storage in hardware security modules (HSMs) that enforce access controls and prevent key extraction, key hierarchy that separates data encryption keys (DEKs) from key encryption keys (KEKs), key rotation schedules that limit the amount of data encrypted under any single key, access controls on key usage that implement separation of duties (no single individual can both manage keys and access the data they protect), and key custody procedures for backup and recovery that maintain security while ensuring availability. Cloud key management services (AWS KMS, Azure Key Vault, Google Cloud KMS) provide managed HSM infrastructure with audit logging and access control integration.</div>
+  </div>
+</div>
+<div class="hl-block" id="pg3-b2" onclick="jumpToBlock('pg3',2)">
+  <div class="hl-bar" style="background:#A08860;"></div>
+  <div class="hl-inner">
+    <div class="blk-title" style="color:#A08860;">Rights management: persistent access control that travels with data</div>
+    <div class="blk-body">Rights management (also called information rights management, IRM) applies access controls directly to documents and emails — controls that persist when the file is downloaded, forwarded, or copied to external storage. Azure Information Protection (AIP) and Microsoft Purview Information Protection apply rights management based on sensitivity labels: a document labeled 'Confidential' might be restricted to view-only for external recipients, prevented from being printed or screen-captured, and set to expire after a defined period. Rights management addresses the fundamental limitation of perimeter-based access control: once data leaves the protected environment, perimeter controls no longer apply. Rights management extends protection beyond the perimeter to wherever the data travels. Implementation requires that recipients' devices can connect to the rights management service to verify authorization — creating dependencies that must be managed for air-gapped or offline environments.</div>
+  </div>
+</div>
+<div class="hl-block" id="pg3-b3" onclick="jumpToBlock('pg3',3)">
+  <div class="hl-bar" style="background:#A08860;"></div>
+  <div class="hl-inner">
+    <div class="blk-title" style="color:#A08860;">Data discovery for encryption gap analysis</div>
+    <div class="blk-body">Encryption strategy is effective only if it actually covers the sensitive data that exists in the organization. Encryption gap analysis identifies sensitive data that exists outside of encrypted storage — on unencrypted file shares, in unencrypted database tables, in unencrypted email archives, or on endpoint devices without full-disk encryption. Data discovery scans identify sensitive content locations; comparing these locations against the encryption inventory reveals gaps. Common gaps discovered in practice: legacy file shares that predate encryption requirements, database backup files stored in unencrypted format, email archives in PST format on unencrypted network shares, application log files that capture sensitive input data in plaintext, and developer environments that use production data copies without applying production security controls.</div>
+  </div>
+</div>
+    </div>
+  </div>
+</div>
+<div class="page" id="pg4" style="display:none;">
+  <div class="page-header">
+    <div class="ph-section"> — Regulatory Compliance and Data Breach Response</div>
+    <div class="ph-sub">Meeting regulatory requirements and responding to data loss incidents</div>
+    <button class="play-btn" id="play-pg4" onclick="togglePlay('pg4')">&#9654; Play Narration</button>
+  </div>
+  <div class="page-cols">
+    <div class="col-diagram">
+      <div class="svg-pad"><svg viewBox="0 0 520 340" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+<defs>
+  <radialGradient id="halo" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#C4AA88" stop-opacity="0.55"/>
+    <stop offset="100%" stop-color="#C4AA88" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient id="scr" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="#2a3a5e"/><stop offset="100%" stop-color="#0f1a32"/>
+  </linearGradient>
+  <linearGradient id="goldB" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="#E8D4B0"/><stop offset="100%" stop-color="#A08860"/>
+  </linearGradient>
+  <linearGradient id="navyB" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="#2a3a5e"/><stop offset="100%" stop-color="#1B2A4A"/>
+  </linearGradient>
+  <filter id="sh" x="-20%" y="-20%" width="140%" height="140%">
+    <feGaussianBlur stdDeviation="2.5"/>
+  </filter>
+  <marker id="arr" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="5" markerHeight="5" orient="auto">
+    <path d="M0,1 L7,4 L0,7 Z" fill="#A08860"/>
+  </marker>
+  <marker id="arr_r" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="5" markerHeight="5" orient="auto">
+    <path d="M0,1 L7,4 L0,7 Z" fill="#9B2B2B"/>
+  </marker>
+</defs>
+<!-- Background -->
+<rect width="520" height="340" fill="#0f1a32"/>
+<rect width="520" height="340" fill="url(#scr)" opacity="0.4"/>
+<!-- dot pattern -->
+<pattern id="dp" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
+  <circle cx="1" cy="1" r="0.8" fill="#C4AA88" opacity="0.05"/>
+</pattern>
+<rect width="520" height="340" fill="url(#dp)"/>
+<!-- Title bar -->
+<rect x="0" y="0" width="520" height="38" fill="#0f1a32" opacity="0.85"/>
+<line x1="18" y1="38" x2="502" y2="38" stroke="#C4AA88" stroke-width="0.5" opacity="0.4"/>
+<text x="260" y="24" text-anchor="middle" font-size="12" fill="#C4AA88" font-weight="700" font-family="IBM Plex Mono,monospace" letter-spacing="2.5">BREACH RESPONSE AND COMPLIANCE</text>
+<line x1="260" y1="44" x2="260" y2="334" stroke="#A08860" stroke-width="0.4" opacity="0.25" stroke-dasharray="4,5"/>
+<line x1="18" y1="189" x2="502" y2="189" stroke="#A08860" stroke-width="0.4" opacity="0.25" stroke-dasharray="4,5"/>
+<g transform="translate(130,66)">
+<ellipse cx="0" cy="22" rx="14.0" ry="3" fill="#0f1a32" opacity="0.3"/>
+<polygon points="0,-20 20,20 -20,20" fill="#1B2A4A" stroke="#9B2B2B" stroke-width="1.8"/>
+<text x="0" y="16" text-anchor="middle" font-size="14.0" fill="#9B2B2B" font-weight="700" font-family="IBM Plex Mono,monospace">!</text>
+</g><text x="130" y="96" text-anchor="middle" font-size="8" fill="#9B2B2B" font-weight="700" font-family="IBM Plex Mono,monospace">NY DFS 500</text>
+<circle cx="88" cy="112" r="2.5" fill="#9B2B2B" opacity="0.7"/>
+<text x="95" y="116" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Encrypt NPI at rest+transit</text>
+<circle cx="88" cy="126" r="2.5" fill="#9B2B2B" opacity="0.7"/>
+<text x="95" y="130" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">PAM program required</text>
+<circle cx="88" cy="140" r="2.5" fill="#9B2B2B" opacity="0.7"/>
+<text x="95" y="144" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Data inventory mandatory</text>
+<circle cx="88" cy="154" r="2.5" fill="#9B2B2B" opacity="0.7"/>
+<text x="95" y="158" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Secure disposal on decommission</text>
+<g transform="translate(390,64)">
+<ellipse cx="0" cy="20" rx="12.6" ry="3" fill="#0f1a32" opacity="0.3"/>
+<path d="M-9,0 Q-9,-18 0,-18 Q9,-18 9,0" fill="none" stroke="#A08860" stroke-width="2.2" stroke-linecap="round"/>
+<rect x="-13" y="0" width="26" height="18" rx="3" fill="#1B2A4A" stroke="#A08860" stroke-width="1.6"/>
+<circle cx="0" cy="7" r="4" fill="#A08860" opacity="0.8"/>
+</g><text x="390" y="96" text-anchor="middle" font-size="8" fill="#A08860" font-weight="700" font-family="IBM Plex Mono,monospace">NOTIFICATION TIMELINES</text>
+<circle cx="348" cy="112" r="2.5" fill="#A08860" opacity="0.7"/>
+<text x="355" y="116" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">NY DFS: 72 hours</text>
+<circle cx="348" cy="126" r="2.5" fill="#A08860" opacity="0.7"/>
+<text x="355" y="130" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">GDPR: 72 hours</text>
+<circle cx="348" cy="140" r="2.5" fill="#A08860" opacity="0.7"/>
+<text x="355" y="144" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">HIPAA: 60 days</text>
+<circle cx="348" cy="154" r="2.5" fill="#A08860" opacity="0.7"/>
+<text x="355" y="158" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Clock: determination, not detection</text>
+<g transform="translate(130,209)">
+<ellipse cx="0" cy="26" rx="15.399999999999999" ry="4" fill="#0f1a32" opacity="0.3" filter="url(#sh)"/>
+<path d="M0,-22 L22,-16 L22,6 Q22,26 0,30 Q-22,26 -22,6 L-22,-16 Z" fill="#1B2A4A" stroke="#5BA3D9" stroke-width="1.8"/>
+</g><text x="130" y="241" text-anchor="middle" font-size="8" fill="#5BA3D9" font-weight="700" font-family="IBM Plex Mono,monospace">LEGAL COUNSEL</text>
+<circle cx="88" cy="257" r="2.5" fill="#5BA3D9" opacity="0.7"/>
+<text x="95" y="261" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Engage immediately on discovery</text>
+<circle cx="88" cy="271" r="2.5" fill="#5BA3D9" opacity="0.7"/>
+<text x="95" y="275" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Privilege protects investigation</text>
+<circle cx="88" cy="285" r="2.5" fill="#5BA3D9" opacity="0.7"/>
+<text x="95" y="289" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Guides notification decisions</text>
+<circle cx="88" cy="299" r="2.5" fill="#5BA3D9" opacity="0.7"/>
+<text x="95" y="303" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Minimizes liability exposure</text>
+<circle cx="390" cy="217" r="20" fill="#1B2A4A" stroke="#2d6a2d" stroke-width="1.5"/>
+<polyline points="382.0,217 388.0,225.0 399.0,209.0" fill="none" stroke="#2d6a2d" stroke-width="2.2" stroke-linejoin="round"/>
+<text x="390" y="241" text-anchor="middle" font-size="8" fill="#2d6a2d" font-weight="700" font-family="IBM Plex Mono,monospace">RESPONSE STEPS</text>
+<circle cx="348" cy="257" r="2.5" fill="#2d6a2d" opacity="0.7"/>
+<text x="355" y="261" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Contain → Assess scope</text>
+<circle cx="348" cy="271" r="2.5" fill="#2d6a2d" opacity="0.7"/>
+<text x="355" y="275" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Notify legal → Determine materiality</text>
+<circle cx="348" cy="285" r="2.5" fill="#2d6a2d" opacity="0.7"/>
+<text x="355" y="289" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Notify regulators</text>
+<circle cx="348" cy="299" r="2.5" fill="#2d6a2d" opacity="0.7"/>
+<text x="355" y="303" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Notify affected individuals</text>
+</svg></div>
+    </div>
+    <div class="col-content" id="cc-pg4">
+      
+<div class="hl-block" id="pg4-b0" onclick="jumpToBlock('pg4',0)">
+  <div class="hl-bar" style="background:#1B2A4A;"></div>
+  <div class="hl-inner">
+    <div class="blk-title" style="color:#1B2A4A;">NY DFS 23 NYCRR 500: data protection requirements for financial services</div>
+    <div class="blk-body">NY DFS 23 NYCRR 500 establishes specific cybersecurity requirements for financial institutions operating under New York DFS jurisdiction, including insurance agencies and companies. Data protection requirements include: maintaining a written cybersecurity policy addressing data classification, data retention, data disposal, and encryption; encrypting all nonpublic information in transit and at rest; implementing access controls limiting access to nonpublic information to those with a legitimate need; maintaining an audit trail of access to systems containing nonpublic information; and developing and maintaining a data disposal policy that securely disposes of nonpublic information no longer needed for business operations. The 2023 amendments added specific requirements for privileged access management, data inventory of critical systems, and vulnerability management with defined remediation timelines.</div>
+  </div>
+</div>
+<div class="hl-block" id="pg4-b1" onclick="jumpToBlock('pg4',1)">
+  <div class="hl-bar" style="background:#C4AA88;"></div>
+  <div class="hl-inner">
+    <div class="blk-title" style="color:#C4AA88;">Data breach notification: triggers, timelines, and obligations</div>
+    <div class="blk-body">Data breach notification obligations are triggered when specific types of data are accessed by unauthorized parties. The definition of 'breach' and the notification timeline vary by applicable regulation. NY DFS 500 requires notification of the DFS superintendent within 72 hours of determining that a cybersecurity event has occurred that meets the notification threshold. HIPAA requires notification to affected individuals, HHS, and in some cases media within 60 days of discovery of a breach. State breach notification laws typically require notification to affected individuals within 30-90 days. GDPR requires notification to supervisory authorities within 72 hours. The notification must contain specific information about the nature of the data exposed, the likely impact on individuals, and the measures taken or being taken to address the breach. Legal counsel should be involved immediately upon discovering a potential breach to manage privilege and assess notification obligations.</div>
+  </div>
+</div>
+<div class="hl-block" id="pg4-b2" onclick="jumpToBlock('pg4',2)">
+  <div class="hl-bar" style="background:#A08860;"></div>
+  <div class="hl-inner">
+    <div class="blk-title" style="color:#A08860;">Insider threat detection and investigation</div>
+    <div class="blk-body">Insider data exfiltration is frequently preceded by behavioral indicators that, in retrospect, were visible but not acted upon. User and entity behavior analytics (UEBA) systems analyze user activity patterns — when they work, what data they access, how they handle sensitive files — and identify deviations from established baselines. Pre-departure indicators: employees who are planning to leave often access files outside their normal scope, download data to personal devices, email documents to personal accounts, or connect personal cloud storage days or weeks before resignation. Data loss prevention alerts involving specific users should be correlated with HR data (active resignation, performance issues, disciplinary proceedings) to identify elevated risk situations. Insider investigation requires coordination between security, legal, and HR to ensure that investigation activities comply with employment law and preserve evidence for potential legal proceedings.</div>
+  </div>
+</div>
+<div class="hl-block" id="pg4-b3" onclick="jumpToBlock('pg4',3)">
+  <div class="hl-bar" style="background:#A08860;"></div>
+  <div class="hl-inner">
+    <div class="blk-title" style="color:#A08860;">Data disposal and secure deletion requirements</div>
+    <div class="blk-body">Data disposal is frequently overlooked in data protection programs despite being a significant risk surface. Decommissioned hardware — laptops, servers, storage arrays, mobile devices — retains data until it is overwritten or physically destroyed. Simply deleting files or formatting a drive does not remove data; forensic tools can recover deleted data from non-overwritten storage sectors. Secure disposal requirements: overwriting media using NIST SP 800-88 approved methods (single-pass for flash storage, multiple-pass for magnetic media), degaussing (for magnetic media), or physical destruction (shredding, crushing) for media that cannot be reliably overwritten. Certificate of destruction from a qualified media destruction vendor provides documented evidence of compliant disposal. Cloud data deletion is more complex — cloud providers must be contractually required to ensure data is not recoverable after deletion, and data deletion must account for replication and backup copies.</div>
+  </div>
+</div>
+    </div>
+  </div>
+</div>
+<div class="page" id="pg5" style="display:none;">
+  <div class="page-header">
+    <div class="ph-section"> — Summary</div>
+    <div class="ph-sub">Key concepts from this module</div>
+    <button class="play-btn" id="play-pg5" onclick="togglePlay('pg5')">&#9654; Play Narration</button>
+  </div>
+  <div class="page-cols">
+    <div class="col-diagram">
+      <div class="svg-pad"><svg viewBox="0 0 520 340" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+<defs>
+  <radialGradient id="halo" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#C4AA88" stop-opacity="0.55"/>
+    <stop offset="100%" stop-color="#C4AA88" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient id="scr" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="#2a3a5e"/><stop offset="100%" stop-color="#0f1a32"/>
+  </linearGradient>
+  <linearGradient id="goldB" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="#E8D4B0"/><stop offset="100%" stop-color="#A08860"/>
+  </linearGradient>
+  <linearGradient id="navyB" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="#2a3a5e"/><stop offset="100%" stop-color="#1B2A4A"/>
+  </linearGradient>
+  <filter id="sh" x="-20%" y="-20%" width="140%" height="140%">
+    <feGaussianBlur stdDeviation="2.5"/>
+  </filter>
+  <marker id="arr" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="5" markerHeight="5" orient="auto">
+    <path d="M0,1 L7,4 L0,7 Z" fill="#A08860"/>
+  </marker>
+  <marker id="arr_r" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="5" markerHeight="5" orient="auto">
+    <path d="M0,1 L7,4 L0,7 Z" fill="#9B2B2B"/>
+  </marker>
+</defs>
+<!-- Background -->
+<rect width="520" height="340" fill="#0f1a32"/>
+<rect width="520" height="340" fill="url(#scr)" opacity="0.4"/>
+<!-- dot pattern -->
+<pattern id="dp" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
+  <circle cx="1" cy="1" r="0.8" fill="#C4AA88" opacity="0.05"/>
+</pattern>
+<rect width="520" height="340" fill="url(#dp)"/>
+<!-- Title bar -->
+<rect x="0" y="0" width="520" height="38" fill="#0f1a32" opacity="0.85"/>
+<line x1="18" y1="38" x2="502" y2="38" stroke="#C4AA88" stroke-width="0.5" opacity="0.4"/>
+<text x="260" y="24" text-anchor="middle" font-size="12" fill="#C4AA88" font-weight="700" font-family="IBM Plex Mono,monospace" letter-spacing="2.5">DATA PROTECTION SUMMARY</text>
+<line x1="260" y1="44" x2="260" y2="334" stroke="#A08860" stroke-width="0.4" opacity="0.25" stroke-dasharray="4,5"/>
+<line x1="18" y1="189" x2="502" y2="189" stroke="#A08860" stroke-width="0.4" opacity="0.25" stroke-dasharray="4,5"/>
+<g transform="translate(130,64)">
+<ellipse cx="0" cy="26" rx="15.399999999999999" ry="4" fill="#0f1a32" opacity="0.3" filter="url(#sh)"/>
+<path d="M0,-22 L22,-16 L22,6 Q22,26 0,30 Q-22,26 -22,6 L-22,-16 Z" fill="#1B2A4A" stroke="#C4AA88" stroke-width="1.8"/>
+</g><text x="130" y="96" text-anchor="middle" font-size="8" fill="#C4AA88" font-weight="700" font-family="IBM Plex Mono,monospace">CLASSIFICATION</text>
+<circle cx="88" cy="112" r="2.5" fill="#C4AA88" opacity="0.7"/>
+<text x="95" y="116" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">4-level·Auto-label·Discovery·Records</text>
+<g transform="translate(390,72) scale(1.3)">
+<circle cx="-12" cy="0" r="9" fill="#1B2A4A" stroke="#5BA3D9" stroke-width="1.8"/>
+<circle cx="-12" cy="0" r="5" fill="none" stroke="#5BA3D9" stroke-width="1.2"/>
+<line x1="-3" y1="0" x2="18" y2="0" stroke="#5BA3D9" stroke-width="2.2" stroke-linecap="round"/>
+<line x1="14" y1="0" x2="14" y2="5" stroke="#5BA3D9" stroke-width="2" stroke-linecap="round"/>
+<line x1="10" y1="0" x2="10" y2="5" stroke="#5BA3D9" stroke-width="2" stroke-linecap="round"/>
+</g>
+<text x="390" y="96" text-anchor="middle" font-size="8" fill="#5BA3D9" font-weight="700" font-family="IBM Plex Mono,monospace">DLP ARCHITECTURE</text>
+<circle cx="348" cy="112" r="2.5" fill="#5BA3D9" opacity="0.7"/>
+<text x="355" y="116" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">Layered conditions·Endpoint·CASB cloud</text>
+<g transform="translate(130,211)">
+<ellipse cx="0" cy="22" rx="14.0" ry="3" fill="#0f1a32" opacity="0.3"/>
+<polygon points="0,-20 20,20 -20,20" fill="#1B2A4A" stroke="#9B2B2B" stroke-width="1.8"/>
+<text x="0" y="16" text-anchor="middle" font-size="14.0" fill="#9B2B2B" font-weight="700" font-family="IBM Plex Mono,monospace">!</text>
+</g><text x="130" y="241" text-anchor="middle" font-size="8" fill="#9B2B2B" font-weight="700" font-family="IBM Plex Mono,monospace">ENCRYPTION</text>
+<circle cx="88" cy="257" r="2.5" fill="#9B2B2B" opacity="0.7"/>
+<text x="95" y="261" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">AES-256·TLS 1.3·HSM·Crypto agility</text>
+<g transform="translate(390,217)">
+<circle cx="0" cy="0" r="7" fill="#C4AA88" stroke="#0f1a32" stroke-width="0.8"/>
+<line x1="0" y1="0" x2="0.0" y2="-30.0" stroke="#A08860" stroke-width="0.8" opacity="0.6"/>
+<circle cx="0.0" cy="-30.0" r="5" fill="#1B2A4A" stroke="#A08860" stroke-width="0.8"/>
+<line x1="0" y1="0" x2="30.0" y2="0.0" stroke="#A08860" stroke-width="0.8" opacity="0.6"/>
+<circle cx="30.0" cy="0.0" r="5" fill="#1B2A4A" stroke="#A08860" stroke-width="0.8"/>
+<line x1="0" y1="0" x2="0.0" y2="30.0" stroke="#A08860" stroke-width="0.8" opacity="0.6"/>
+<circle cx="0.0" cy="30.0" r="5" fill="#1B2A4A" stroke="#A08860" stroke-width="0.8"/>
+<line x1="0" y1="0" x2="-30.0" y2="0.0" stroke="#A08860" stroke-width="0.8" opacity="0.6"/>
+<circle cx="-30.0" cy="0.0" r="5" fill="#1B2A4A" stroke="#A08860" stroke-width="0.8"/>
+</g><text x="390" y="241" text-anchor="middle" font-size="8" fill="#2d6a2d" font-weight="700" font-family="IBM Plex Mono,monospace">BREACH RESPONSE</text>
+<circle cx="348" cy="257" r="2.5" fill="#2d6a2d" opacity="0.7"/>
+<text x="355" y="261" font-size="6.5" fill="#D6CCBC" font-family="IBM Plex Sans,sans-serif">72hr NY DFS·Legal first·Contain then notify</text>
+</svg></div>
+    </div>
+    <div class="col-content" id="cc-pg5">
+      
+<div class="hl-block" id="pg5-b0" onclick="jumpToBlock('pg5',0)">
+  <div class="hl-bar" style="background:#1B2A4A;"></div>
+  <div class="hl-inner">
+    <div class="blk-title" style="color:#1B2A4A;">Four-level classification frameworks with automated labeling and discovery tools address the scale and consistency challenges of manual classification</div>
+    <div class="blk-body">Automated classifiers extend coverage to existing data. Data discovery surfaces unexpected sensitive data locations. Records management applies retention and disposition governance. Labels that travel with data trigger DLP, encryption, and access controls.</div>
+  </div>
+</div>
+<div class="hl-block" id="pg5-b1" onclick="jumpToBlock('pg5',1)">
+  <div class="hl-bar" style="background:#C4AA88;"></div>
+  <div class="hl-inner">
+    <div class="blk-title" style="color:#C4AA88;">Effective DLP uses layered conditions — content type AND recipient AND quantity — to minimize false positives while maintaining protection</div>
+    <div class="blk-body">Endpoint DLP extends coverage to device-level actions independent of network path. CASB provides DLP for cloud applications, shadow IT discovery, and inline content inspection. Alert triage and response workflows prevent alert fatigue from undermining DLP operational effectiveness.</div>
+  </div>
+</div>
+<div class="hl-block" id="pg5-b2" onclick="jumpToBlock('pg5',2)">
+  <div class="hl-bar" style="background:#A08860;"></div>
+  <div class="hl-inner">
+    <div class="blk-title" style="color:#A08860;">Enterprise encryption strategy addresses data at rest, in transit, and the harder challenge of data in use</div>
+    <div class="blk-body">Key management — HSMs, key hierarchy, rotation, separation of duties — is the operational challenge that determines encryption effectiveness. Rights management extends access controls beyond the perimeter with persistent document-level protections. Encryption gap analysis identifies sensitive data outside encrypted storage.</div>
+  </div>
+</div>
+<div class="hl-block" id="pg5-b3" onclick="jumpToBlock('pg5',3)">
+  <div class="hl-bar" style="background:#A08860;"></div>
+  <div class="hl-inner">
+    <div class="blk-title" style="color:#A08860;">NY DFS 500 mandates encryption, access controls, data inventory, and 72-hour breach notification; insider threat detection requires UEBA and HR correlation</div>
+    <div class="blk-body">Breach notification timelines (72 hours for DFS, 60 days for HIPAA, 30-90 days for state laws) require immediate legal counsel engagement upon suspected breach. Secure disposal using NIST SP 800-88 methods and certificates of destruction address decommissioned hardware risk.</div>
+  </div>
+</div>
+    </div>
+  </div>
+</div>
+
+<div id="quiz">
+  <div class="quiz-heading">Knowledge Check — Data Protection and DLP — Intermediate</div>
+  
+<div class="q-card" id="qc0">
+  <div class="q-num" style="color:#1B2A4A;">Q1</div>
+  <div class="q-text">Why do most effective data classification frameworks use only four levels rather than six or seven?</div>
+  <div class="q-opts"><button class="q-opt" data-qi="0" data-oi="0" onclick="answerQ(0,0)">Regulatory requirements limit classification to four categories</button><button class="q-opt" data-qi="0" data-oi="1" onclick="answerQ(0,1)">Four levels produce consistent classification decisions because boundaries are distinct; more levels create decision fatigue and inconsistent application</button><button class="q-opt" data-qi="0" data-oi="2" onclick="answerQ(0,2)">Four levels require less storage metadata than more granular frameworks</button><button class="q-opt" data-qi="0" data-oi="3" onclick="answerQ(0,3)">IT systems cannot efficiently enforce more than four classification categories</button></div>
+  <div class="q-exp" id="qe0" style="border-left-color:#1B2A4A;"></div>
+</div>
+<div class="q-card" id="qc1">
+  <div class="q-num" style="color:#A08860;">Q2</div>
+  <div class="q-text">A DLP policy is configured to block any outbound email containing a 16-digit number sequence. This produces 2,000 false positives per day. What is the most effective approach to reduce false positives while maintaining data protection?</div>
+  <div class="q-opts"><button class="q-opt" data-qi="1" data-oi="0" onclick="answerQ(1,0)">Disable the DLP policy and rely on user training instead</button><button class="q-opt" data-qi="1" data-oi="1" onclick="answerQ(1,1)">Add layered conditions: the number must pass Luhn algorithm validation AND appear in a document attached externally AND exceed a minimum count threshold — blocking on all three conditions together</button><button class="q-opt" data-qi="1" data-oi="2" onclick="answerQ(1,2)">Reduce the scope to only monitor emails from the finance department</button><button class="q-opt" data-qi="1" data-oi="3" onclick="answerQ(1,3)">Allow users to override all DLP blocks with no justification required</button></div>
+  <div class="q-exp" id="qe1" style="border-left-color:#A08860;"></div>
+</div>
+<div class="q-card" id="qc2">
+  <div class="q-num" style="color:#C4AA88;">Q3</div>
+  <div class="q-text">An employee who is planning to leave copies 3,000 client documents to a personal USB drive while connected to the corporate network. The corporate email DLP blocked a previous attempt to email the documents. What DLP capability would have blocked the USB copy?</div>
+  <div class="q-opts"><button class="q-opt" data-qi="2" data-oi="0" onclick="answerQ(2,0)">Network-level DLP at the perimeter firewall</button><button class="q-opt" data-qi="2" data-oi="1" onclick="answerQ(2,1)">CASB API-based scanning of cloud storage</button><button class="q-opt" data-qi="2" data-oi="2" onclick="answerQ(2,2)">Endpoint DLP — which monitors device-level file operations including USB copy, independent of network path</button><button class="q-opt" data-qi="2" data-oi="3" onclick="answerQ(2,3)">DMARC policy enforcement on outbound email</button></div>
+  <div class="q-exp" id="qe2" style="border-left-color:#C4AA88;"></div>
+</div>
+<div class="q-card" id="qc3">
+  <div class="q-num" style="color:#A08860;">Q4</div>
+  <div class="q-text">What is the critical security difference between storing encryption keys in the same database as the encrypted data versus storing them in a Hardware Security Module?</div>
+  <div class="q-opts"><button class="q-opt" data-qi="3" data-oi="0" onclick="answerQ(3,0)">HSMs generate stronger encryption keys than database-stored keys</button><button class="q-opt" data-qi="3" data-oi="1" onclick="answerQ(3,1)">Keys stored alongside encrypted data provide no additional protection — anyone who accesses the database accesses both data and keys; HSMs enforce access controls and prevent key extraction even with physical access</button><button class="q-opt" data-qi="3" data-oi="2" onclick="answerQ(3,2)">HSMs encrypt the keys with a second layer of encryption that databases cannot replicate</button><button class="q-opt" data-qi="3" data-oi="3" onclick="answerQ(3,3)">Database-stored keys must be rotated monthly while HSM keys are permanent</button></div>
+  <div class="q-exp" id="qe3" style="border-left-color:#A08860;"></div>
+</div>
+<div class="q-card" id="qc4">
+  <div class="q-num" style="color:#1B2A4A;">Q5</div>
+  <div class="q-text">Under NY DFS 23 NYCRR 500, when does the 72-hour breach notification clock start?</div>
+  <div class="q-opts"><button class="q-opt" data-qi="4" data-oi="0" onclick="answerQ(4,0)">When the breach first occurred (the date of initial attacker access)</button><button class="q-opt" data-qi="4" data-oi="1" onclick="answerQ(4,1)">When the organization discovers the breach and determines it meets the notification threshold</button><button class="q-opt" data-qi="4" data-oi="2" onclick="answerQ(4,2)">When the organization completes its forensic investigation of the breach</button><button class="q-opt" data-qi="4" data-oi="3" onclick="answerQ(4,3)">When affected individuals are notified about the breach</button></div>
+  <div class="q-exp" id="qe4" style="border-left-color:#1B2A4A;"></div>
+</div>
+<div class="q-card" id="qc5">
+  <div class="q-num" style="color:#A08860;">Q6</div>
+  <div class="q-text">What is 'shadow IT' in the context of CASB deployment, and why is it a data protection risk?</div>
+  <div class="q-opts"><button class="q-opt" data-qi="5" data-oi="0" onclick="answerQ(5,0)">Unauthorized physical access to server rooms where IT equipment is stored</button><button class="q-opt" data-qi="5" data-oi="1" onclick="answerQ(5,1)">Employees using non-approved cloud services (personal Dropbox, consumer AI tools, file sharing services) for work data — outside organizational security controls, DLP monitoring, and retention governance</button><button class="q-opt" data-qi="5" data-oi="2" onclick="answerQ(5,2)">Employees operating their own IT helpdesk services in competition with the official IT department</button><button class="q-opt" data-qi="5" data-oi="3" onclick="answerQ(5,3)">Malware that disguises itself as legitimate IT management software</button></div>
+  <div class="q-exp" id="qe5" style="border-left-color:#A08860;"></div>
+</div>
+  <div class="score-panel" id="scorePanel">
+    <div class="score-big" id="scoreBig"></div>
+    <div class="score-grade" id="scoreGrade"></div>
+    <div class="score-comment" id="scoreComment"></div>
+    <button class="score-retry" onclick="retryQuiz()">Retry Quiz</button>
+  </div>
+</div>
+
+<script>
+const HL_COLOR={
+  'pg1':["#1B2A4A","#C4AA88","#A08860","#A08860"],
+  'pg2':["#1B2A4A","#C4AA88","#A08860","#A08860"],
+  'pg3':["#1B2A4A","#C4AA88","#A08860","#A08860"],
+  'pg4':["#1B2A4A","#C4AA88","#A08860","#A08860"],
+  'pg5':["#1B2A4A","#C4AA88","#A08860","#A08860"],
+};
+
+const NARR={
+  'pg1':['Classification framework design is fundamentally a usability and adoption challenge as much as a technical one. A framework with six or seven classification levels may appear more precise but produces decision paralysis: employees faced with distinctions between \'Sensitive,\' \'Sensitive-High,\' and \'Highly Sensitive\' will classify inconsistently because the boundaries between adjacent levels are not sufficiently distinct to be reliably applied. Four levels — with clear, role-specific examples for each — produce consistent application across the organization. The examples must resonate with specific job functions: finance employees need examples involving financial data; HR employees need examples involving personnel records; sales employees need examples involving customer data. Without examples that map to actual work, classification becomes an abstract exercise that employees comply with minimally. Executive sponsorship communicates that classification is a business requirement, not an IT preference.','Automated classification addresses the fundamental problem with manual classification: humans make inconsistent classification decisions, classification decisions are made only for new data while existing data remains unclassified, and classification labels are not applied to data derived from labeled sources (a spreadsheet created from a labeled dataset inherits no label). Microsoft Purview\'s sensitivity labels integrate with Office applications, applying labels automatically when content matches configured rules, and extending classification to PDF conversions, printed copies (via watermarking), and forwarded emails. The machine learning-based trainable classifiers learn from examples of specific content categories — \'financial reports that look like this\' rather than \'documents containing the word profit\' — providing classification coverage for content that cannot be expressed as pattern rules. The combination of rule-based and ML-based classification, with human override capability, produces practical accuracy across diverse data types.','Data discovery is the prerequisite for any serious data protection program, yet many organizations have never conducted a systematic inventory of where their sensitive data resides. The results of discovery consistently surprise organizations that believe their data is well-controlled: SharePoint sites shared with the entire organization often contain sensitive HR or financial data that was uploaded for legitimate purposes and never properly secured; email attachments create uncontrolled copies of sensitive documents in every recipient\'s mailbox; personal OneDrive or Google Drive folders contain sensitive files that employees saved there for convenience; developer environments contain copies of production databases used for testing. Discovery provides the map that drives remediation: unsecured sensitive data must be secured, deleted, or moved to appropriate storage before it can be considered protected.','Records management governance prevents both premature deletion (which creates legal risk when records that should have been retained are needed for litigation or regulatory examination) and indefinite retention (which creates privacy risk and discovery cost). The regulatory retention landscape is complex: NY DFS regulated entities have specific retention requirements for different record types; HIPAA specifies medical record retention; financial regulations specify transaction record retention; state employment laws specify HR record retention. A records management program maps each data type to its applicable retention requirement, implements the schedule technically through records management tooling, and maintains documentation that demonstrates compliance. The disposition review before deletion is a governance checkpoint that prevents automated deletion from destroying records subject to active legal holds or regulatory investigation periods.'],
+  'pg2':['DLP policy precision is the variable that determines whether a DLP program is operationally sustainable. A policy that triggers on any document containing the pattern of sixteen digits (potentially a credit card number) will fire on product serial numbers, order numbers, employee IDs, and any other sixteen-digit sequence that appears in normal business documents — producing thousands of false positives daily. Adding conditions — the digits must pass Luhn algorithm validation (the mathematical check used by credit card numbers), the document must be attached to an outbound email, the recipient must be external to the organization, and more than three such numbers must appear — dramatically reduces false positives while maintaining detection of actual credit card data exfiltration. The Microsoft Purview sensitive information type library provides pre-built patterns with confidence levels and corroborating evidence requirements; using these rather than building raw regex patterns produces better precision immediately.','Endpoint DLP addresses the gap in network-level DLP that becomes apparent when users work around network controls. A user who encounters a DLP block when emailing a sensitive document may instead copy the document to a USB drive and take it home, or connect a personal mobile hotspot and upload through that cellular connection, bypassing corporate network controls entirely. Endpoint DLP operates at the device level regardless of network connection, monitoring file operations in real time. Integration with Microsoft Purview labels allows endpoint DLP to apply label-based controls: a document labeled \'Restricted\' cannot be copied to removable storage, printed to a non-trusted printer, uploaded to any cloud service except approved organizational OneDrive, or screen-captured. The policy enforcement happens at the endpoint agent, even when the device is not connected to the corporate network — providing consistent protection for mobile workers.','CASB implementation requires understanding which deployment mode addresses which threat. API-based CASB connects to cloud application APIs using admin credentials — it can see and control content already stored in cloud applications and apply retrospective classification and DLP to existing cloud content. However, it operates asynchronously — violations are detected and remediated after the fact. Forward proxy CASB sits in the network path between users and cloud services, enabling real-time blocking of data uploads and downloads based on content analysis. This requires SSL inspection and may require certificate trust configuration on managed endpoints. Reverse proxy CASB intercepts cloud application access through an identity provider redirect — users authenticate to the cloud application through the CASB proxy, enabling real-time session control without SSL inspection. Shadow IT discovery — typically provided by analysis of firewall and web proxy logs — identifies the full set of cloud services in use, which routinely includes dozens of consumer cloud services receiving sensitive organizational data.','DLP alert fatigue is one of the most common failure modes of DLP programs. Organizations that deploy DLP with broad policies see hundreds or thousands of alerts daily; analysts who cannot realistically review all alerts begin to acknowledge and close without investigation; the DLP program becomes a compliance checkbox rather than an operational control. Effective DLP operations require the alert response time and investigation depth to match alert volume. Tiered response models — critical alerts receive immediate investigation, high alerts receive same-day review, medium alerts receive weekly batch review, low alerts are logged but not individually reviewed — align analyst capacity with alert volume. User justification workflows allow users to self-certify that a flagged data movement is for a legitimate business purpose, reducing analyst involvement for routine exceptions. Policy tuning based on false positive analysis progressively reduces alert volume while maintaining detection quality.'],
+  'pg3':['Enterprise encryption strategy requires explicit decisions about which data is encrypted under which conditions, using which algorithms and key lengths, with keys managed by which processes. Leaving these decisions implicit or uncoordinated produces inconsistent encryption coverage — some systems fully encrypted, others not, with no comprehensive picture of the actual encryption posture. A written encryption standard specifies minimum algorithm requirements (AES-256 for symmetric encryption, RSA-2048 or ECC P-256 minimum for asymmetric, TLS 1.2 minimum for transport, SHA-256 minimum for hashing), defines which data classifications require encryption at rest, identifies specific storage types (endpoints, file servers, cloud storage, databases, backups) and their encryption requirements, and assigns ownership for each encryption domain to specific teams. Gap analysis against this standard identifies non-compliant systems requiring remediation.','Hardware Security Modules represent the operational standard for cryptographic key storage in environments where key security is paramount. HSMs are purpose-built, tamper-resistant hardware devices that generate, store, and perform cryptographic operations using protected keys — the private key material never leaves the HSM in unprotected form. HSM access is controlled through role-based authentication, and all operations are logged. Cloud HSMs (AWS CloudHSM, Azure Dedicated HSM) provide HSM-level security in cloud environments without the operational overhead of physical HSM management. Key hierarchy design separates master keys (stored in HSMs, rarely used, protected by multiple-person control requirements) from intermediate key encryption keys (used to protect data encryption keys) from data encryption keys (used directly to encrypt data). This layering means that a compromised DEK exposes only the data it directly encrypts, not the ability to decrypt data encrypted under other DEKs.','Rights management is the solution to the fundamental problem that perimeter-based access control creates: it protects data within the perimeter but provides no protection once data leaves. An email attachment sent to an external recipient is outside all perimeter controls the moment it is downloaded. A document copied to a personal device bypasses all organizational access controls. Rights management embeds access control into the document itself: the document is encrypted, and decryption is conditional on the user successfully authenticating against the rights management service and being authorized to access that document under that label\'s policy. The policy can specify that external recipients can view but not edit, cannot print or screen-capture, and that access expires after 30 days. Rights management requires that the recipient\'s device can reach the rights management service to verify authorization — which creates a dependency that must be managed for recipients in air-gapped environments or jurisdictions where the rights management service may be blocked.','Encryption gap analysis is a practical exercise that regularly surfaces significant findings even in organizations with mature security programs. The most common findings: database backup files stored to a file share in unencrypted format (because the backup job predates encryption requirements and was never updated); application logs that capture form input data, inadvertently including sensitive fields like SSNs or account numbers that are logged for debugging; developer test environments populated with production database copies that have not had sensitive data masked or encrypted; legacy file servers with unencrypted shares containing years of accumulated sensitive documents; and cloud storage buckets configured for public access (which implies no encryption protection is relevant since anyone can access the data). Each finding requires remediation that is appropriate to the finding type — not all gaps are equally urgent or equally remediable.'],
+  'pg4':['NY DFS 23 NYCRR 500\'s 2023 amendments strengthened the data protection requirements that apply to covered entities — including insurance companies, agencies, and producers regulated by the New York Department of Financial Services. The amendments formalized requirements that were previously best practices: annual penetration testing, vulnerability scanning, privileged access management programs with controls for all privileged accounts, a written data inventory covering all critical systems and their data, and an incident response plan that specifically addresses ransomware and business email compromise scenarios. The encryption requirements — nonpublic information encrypted at rest and in transit — apply to all covered nonpublic information, not just the most sensitive categories. The data disposal requirements mandate secure deletion processes with documented destruction procedures. These requirements collectively define a data protection baseline that goes beyond generic cybersecurity frameworks to address specific data handling obligations.','Breach notification decisions are among the most consequential and time-sensitive that security and legal teams make together. The first question is whether a qualifying breach has occurred — which requires determining what data was accessed, by whom, and whether the data meets the notification threshold. Not every security incident involving systems that contain personal data is a notifiable breach: data that was accessed but encrypted and not usable by the attacker may not trigger notification; data accessed by an employee for a legitimate purpose that violated internal policy may not trigger notification; a failed attack attempt that did not result in actual data access does not trigger notification. The analysis requires legal expertise and typically involves outside counsel experienced in data breach response. Given the 72-hour notification requirement under NY DFS 500 and GDPR, the legal engagement must begin within hours of discovery, not after internal investigation is complete.','Insider threat detection using UEBA requires establishing behavioral baselines that reflect normal activity patterns before anomalies are meaningful. An account that downloads 500 documents on its first day of monitoring will always appear anomalous; the same activity pattern that has been normal for six months suddenly changing is what indicates a behavioral shift. Pre-departure data staging — where employees download or email large volumes of documents in the weeks before resignation — is the most common insider data loss pattern, but it requires a baseline that shows the normal download and email behavior for that user. Effective insider threat programs integrate UEBA with HR systems to flag when security anomalies coincide with HR risk indicators: active performance management proceedings, documented policy violations, and recent access to sensitive information like executive compensation. These correlations must be managed carefully to avoid discrimination claims and must follow policies reviewed by legal counsel.','Physical media disposal is an underappreciated risk in organizations focused on digital controls. A decommissioned server whose drives contain years of customer data represents a significant breach risk if those drives are not securely wiped before disposal. The IT asset disposal (ITAD) process must include explicit data sanitization steps: NIST SP 800-88 specifies media sanitization methods appropriate to different storage technology types — solid-state drives require cryptographic erasure (wiping the encryption key so data is unreadable) or physical destruction, because traditional overwrite methods are less reliable on SSD due to wear-leveling and spare sector behavior. Hard disk drives can be sanitized through full overwrite or degaussing plus overwrite. Physical destruction through shredding or disintegration is the most certain method for any media type and is required when media cannot be reliably sanitized. Certificate of destruction from a qualified ITAD vendor with documented chain of custody provides the audit trail that demonstrates compliant disposal.'],
+  'pg5':['Four-level classification frameworks (Public, Internal, Confidential, Restricted) with role-specific examples provide practical usability. Automated classification using rule-based and ML-based classifiers extends coverage to existing data and new data consistently. Data discovery surfaces unexpected concentrations of sensitive data. Records management applies retention, disposition governance, and legal hold capabilities. Labels that travel with data trigger consistent controls wherever data moves.','DLP policy effectiveness requires layered conditions — content type AND recipient AND quantity AND confidence level — to produce actionable alert volumes. Endpoint DLP extends coverage to device-level actions independent of network path, preventing circumvention through personal hotspots or physical media. CASB addresses cloud application data flows through API-based, forward proxy, or reverse proxy deployment modes. Alert triage workflows and policy tuning are operational requirements that prevent DLP from becoming a compliance checkbox rather than an operational control.','Enterprise encryption strategy addresses data at rest (FDE, TDE, encrypted backups), in transit (TLS 1.2/1.3, VPN, encrypted APIs), and in use (confidential computing). HSMs provide the standard for key storage in security-sensitive environments. Key hierarchy design separates key types to limit the blast radius of any single key compromise. Rights management extends access control beyond the perimeter. Encryption gap analysis identifies sensitive data outside encrypted storage.','NY DFS 500 mandates encryption of nonpublic information at rest and in transit, privileged access management, data inventory, and 72-hour breach notification. Breach notification decisions require immediate legal counsel engagement given short timelines. UEBA-based insider threat detection requires behavioral baselines and HR system integration for correlation. Secure data disposal using NIST SP 800-88 methods with certificates of destruction addresses decommissioned hardware risk.'],
+};
+
+const CNT={'pg1':4,'pg2':4,'pg3':4,'pg4':4,'pg5':4};
+
+const ANSWERS=[1,1,2,1,1,1];
+const SCORE_COMMENTS=["Keep reviewing — this material is important for your security.","Keep reviewing — this material is important for your security.","Keep reviewing — this material is important for your security.","Good foundation. Review the explanations and try once more.","Solid performance. You understand most of the material well.","Very strong — just one or two areas to revisit.","Outstanding — perfect score. You have mastered this module."];
+const QUIZ_COLORS=["#1B2A4A","#A08860","#C4AA88","#A08860","#1B2A4A","#A08860"];
+const GRADE_LABELS=["—","—","—","C","B","A","A+"];
+const N_QUIZ=6;
+
+let curPage='home', narr=null, narrPid=null, narrIdx=0, narrRunning=false;
+
+function gotoPage(pid){
+  document.querySelectorAll('.page,[id="home"],[id="quiz"]').forEach(el=>el.style.display='none');
+  const el=document.getElementById(pid);
+  if(el)el.style.display=(pid==='quiz')?'block':'block';
+  curPage=pid;
+  document.querySelectorAll('.nav-pill').forEach(p=>p.classList.remove('active'));
+  const np=document.getElementById('nav-'+pid);
+  if(np)np.classList.add('active');
+  stopNarr();
+  if(pid!=='home'&&pid!=='quiz')window.scrollTo(0,0);
+}
+function togglePlay(pid){
+  if(narrRunning&&narrPid===pid){stopNarr();return;}
+  stopNarr();
+  narrPid=pid; narrIdx=0; narrRunning=true;
+  clearBlockStates(pid);
+  playBlock(pid,0);
+  const nb=document.getElementById('narrBar');
+  if(nb)nb.classList.add('active');
+}
+
+function playBlock(pid,idx){
+  const scripts=NARR[pid]||[];
+  if(idx>=scripts.length){narrRunning=false;markBlockDone(pid,idx-1);updateNarrBar('Narration complete.');return;}
+  if(idx>0)markBlockDone(pid,idx-1);
+  highlightBlock(pid,idx);
+  const text=scripts[idx];
+  updateNarrBar(text.substring(0,80)+(text.length>80?'…':''));
+  const utter=new SpeechSynthesisUtterance(text);
+  utter.rate=0.95; utter.pitch=1; utter.volume=1;
+  utter.onend=function(){if(narrRunning)playBlock(pid,idx+1);};
+  narr=utter;
+  window.speechSynthesis.speak(utter);
+}
+
+function stopNarr(){
+  window.speechSynthesis.cancel();
+  narrRunning=false; narr=null;
+  const nb=document.getElementById('narrBar');
+  if(nb)nb.classList.remove('active');
+  const btn=narrPid?document.getElementById('play-'+narrPid):null;
+  if(btn)btn.innerHTML='&#9654; Play Narration';
+}
+
+function updateNarrBar(txt){
+  const el=document.getElementById('narrText');
+  if(el)el.textContent=txt;
+}
+
+function highlightBlock(pid,idx){
+  const pid_blocks=document.querySelectorAll('#'+pid+' .hl-block');
+  pid_blocks.forEach((b,i)=>{
+    b.classList.remove('lit');
+    if(i===idx)b.classList.add('lit');
+  });
+  const colors=HL_COLOR[pid]||[];
+  const col=colors[idx]||'#C4AA88';
+  document.querySelectorAll('#'+pid+' .hl-block').forEach((b,i)=>{
+    if(i===idx)b.style.setProperty('--primary-lit',col);
+  });
+  // SVG highlight
+  document.querySelectorAll('#'+pid+' .svg-hl').forEach((g,i)=>{
+    g.classList.remove('lit');
+    if(i===idx)g.classList.add('lit');
+  });
+  // scroll block into view in col-content
+  const block=document.getElementById(pid+'-b'+idx);
+  const col_cont=document.getElementById('cc-'+pid);
+  if(block&&col_cont){
+    const bTop=block.offsetTop-col_cont.offsetTop;
+    col_cont.scrollTo({top:bTop-20,behavior:'smooth'});
+  }
+}
+
+function markBlockDone(pid,idx){
+  const b=document.getElementById(pid+'-b'+idx);
+  if(b){b.classList.remove('lit');b.classList.add('done');}
+}
+
+function clearBlockStates(pid){
+  document.querySelectorAll('#'+pid+' .hl-block').forEach(b=>b.classList.remove('lit','done'));
+  document.querySelectorAll('#'+pid+' .svg-hl').forEach(g=>g.classList.remove('lit'));
+}
+
+function jumpToBlock(pid,idx){
+  if(narrRunning&&narrPid===pid){
+    window.speechSynthesis.cancel();
+    narrIdx=idx;
+    playBlock(pid,idx);
+  }
+}
+
+// QUIZ
+let answers_given=new Array(N_QUIZ).fill(null);
+let quiz_done=false;
+
+function answerQ(qi,oi){
+  if(answers_given[qi]!==null)return;
+  answers_given[qi]=oi;
+  const correct=ANSWERS[qi];
+  const card=document.getElementById('qc'+qi);
+  card.querySelectorAll('.q-opt').forEach((o,i)=>{
+    o.style.cursor='default';
+    if(i===correct)o.classList.add('correct');
+    else if(i===oi&&oi!==correct)o.classList.add('wrong');
+  });
+  const exp=document.getElementById('qe'+qi);
+  if(exp){exp.textContent="{}" ; /* filled per question */ }
+  // fill explanation
+  const exps=["Frameworks with too many levels produce inconsistent classification because employees cannot reliably distinguish between adjacent levels (e.g., 'Sensitive' vs 'Sensitive-High'). Four distinct levels — Public, Internal, Confidential, Restricted — provide clear, differentiable boundaries that produce consistent application. More levels increase accuracy in theory but reduce accuracy in practice.","Layered conditions dramatically reduce false positive rates. A bare 16-digit sequence matches order numbers, serial numbers, employee IDs, and countless other non-card sequences. Adding Luhn validation (mathematically validates credit card format), external recipient requirement, and minimum count threshold produces a policy that still catches actual credit card data exfiltration while eliminating most false positives.","The employee circumvented network-level DLP by using physical media instead. Endpoint DLP monitors file operations at the device level regardless of network path — it controls copy to USB storage, copy to network shares, print, cloud upload, and clipboard operations. It blocks the transfer at the source, even when no network is involved.","The purpose of encryption is to protect data from unauthorized access to the storage medium. If the key is stored in the same database as the encrypted data, anyone who gains unauthorized access to the database has everything needed to decrypt — the encryption provides no additional protection. HSMs store keys in tamper-resistant hardware with separate access controls, so accessing the database does not provide the key.","The 72-hour clock under NY DFS 500 starts when the organization determines that a cybersecurity event requiring notification has occurred — at discovery/determination, not at the time of the original breach. This is why immediate legal counsel engagement is essential upon discovering a potential breach: the notification analysis must begin immediately to meet the deadline, even while forensic investigation is ongoing.","Shadow IT is the use of non-approved technology for work purposes. When employees upload sensitive data to personal Dropbox, consumer AI productivity tools, or unauthorized file sharing services, that data leaves organizational controls entirely — no DLP monitoring, no access controls, no retention policies, no audit logging. CASB shadow IT discovery identifies these services in use through firewall/proxy log analysis, enabling policy decisions about which services to sanction and which to block."];
+  if(exp){exp.textContent=exps[qi];exp.classList.add('show');}
+  card.style.borderLeftColor=QUIZ_COLORS[qi];
+  // check if all answered
+  if(answers_given.every(a=>a!==null))showScore();
+}
+
+function showScore(){
+  let correct=0;
+  answers_given.forEach((a,i)=>{if(a===ANSWERS[i])correct++;});
+  const panel=document.getElementById('scorePanel');
+  document.getElementById('scoreBig').textContent=correct+'/'+N_QUIZ;
+  document.getElementById('scoreGrade').textContent=GRADE_LABELS[correct]||'';
+  document.getElementById('scoreComment').textContent=SCORE_COMMENTS[correct]||'';
+  if(panel)panel.style.display='block';
+  panel.scrollIntoView({behavior:'smooth'});
+}
+
+function retryQuiz(){
+  answers_given=new Array(N_QUIZ).fill(null);
+  document.querySelectorAll('.q-opt').forEach(o=>{o.classList.remove('correct','wrong');o.style.cursor='pointer';});
+  document.querySelectorAll('.q-exp').forEach(e=>{e.classList.remove('show');e.textContent='';});
+  document.querySelectorAll('.q-card').forEach(c=>c.style.borderLeftColor='transparent');
+  document.getElementById('scorePanel').style.display='none';
+  window.scrollTo(0,0);
+}
+</script>
+</body>
+</html>

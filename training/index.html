@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Training Library | Pistos Information Protection</title>
+  <meta name="description" content="The Pistos security awareness library: narrated modules at three levels, documentaries, How It Works explainers and debriefs of real security events.">
+  <link rel="canonical" href="https://pistosip.com/training/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://pistosip.com/training/">
+  <meta property="og:title" content="Training Library | Pistos">
+  <meta property="og:description" content="Narrated security awareness modules at three levels, documentaries, and real-event debriefs.">
+  <meta property="og:image" content="https://pistosip.com/training/images/silk-road-documentary.png">
+  <meta property="og:site_name" content="Pistos Information Protection">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/site.css">
+  <style>
+    :root {
+      --navy-900: #152440; --navy-700: #243860; --ink-700: #3A4760; --ink-500: #6B7386;
+      --gold: #B8895A; --stone-50: #EFE9DB; --stone-100: #E8E1D3; --stone-300: #C9BEA7;
+      --serif: 'Cormorant Garamond', Garamond, Georgia, serif;
+      --sans: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--stone-50); color: var(--navy-900); font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    a { color: var(--navy-700); text-decoration: none; }
+    a:hover { color: var(--gold); }
+    .container { max-width: 1040px; margin: 0 auto; padding: 0 32px; }
+    .hero { padding: 72px 0 40px; text-align: center; }
+    .eyebrow { font-size: 11px; font-weight: 500; letter-spacing: 4px; color: var(--gold); text-transform: uppercase; margin: 0 0 18px; }
+    .hero h1 { font-family: var(--serif); font-size: 64px; font-weight: 500; margin: 0 0 14px; line-height: 1.05; }
+    .hero p { font-size: 18px; color: var(--ink-700); max-width: 680px; margin: 0 auto; }
+    .gold-rule { display: flex; align-items: center; justify-content: center; gap: 14px; margin: 28px 0 0; color: var(--gold); }
+    .gold-rule::before, .gold-rule::after { content: ""; width: 80px; height: 1px; background: var(--gold); }
+    .jump { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 32px 0 0; padding: 0; list-style: none; }
+    .jump a { display: block; padding: 8px 16px; border: 0.5px solid var(--stone-300); background: var(--stone-100); font-size: 13px; font-weight: 500; }
+    .jump a:hover { border-color: var(--gold); }
+    .module { padding: 56px 0; border-top: 0.5px solid var(--stone-300); scroll-margin-top: 80px; }
+    .module-head { display: grid; grid-template-columns: 72px 1fr; gap: 20px; align-items: start; margin-bottom: 28px; }
+    .num { font-family: var(--serif); font-size: 56px; line-height: 0.9; color: var(--gold); }
+    .module h2 { font-family: var(--serif); font-size: 36px; font-weight: 500; margin: 0 0 6px; line-height: 1.1; }
+    .module-head p { margin: 0; color: var(--ink-700); max-width: 680px; }
+    .meta { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-500); margin-top: 8px !important; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; }
+    .card { display: flex; flex-direction: column; justify-content: space-between; min-height: 132px; padding: 18px 18px 14px; background: var(--stone-100); border: 0.5px solid var(--stone-300); transition: border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease; }
+    .card:hover { border-color: var(--gold); transform: translateY(-2px); box-shadow: 0 4px 16px rgba(21,36,64,0.08); color: var(--navy-900); }
+    .card h3 { font-family: var(--serif); font-size: 21px; font-weight: 500; margin: 0 0 6px; line-height: 1.15; color: var(--navy-900); }
+    .card p { font-size: 13.5px; line-height: 1.5; color: var(--ink-700); margin: 0; }
+    .card .open { font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold); margin-top: 12px; }
+    .feature { display: grid; grid-template-columns: 3fr 2fr; gap: 32px; align-items: center; margin-bottom: 28px; }
+    .feature img { width: 100%; height: auto; display: block; border: 0.5px solid var(--stone-300); box-shadow: 0 8px 28px rgba(21,36,64,0.18); }
+    .feature h3 { font-family: var(--serif); font-size: 30px; font-weight: 500; margin: 0 0 10px; line-height: 1.1; }
+    .feature p { color: var(--ink-700); margin: 0 0 12px; }
+    .chapters { margin: 0 0 18px; padding-left: 20px; color: var(--ink-700); font-size: 14.5px; }
+    .btn { display: inline-block; padding: 13px 28px; background: var(--navy-900); color: var(--stone-50); font-size: 13px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; border: 1px solid var(--navy-900); }
+    .btn:hover { background: var(--gold); border-color: var(--gold); color: var(--stone-50); }
+    .sub { font-family: var(--serif); font-size: 24px; font-weight: 500; margin: 36px 0 14px; }
+    .note { padding: 56px 0 72px; border-top: 0.5px solid var(--stone-300); text-align: center; }
+    .note p { color: var(--ink-700); max-width: 640px; margin: 0 auto 24px; }
+    @media (max-width: 760px) {
+      .container { padding: 0 16px; }
+      .hero h1 { font-size: 44px; }
+      .module-head { grid-template-columns: 1fr; gap: 4px; }
+      .feature { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="nav-placeholder"></div>
+
+<section class="hero">
+  <div class="container">
+    <p class="eyebrow">Mathisi · Security Awareness</p>
+    <h1>Training library</h1>
+    <p>Narrated modules at three levels, each closing with a short quiz, plus documentaries and debriefs of real security events. Inside PCS, every completion is recorded against the person who took it.</p>
+    <div class="gold-rule">◆</div>
+    <ul class="jump">
+      <li><a href="#introduction">1 · Introduction</a></li>
+      <li><a href="#intermediate">2 · Intermediate</a></li>
+      <li><a href="#advanced">3 · Advanced</a></li>
+      <li><a href="#documentaries">4 · Documentaries</a></li>
+      <li><a href="#how-it-works">How it works</a></li>
+      <li><a href="#real-events">Real security events</a></li>
+    </ul>
+  </div>
+</section>
+
+<section class="module" id="introduction">
+  <div class="container">
+    <div class="module-head">
+      <div class="num">1</div>
+      <div>
+        <h2>Introduction</h2>
+        <p>For every employee at onboarding: the everyday threats, the words for them, and the habits that stop most incidents before they start.</p>
+        <p class="meta">12 modules</p>
+      </div>
+    </div>
+    <div class="grid" data-set="introduction"></div>
+  </div>
+</section>
+
+<section class="module" id="intermediate">
+  <div class="container">
+    <div class="module-head">
+      <div class="num">2</div>
+      <div>
+        <h2>Intermediate</h2>
+        <p>For staff with more access, such as account managers, finance and HR, tuned to the attacks aimed at their daily work.</p>
+        <p class="meta">12 modules</p>
+      </div>
+    </div>
+    <div class="grid" data-set="intermediate"></div>
+  </div>
+</section>
+
+<section class="module" id="advanced">
+  <div class="container">
+    <div class="module-head">
+      <div class="num">3</div>
+      <div>
+        <h2>Advanced</h2>
+        <p>For IT leads, administrators and the people who handle incidents: how attackers work at depth, and what to do in the first hour.</p>
+        <p class="meta">12 modules</p>
+      </div>
+    </div>
+    <div class="grid" data-set="advanced"></div>
+  </div>
+</section>
+
+<section class="module" id="documentaries">
+  <div class="container">
+    <div class="module-head">
+      <div class="num">4</div>
+      <div>
+        <h2>Documentaries</h2>
+        <p>Narrated, chaptered stories of real cases, told the way a good documentary would tell them. Each chapter ends with one key takeaway your staff can remember.</p>
+        <p class="meta">3 documentaries · 6 chapters each</p>
+      </div>
+    </div>
+    <div class="feature">
+      <a href="documentaries/silk-road/"><img src="images/silk-road-documentary.png" alt="How It Worked: The Silk Road. Six chapter panels, from the idea in 2011 to the legacy, with chapter 4, Following the Clues, highlighted and the investigation console below." loading="lazy"></a>
+      <div>
+        <h3>How It Worked: The Silk Road</h3>
+        <p>In less than three years, one anonymous website changed the course of cybercrime. This documentary follows it from the first idea to the arrest, and shows how investigators pieced together blockchain records, server logs, emails and login times to find the person behind it.</p>
+        <ol class="chapters">
+          <li>The idea</li>
+          <li>Building an underground economy</li>
+          <li>The world notices</li>
+          <li>Following the clues</li>
+          <li>The marketplace falls</li>
+          <li>The legacy</li>
+        </ol>
+        <p><strong>The lesson:</strong> every digital action leaves evidence. About 6½ minutes.</p>
+        <a class="btn" href="documentaries/silk-road/">Watch the documentary</a>
+      </div>
+    </div>
+    <div class="grid" data-set="documentaries"></div>
+  </div>
+</section>
+
+<section class="module" id="how-it-works">
+  <div class="container">
+    <div class="module-head">
+      <div class="num">◆</div>
+      <div>
+        <h2>How it works</h2>
+        <p>Short narrated explainers on how attacks and investigations actually run, step by step.</p>
+      </div>
+    </div>
+    <div class="grid" data-set="howItWorks"></div>
+  </div>
+</section>
+
+<section class="module" id="real-events">
+  <div class="container">
+    <div class="module-head">
+      <div class="num">◆</div>
+      <div>
+        <h2>Real security events</h2>
+        <p>Debriefs of real breaches: what happened, how it was noticed, what it cost, and what would have changed the outcome.</p>
+        <p class="meta">11 case studies</p>
+      </div>
+    </div>
+    <div class="grid" data-set="caseStudies"></div>
+  </div>
+</section>
+
+<section class="note">
+  <div class="container">
+    <p>Clients take these modules inside PCS, where each completion is dated, recorded against the employee, and counted toward the training requirement in every framework that asks for it.</p>
+    <a class="btn" href="../pages/contact.html">Request a briefing</a>
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script>
+const T = ['Security Architecture','Multifactor Authentication','Securing Data in the Quantum World','Malware','Social Engineering','Passwords','Email','Data Protection','Network Security','Internet Security','Incident Management','Encryption'];
+const files = {
+  introduction: ['01_intro_cyber','02_intro_MFA','03_intro_quantum','04_intro_malware','05_intro_social','06_intro_passwords','07_intro_email','08_intro_dlp','09_intro_network','10_intro_internet','11_intro_incident_response','12_intro_encryption'],
+  intermediate: ['int_01_security_arch','int_02_mfa','int_03_quantum','int_04_malware','int_05_social_eng','int_06_passwords','int_07_email','int_08_data_protection','int_09_network','int_10_internet','int_11_incident','int_12_encryption'].map(f => f + '_intermediate'),
+  advanced: ['adv_01_security_arch','adv_02_mfa','adv_03_quantum','adv_04_malware','adv_05_social_eng','adv_06_passwords','adv_07_email','adv_08_data_protection','adv_09_network','adv_10_internet','adv_11_incident','adv_12_encryption'].map(f => f + '_advanced')
+};
+const summaries = {
+  introduction: ['How layered safeguards reduce business and data risk.','Use MFA correctly and recognize attempts to get around it.','Why encryption planning matters as computing power changes.','Recognize malicious software, how it arrives, and the warning signs.','Spot manipulation before it becomes an incident.','Safer password habits and less risk of account takeover.','Spot dangerous messages, attachments, links and impersonation.','Handle sensitive information with care.','Safe connections, separated networks and remote access basics.','Browse, download and sign in with fewer avoidable risks.','Report problems quickly and keep the evidence.','How encryption protects computers, files and messages.'],
+  intermediate: ['Apply security architecture to real operational decisions.','MFA fatigue, backup methods and stronger sign-in habits.','Connect quantum risk to encryption planning and data retention.','How malware behaves, arrives and is contained.','Targeted manipulation and abuse of business processes.','Better password management and less reuse.','Suspicious messages, attachments and spoofed requests.','Protect sensitive data when handling, sharing and keeping it.','Separated networks, secure access and warning signs.','Less exposure from risky browsing and unapproved tools.','What to report, when to escalate, and how to keep the facts.','Where encryption is used, its limits and safeguards.'],
+  advanced: ['Security architecture for higher-risk and larger environments.','Advanced MFA bypass, enrollment and administrator risks.','Planning the move to new encryption and long-term data exposure.','Attacker techniques, persistence and response priorities.','Coordinated social engineering against people and workflows.','Privileged credentials and gaps in sign-in controls.','Advanced phishing, impersonation and mailbox takeover.','Stronger controls for regulated and high-value data.','Network defense, access paths and attacker movement.','Web, cloud and browser risks for administrators.','Coordinating response, escalation, evidence and executive reporting.','Encryption governance, key handling and data-flow protection.']
+};
+const sets = {};
+for (const lvl of Object.keys(files)) {
+  sets[lvl] = files[lvl].map((f, i) => ({ title: T[i], href: lvl + '/' + f + '.html', summary: summaries[lvl][i], cta: 'Open module' }));
+}
+sets.documentaries = [
+  { title: 'The Silk Road', href: 'documentaries/silk-road/', summary: 'The rise and takedown of an anonymous marketplace, and how the evidence found its owner.', cta: 'Watch' },
+  { title: 'Digital Forensics', href: 'documentaries/digital-forensics/', summary: 'How investigators recover and analyze digital evidence after an attack.', cta: 'Watch' },
+  { title: 'Quantum Cryptography', href: 'documentaries/quantum-cryptography/', summary: 'What quantum computing means for the encryption that protects your data today.', cta: 'Watch' }
+];
+sets.howItWorks = [
+  { title: 'The Dark Web', href: 'how-it-works/how_it_works_dark_web_openai_marin.html', summary: 'How stolen data is bought and sold, and how exposure reaches your company.', cta: 'Watch' },
+  { title: 'Digital Forensics', href: 'how-it-works/how_it_works_digital_forensics_openai_cedar.html', summary: 'How investigators rebuild an attack from the evidence left behind.', cta: 'Watch' },
+  { title: 'The Breach', href: 'how-it-works/how_it_works_the_breach_openai_coral.html', summary: 'How a breach unfolds, from first access to business impact.', cta: 'Watch' }
+];
+sets.caseStudies = [
+  ['Target','cs_01_target','Vendor access, network separation and payment-card theft.'],
+  ['Ubiquiti','cs_02_ubiquiti','Stolen identity, cloud access and incident communication.'],
+  ['Sony','cs_03_sony','A destructive attack, executive risk and crisis response.'],
+  ['Casino','cs_04_casino','Social engineering of the help desk and the disruption that followed.'],
+  ['Tesla','cs_05_tesla','Insider risk, data protection and monitoring.'],
+  ['Colonial Pipeline','cs_06_colonial','Ransomware, business interruption and infrastructure dependency.'],
+  ['Baltimore','cs_07_baltimore','City government ransomware and recovery planning.'],
+  ['Uber','cs_08_uber','MFA fatigue, privileged access and attacker movement.'],
+  ['Equifax','cs_09_equifax','Patching, knowing what you own, and the cost of a breach.'],
+  ['Maersk','cs_10_maersk','Global malware spread and business continuity.'],
+  ['CrowdStrike','cs_11_crowdstrike','Software supply chain, resilience and recovery.']
+].map(([title, f, summary]) => ({ title, href: 'real-life-events/' + f + '.html', summary, cta: 'Read' }));
+const esc = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+document.querySelectorAll('.grid[data-set]').forEach(grid => {
+  grid.innerHTML = sets[grid.dataset.set].map(it =>
+    `<a class="card" href="${esc(it.href)}"><div><h3>${esc(it.title)}</h3><p>${esc(it.summary)}</p></div><span class="open">${esc(it.cta)} →</span></a>`
+  ).join('');
+});
+</script>
+<script src="../js/layout.js"></script>
+</body>
+</html>
