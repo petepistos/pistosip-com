@@ -79,6 +79,9 @@
     .feature .f-text { max-width:760px; }
     .feature ul { margin:0.75rem 0 0 1.1rem; font-size:0.9rem; color:var(--text-mid); line-height:1.85; }
     .feature ul li { margin-bottom:0.35rem; }
+    .fw-list { display:flex; flex-wrap:wrap; justify-content:center; gap:0.75rem; max-width:900px; margin:2rem auto 0; list-style:none; padding:0; }
+    .fw-list li { padding:0.7rem 1.1rem; background:var(--cream); border:1px solid var(--border); border-radius:2px; font-size:0.86rem; color:var(--navy); }
+    .fw-list li.first { border-color:var(--gold); }
   </style>
 </head>
 <body>
@@ -102,6 +105,23 @@
   <span class="rs-eyebrow">Tier 1</span>
   <p class="rs-line">PCS Tier 1 is <span class="rs-date">now&nbsp;live.</span></p>
   <p class="rs-sub">Three screens do most of the work: the risk assessment, the risk register, and Run a scan.</p>
+</section>
+
+<!-- ── FRAMEWORKS ── -->
+<section class="section" style="background:var(--cream-dark);">
+  <div class="container">
+    <span class="section-eyebrow">The rules you answer to</span>
+    <h2 class="section-title">One baseline, many frameworks.</h2>
+    <p class="section-sub">The SMB Control Baseline is built on the CIS Controls, which line up with the frameworks your regulators, carriers and customers ask about. Do the work once and it counts toward each of them.</p>
+    <ul class="fw-list">
+      <li class="first">NY DFS Cybersecurity Regulation (23 NYCRR 500)</li>
+      <li>HIPAA Security Rule</li>
+      <li>NIST SP 800-171 and CMMC 2.0</li>
+      <li>ISO/IEC 27001</li>
+      <li>SOC 2</li>
+      <li>PCI DSS</li>
+    </ul>
+  </div>
 </section>
 
 <!-- ── RISK ASSESSMENT ── -->
