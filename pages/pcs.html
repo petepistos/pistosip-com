@@ -79,9 +79,20 @@
     .feature .f-text { max-width:760px; }
     .feature ul { margin:0.75rem 0 0 1.1rem; font-size:0.9rem; color:var(--text-mid); line-height:1.85; }
     .feature ul li { margin-bottom:0.35rem; }
-    .fw-list { display:flex; flex-wrap:wrap; justify-content:center; gap:0.75rem; max-width:900px; margin:2rem auto 0; list-style:none; padding:0; }
-    .fw-list li { padding:0.7rem 1.1rem; background:var(--cream); border:1px solid var(--border); border-radius:2px; font-size:0.86rem; color:var(--navy); }
-    .fw-list li.first { border-color:var(--gold); }
+    .fw-intro { max-width:640px; margin:2rem 0 0.5rem; font-size:0.95rem; color:var(--navy); font-weight:500; }
+    .fw-list { columns:2; column-gap:3rem; max-width:820px; margin:0; padding-left:1.2rem; font-size:0.92rem; color:var(--text-mid); line-height:1.9; }
+    .fw-list li { break-inside:avoid; }
+    .pair { width:100%; display:grid; grid-template-columns:1fr auto 1fr; gap:1.25rem; align-items:center; max-width:1100px; margin:2.5rem auto 0; }
+    .pair .arrow { font-size:1.8rem; color:var(--gold); text-align:center; }
+    .pair figure { margin:0; }
+    .pair img { width:100%; height:auto; border:1px solid var(--border); border-radius:2px; background:#fff; }
+    .pair figcaption { font-size:0.8rem; color:var(--text-mid); margin-top:0.5rem; text-align:center; font-style:italic; }
+    .link-note { max-width:760px; margin:1.5rem auto 0; font-size:0.9rem; color:var(--text-mid); line-height:1.8; text-align:center; }
+    @media(max-width:760px) {
+      .fw-list { columns:1; }
+      .pair { grid-template-columns:1fr; }
+      .pair .arrow { transform:rotate(90deg); }
+    }
   </style>
 </head>
 <body>
@@ -95,7 +106,7 @@
   <p class="hero-sub">PCS Tier 1 is built for the cloud-only company: your data lives in online applications and on laptops, your staff reach it through a browser, and a lost laptop is replaced, not restored.</p>
   <p class="hero-body">PCS measures you against the SMB Control Baseline, the 54 safeguards that matter for a company your size, and shows nothing that does not apply to you.</p>
   <div class="hero-btns">
-    <a href="https://demo.pistosip.com/try" class="btn btn-primary">Try the demo</a>
+    <a href="https://demo.pistosip.com/try" class="btn btn-primary">Test-drive PCS</a>
     <a href="/pages/contact.html" class="btn btn-outline">Request a briefing</a>
   </div>
 </section>
@@ -113,13 +124,16 @@
     <span class="section-eyebrow">The rules you answer to</span>
     <h2 class="section-title">One baseline, many frameworks.</h2>
     <p class="section-sub">The SMB Control Baseline is built on the CIS Controls, which line up with the frameworks your regulators, carriers and customers ask about. Do the work once and it counts toward each of them.</p>
+    <p class="fw-intro">Frameworks that include:</p>
     <ul class="fw-list">
-      <li class="first">NY DFS Cybersecurity Regulation (23 NYCRR 500)</li>
+      <li>NY DFS Cybersecurity Regulation (23 NYCRR 500)</li>
       <li>HIPAA Security Rule</li>
       <li>NIST SP 800-171 and CMMC 2.0</li>
       <li>ISO/IEC 27001</li>
       <li>SOC 2</li>
       <li>PCI DSS</li>
+      <li>NACHA</li>
+      <li>Shared Assessments SIG</li>
     </ul>
   </div>
 </section>
@@ -186,11 +200,48 @@
       <img src="../images/pcs/run-a-scan.png" alt="The PCS Run a scan page: each scan with who runs it, the next round, the last result and its current state." loading="lazy" width="1227" height="693">
       <figcaption>Who runs each scan, when, and what came back</figcaption>
     </figure>
+    <div class="f-text" style="margin-top:2.5rem;">
+      <h3 style="font-family:Georgia,serif;font-size:1.25rem;color:var(--navy);font-weight:500;">From finding to fix, in one click.</h3>
+      <p style="font-size:0.9rem;color:var(--text-mid);line-height:1.8;">Every scan writes a report in plain English. Each failed check says what was found, what it means for the business, and carries an <em>Open the step</em> link to the exact instructions that fix it. Fix it, re-scan, and the safeguard turns to Met on the risk assessment.</p>
+    </div>
+    <div class="pair">
+      <figure>
+        <img src="../images/pcs/report-snippet.png" alt="A Microsoft 365 scan report for a sample company: 8 failed, 3 warnings, 8 passed. The failed check M-05 says two-step sign-in is not required and 3 accounts sign in with a password alone, with an Open the step link." loading="lazy" width="1400" height="979">
+        <figcaption>The scan report: M-05 failed</figcaption>
+      </figure>
+      <div class="arrow" aria-hidden="true">&rarr;</div>
+      <figure>
+        <img src="../images/pcs/fix-steps.png" alt="The fix for M-05, multifactor authentication: the issue, the fix, a caution about locking out administrators, three numbered steps in Microsoft Entra, and a command to check the result." loading="lazy" width="1400" height="546">
+        <figcaption>Open the step: how to fix M-05</figcaption>
+      </figure>
+    </div>
+    <p class="link-note">Sample from the demo company. The same failure also lands on the risk register as safeguard 6.3, so the fix, the re-scan and the decision are tracked in one place.</p>
+  </div>
+</section>
+
+<!-- ── TRAINING ── -->
+<section class="section" style="background:var(--cream-dark);">
+  <div class="container feature">
+    <div class="f-text">
+      <span class="section-eyebrow">Training</span>
+      <h2 class="section-title">Training people finish, and proof that they did.</h2>
+      <p class="section-sub" style="text-align:left;margin-left:0;">Narrated, illustrated modules your people actually watch to the end, recorded against each person as evidence.</p>
+      <ul>
+        <li>A short beginner set is required for everyone. Intermediate and advanced courses are there for those who want more.</li>
+        <li>&ldquo;How it works&rdquo; explainers and documentaries tell the story behind real attacks, such as the rise and fall of the Silk Road.</li>
+        <li>Quiz games that make the lessons stick.</li>
+        <li>Each completion is dated and filed against the training safeguard, so &ldquo;are your people trained?&rdquo; has an answer with names on it.</li>
+      </ul>
+    </div>
+    <figure class="shot">
+      <img src="../images/pcs/silk-road.png" alt="The main page of the training documentary How It Worked: The Silk Road, with six illustrated chapters from the idea in 2011 to the legacy, and playback controls." loading="lazy" width="1280" height="800">
+      <figcaption>&ldquo;How it worked: The Silk Road,&rdquo; one of the documentaries</figcaption>
+    </figure>
   </div>
 </section>
 
 <!-- ── ALL MODULES ── -->
-<section class="section" style="background:var(--cream-dark);">
+<section class="section" style="background:var(--cream);">
   <div class="container">
     <span class="section-eyebrow">Inside PCS Tier 1</span>
     <h2 class="section-title">Every module.</h2>
@@ -214,8 +265,8 @@
   <div class="container">
     <span class="section-eyebrow" style="color:#9DB4C8;">Get in touch</span>
     <h2 style="color:#F5F1EB;margin-bottom:1rem;">See PCS against your own company.</h2>
-    <p style="color:#9DB4C8;max-width:560px;margin:0 auto 2rem;font-size:0.92rem;">Try the demo yourself for 14 days, or tell us where your data lives and we will show you your score.</p>
-    <a href="https://demo.pistosip.com/try" class="btn btn-white">Try the demo</a>
+    <p style="color:#9DB4C8;max-width:560px;margin:0 auto 2rem;font-size:0.92rem;">Test-drive PCS yourself for 14 days, or tell us where your data lives and we will show you your score.</p>
+    <a href="https://demo.pistosip.com/try" class="btn btn-white">Test-drive PCS</a>
     <a href="/pages/contact.html" class="btn btn-white" style="margin-left:0.75rem;">Request a briefing</a>
   </div>
 </section>
