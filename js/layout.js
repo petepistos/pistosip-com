@@ -41,6 +41,7 @@ const FOOTER = `
     <div class="footer-brand">
       <span class="serif" style="font-size:1.1rem;color:#F5F1EB;letter-spacing:0.08em;">&#960;&#953;&#963;&#964;&#972;&#962;&nbsp;&nbsp;Pistos</span>
       <p>Cybersecurity compliance programs for organizations under 500 employees. Designed by former partners from Accenture, EY, PwC, and Wipro. Built for financial services, healthcare, and defense.</p>
+      <p><a href="tel:+18002915058" style="color:#9DB4C8;">(800) 291-5058</a> &middot; <a href="mailto:contact@pistosip.com" style="color:#9DB4C8;">contact@pistosip.com</a></p>
     </div>
     <div class="footer-col">
       <h4>Platform</h4>
