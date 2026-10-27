@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Implementing Intune in a Microsoft 365 Office</title>
+<meta name="description" content="Plain-English guide to rolling out Microsoft Intune device management in a small business already running Microsoft 365.">
+<style>
+  :root{
+    --navy:#132846; --navy-soft:#24416b; --gold:#B99433; --gold-light:#EBDDB4;
+    --cream:#F7F3E9; --ink:#1f2328; --ink-soft:#4a5160; --rule:#e2ddd1;
+    --warn-bg:#fdf4ee; --warn-line:#d9a273; --ok-bg:#eef4ef; --ok-line:#7aa184;
+    --code-bg:#0f1f38; --code-ink:#e9e4d6;
+    --font-head:Cambria,"Palatino Linotype",Palatino,Georgia,serif;
+    --font-body:Calibri,"Segoe UI",Candara,"Trebuchet MS",system-ui,sans-serif;
+    --font-mono:Consolas,"Cascadia Mono","SF Mono",Menlo,monospace;
+    --maxw:900px;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{margin:0;background:#fbfaf7;color:var(--ink);font-family:var(--font-body);font-size:17.5px;line-height:1.62;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px;}
+  .masthead{background:var(--navy);color:#fff;border-bottom:4px solid var(--gold);padding:38px 0 44px;}
+  .brandline{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;padding-bottom:16px;margin-bottom:26px;border-bottom:1px solid rgba(235,221,180,.3);}
+  .wordmark{font-family:var(--font-head);font-weight:700;font-size:21px;letter-spacing:.22em;color:#fff;}
+  .brandname{font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-light);}
+  .eyebrow{font-size:12.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:700;margin:0 0 10px;}
+  .masthead h1{font-family:var(--font-head);font-weight:700;font-size:clamp(28px,5.5vw,44px);line-height:1.12;margin:0 0 12px;color:#fff;}
+  .deck{font-family:var(--font-head);font-style:italic;font-size:clamp(17px,2.6vw,21px);color:var(--gold-light);margin:0 0 22px;max-width:38em;}
+  .meta{display:flex;gap:10px 28px;flex-wrap:wrap;font-size:14px;color:rgba(255,255,255,.78);}
+  .meta span strong{color:var(--gold-light);font-weight:700;}
+  main{padding:0 0 70px;}
+  h2{font-family:var(--font-head);font-weight:700;color:var(--navy);font-size:clamp(23px,3.4vw,29px);line-height:1.2;margin:52px 0 14px;padding-bottom:9px;border-bottom:2px solid var(--gold);}
+  h3{font-family:var(--font-head);font-weight:700;color:var(--navy);font-size:19.5px;margin:26px 0 8px;}
+  p{margin:0 0 14px;}
+  a{color:var(--navy-soft);}
+  ul,ol{margin:0 0 14px;padding-left:22px;}
+  li{margin-bottom:7px;}
+  li::marker{color:var(--gold);}
+  strong{color:var(--navy);}
+  code{font-family:var(--font-mono);font-size:.88em;background:var(--cream);border:1px solid var(--rule);border-radius:3px;padding:1px 5px;color:#30405c;}
+  pre{background:var(--code-bg);color:var(--code-ink);font-family:var(--font-mono);font-size:14px;line-height:1.5;padding:16px 18px;border-radius:5px;overflow-x:auto;margin:10px 0 16px;border-left:4px solid var(--gold);}
+  pre code{background:none;border:none;padding:0;color:inherit;font-size:inherit;}
+  .lede{font-size:19.5px;line-height:1.58;color:var(--ink-soft);margin:36px 0 22px;}
+  .lede strong{color:var(--navy);}
+  .pullbox{background:var(--cream);border-left:4px solid var(--gold);padding:20px 24px;margin:24px 0;border-radius:0 5px 5px 0;}
+  .pullbox p:last-child{margin-bottom:0;}
+  .pullbox .label{font-size:11.5px;letter-spacing:.17em;text-transform:uppercase;color:var(--gold);font-weight:700;display:block;margin-bottom:7px;}
+  .toc{border:1px solid var(--rule);background:#fff;border-radius:6px;padding:24px 26px;margin:30px 0 10px;}
+  .toc h2{margin:0 0 16px;font-size:16px;border:none;padding:0;letter-spacing:.17em;text-transform:uppercase;color:var(--gold);font-family:var(--font-body);font-weight:700;}
+  .toc ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:3px 26px;}
+  .toc li{margin:0;}
+  .toc a{display:flex;gap:11px;align-items:baseline;padding:7px 0;text-decoration:none;color:var(--ink);border-bottom:1px solid #f0ece2;font-size:16px;}
+  .toc a:hover{color:var(--navy);}
+  .toc a .n{font-family:var(--font-head);font-weight:700;color:var(--gold);min-width:20px;font-size:15px;}
+  .step{background:#fff;border:1px solid var(--rule);border-radius:6px;padding:26px 28px 20px;margin:22px 0;box-shadow:0 1px 2px rgba(19,40,70,.045);}
+  .step-head{display:flex;gap:16px;align-items:flex-start;padding-bottom:14px;margin-bottom:16px;border-bottom:1px solid var(--rule);}
+  .step-num{flex:0 0 auto;width:42px;height:42px;border-radius:50%;background:var(--navy);color:var(--gold-light);font-family:var(--font-head);font-weight:700;font-size:19px;display:flex;align-items:center;justify-content:center;margin-top:2px;}
+  .step-title{font-family:var(--font-head);font-weight:700;color:var(--navy);font-size:22px;line-height:1.26;margin:4px 0 0;}
+  .block{margin:0 0 16px;}
+  .block:last-child{margin-bottom:4px;}
+  .blabel{font-size:11.5px;letter-spacing:.17em;text-transform:uppercase;font-weight:700;color:var(--gold);display:block;margin-bottom:6px;}
+  .block p:last-child,.block ul:last-child,.block ol:last-child,.block pre:last-child{margin-bottom:0;}
+  .check{background:var(--ok-bg);border-left:3px solid var(--ok-line);padding:13px 17px;border-radius:0 4px 4px 0;}
+  .check .blabel{color:#4e7a5e;}
+  .pitfall{background:var(--warn-bg);border-left:3px solid var(--warn-line);padding:13px 17px;border-radius:0 4px 4px 0;}
+  .pitfall .blabel{color:#a8632c;}
+  .tablewrap{overflow-x:auto;margin:18px 0 22px;}
+  table{width:100%;border-collapse:collapse;font-size:16px;background:#fff;border:1px solid var(--rule);}
+  th{background:var(--navy);color:#fff;text-align:left;font-family:var(--font-head);font-weight:700;font-size:15px;padding:11px 14px;}
+  td{padding:11px 14px;border-top:1px solid var(--rule);vertical-align:top;}
+  tbody tr:nth-child(even) td{background:#fcfbf8;}
+  td strong{color:var(--navy);}
+  .why table td:nth-child(2){color:var(--ink-soft);}
+  .why table td:nth-child(3){background:#f5f8f5;}
+  .gloss{border-top:1px solid var(--rule);margin-top:18px;}
+  .gloss div{display:grid;grid-template-columns:200px 1fr;gap:4px 22px;padding:13px 0;border-bottom:1px solid var(--rule);}
+  .gloss dt{font-family:var(--font-head);font-weight:700;color:var(--navy);font-size:16.5px;}
+  .gloss dd{margin:0;color:var(--ink-soft);}
+  @media (max-width:620px){.gloss div{grid-template-columns:1fr;gap:3px;}}
+  .checklist{background:#fff;border:1px solid var(--rule);border-radius:6px;padding:8px 26px;margin:22px 0;}
+  .checklist ul{list-style:none;margin:0;padding:0;}
+  .checklist li{padding:12px 0 12px 34px;position:relative;border-bottom:1px solid #f1ede4;margin:0;}
+  .checklist li:last-child{border-bottom:none;}
+  .checklist li::before{content:"";position:absolute;left:0;top:15px;width:17px;height:17px;border:2px solid var(--gold);border-radius:3px;background:#fff;}
+  footer{background:var(--navy);color:rgba(255,255,255,.75);border-top:4px solid var(--gold);padding:32px 0;margin-top:60px;font-size:14.5px;}
+  footer .wordmark{font-size:17px;}
+  footer p{margin:10px 0 0;max-width:58em;}
+  footer strong{color:var(--gold-light);}
+  @media print{
+    body{background:#fff;font-size:11pt;line-height:1.45;}
+    .masthead{padding:0 0 16pt;background:#fff;color:#000;border-bottom:2pt solid var(--gold);}
+    .masthead h1{color:var(--navy);font-size:24pt;}
+    .wordmark,.brandname{color:var(--navy);}
+    .deck,.meta{color:#555;}
+    .meta span strong{color:var(--navy);}
+    .brandline{border-bottom:1px solid var(--rule);}
+    .toc{display:none;}
+    .step,.checklist,pre{break-inside:avoid;page-break-inside:avoid;box-shadow:none;}
+    pre{background:#f3f1ea;color:#222;border-left:3pt solid var(--gold);white-space:pre-wrap;word-break:break-all;}
+    h2{break-after:avoid;page-break-after:avoid;}
+    footer{background:#fff;color:#444;border-top:1pt solid var(--rule);}
+    footer .wordmark,footer strong{color:var(--navy);}
+    a{color:var(--navy);text-decoration:none;}
+  }
+</style>
+</head>
+<body>
+<header class="masthead">
+  <div class="wrap">
+    <div class="brandline">
+      <span class="wordmark">&#928;&#921;&#931;&#932;&#927;&#931;</span>
+      <span class="brandname">Pistos Information Protection</span>
+    </div>
+    <p class="eyebrow">Implementation Guide</p>
+    <h1>Implementing Intune in a Microsoft 365 Office</h1>
+    <p class="deck">A step-by-step guide for the person running the project. Sign-in, email and devices already live in one place, which makes this the simpler version.</p>
+    <div class="meta"><span><strong>Audience:</strong> Owners, office managers, general IT</span><span><strong>Environment:</strong> Microsoft 365 Business Premium</span><span><strong>Devices:</strong> Company-owned Windows</span><span><strong>Version:</strong> 1.0</span></div>
+  </div>
+</header>
+<main class="wrap">
+  <p class="lede">Your office already runs on Microsoft 365: email in Outlook, files in OneDrive, meetings in Teams. What this guide adds is proper management of the computers themselves, using Intune, which is included in Microsoft 365 Business Premium. Because sign-in, email and devices all live in the same place, this is the simpler version of the project. <strong>The whole method is one idea repeated: decide first, test on one machine, then widen.</strong></p>
+
+  <h2 id="why">Why Intune</h2>
+  <p>Every Microsoft 365 business plan includes a small device management feature called Basic Mobility and Security. It can wipe a lost phone and set a few rules on it, and that is roughly where it stops. Intune, which comes with Microsoft 365 Business Premium, is the full version. If the business is on Business Standard today, it has the first column. Moving to Business Premium gives it the second, together with Defender for Business and the sign-in controls that make the second column enforceable.</p>
+  <div class="tablewrap why"><table><thead><tr><th style="width:24%">Capability</th><th style="width:38%">Microsoft 365 without Intune</th><th>With Intune (Business Premium)</th></tr></thead><tbody>
+<tr><td><strong>Device health rules</strong></td><td>A short fixed list, mostly aimed at phones.</td><td>Full compliance policies for Windows: encryption, antivirus, firewall, OS version, and anything else you need.</td></tr>
+<tr><td><strong>Keeping unhealthy machines out</strong></td><td>Not available for Windows computers.</td><td>A Windows machine that fails its health check is blocked from email, files and Teams until it is fixed. Automatic, no human in the loop.</td></tr>
+<tr><td><strong>Security standard</strong></td><td>A handful of settings.</td><td>Microsoft's security baseline, several hundred hardening settings kept current as Windows changes, applied in one step.</td></tr>
+<tr><td><strong>Installing and removing software</strong></td><td>No.</td><td>Full software deployment with install, uninstall, detection rules and per-machine reporting.</td></tr>
+<tr><td><strong>Running scripts on machines</strong></td><td>No.</td><td>Yes, with full system rights, with a success or failure result reported per machine. This is how PCS and the scanner scripts are delivered.</td></tr>
+<tr><td><strong>Encryption keys</strong></td><td>Not stored.</td><td>BitLocker recovery keys stored in the tenant and rotatable remotely.</td></tr>
+<tr><td><strong>Lost or stolen laptop</strong></td><td>Wipe, or remove company data.</td><td>Lock, locate, wipe, retire, rotate the encryption key, restart, or rebuild Windows remotely.</td></tr>
+<tr><td><strong>Setting up a new computer</strong></td><td>Someone configures it by hand.</td><td>Autopilot: the machine ships from the supplier to the employee and configures itself on first sign-in.</td></tr>
+<tr><td><strong>Antivirus management</strong></td><td>Whatever is on the machine.</td><td>Defender for Business, included in Business Premium, managed from the same console. Scans can be started remotely.</td></tr>
+<tr><td><strong>Local administrator passwords</strong></td><td>Shared and written down somewhere.</td><td>Windows LAPS: a unique local admin password per machine, rotated automatically, retrievable only by people you allow.</td></tr>
+<tr><td><strong>Evidence for an auditor</strong></td><td>Device list.</td><td>Per-device compliance state, what policy applied when, what script ran with what result, and who did what in the console.</td></tr>
+</tbody></table></div>
+  <div class="pullbox"><span class="label">The license line</span>  <p>Intune is included in <strong>Microsoft 365 Business Premium</strong>. It is not in Business Basic or Business Standard, and buying Intune on its own costs more than the difference between the plans. If the business is on Standard, the first step is to move the licenses to Premium, which also brings Defender for Business and the Conditional Access feature this guide relies on.</p>
+</div>
+  <div class="pullbox"><span class="label">Set expectations before you start</span>  <p>A twelve-person office is a four to eight week project, not a weekend. Most of that time is waiting: for a pilot machine to behave normally for a few days, for people to be available, for a setting to prove it broke nothing. Rushing is what turns an Intune rollout into an outage.</p>
+</div>
+  <nav class="toc" aria-label="Contents"><h2>The ten steps</h2><ol>
+<li><a href="#s1"><span class="n">1</span><span>Confirm licensing and ownership</span></a></li>
+<li><a href="#s2"><span class="n">2</span><span>Decide what you will manage</span></a></li>
+<li><a href="#s3"><span class="n">3</span><span>Create your groups first</span></a></li>
+<li><a href="#s4"><span class="n">4</span><span>Turn on automatic enrollment</span></a></li>
+<li><a href="#s5"><span class="n">5</span><span>Enroll one machine and prove it</span></a></li>
+<li><a href="#s6"><span class="n">6</span><span>Write the compliance rules</span></a></li>
+<li><a href="#s7"><span class="n">7</span><span>Apply the security baseline</span></a></li>
+<li><a href="#s8"><span class="n">8</span><span>Separate the stricter settings</span></a></li>
+<li><a href="#s9"><span class="n">9</span><span>Turn on Conditional Access</span></a></li>
+<li><a href="#s10"><span class="n">10</span><span>Enroll the rest, then maintain it</span></a></li>
+</ol></nav>
+
+  <h2 id="before">Before you open the admin center</h2>
+  <p>Three things decide whether this goes smoothly, and all three are decisions rather than settings.</p>
+  <p><strong>Who owns each computer.</strong> A company-owned machine can be fully managed. A personal machine usually cannot, and a machine running Windows Home edition cannot be enrolled at all. Knowing which is which before you begin saves the most painful surprise in the project.</p>
+  <p><strong>What you are willing to break.</strong> Security settings restrict things. Some restrictions are invisible to staff and some stop them working. Decide in advance which trade-offs the business will accept, and get that in writing from whoever owns the business.</p>
+  <p><strong>Who the emergency administrator is.</strong> Later in this guide you will turn on a rule that blocks unhealthy devices. If that rule catches every administrator at once, nobody can undo it. Set up a separate administrator account now and keep it out of every policy you write.</p>
+
+  <h2 id="steps">The ten steps</h2>
+  <article class="step" id="s1">
+    <div class="step-head"><div class="step-num">1</div><h3 class="step-title">Confirm the licensing and make Intune the manager of record</h3></div>
+    <div class="block"><span class="blabel">Why this matters</span>  <p>Business Premium includes everything this project needs. The trap is the plan sitting next to it on the price list: Business Standard looks almost identical on an invoice and contains no device management at all.</p>
+</div>
+    <div class="block"><span class="blabel">What you do</span>  <ul>
+    <li>Confirm every person whose computer you will manage holds a <strong>Microsoft 365 Business Premium</strong> license. If the office is on Standard, move the licenses first. Nothing else in this guide works until that is done.</li>
+    <li>Sign in at <code>intune.microsoft.com</code> with an account holding the Intune Administrator role.</li>
+    <li>Go to <strong>Tenant administration</strong>, then <strong>Tenant status</strong>. Confirm the MDM authority reads <em>Microsoft Intune</em>, and that the license count matches the number of people in scope.</li>
+    <li>Create the emergency administrator account now, and store its password somewhere safe and offline.</li>
+  </ul>
+</div>
+    <div class="block"><span class="blabel">What the plan does and does not cover</span>  <div class="tablewrap"><table><thead><tr><th style="width:50%">Included in Business Premium</th><th>Not included, and chargeable if anyone suggests it</th></tr></thead><tbody>
+<tr><td><strong>Intune Plan 1.</strong> Device enrollment, compliance policies, configuration profiles and security baselines. That is Steps 4 through 8.</td><td><strong>Endpoint Privilege Management.</strong> Granting a user administrator rights for one specific task without handing over the admin password.</td></tr>
+<tr><td><strong>Microsoft Entra ID P1.</strong> Conditional Access, multifactor authentication, dynamic groups and Windows Autopilot. That is Steps 3, 4 and 9.</td><td><strong>Remote Help.</strong> Microsoft's own screen-sharing tool. Most small offices do not need it; see the note after Step 10.</td></tr>
+<tr><td><strong>Defender for Business.</strong> The antivirus and endpoint protection that the compliance rules in Step 6 check for.</td><td><strong>Remediations</strong> (scheduled detect-and-fix scripts), which need Windows Enterprise licensing, plus the rest of the Intune Suite.</td></tr>
+</tbody></table></div>
+  <p>Nothing in this guide needs anything from the right-hand column.</p>
+</div>
+    <div class="block check"><span class="blabel">How you know it worked</span>  <p>Tenant status shows Microsoft Intune as the MDM authority and the license count matches your headcount.</p>
+</div>
+    <div class="block pitfall"><span class="blabel">What goes wrong</span>  <p>An office was sold Business Standard. Email, Teams and Office all work, so nothing looks wrong, until enrollment fails on every machine with an error that never once mentions licensing.</p>
+</div>
+  </article>
+  <article class="step" id="s2">
+    <div class="step-head"><div class="step-num">2</div><h3 class="step-title">Decide what you will manage, on paper, before touching a setting</h3></div>
+    <div class="block"><span class="blabel">Why this matters</span>  <p>Most Intune problems are planning problems wearing a technical costume. Ten minutes with a list prevents a week of untangling.</p>
+</div>
+    <div class="block"><span class="blabel">What you do</span>  <p>Build a simple list with four columns: person, computer, who owns it, and which bucket it falls into.</p>
+  <div class="tablewrap"><table><thead><tr><th style="width:24%">Bucket</th><th style="width:38%">What it covers</th><th>What it gets</th></tr></thead><tbody>
+<tr><td><strong>Fully managed</strong></td><td>Company-owned Windows Pro or Enterprise computers</td><td>Joined, enrolled, compliance rules, baseline, everything in this guide</td></tr>
+<tr><td><strong>Protected, not managed</strong></td><td>Personal computers and phones used for work, including any Windows Home machine</td><td>App protection on company apps and multifactor sign-in. The device itself stays untouched</td></tr>
+<tr><td><strong>Left alone</strong></td><td>A consultant's own laptop, or a machine running software that cannot tolerate change</td><td>Nothing, by deliberate decision, recorded with the reason and who approved it</td></tr>
+</tbody></table></div>
+</div>
+    <div class="block check"><span class="blabel">How you know it worked</span>  <p>For every computer in the office, you can say out loud which bucket it is in and why.</p>
+</div>
+    <div class="block pitfall"><span class="blabel">What goes wrong</span>  <p>Finding out mid-rollout that the person who runs the office is on a personal Windows Home machine. Make that discovery now.</p>
+</div>
+  </article>
+  <article class="step" id="s3">
+    <div class="step-head"><div class="step-num">3</div><h3 class="step-title">Create your groups before you create any policy</h3></div>
+    <div class="block"><span class="blabel">Why this matters</span>  <p>Every rule in Intune is pointed at a group. If the groups do not exist yet, you will point rules at "All devices" because it is the only option on the screen, and that is how people lock themselves out.</p>
+</div>
+    <div class="block"><span class="blabel">What you do</span>  <ul>
+    <li>Create a device group for the machines that will be managed.</li>
+    <li>Create a second device group for machines that must be excluded, even if it has one member today.</li>
+    <li>Create a small pilot group holding your first test machine.</li>
+    <li>When you need to keep one machine out of a policy, use the exclusion group rather than an assignment filter.</li>
+  </ul>
+</div>
+    <div class="block check"><span class="blabel">How you know it worked</span>  <p>Three groups exist and each contains exactly the devices you expect. No policies exist yet.</p>
+</div>
+    <div class="block pitfall"><span class="blabel">What goes wrong</span>  <p>A one-off exclusion set up as a filter, forgotten six months later, and nobody can explain why one machine is unmanaged.</p>
+</div>
+  </article>
+  <article class="step" id="s4">
+    <div class="step-head"><div class="step-num">4</div><h3 class="step-title">Turn on automatic enrollment, scoped to the pilot group</h3></div>
+    <div class="block"><span class="blabel">Why this matters</span>  <p>Automatic enrollment means a person signs into Windows with their work account and the computer joins the business and enrolls itself. The alternative is doing it by hand at every desk.</p>
+</div>
+    <div class="block"><span class="blabel">What you do</span>  <ul>
+    <li>In the Intune admin center, go to <strong>Devices</strong>, then <strong>Enrollment</strong>, then the <strong>Windows</strong> tab, then <strong>Automatic Enrollment</strong>.</li>
+    <li>Set <strong>MDM user scope</strong> to <em>Some</em> and choose your pilot group. Do not set it to <em>All</em> yet.</li>
+    <li>Leave <strong>MAM user scope</strong> at <em>None</em> unless you are also protecting personal phones, which is a separate exercise.</li>
+    <li>Leave the three URLs at their defaults.</li>
+  </ul>
+</div>
+    <div class="block check"><span class="blabel">How you know it worked</span>  <p>A test user in the pilot group can sign into a machine with their work account, and that machine appears in Intune within a few minutes.</p>
+</div>
+    <div class="block pitfall"><span class="blabel">What goes wrong</span>  <p>Setting the scope to <em>All</em> on day one. Every machine anyone signs into starts enrolling itself, including personal laptops nobody meant to manage.</p>
+</div>
+  </article>
+  <article class="step" id="s5">
+    <div class="step-head"><div class="step-num">5</div><h3 class="step-title">Enroll one machine and prove it works</h3></div>
+    <div class="block"><span class="blabel">Why this matters</span>  <p>The pilot is where the surprises live, and it is the cheapest place to find them. One machine and one patient person is the whole requirement.</p>
+</div>
+    <div class="block"><span class="blabel">What you do</span>  <ul>
+    <li>On a company-owned Windows computer that is already signed in with the work account, enrollment may already have happened the moment you changed Step 4. Check the Intune device list first.</li>
+    <li>If not, open <strong>Settings</strong>, then <strong>Accounts</strong>, then <strong>Access work or school</strong>. If the work account is listed and says the device is connected to the organization, it is joined. If it is missing, connect it, choosing <strong>Join this device to Microsoft Entra ID</strong>.</li>
+    <li>On a machine being set up from new, signing in with the work account during first-time setup joins and enrolls it in one pass.</li>
+    <li>In the Intune admin center, confirm the device shows as <em>Microsoft Entra joined</em> and ownership reads <em>Corporate</em>.</li>
+    <li>Leave it alone for two or three days of ordinary work before you apply anything to it.</li>
+  </ul>
+</div>
+    <div class="block check"><span class="blabel">How you know it worked</span>  <p>The device is listed, shows a recent check-in time, reports as Entra joined, and the person using it has not noticed any difference.</p>
+</div>
+    <div class="block pitfall"><span class="blabel">What goes wrong</span>  <p>The machine shows as <em>registered</em> rather than <em>joined</em>. Registered means the account is connected but the computer is not managed, and the policies in the following steps will never reach it. That usually means a personal or local account was signed in first.</p>
+</div>
+  </article>
+  <article class="step" id="s6">
+    <div class="step-head"><div class="step-num">6</div><h3 class="step-title">Write the compliance rules</h3></div>
+    <div class="block"><span class="blabel">Why this matters</span>  <p>A compliance policy is the list of conditions a computer must meet to count as healthy. On its own it only reports. It becomes enforcement in Step 9.</p>
+</div>
+    <div class="block"><span class="blabel">What you do</span>  <p>Start short. Five rules most small offices can meet today:</p>
+  <ul>
+    <li>Disk encryption turned on (BitLocker)</li>
+    <li>Antivirus on and up to date. Defender for Business, which comes with your plan, satisfies this</li>
+    <li>Firewall on</li>
+    <li>A minimum Windows version, set at something your fleet already runs</li>
+    <li>A password or PIN required to unlock the machine</li>
+  </ul>
+  <p>Set the grace period to a few days. That gives people time to fix a problem before anything they rely on stops working.</p>
+</div>
+    <div class="block check"><span class="blabel">How you know it worked</span>  <p>The pilot machine reports <em>Compliant</em>, or tells you precisely which rule it fails and why. Either outcome is a success at this stage.</p>
+</div>
+    <div class="block pitfall"><span class="blabel">What goes wrong</span>  <p>Switching on a dozen rules at once, then spending a week explaining amber warnings to staff who did nothing wrong.</p>
+</div>
+  </article>
+  <article class="step" id="s7">
+    <div class="step-head"><div class="step-num">7</div><h3 class="step-title">Apply the security baseline, to the pilot machine only</h3></div>
+    <div class="block"><span class="blabel">Why this matters</span>  <p>A security baseline is Microsoft's prepackaged set of several hundred hardening settings, kept current as Windows changes. It saves you from inventing a standard from scratch and then maintaining it forever.</p>
+</div>
+    <div class="block"><span class="blabel">What you do</span>  <ul>
+    <li>Go to <strong>Endpoint security</strong>, then <strong>Security baselines</strong>, and create a profile from the Windows security baseline.</li>
+    <li>Read the settings rather than accepting them blindly. Password rules and legacy protocol settings are the two areas most often adjusted for a small office.</li>
+    <li>Assign the profile to your pilot group, and add the exclusion group as an exclusion while you are on that screen.</li>
+    <li>Give it several days of normal work before going any further.</li>
+  </ul>
+</div>
+    <div class="block"><span class="blabel">Worth knowing</span>  <p>Microsoft's baselines are not certified against CIS or NIST. They mirror those recommendations closely, and they are a reasonable starting point, though they do not by themselves answer a regulator or a carrier asking for a formal control mapping.</p>
+</div>
+    <div class="block check"><span class="blabel">How you know it worked</span>  <p>The baseline reports as applied with no errors, and after several days nobody's daily work has broken.</p>
+</div>
+    <div class="block pitfall"><span class="blabel">What goes wrong</span>  <p>Assigning the baseline to every machine the day you create it. When something breaks you are left guessing which of several hundred settings caused it.</p>
+</div>
+  </article>
+  <article class="step" id="s8">
+    <div class="step-head"><div class="step-num">8</div><h3 class="step-title">Keep the stricter settings in a separate profile</h3></div>
+    <div class="block"><span class="blabel">Why this matters</span>  <p>The baseline is the set of settings almost every business should have. Past it sit the intrusive ones: blocking USB storage, removing local administrator rights, controlling which applications can run. Those change how people work, and they need their own schedule.</p>
+</div>
+    <div class="block"><span class="blabel">What you do</span>  <ul>
+    <li>Keep the baseline as one profile and the tightening as a second, clearly named profile.</li>
+    <li>Roll the second one out later, on its own timeline, one group of settings at a time.</li>
+    <li>Write down every setting the business asked you to leave off, who asked, and when.</li>
+    <li>While you are here, turn on Windows LAPS under <strong>Endpoint security</strong>, then <strong>Account protection</strong>. It gives every machine its own local administrator password, rotated automatically, and replaces whatever shared password the office has been using.</li>
+  </ul>
+</div>
+    <div class="block check"><span class="blabel">How you know it worked</span>  <p>You can point at one profile and say "this is the standard," at a second and say "this is the tightening," and at a short list and say "this is what we deferred, and here is who decided."</p>
+</div>
+    <div class="block pitfall"><span class="blabel">What goes wrong</span>  <p>Blending everything into one profile. When the aggressive part breaks something there is no clean way to back it out without losing the baseline too.</p>
+</div>
+  </article>
+  <article class="step" id="s9">
+    <div class="step-head"><div class="step-num">9</div><h3 class="step-title">Turn on Conditional Access, in report-only mode first</h3></div>
+    <div class="block"><span class="blabel">Why this matters</span>  <p>Until this step, compliance rules only report. Conditional Access is the rule that gives them teeth: email, files and Teams are reachable only from a device Intune considers healthy. In a Microsoft office this protects everything, which is why it is worth the care. It is also the single most dangerous switch in this guide.</p>
+</div>
+    <div class="block"><span class="blabel">What you do</span>  <ul>
+    <li>Confirm the emergency administrator account from Step 1 exists, and exclude it from every Conditional Access policy you write. Do this before anything else on this list.</li>
+    <li>In the Entra admin center, create a policy requiring a compliant device, in <em>report-only</em> mode, which records who would have been blocked without blocking anyone.</li>
+    <li>Watch the report for a week. Fix the machines that would have failed.</li>
+    <li>Only then switch the policy on.</li>
+  </ul>
+</div>
+    <div class="block check"><span class="blabel">How you know it worked</span>  <p>A healthy machine gets through, a deliberately noncompliant test machine does not, and you can still sign in with the emergency account from a device the policy would otherwise block.</p>
+</div>
+    <div class="block pitfall"><span class="blabel">What goes wrong</span>  <p>Turning on Conditional Access with no exclusion and locking every administrator out of the tenant at once, including the account needed to undo it.</p>
+</div>
+  </article>
+  <article class="step" id="s10">
+    <div class="step-head"><div class="step-num">10</div><h3 class="step-title">Enroll the rest, then keep it running</h3></div>
+    <div class="block"><span class="blabel">Why this matters</span>  <p>Intune is not a project that finishes. Windows changes, Microsoft updates the baseline, staff get new machines, and a fleet left unwatched drifts out of compliance quietly.</p>
+</div>
+    <div class="block"><span class="blabel">What you do</span>  <ul>
+    <li>Widen the MDM user scope from the pilot group to the full managed group.</li>
+    <li>Enroll the remaining machines in small batches, two or three at a time rather than all at once.</li>
+    <li>For new computers, use Autopilot: register the machine before it ships and it configures itself the first time the employee signs in.</li>
+    <li>Set a monthly habit: review noncompliant devices, review failed policy assignments, read what Microsoft changed in the baseline, and confirm any new hire's machine actually enrolled.</li>
+    <li>Keep a written record of what you configured and when. If a regulator, a carrier or an auditor asks how you manage endpoints, that record is the answer.</li>
+  </ul>
+</div>
+    <div class="block check"><span class="blabel">How you know it worked</span>  <p>The device count in Intune matches your inventory list from Step 2, and the compliance figure sits at or near one hundred percent and stays there.</p>
+</div>
+    <div class="block pitfall"><span class="blabel">What goes wrong</span>  <p>Treating go-live as the finish line. Six months later half the fleet is noncompliant and nobody noticed, because after go-live nobody was looking.</p>
+</div>
+  </article>
+
+  <h2 id="remote">Remote management and remote support</h2>
+  <p>Two different things get called remote management, and conflating them leads to buying something you did not need.</p>
+  <ul>
+    <li><strong>Managing a machine you cannot physically reach.</strong> Pushing settings, installing software, restarting it, wiping it. Business Premium already does all of this, from the device page in the Intune admin center.</li>
+    <li><strong>Watching and driving someone's screen while they sit at it.</strong> This is not in Business Premium. If the person who supports these computers is in the building and holds the local administrator password, you do not need it. If support comes from outside the building, or someone needs to work on a machine nobody is sitting at, you need a tool for it, and it needs to keep a record of who connected to what.</li>
+  </ul>
+  <p>For a small office supporting itself, the free Windows Quick Assist is workable for occasional help at the desk. It keeps no records and cannot elevate to administrator, so it does not survive an examination as the standing method. An outside provider will usually bring their own tool, priced per technician, and that tool should be in your written access agreement with them.</p>
+
+  <h2 id="timeline">A realistic timeline</h2>
+  <p>For an office of roughly a dozen computers, with one person running the project part time.</p>
+  <div class="tablewrap"><table><thead><tr><th style="width:20%">When</th><th style="width:38%">What happens</th><th>What you are waiting on</th></tr></thead><tbody>
+<tr><td><strong>Week 1</strong></td><td>Steps 1 to 3: licensing, the inventory decision, groups</td><td>Owner sign-off on which machines are in and out</td></tr>
+<tr><td><strong>Week 2</strong></td><td>Steps 4 and 5: automatic enrollment scoped to pilot, first machine enrolled</td><td>A few days of ordinary use on the pilot machine</td></tr>
+<tr><td><strong>Weeks 3 to 4</strong></td><td>Steps 6 and 7: compliance rules and the baseline, pilot only</td><td>Several days of the pilot behaving normally under the baseline</td></tr>
+<tr><td><strong>Weeks 5 to 6</strong></td><td>Step 9: Conditional Access in report-only, then enabled</td><td>A full week of report-only data before you switch it on</td></tr>
+<tr><td><strong>Weeks 7 to 8</strong></td><td>Step 10: the remaining machines, in batches</td><td>People being available to hand over their computer for twenty minutes</td></tr>
+<tr><td><strong>Later</strong></td><td>Step 8: the stricter profile, on its own schedule</td><td>A quiet month, and a business that has settled into the baseline</td></tr>
+</tbody></table></div>
+
+  <h2 id="mistakes">The six mistakes that cause the most damage</h2>
+  <ol>
+    <li><strong>Assigning a policy to All devices.</strong> It is the default-looking option and it reaches machines you never intended, including the one you are working from.</li>
+    <li><strong>Skipping the pilot.</strong> Every hour saved here costs a day later, and it costs it in front of the whole office.</li>
+    <li><strong>No break-glass account excluded from Conditional Access.</strong> The one mistake that can lock you out of fixing the other five.</li>
+    <li><strong>Registering machines instead of joining them.</strong> They appear in the console and look managed, and nothing you deploy ever lands.</li>
+    <li><strong>One giant policy profile.</strong> It cannot be partly undone, so the first real problem turns into switching everything off.</li>
+    <li><strong>Using assignment filters for one-off exceptions.</strong> They work, they are invisible on the assignment page, and nobody remembers them six months on. Use an exclusion group.</li>
+  </ol>
+
+  <h2 id="glossary">Plain-English glossary</h2>
+  <dl class="gloss">
+    <div><dt>Tenant</dt><dd>Your company's own space inside Microsoft's cloud. Every account, device and policy lives in it.</dd></div>
+    <div><dt>Microsoft Entra ID</dt><dd>The directory of who works here. Older documentation calls it Azure Active Directory.</dd></div>
+    <div><dt>Intune</dt><dd>Microsoft's tool for managing computers and phones remotely. Included in Business Premium.</dd></div>
+    <div><dt>Joined</dt><dd>The computer belongs to the business and signs into Windows with the Microsoft account. Intune runs it.</dd></div>
+    <div><dt>Registered</dt><dd>A work account was added to a computer the business does not run. Policies do not reach it. Not what you want for company machines.</dd></div>
+    <div><dt>Enrollment</dt><dd>The moment a joined computer starts checking in with Intune for instructions.</dd></div>
+    <div><dt>Compliance policy</dt><dd>The health check. A list of conditions a computer must meet, such as encryption on and antivirus running.</dd></div>
+    <div><dt>Configuration profile</dt><dd>The settings you push out. Anything you want switched on, off or set to a particular value.</dd></div>
+    <div><dt>Security baseline</dt><dd>A prepackaged configuration profile from Microsoft with several hundred recommended hardening settings.</dd></div>
+    <div><dt>Conditional Access</dt><dd>The gate. The rule that decides whether a sign-in is allowed, based on who, from where, and on what kind of device.</dd></div>
+    <div><dt>MDM user scope</dt><dd>The switch that controls who gets automatic enrollment. Set to None, Some, or All.</dd></div>
+    <div><dt>Autopilot</dt><dd>A way of shipping a new computer straight from the supplier to the employee, configured on first sign-in without IT touching it.</dd></div>
+    <div><dt>Break-glass account</dt><dd>A spare administrator account kept out of every policy, with its password stored offline, so you can always get back in.</dd></div>
+    <div><dt>Windows LAPS</dt><dd>A feature that gives every machine its own local administrator password, rotates it, and stores it where only the right people can read it.</dd></div>
+    <div><dt>Defender for Business</dt><dd>The antivirus and endpoint protection included in Business Premium, managed from the same console as Intune.</dd></div>
+  </dl>
+
+  <h2 id="checklist">Project checklist</h2>
+  <div class="checklist"><ul>
+    <li>Business Premium confirmed for every person in scope, and Intune is the MDM authority</li>
+    <li>Emergency administrator account created, password stored offline</li>
+    <li>Every computer in the office assigned to one of the three buckets, in writing</li>
+    <li>Managed, exclusion and pilot groups created, with no policies yet</li>
+    <li>Automatic enrollment turned on, scoped to the pilot group only</li>
+    <li>One machine enrolled, showing as Entra joined and corporate-owned</li>
+    <li>Compliance rules written, five to start, with a grace period set</li>
+    <li>Security baseline applied to the pilot machine and left alone for several days</li>
+    <li>Stricter settings held in a separate, named profile for later; Windows LAPS turned on</li>
+    <li>Conditional Access run in report-only mode for a full week before being switched on</li>
+    <li>Remaining machines enrolled in small batches; Autopilot used for new hardware</li>
+    <li>Monthly review scheduled, with an owner's name against it</li>
+    <li>Written record of the configuration kept where an auditor could be shown it</li>
+  </ul></div>
+
+</main>
+<footer>
+  <div class="wrap">
+    <span class="wordmark">&#928;&#921;&#931;&#932;&#927;&#931;</span>
+    <p><strong>Pistos Information Protection.</strong> This guide describes a general approach to a Microsoft Intune rollout for a small business running Microsoft 365 Business Premium. Screen names and menu paths in Microsoft's and Google's admin consoles change from time to time, so confirm the current wording against the vendor's own documentation before you follow a step. Any configuration decision that affects how staff work should be approved by whoever owns the business and recorded alongside the reason.</p>
+  </div>
+</footer>
+</body>
+</html>
