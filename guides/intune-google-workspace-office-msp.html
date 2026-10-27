@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Implementing Intune in a Google Workspace Office: MSP Edition</title>
+<meta name="description" content="Technical runbook for deploying Microsoft Intune to Windows devices in a small business that keeps Google Workspace for mail, with PowerShell and Graph scripts.">
+<style>
+  :root{
+    --navy:#132846; --navy-soft:#24416b; --gold:#B99433; --gold-light:#EBDDB4;
+    --cream:#F7F3E9; --ink:#1f2328; --ink-soft:#4a5160; --rule:#e2ddd1;
+    --warn-bg:#fdf4ee; --warn-line:#d9a273; --ok-bg:#eef4ef; --ok-line:#7aa184;
+    --code-bg:#0f1f38; --code-ink:#e9e4d6;
+    --font-head:Cambria,"Palatino Linotype",Palatino,Georgia,serif;
+    --font-body:Calibri,"Segoe UI",Candara,"Trebuchet MS",system-ui,sans-serif;
+    --font-mono:Consolas,"Cascadia Mono","SF Mono",Menlo,monospace;
+    --maxw:900px;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{margin:0;background:#fbfaf7;color:var(--ink);font-family:var(--font-body);font-size:17.5px;line-height:1.62;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px;}
+  .masthead{background:var(--navy);color:#fff;border-bottom:4px solid var(--gold);padding:38px 0 44px;}
+  .brandline{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;padding-bottom:16px;margin-bottom:26px;border-bottom:1px solid rgba(235,221,180,.3);}
+  .wordmark{font-family:var(--font-head);font-weight:700;font-size:21px;letter-spacing:.22em;color:#fff;}
+  .brandname{font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-light);}
+  .eyebrow{font-size:12.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:700;margin:0 0 10px;}
+  .masthead h1{font-family:var(--font-head);font-weight:700;font-size:clamp(28px,5.5vw,44px);line-height:1.12;margin:0 0 12px;color:#fff;}
+  .deck{font-family:var(--font-head);font-style:italic;font-size:clamp(17px,2.6vw,21px);color:var(--gold-light);margin:0 0 22px;max-width:38em;}
+  .meta{display:flex;gap:10px 28px;flex-wrap:wrap;font-size:14px;color:rgba(255,255,255,.78);}
+  .meta span strong{color:var(--gold-light);font-weight:700;}
+  main{padding:0 0 70px;}
+  h2{font-family:var(--font-head);font-weight:700;color:var(--navy);font-size:clamp(23px,3.4vw,29px);line-height:1.2;margin:52px 0 14px;padding-bottom:9px;border-bottom:2px solid var(--gold);}
+  h3{font-family:var(--font-head);font-weight:700;color:var(--navy);font-size:19.5px;margin:26px 0 8px;}
+  p{margin:0 0 14px;}
+  a{color:var(--navy-soft);}
+  ul,ol{margin:0 0 14px;padding-left:22px;}
+  li{margin-bottom:7px;}
+  li::marker{color:var(--gold);}
+  strong{color:var(--navy);}
+  code{font-family:var(--font-mono);font-size:.88em;background:var(--cream);border:1px solid var(--rule);border-radius:3px;padding:1px 5px;color:#30405c;}
+  pre{background:var(--code-bg);color:var(--code-ink);font-family:var(--font-mono);font-size:14px;line-height:1.5;padding:16px 18px;border-radius:5px;overflow-x:auto;margin:10px 0 16px;border-left:4px solid var(--gold);}
+  pre code{background:none;border:none;padding:0;color:inherit;font-size:inherit;}
+  .lede{font-size:19.5px;line-height:1.58;color:var(--ink-soft);margin:36px 0 22px;}
+  .lede strong{color:var(--navy);}
+  .pullbox{background:var(--cream);border-left:4px solid var(--gold);padding:20px 24px;margin:24px 0;border-radius:0 5px 5px 0;}
+  .pullbox p:last-child{margin-bottom:0;}
+  .pullbox .label{font-size:11.5px;letter-spacing:.17em;text-transform:uppercase;color:var(--gold);font-weight:700;display:block;margin-bottom:7px;}
+  .toc{border:1px solid var(--rule);background:#fff;border-radius:6px;padding:24px 26px;margin:30px 0 10px;}
+  .toc h2{margin:0 0 16px;font-size:16px;border:none;padding:0;letter-spacing:.17em;text-transform:uppercase;color:var(--gold);font-family:var(--font-body);font-weight:700;}
+  .toc ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:3px 26px;}
+  .toc li{margin:0;}
+  .toc a{display:flex;gap:11px;align-items:baseline;padding:7px 0;text-decoration:none;color:var(--ink);border-bottom:1px solid #f0ece2;font-size:16px;}
+  .toc a:hover{color:var(--navy);}
+  .toc a .n{font-family:var(--font-head);font-weight:700;color:var(--gold);min-width:20px;font-size:15px;}
+  .step{background:#fff;border:1px solid var(--rule);border-radius:6px;padding:26px 28px 20px;margin:22px 0;box-shadow:0 1px 2px rgba(19,40,70,.045);}
+  .step-head{display:flex;gap:16px;align-items:flex-start;padding-bottom:14px;margin-bottom:16px;border-bottom:1px solid var(--rule);}
+  .step-num{flex:0 0 auto;width:42px;height:42px;border-radius:50%;background:var(--navy);color:var(--gold-light);font-family:var(--font-head);font-weight:700;font-size:19px;display:flex;align-items:center;justify-content:center;margin-top:2px;}
+  .step-title{font-family:var(--font-head);font-weight:700;color:var(--navy);font-size:22px;line-height:1.26;margin:4px 0 0;}
+  .block{margin:0 0 16px;}
+  .block:last-child{margin-bottom:4px;}
+  .blabel{font-size:11.5px;letter-spacing:.17em;text-transform:uppercase;font-weight:700;color:var(--gold);display:block;margin-bottom:6px;}
+  .block p:last-child,.block ul:last-child,.block ol:last-child,.block pre:last-child{margin-bottom:0;}
+  .check{background:var(--ok-bg);border-left:3px solid var(--ok-line);padding:13px 17px;border-radius:0 4px 4px 0;}
+  .check .blabel{color:#4e7a5e;}
+  .pitfall{background:var(--warn-bg);border-left:3px solid var(--warn-line);padding:13px 17px;border-radius:0 4px 4px 0;}
+  .pitfall .blabel{color:#a8632c;}
+  .tablewrap{overflow-x:auto;margin:18px 0 22px;}
+  table{width:100%;border-collapse:collapse;font-size:16px;background:#fff;border:1px solid var(--rule);}
+  th{background:var(--navy);color:#fff;text-align:left;font-family:var(--font-head);font-weight:700;font-size:15px;padding:11px 14px;}
+  td{padding:11px 14px;border-top:1px solid var(--rule);vertical-align:top;}
+  tbody tr:nth-child(even) td{background:#fcfbf8;}
+  td strong{color:var(--navy);}
+  .why table td:nth-child(2){color:var(--ink-soft);}
+  .why table td:nth-child(3){background:#f5f8f5;}
+  .gloss{border-top:1px solid var(--rule);margin-top:18px;}
+  .gloss div{display:grid;grid-template-columns:200px 1fr;gap:4px 22px;padding:13px 0;border-bottom:1px solid var(--rule);}
+  .gloss dt{font-family:var(--font-head);font-weight:700;color:var(--navy);font-size:16.5px;}
+  .gloss dd{margin:0;color:var(--ink-soft);}
+  @media (max-width:620px){.gloss div{grid-template-columns:1fr;gap:3px;}}
+  .checklist{background:#fff;border:1px solid var(--rule);border-radius:6px;padding:8px 26px;margin:22px 0;}
+  .checklist ul{list-style:none;margin:0;padding:0;}
+  .checklist li{padding:12px 0 12px 34px;position:relative;border-bottom:1px solid #f1ede4;margin:0;}
+  .checklist li:last-child{border-bottom:none;}
+  .checklist li::before{content:"";position:absolute;left:0;top:15px;width:17px;height:17px;border:2px solid var(--gold);border-radius:3px;background:#fff;}
+  footer{background:var(--navy);color:rgba(255,255,255,.75);border-top:4px solid var(--gold);padding:32px 0;margin-top:60px;font-size:14.5px;}
+  footer .wordmark{font-size:17px;}
+  footer p{margin:10px 0 0;max-width:58em;}
+  footer strong{color:var(--gold-light);}
+  @media print{
+    body{background:#fff;font-size:11pt;line-height:1.45;}
+    .masthead{padding:0 0 16pt;background:#fff;color:#000;border-bottom:2pt solid var(--gold);}
+    .masthead h1{color:var(--navy);font-size:24pt;}
+    .wordmark,.brandname{color:var(--navy);}
+    .deck,.meta{color:#555;}
+    .meta span strong{color:var(--navy);}
+    .brandline{border-bottom:1px solid var(--rule);}
+    .toc{display:none;}
+    .step,.checklist,pre{break-inside:avoid;page-break-inside:avoid;box-shadow:none;}
+    pre{background:#f3f1ea;color:#222;border-left:3pt solid var(--gold);white-space:pre-wrap;word-break:break-all;}
+    h2{break-after:avoid;page-break-after:avoid;}
+    footer{background:#fff;color:#444;border-top:1pt solid var(--rule);}
+    footer .wordmark,footer strong{color:var(--navy);}
+    a{color:var(--navy);text-decoration:none;}
+  }
+</style>
+</head>
+<body>
+<header class="masthead">
+  <div class="wrap">
+    <div class="brandline">
+      <span class="wordmark">&#928;&#921;&#931;&#932;&#927;&#931;</span>
+      <span class="brandname">Pistos Information Protection</span>
+    </div>
+    <p class="eyebrow">Implementation Guide</p>
+    <h1>Implementing Intune in a Google Workspace Office: MSP Edition</h1>
+    <p class="deck">Technical runbook for the engineer doing the work. Entra joined devices, scripted where it should be, with the evidence an examiner will ask for.</p>
+    <div class="meta"><span><strong>Audience:</strong> MSP engineers and vCISOs</span><span><strong>Environment:</strong> Google Workspace for mail, Microsoft 365 Business Premium for devices</span><span><strong>Devices:</strong> Company-owned Windows, Entra joined</span><span><strong>Version:</strong> 1.0</span></div>
+  </div>
+</header>
+<main class="wrap">
+  <p class="lede">The client runs Google Workspace for mail, calendar and Drive, and that is not changing. You are bringing their Windows fleet under Intune so you can enforce a baseline, gate access on device health, and deliver scripts and software with per-device evidence. Identity for Windows sign-in moves to Entra. Mail identity stays in Google. <strong>Every device in scope ends up Entra joined, not registered.</strong></p>
+
+  <h2 id="why">Why Intune</h2>
+  <p>Google Workspace is a good home for email, calendars and files. Its tools for managing the Windows computers themselves are thin by comparison. Google can require encryption, push Windows updates and grant or remove local administrator rights, and it does those things through its own sign-in program on each machine, one user per device, with changes taking several hours to arrive. Intune is built to run the computer. The table shows the difference in plain terms.</p>
+  <div class="tablewrap why"><table><thead><tr><th style="width:24%">Capability</th><th style="width:38%">Google Workspace on its own</th><th>With Intune added</th></tr></thead><tbody>
+<tr><td><strong>Who the computer belongs to</strong></td><td>The person signs into Windows with a Google account through Google's sign-in program. One managed user per machine.</td><td>The computer is joined to the business. Any licensed person can sign in, and the machine is managed no matter who is at the keyboard.</td></tr>
+<tr><td><strong>Security standard</strong></td><td>You pick individual settings from a short list.</td><td>Microsoft's security baseline, several hundred hardening settings kept current as Windows changes, applied in one step.</td></tr>
+<tr><td><strong>Encryption</strong></td><td>BitLocker can be required.</td><td>BitLocker required, recovery keys stored in the tenant, and keys can be rotated remotely after anyone has seen one.</td></tr>
+<tr><td><strong>Keeping unhealthy machines out</strong></td><td>Limited, and only for Google services on the higher editions.</td><td>A machine that fails its health check can be blocked from any Microsoft 365 data, automatically, until it is fixed.</td></tr>
+<tr><td><strong>Installing and removing software</strong></td><td>Basic app push through custom settings.</td><td>Full software deployment with install, uninstall, detection rules and per-machine reporting.</td></tr>
+<tr><td><strong>Running scripts on machines</strong></td><td>No.</td><td>Yes, with full system rights, with a success or failure result reported per machine. This is how PCS and the scanner scripts are delivered.</td></tr>
+<tr><td><strong>Antivirus</strong></td><td>Whatever you bought separately.</td><td>Defender for Business, included in the license, managed from the same console as everything else.</td></tr>
+<tr><td><strong>Lost or stolen laptop</strong></td><td>Wipe.</td><td>Lock, locate, wipe, retire, rotate the encryption key, restart, or rebuild Windows remotely.</td></tr>
+<tr><td><strong>Setting up a new computer</strong></td><td>Someone configures it by hand.</td><td>Autopilot: the machine ships from the supplier to the employee and configures itself on first sign-in.</td></tr>
+<tr><td><strong>How fast changes arrive</strong></td><td>Three to six hours.</td><td>Within the hour on the normal cycle, or immediately when you force a check-in.</td></tr>
+<tr><td><strong>Evidence for an auditor</strong></td><td>Device list and a few settings.</td><td>Per-device compliance state, what policy applied when, what script ran with what result, and who did what in the console.</td></tr>
+</tbody></table></div>
+  <div class="pullbox"><span class="label">What stays where</span>  <p>Your email, calendar and files <strong>stay in Google</strong>. Nothing in this guide moves them. Intune manages the computer underneath. Each person gets a Microsoft account that is used to sign into Windows and nothing else. It is not a mailbox and nobody will receive email there.</p>
+</div>
+  <div class="pullbox"><span class="label">Conventions in this guide</span>  <p>Commands are shown in lowercase. PowerShell does not care about case for cmdlets, parameters or paths. Where a value must keep its case, such as a permission scope name or an installer property, it does. Every script here is meant to be read before it is run, and run against one machine before it is run against a fleet. Replace <code>example.com</code>, group names and paths with your own.</p>
+</div>
+  <nav class="toc" aria-label="Contents"><h2>The twelve steps</h2><ol>
+<li><a href="#s1"><span class="n">1</span><span>Tenant access, licenses, Graph</span></a></li>
+<li><a href="#s2"><span class="n">2</span><span>Domain verification without touching mail</span></a></li>
+<li><a href="#s3"><span class="n">3</span><span>Bulk-create Entra identities from the Google export</span></a></li>
+<li><a href="#s4"><span class="n">4</span><span>Scope and groups</span></a></li>
+<li><a href="#s5"><span class="n">5</span><span>Enrollment configuration</span></a></li>
+<li><a href="#s6"><span class="n">6</span><span>Pilot join and profile migration</span></a></li>
+<li><a href="#s7"><span class="n">7</span><span>Compliance policy</span></a></li>
+<li><a href="#s8"><span class="n">8</span><span>Security baseline and the second profile</span></a></li>
+<li><a href="#s9"><span class="n">9</span><span>Script and application delivery</span></a></li>
+<li><a href="#s10"><span class="n">10</span><span>Conditional Access with a break-glass</span></a></li>
+<li><a href="#s11"><span class="n">11</span><span>Fleet rollout and reporting</span></a></li>
+<li><a href="#s12"><span class="n">12</span><span>Operate: joiners, leavers, drift, optional SSO</span></a></li>
+</ol></nav>
+
+  <h2 id="assumptions">Assumptions</h2>
+  <ul>
+    <li>Company-owned Windows 10/11 Pro or Enterprise. Windows Home is out of scope for join and for the management extension, and is handled as a documented exception.</li>
+    <li>You hold, or will hold, Global Administrator in the client's Microsoft tenant under an individually named account with its own MFA. You do not operate through a shared login or relayed codes.</li>
+    <li>One Business Premium license per user in scope. Intune Plan 1, Entra ID P1 and Defender for Business are what you are using. Remediations, Endpoint Privilege Management, Remote Help and the rest of the Intune Suite are not licensed and nothing here depends on them.</li>
+    <li>DNS is reachable by you or by someone who will act on a ticket the same day.</li>
+    <li>Users will carry two identities: Google for mail and Drive, Entra for Windows sign-in. Section 12 covers collapsing that to one with SAML if the client wants it.</li>
+  </ul>
+
+  <h2 id="steps">The twelve steps</h2>
+  <article class="step" id="s1">
+    <div class="step-head"><div class="step-num">1</div><h3 class="step-title">Tenant access, licenses, and a Graph session you can trust</h3></div>
+    <div class="block"><span class="blabel">Why this matters</span>  <p>Everything after this is scriptable. Nothing is scriptable until you can authenticate as the right principal in the right tenant and see the license pool. Confirm both before you build anything.</p>
+</div>
+    <div class="block"><span class="blabel">What you do</span>  <ul>
+    <li>Sign in to <code>admin.microsoft.com</code> and <code>intune.microsoft.com</code> as your named GA. If the client cannot produce a working GA account, stop and run tenant recovery as its own ticket.</li>
+    <li>Confirm <strong>Tenant administration &gt; Tenant status</strong> shows MDM authority = Microsoft Intune.</li>
+    <li>Connect Graph and verify the tenant before you touch it.</li>
+  </ul>
+<pre><code># one-time: install the graph module for the current user
+install-module microsoft.graph -scope currentuser -force
+
+# connect with the scopes this guide uses
+connect-mggraph -scopes "User.ReadWrite.All","Group.ReadWrite.All","Directory.ReadWrite.All","DeviceManagementManagedDevices.ReadWrite.All","DeviceManagementConfiguration.ReadWrite.All","Organization.Read.All"
+
+# confirm which tenant you are in before doing anything else
+get-mgcontext | select-object tenantid, account, scopes
+get-mgorganization | select-object displayname, verifieddomains</code></pre>
+  <p>Check the license pool and assign where needed:</p>
+<pre><code># find the business premium sku and how many seats are free
+get-mgsubscribedsku | select-object skupartnumber, consumedunits, @{n="total";e={$_.prepaidunits.enabled}}
+
+# business premium's part number is SPB. capture its id.
+$sku = (get-mgsubscribedsku | where-object skupartnumber -eq "SPB").skuid
+
+# assign to one user. usage location must be set first or the assignment fails.
+update-mguser -userid "jane@example.com" -usagelocation "US"
+set-mguserlicense -userid "jane@example.com" -addlicenses @{skuid = $sku} -removelicenses @()
+
+# assign to everyone in a group instead (preferred: licenses follow membership)
+# entra admin center &gt; groups &gt; the group &gt; licenses &gt; assignments. not scriptable through this cmdlet.
+
+# check who in scope is still unlicensed
+get-mguser -all -property displayname,userprincipalname,assignedlicenses | where-object { $_.assignedlicenses.count -eq 0 } | select-object displayname, userprincipalname</code></pre>
+</div>
+    <div class="block check"><span class="blabel">How you know it worked</span>  <p><code>get-mgorganization</code> returns the client's tenant, the SPB sku shows enough free seats, and every user in scope has a license.</p>
+</div>
+    <div class="block pitfall"><span class="blabel">What goes wrong</span>  <p>Running the rest of this guide against your own tenant because the Graph session was cached. Always print the context first.</p>
+</div>
+  </article>
+  <article class="step" id="s2">
+    <div class="step-head"><div class="step-num">2</div><h3 class="step-title">Verify the domain in Entra without touching mail flow</h3></div>
+    <div class="block"><span class="blabel">Why this matters</span>  <p>UPNs should match the users' Google addresses so nobody learns a new username. That needs the domain verified in the tenant. Verification is one TXT record. MX stays with Google.</p>
+</div>
+    <div class="block"><span class="blabel">What you do</span>  <ul>
+    <li><strong>Settings &gt; Domains &gt; Add domain</strong> in the Microsoft 365 admin center. Choose the TXT verification method and add the record at the registrar.</li>
+    <li>When the wizard offers to configure services, choose <strong>I'll add the DNS records myself</strong> and select nothing. Do not let it write MX, autodiscover or SPF.</li>
+    <li>After verification, go to the domain's settings and make sure Exchange is not enabled for it if the option is exposed. No mailboxes will exist on this domain, so internal routing is not a concern, but keep it clean.</li>
+    <li>Confirm MX and SPF are untouched afterwards.</li>
+  </ul>
+<pre><code># before and after: confirm mail still points at google and the ms txt is present
+resolve-dnsname -name example.com -type mx | select-object nameexchange, preference
+resolve-dnsname -name example.com -type txt | select-object -expandproperty strings
+# you want to see v=spf1 ... include:_spf.google.com ... and an MS=msXXXXXXXX record</code></pre>
+</div>
+    <div class="block check"><span class="blabel">How you know it worked</span>  <p>Domain shows verified, MX unchanged, SPF unchanged, and new users can be created with the custom-domain UPN.</p>
+</div>
+    <div class="block pitfall"><span class="blabel">What goes wrong</span>  <p>A wizard-driven MX change. Mail starts landing in nonexistent Exchange mailboxes within the TTL window. If the client reports mail loss after this step, this is the first thing to check.</p>
+</div>
+  </article>
+  <article class="step" id="s3">
+    <div class="step-head"><div class="step-num">3</div><h3 class="step-title">Bulk-create Entra identities from the Google user export</h3></div>
+    <div class="block"><span class="blabel">Why this matters</span>  <p>You want one Entra user per Google user, same UPN, license attached, usage location set, no mailbox. Doing it from the Google export means no typos and a clean audit trail of what was created and when.</p>
+</div>
+    <div class="block"><span class="blabel">What you do</span>  <ul>
+    <li>Google Admin &gt; Directory &gt; Users &gt; Download users. Keep only active human accounts. Drop shared mailboxes, role accounts and anyone leaving.</li>
+    <li>Create the users from the CSV, assign the license, and record the temporary passwords in the client's password manager, never in the CSV.</li>
+  </ul>
+<pre><code># csv columns expected: "First Name [Required]","Last Name [Required]","Email Address [Required]"
+$sku = (get-mgsubscribedsku | where-object skupartnumber -eq "SPB").skuid
+$users = import-csv ".\google-users.csv"
+$results = foreach ($u in $users) {
+  $upn  = $u.'Email Address [Required]'.trim().tolower()
+  $nick = ($upn -split "@")[0]
+  $pw   = -join ((48..57 + 65..90 + 97..122) | get-random -count 20 | foreach-object {[char]$_})
+  try {
+    $new = new-mguser -displayname "$($u.'First Name [Required]') $($u.'Last Name [Required]')" `
+                      -givenname $u.'First Name [Required]' -surname $u.'Last Name [Required]' `
+                      -userprincipalname $upn -mailnickname $nick -usagelocation "US" -accountenabled `
+                      -passwordprofile @{password = $pw; forcechangepasswordnextsignin = $true}
+    set-mguserlicense -userid $new.id -addlicenses @{skuid = $sku} -removelicenses @() | out-null
+    [pscustomobject]@{upn = $upn; status = "created"; temppassword = $pw}
+  } catch {
+    [pscustomobject]@{upn = $upn; status = "failed: $($_.exception.message)"; temppassword = ""}
+  }
+}
+# hand this to the password manager import, then delete the file
+$results | export-csv ".\entra-created.csv" -notypeinformation
+$results | select-object upn, status | format-table</code></pre>
+  <p>Create the break-glass account now, while you are in the directory, and record its password offline in two places:</p>
+<pre><code># create the emergency account. store the password offline, in two places, before you leave this screen.
+$pw = -join ((48..57 + 65..90 + 97..122 + 33,35,36,37,38,42,64) | get-random -count 32 | foreach-object {[char]$_})
+$bg = new-mguser -displayname "break glass" -userprincipalname "breakglass@example.onmicrosoft.com" -mailnickname "breakglass" -accountenabled -passwordprofile @{password = $pw; forcechangepasswordnextsignin = $false}
+
+# global administrator role, assigned directly
+$role = get-mgdirectoryrole | where-object displayname -eq "Global Administrator"
+new-mgdirectoryrolememberbyref -directoryroleid $role.id -bodyparameter @{"@odata.id" = "https://graph.microsoft.com/v1.0/directoryObjects/$($bg.id)"}
+
+# now, in the entra admin center, exclude this account from every conditional access policy you create.
+# register a hardware security key as its second factor. do not leave it with no method.
+write-output "store this now: $pw"</code></pre>
+</div>
+    <div class="block check"><span class="blabel">How you know it worked</span>  <p>Every Google user in scope has a matching Entra user, licensed, with the custom-domain UPN. One break-glass GA exists.</p>
+</div>
+    <div class="block pitfall"><span class="blabel">What goes wrong</span>  <p>A user sets the Entra password equal to their Google password. Say explicitly in the user communication that these are two unrelated accounts and the passwords must differ.</p>
+</div>
+  </article>
+  <article class="step" id="s4">
+    <div class="step-head"><div class="step-num">4</div><h3 class="step-title">Scope the fleet and build the groups</h3></div>
+    <div class="block"><span class="blabel">Why this matters</span>  <p>Every assignment targets a group. Build the groups before any policy exists so "All devices" is never the path of least resistance. Device groups for anything that configures the machine. User groups only for things that follow the person.</p>
+</div>
+    <div class="block"><span class="blabel">What you do</span>  <p>Inventory first. One row per machine: hostname, user, ownership, edition, bucket.</p>
+  <div class="tablewrap"><table><thead><tr><th style="width:24%">Bucket</th><th style="width:38%">What it covers</th><th>What it gets</th></tr></thead><tbody>
+<tr><td><strong>Fully managed</strong></td><td>Company-owned Windows Pro or Enterprise computers</td><td>Joined, enrolled, compliance rules, baseline, everything in this guide</td></tr>
+<tr><td><strong>Protected, not managed</strong></td><td>Personal computers and phones used for work, including any Windows Home machine</td><td>App protection on company apps and multifactor sign-in. The device itself stays untouched</td></tr>
+<tr><td><strong>Left alone</strong></td><td>A consultant's own laptop, or a machine running software that cannot tolerate change</td><td>Nothing, by deliberate decision, recorded with the reason and who approved it</td></tr>
+</tbody></table></div>
+  <p>Then create the groups:</p>
+<pre><code># static security groups, device-based
+$managed = new-mggroup -displayname "intune - managed windows" -mailenabled:$false -mailnickname "intune-managed-windows" -securityenabled -description "company-owned windows machines under full management"
+$exclude = new-mggroup -displayname "intune - excluded devices" -mailenabled:$false -mailnickname "intune-excluded-devices" -securityenabled -description "machines deliberately kept out of policy. one row per exception, with the reason, in the ticket."
+$pilot   = new-mggroup -displayname "intune - pilot" -mailenabled:$false -mailnickname "intune-pilot" -securityenabled -description "first machines to receive any new policy"
+
+# optional: a dynamic group that picks up every company-owned windows device automatically
+$rule = '(device.deviceOSType -eq "Windows") and (device.deviceOwnership -eq "Company")'
+new-mggroup -displayname "intune - all corporate windows (dynamic)" -mailenabled:$false -mailnickname "intune-all-corp-windows" -securityenabled -grouptypes "DynamicMembership" -membershiprule $rule -membershipruleprocessingstate "On"
+
+$managed.id; $exclude.id; $pilot.id</code></pre>
+  <p>Exclusions are always a group, never an assignment filter. A filter is invisible on the assignment page and nobody will find it in a year.</p>
+</div>
+    <div class="block check"><span class="blabel">How you know it worked</span>  <p>Managed, excluded and pilot groups exist. The dynamic group is empty for now and will populate as devices join.</p>
+</div>
+    <div class="block pitfall"><span class="blabel">What goes wrong</span>  <p>Mixing user and device groups across include and exclude on the same assignment. Intune evaluates them differently and the result is not what you drew on the whiteboard.</p>
+</div>
+  </article>
+  <article class="step" id="s5">
+    <div class="step-head"><div class="step-num">5</div><h3 class="step-title">Enrollment configuration, scoped to the pilot</h3></div>
+    <div class="block"><span class="blabel">Why this matters</span>  <p>Automatic enrollment turns an Entra join into an Intune enrollment with no second step. Scope it to the pilot group first. Widen it only after Step 6 proves the join path.</p>
+</div>
+    <div class="block"><span class="blabel">What you do</span>  <ul>
+    <li><strong>Devices &gt; Enrollment &gt; Windows &gt; Automatic Enrollment</strong>. MDM user scope = <em>Some</em>, pilot group. MAM user scope = <em>None</em>. URLs at defaults.</li>
+    <li>Optional but worth it: add the two CNAMEs so enrollment resolves cleanly from any network.</li>
+    <li><strong>Devices &gt; Enrollment &gt; Windows &gt; Enrollment restrictions</strong>: block personally owned Windows enrollment for the default policy. Company-owned only, which is the whole premise here.</li>
+    <li>If the client will buy new hardware, register for Autopilot now so future machines arrive pre-joined.</li>
+  </ul>
+<pre><code># the two optional cnames, added at the registrar
+# enterpriseenrollment.example.com    cname   enterpriseenrollment.manage.microsoft.com
+# enterpriseregistration.example.com  cname   enterpriseregistration.windows.net
+
+# autopilot: capture the hardware hash from an existing machine and register it
+install-script get-windowsautopilotinfo -force
+get-windowsautopilotinfo -online -grouptag "corp-windows"</code></pre>
+</div>
+    <div class="block check"><span class="blabel">How you know it worked</span>  <p>A pilot user signing into a fresh machine with their Entra account produces an Entra joined, Intune enrolled device within minutes.</p>
+</div>
+    <div class="block pitfall"><span class="blabel">What goes wrong</span>  <p>MDM user scope set to All on day one. Every machine anyone adds a work account to starts enrolling, including the owner's home PC.</p>
+</div>
+  </article>
+  <article class="step" id="s6">
+    <div class="step-head"><div class="step-num">6</div><h3 class="step-title">Pilot join and the profile migration you will repeat for everyone</h3></div>
+    <div class="block"><span class="blabel">Why this matters</span>  <p>Joining an existing machine creates a new local profile for the Entra account. Nothing migrates on its own. The pilot is where you decide whether you migrate profiles by tool, by script, or by hand, and how long that takes per seat, because that number drives the rollout schedule.</p>
+</div>
+    <div class="block"><span class="blabel">What you do</span>  <ul>
+    <li>Back up the user's profile. Then <strong>Settings &gt; Accounts &gt; Access work or school &gt; Connect &gt; Join this device to Microsoft Entra ID</strong>. Entra credentials. Restart. Sign in as the Entra user.</li>
+    <li>Confirm the join state from the machine. This is the single most important check in the guide.</li>
+  </ul>
+<pre><code># run on the machine, in an elevated prompt. the lines that matter:
+#   AzureAdJoined : YES     -&gt; joined. good.
+#   AzureAdJoined : NO  with WorkplaceJoined : YES  -&gt; registered only. policies will not land.
+#   TenantName / TenantId  -&gt; confirm it is the right tenant, not a personal one
+#   MdmUrl                 -&gt; populated means intune enrollment completed
+dsregcmd /status
+
+# the same thing, filtered, for pasting into a ticket
+dsregcmd /status | select-string "azureadjoined|workplacejoined|tenantname|tenantid|mdmurl|devicename"</code></pre>
+  <ul>
+    <li>Migrate the profile. For a dozen seats, a commercial profile migration tool such as ForensiT's User Profile Wizard pays for itself on the first afternoon. Otherwise, copy Desktop, Documents, Downloads, Pictures and the Chrome profile folder, and reconnect Drive for desktop under the Google account.</li>
+    <li>Remove the old local account after a week, once the user has confirmed nothing is missing.</li>
+    <li>Force a sync and confirm the device appears, Entra joined, corporate, with a recent check-in.</li>
+  </ul>
+<pre><code># force a check-in from the machine itself (elevated)
+get-scheduledtask | where-object taskpath -like "\microsoft\windows\enterprisemgmt\*" | start-scheduledtask
+
+# or from the console, by device name
+$d = get-mgdevicemanagementmanageddevice -filter "devicename eq 'pc-reception-01'"
+sync-mgdevicemanagementmanageddevice -manageddeviceid $d.id
+
+# every enrolled windows device at once
+get-mgdevicemanagementmanageddevice -all -filter "operatingsystem eq 'Windows'" | foreach-object { sync-mgdevicemanagementmanageddevice -manageddeviceid $_.id }</code></pre>
+  <p>Leave it alone for several days of real work before any policy touches it.</p>
+</div>
+    <div class="block check"><span class="blabel">How you know it worked</span>  <p><code>dsregcmd</code> shows <code>AzureAdJoined : YES</code>, MdmUrl populated, the right tenant ID. The user has their files, Chrome, Drive and mail, and has not thought about Microsoft since the restart.</p>
+</div>
+    <div class="block pitfall"><span class="blabel">What goes wrong</span>  <p><code>WorkplaceJoined : YES</code> with <code>AzureAdJoined : NO</code>. The account was added, the device was not joined. Everything downstream silently fails to apply. Remove the work account and redo the join properly.</p>
+</div>
+  </article>
+  <article class="step" id="s7">
+    <div class="step-head"><div class="step-num">7</div><h3 class="step-title">Compliance policy, five rules, seven-day grace</h3></div>
+    <div class="block"><span class="blabel">Why this matters</span>  <p>Compliance is the signal Conditional Access consumes. Start with rules every machine can meet so the first month is green, then tighten. Grace period is what stops a Tuesday patch from locking a producer out of their quotes.</p>
+</div>
+    <div class="block"><span class="blabel">What you do</span>  <p>Create it in the console, or through Graph so it is reproducible across clients:</p>
+<pre><code># a starter windows compliance policy through graph. five rules, seven-day grace period.
+$body = @{
+  "@odata.type"                               = "#microsoft.graph.windows10CompliancePolicy"
+  displayName                                 = "windows - baseline compliance"
+  description                                 = "encryption, av, firewall, min os, password. seven day grace."
+  bitLockerEnabled                            = $true
+  antivirusRequired                           = $true
+  antiSpywareRequired                         = $true
+  defenderEnabled                             = $true
+  firewallRequired                            = $true
+  osMinimumVersion                            = "10.0.19045"
+  passwordRequired                            = $true
+  passwordMinimumLength                       = 12
+  passwordRequiredType                        = "alphanumeric"
+  activeFirewallRequired                      = $true
+  scheduledActionsForRule = @(@{
+    ruleName = "PasswordRequired"
+    scheduledActionConfigurations = @(@{ actionType = "block"; gracePeriodHours = 168; notificationTemplateId = "" })
+  })
+}
+$policy = invoke-mggraphrequest -method post -uri "https://graph.microsoft.com/beta/deviceManagement/deviceCompliancePolicies" -body ($body | convertto-json -depth 6) -contenttype "application/json"
+
+# assign to the pilot group, exclude the exclusion group
+$assign = @{ assignments = @(
+  @{ target = @{ "@odata.type" = "#microsoft.graph.groupAssignmentTarget"; groupId = $pilot.id } },
+  @{ target = @{ "@odata.type" = "#microsoft.graph.exclusionGroupAssignmentTarget"; groupId = $exclude.id } }
+)}
+invoke-mggraphrequest -method post -uri "https://graph.microsoft.com/beta/deviceManagement/deviceCompliancePolicies/$($policy.id)/assign" -body ($assign | convertto-json -depth 6) -contenttype "application/json"</code></pre>
+  <p>Also set <strong>Devices &gt; Compliance &gt; Compliance policy settings &gt; Mark devices with no compliance policy assigned as</strong> to <em>Not compliant</em>. Otherwise an unassigned device is treated as healthy.</p>
+</div>
+    <div class="block check"><span class="blabel">How you know it worked</span>  <p>The pilot device reports Compliant, or reports exactly which rule failed. Both are a pass at this stage.</p>
+</div>
+    <div class="block pitfall"><span class="blabel">What goes wrong</span>  <p>Leaving the default of marking unassigned devices as compliant. A machine that slipped through the group logic sails past Conditional Access forever.</p>
+</div>
+  </article>
+  <article class="step" id="s8">
+    <div class="step-head"><div class="step-num">8</div><h3 class="step-title">Security baseline, then a separate profile for the intrusive settings</h3></div>
+    <div class="block"><span class="blabel">Why this matters</span>  <p>The Microsoft baseline is a few hundred settings you did not have to author and do not have to maintain. The settings that change how people work, USB block, local admin removal, application control, go in a second profile on its own schedule so they can be rolled back without losing the baseline.</p>
+</div>
+    <div class="block"><span class="blabel">What you do</span>  <ul>
+    <li><strong>Endpoint security &gt; Security baselines &gt; Security Baseline for Windows 10 and later &gt; Create profile</strong>. Review every section. Typical small-office adjustments: password expiry (often off at the owner's request, with history enforced), and any legacy protocol the AMS or carrier portal still needs.</li>
+    <li>Assign to the pilot group, exclude the exclusion group. Leave it for several days.</li>
+    <li>Create a second settings catalog profile, named for what it is, for the tightening. Do not assign it yet.</li>
+    <li>Turn on Windows LAPS: <strong>Endpoint security &gt; Account protection &gt; Create policy &gt; Local admin password solution</strong>. Back up to Entra. This replaces whatever shared local admin password the client has been using.</li>
+    <li>Document, in the ticket, every baseline setting you changed and who asked for it.</li>
+  </ul>
+  <p>Note: the baselines mirror CIS and NIST closely and are not certified against either. They are the starting point, not the control mapping.</p>
+</div>
+    <div class="block check"><span class="blabel">How you know it worked</span>  <p>Baseline shows succeeded on the pilot with no conflicts, LAPS has rotated the local admin password and you can retrieve it from the device page, and the user's work is unaffected after several days.</p>
+</div>
+    <div class="block pitfall"><span class="blabel">What goes wrong</span>  <p>Baseline assigned to the full managed group on creation day. Something breaks and you are bisecting three hundred settings in production.</p>
+</div>
+  </article>
+  <article class="step" id="s9">
+    <div class="step-head"><div class="step-num">9</div><h3 class="step-title">Deliver scripts and software with evidence</h3></div>
+    <div class="block"><span class="blabel">Why this matters</span>  <p>This is what the client is actually paying for. PCS and the scanner scripts, Splashtop for your own access, and anything else the office needs, delivered once per device, run as SYSTEM where required, with a per-device result you can show an examiner.</p>
+</div>
+    <div class="block"><span class="blabel">What you do</span>  <p><strong>Scripts.</strong> Intune platform scripts run once per device. For anything recurring, the script's job is to install a scheduled task running as SYSTEM, then exit. Windows handles the schedule. Remediations would do this natively and are not licensed on Business Premium.</p>
+<pre><code># deploy this as an intune platform script (devices &gt; scripts &gt; add &gt; windows 10 and later).
+# run as: system. 64-bit: yes. signature check: yes once you have signed it.
+# it drops the real worker script to disk and registers a daily task that runs it as system.
+# intune runs this installer once per device. windows task scheduler does the recurring part.
+
+$root = "c:\programdata\pistos\pcs"
+new-item -path $root -itemtype directory -force | out-null
+
+# lock the folder down: system and administrators only. standard users must not be able to edit what runs as system.
+$acl = get-acl $root
+$acl.setaccessruleprotection($true, $false)
+$sys = new-object system.security.accesscontrol.filesystemaccessrule("nt authority\system","fullcontrol","containerinherit,objectinherit","none","allow")
+$adm = new-object system.security.accesscontrol.filesystemaccessrule("builtin\administrators","fullcontrol","containerinherit,objectinherit","none","allow")
+$acl.setaccessrule($sys); $acl.setaccessrule($adm)
+set-acl -path $root -aclobject $acl
+
+# write the worker. in production this is your signed scan script, pulled from your own distribution point.
+@'
+# pcs worker placeholder
+$log = "c:\programdata\pistos\pcs\last-run.log"
+"$(get-date -format o) ran as $env:username on $env:computername" | out-file $log -append
+'@ | set-content -path "$root\scan.ps1" -encoding utf8
+
+# register the task. system account, highest run level, daily at 02:00, run as soon as possible if missed.
+$action    = new-scheduledtaskaction -execute "powershell.exe" -argument "-noprofile -executionpolicy bypass -windowstyle hidden -file `"$root\scan.ps1`""
+$trigger   = new-scheduledtasktrigger -daily -at 2:00am
+$principal = new-scheduledtaskprincipal -userid "nt authority\system" -logontype serviceaccount -runlevel highest
+$settings  = new-scheduledtasksettingsset -startwhenavailable -executiontimelimit (new-timespan -hours 1) -multipleinstances ignorenew
+register-scheduledtask -taskname "pistos pcs daily scan" -action $action -trigger $trigger -principal $principal -settings $settings -force | out-null
+
+# tell intune it worked. non-zero exit shows as failed in the console.
+if (get-scheduledtask -taskname "pistos pcs daily scan" -erroraction silentlycontinue) { exit 0 } else { exit 1 }</code></pre>
+  <p><strong>Software.</strong> Package as Win32 with a detection rule. The detection rule is what gives you the inventory of which machines have it.</p>
+<pre><code># package an installer for intune. one clean folder, the installer only, nothing else.
+# the content prep tool is a free download from microsoft (intunewinapputil.exe).
+.\intunewinapputil.exe -c .\source -s splashtop_streamer_deploy.msi -o .\output -q
+
+# then in the console: apps &gt; windows &gt; add &gt; windows app (win32), upload the .intunewin, and set:
+#   install command:    msiexec /i "splashtop_streamer_deploy.msi" /qn /norestart USERINFO="hidewindow=1,confirm_d=0"
+#   uninstall command:  msiexec /x {B7C5EA94-B96A-41F5-BE95-25D78B486678} /qn
+#   install behavior:   system
+#   detection rule:     registry, hklm\software\wow6432node\splashtop inc.\splashtop remote server, key exists
+#   assignment:         required, to the device group. never to all devices.
+# USERINFO stays uppercase: windows installer public properties are case-sensitive.</code></pre>
+  <p><strong>When something does not land.</strong> The management extension logs tell you why before the console does.</p>
+<pre><code># where the management extension writes its logs on the machine
+get-childitem "c:\programdata\microsoft\intunemanagementextension\logs"
+
+# the two that matter for scripts and win32 apps
+get-content "c:\programdata\microsoft\intunemanagementextension\logs\intunemanagementextension.log" -tail 200
+get-content "c:\programdata\microsoft\intunemanagementextension\logs\agentexecutor.log" -tail 200
+
+# which scripts and apps the device thinks it has been given
+get-childitem "hklm:\software\microsoft\intunemanagementextension\policies" -recurse | select-object pschildname</code></pre>
+</div>
+    <div class="block check"><span class="blabel">How you know it worked</span>  <p>The script shows Succeeded per device, the scheduled task exists and has run, the Win32 app shows Installed on the devices in the group and nowhere else.</p>
+</div>
+    <div class="block pitfall"><span class="blabel">What goes wrong</span>  <p>A scheduled task registered under a named local admin account instead of SYSTEM. It stores the credential, breaks on password rotation, and dies when the person leaves. Use SYSTEM.</p>
+</div>
+  </article>
+  <article class="step" id="s10">
+    <div class="step-head"><div class="step-num">10</div><h3 class="step-title">Conditional Access, report-only, with the break-glass excluded</h3></div>
+    <div class="block"><span class="blabel">Why this matters</span>  <p>With mail in Google, Conditional Access protects less Microsoft data than it would in a Microsoft shop. It still does two things worth having: it makes compliance enforceable rather than advisory, and it gates whatever Microsoft services the client does use, including the admin portals you sign into. It is also the one switch in this guide that can lock everyone out.</p>
+</div>
+    <div class="block"><span class="blabel">What you do</span>  <ul>
+    <li>Confirm the break-glass account from Step 3 exists, has a hardware key registered, and is excluded from every policy you create here.</li>
+    <li><strong>Entra admin center &gt; Protection &gt; Conditional Access</strong>. Policy 1: all users except break-glass, all cloud apps, grant requires device marked compliant. Report-only.</li>
+    <li>Policy 2: all users except break-glass, all cloud apps, grant requires MFA. Report-only. The client may already have this through security defaults; if so, replace defaults with the explicit policy so the exclusion exists.</li>
+    <li>Watch the sign-in logs and the report-only tab for a full week. Fix what would have been blocked.</li>
+    <li>Switch to On, one policy at a time, with the break-glass credentials open in a second browser.</li>
+  </ul>
+</div>
+    <div class="block check"><span class="blabel">How you know it worked</span>  <p>A compliant device signs in. A test device marked noncompliant is blocked with the expected message. Break-glass signs in from the blocked device.</p>
+</div>
+    <div class="block pitfall"><span class="blabel">What goes wrong</span>  <p>No exclusion, policy on, every admin locked out, including the one that would undo it. Microsoft's own warning is on the policy screen for a reason.</p>
+</div>
+  </article>
+  <article class="step" id="s11">
+    <div class="step-head"><div class="step-num">11</div><h3 class="step-title">Roll out the fleet in batches and build the evidence pack</h3></div>
+    <div class="block"><span class="blabel">Why this matters</span>  <p>Each join is a half-hour seat migration. Batch it so the client never has more than two people down, and capture the fleet state as you go so the final report writes itself.</p>
+</div>
+    <div class="block"><span class="blabel">What you do</span>  <ul>
+    <li>Widen MDM user scope from pilot to the managed group. Add devices to the managed group as they join, or let the dynamic group pick them up.</li>
+    <li>Two or three seats a day. The Step 6 routine, every time, including the <code>dsregcmd</code> check. No exceptions to the check.</li>
+    <li>Export the fleet state at the end of each day and at the end of the project.</li>
+  </ul>
+<pre><code># fleet snapshot to csv. this is the artifact you hand to a carrier or examiner.
+get-mgdevicemanagementmanageddevice -all |
+  select-object devicename, userprincipalname, operatingsystem, osversion, compliancestate,
+                isencrypted, enrolleddatetime, lastsyncdatetime, managedDeviceOwnerType, joinType |
+  sort-object compliancestate, devicename |
+  export-csv -path ".\intune-fleet-$(get-date -format yyyy-MM-dd).csv" -notypeinformation
+
+# just the problems
+get-mgdevicemanagementmanageddevice -all | where-object compliancestate -ne "compliant" |
+  select-object devicename, userprincipalname, compliancestate, lastsyncdatetime
+
+# machines that have not checked in for more than 14 days
+get-mgdevicemanagementmanageddevice -all | where-object { $_.lastsyncdatetime -lt (get-date).adddays(-14) } |
+  select-object devicename, userprincipalname, lastsyncdatetime</code></pre>
+</div>
+    <div class="block check"><span class="blabel">How you know it worked</span>  <p>Device count equals the inventory. Every row shows joinType = azureADJoined. Compliance at or near 100 percent. The CSV is in the client's evidence folder with a date in the filename.</p>
+</div>
+    <div class="block pitfall"><span class="blabel">What goes wrong</span>  <p>A machine that joined but never got a license-holding user signed in, so the management extension never installed and no scripts ran. The report catches it; the inventory did not.</p>
+</div>
+  </article>
+  <article class="step" id="s12">
+    <div class="step-head"><div class="step-num">12</div><h3 class="step-title">Operate: joiners, leavers, drift, and the option of one identity</h3></div>
+    <div class="block"><span class="blabel">Why this matters</span>  <p>Two directories with no sync between them is the standing risk in this design. The procedures below are what keep it honest, and the SAML option at the end is how you remove the risk altogether if the client is willing.</p>
+</div>
+    <div class="block"><span class="blabel">What you do</span>  <p><strong>Joiners.</strong> Google account first, Entra account second, both on day one, both licensed. New hardware through Autopilot.</p>
+  <p><strong>Leavers.</strong> Both directories, same ticket, same hour. Scripted on the Entra side:</p>
+<pre><code># leaver: one function, run from a ticket, logged.
+function disable-leaver {
+  param([parameter(mandatory)][string]$upn)
+  $u = get-mguser -userid $upn -property id,displayname,userprincipalname
+  update-mguser -userid $u.id -accountenabled:$false
+  invoke-mggraphrequest -method post -uri "https://graph.microsoft.com/v1.0/users/$($u.id)/revokeSignInSessions"
+  # retire their devices: company data off, personal data left alone. use wipe for company-owned hardware being recovered.
+  get-mgdevicemanagementmanageddevice -filter "userprincipalname eq '$upn'" | foreach-object {
+    invoke-mggraphrequest -method post -uri "https://graph.microsoft.com/v1.0/deviceManagement/managedDevices/$($_.id)/retire"
+  }
+  "$(get-date -format o) disabled $upn, sessions revoked, devices retired" | out-file ".\leavers.log" -append
+}
+disable-leaver -upn "leaver@example.com"</code></pre>
+  <p><strong>Monthly.</strong> Run the fleet report. Review noncompliant and stale devices. Read the baseline change notes. Confirm LAPS is still rotating. Reconcile Google users against Entra users and chase any mismatch.</p>
+<pre><code># reconcile: who exists in one directory and not the other
+$entra  = get-mguser -all -property userprincipalname | select-object -expandproperty userprincipalname | foreach-object { $_.tolower() }
+$google = import-csv ".\google-users.csv" | select-object -expandproperty 'Email Address [Required]' | foreach-object { $_.trim().tolower() }
+"in google, not in entra:"; compare-object $google $entra | where-object sideindicator -eq "&lt;=" | select-object -expandproperty inputobject
+"in entra, not in google:"; compare-object $google $entra | where-object sideindicator -eq "=&gt;" | select-object -expandproperty inputobject</code></pre>
+  <p><strong>Optional: collapse to one identity.</strong> Entra ID P1 can be the SAML identity provider for Google Workspace, and the Entra gallery app can provision and deprovision Google accounts from Entra. Users then have one password and one MFA, and disabling in Entra disables Google. Set it up from <strong>Entra &gt; Enterprise applications &gt; Google Cloud / G Suite Connector by Microsoft</strong>. Keep one Google super admin outside SSO as the break-glass on the Google side, and test with two users before cutting everyone over.</p>
+</div>
+    <div class="block check"><span class="blabel">How you know it worked</span>  <p>Six months on: fleet count matches inventory, compliance green, the reconcile script returns two empty lists, and the last leaver is disabled in both directories with a timestamp in the log.</p>
+</div>
+    <div class="block pitfall"><span class="blabel">What goes wrong</span>  <p>A leaver disabled in Google and forgotten in Entra. They can still sign into a company laptop. The reconcile script exists to catch exactly this.</p>
+</div>
+  </article>
+
+  <h2 id="mistakes">The six mistakes that cause the most damage</h2>
+  <ol>
+    <li><strong>Assigning a policy to All devices.</strong> It is the default-looking option and it reaches machines you never intended, including the one you are working from.</li>
+    <li><strong>Skipping the pilot.</strong> Every hour saved here costs a day later, and it costs it in front of the whole office.</li>
+    <li><strong>No break-glass account excluded from Conditional Access.</strong> The one mistake that can lock you out of fixing the other five.</li>
+    <li><strong>Registering machines instead of joining them.</strong> They appear in the console and look managed, and nothing you deploy ever lands.</li>
+    <li><strong>One giant policy profile.</strong> It cannot be partly undone, so the first real problem turns into switching everything off.</li>
+    <li><strong>Using assignment filters for one-off exceptions.</strong> They work, they are invisible on the assignment page, and nobody remembers them six months on. Use an exclusion group.</li>
+  </ol>
+
+  <h2 id="checklist">Engagement checklist</h2>
+  <div class="checklist"><ul>
+    <li>Named GA in the client tenant with own MFA; Graph context verified against the right tenant</li>
+    <li>SPB seats sufficient; every user in scope licensed with usage location set</li>
+    <li>Domain verified by TXT; MX and SPF confirmed unchanged</li>
+    <li>Entra users bulk-created from the Google export, same UPN as mail; temp passwords in the client password manager</li>
+    <li>Break-glass GA created, hardware key registered, password stored offline in two places</li>
+    <li>Inventory with buckets signed off by the owner; managed, excluded, pilot and dynamic groups created</li>
+    <li>MDM user scope = Some (pilot); personal Windows enrollment blocked; Autopilot registered if buying hardware</li>
+    <li>Pilot joined, dsregcmd shows AzureAdJoined YES, profile migrated, several days of normal use</li>
+    <li>Compliance policy assigned to pilot; unassigned devices marked noncompliant</li>
+    <li>Baseline on pilot; intrusive settings in a separate unassigned profile; LAPS on; changes documented</li>
+    <li>PCS scheduled task script deployed as SYSTEM; Win32 apps with detection rules; IME logs reviewed on first failure</li>
+    <li>Conditional Access report-only one week, then on, break-glass excluded and tested</li>
+    <li>Fleet joined in batches; fleet CSV in the evidence folder</li>
+    <li>Joiner and leaver procedures cover both directories; monthly reconcile scheduled</li>
+  </ul></div>
+
+</main>
+<footer>
+  <div class="wrap">
+    <span class="wordmark">&#928;&#921;&#931;&#932;&#927;&#931;</span>
+    <p><strong>Pistos Information Protection.</strong> This runbook describes a general approach to a Microsoft Intune rollout in a Google Workspace environment, written for the engineer performing it. Screen names and menu paths in Microsoft's and Google's admin consoles change from time to time, so confirm the current wording against the vendor's own documentation before you follow a step. Any configuration decision that affects how staff work should be approved by whoever owns the business and recorded alongside the reason.</p>
+  </div>
+</footer>
+</body>
+</html>
