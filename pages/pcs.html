@@ -115,7 +115,7 @@
 <section class="release-strip">
   <span class="rs-eyebrow">Tier 1</span>
   <p class="rs-line">PCS Tier 1 is <span class="rs-date">now&nbsp;live.</span></p>
-  <p class="rs-sub">Three screens do most of the work: the risk assessment, the risk register, and Run a scan.</p>
+  <p class="rs-sub">Four screens do most of the work: the risk assessment, regulatory compliance, the risk register, and Run a scan.</p>
 </section>
 
 <!-- ── HOW PCS WORKS ── -->
@@ -128,14 +128,14 @@
       <ul>
         <li><strong>Evidence in:</strong> your inventories of assets, people and vendors; outside scans of your domain, email and ports; scans of your Microsoft 365 or Google tenant; scans of your Windows computers and application logins; and your company records, such as policies, signed forms and training.</li>
         <li><strong>PCS decides:</strong> your company profile sets your tier, and the risk assessment works out which safeguards your company meets.</li>
-        <li><strong>Results out:</strong> asset scoring weighted by importance, a risk register with gaps, owners and dates, and reports for management and your auditor. A framework view for NY DFS, HIPAA and many others is coming soon.</li>
+        <li><strong>Results out:</strong> asset scoring weighted by importance, a risk register with gaps, owners and dates, and reports for management and your auditor, and a regulatory compliance view that shows which requirements of NY DFS, HIPAA, PCI DSS, ISO 27001, SOC 2 and NIST SP 800-171 you meet and which are still open.</li>
         <li><strong>Fix and rescan:</strong> each gap comes with a guide and a schedule, and the next scan shows whether the fix worked.</li>
         <li><strong>Where Pistos uses AI:</strong> in six places. It checks returned inventory workbooks, checks the settings of your line-of-business applications, narrates training, drafts starting risk ratings, writes management reports at the C-level and admin levels plus incident and disaster recovery reports, and drafts fix steps. A Pistos consultant reviews and approves everything AI produces.</li>
         <li>The risk assessment itself uses fixed rules, so every score traces back to its evidence.</li>
       </ul>
     </div>
     <figure class="shot" style="max-width:600px;">
-      <img src="../images/pcs/how-pcs-works.png" alt="How PCS works. Evidence in: inventories, outside scans, tenant scans, device and app scans, and company records feed the risk assessment, with the company profile setting the tier. Results out: asset scoring, risk register, reports, and a framework view coming soon. Fix and rescan loops back to the evidence. Six numbered markers show where Pistos uses AI, all approved by a consultant." loading="lazy" width="567" height="646">
+      <img src="../images/pcs/how-pcs-works.png" alt="How PCS works. Evidence in: inventories, outside scans, tenant scans, device and app scans, and company records feed the risk assessment, with the company profile setting the tier. Results out: asset scoring, risk register, reports, and regulatory compliance for NY DFS, HIPAA, PCI DSS, ISO 27001, SOC 2 and NIST. Fix and rescan loops back to the evidence. Six numbered markers show where Pistos uses AI, all approved by a consultant." loading="lazy" width="1360" height="1544">
       <figcaption>From evidence to results, and where AI helps</figcaption>
     </figure>
   </div>
@@ -159,6 +159,29 @@
       <li>Shared Assessments SIG</li>
     </ul>
   </div>
+  <div class="container feature" style="margin-top:3.5rem;">
+    <div class="f-text">
+      <span class="section-eyebrow">Regulatory compliance</span>
+      <h2 class="section-title">Each regulation, requirement by requirement.</h2>
+      <p class="section-sub" style="text-align:left;margin-left:0;">PCS reads your risk assessment against NY DFS 500, HIPAA, PCI DSS, ISO 27001, SOC 2 and NIST SP 800-171, and shows what each one asks of you and what is still open.</p>
+      <ul>
+        <li>One card per regulation: the number of open findings, how many are high risk, and a bar of requirements met, partly met and not met.</li>
+        <li>A requirement counts as met only when every CIS control behind it is met. Anything short of that is an open finding.</li>
+        <li>There is no percentage, because regulators do not grade on one. A PCI assessment fails on a single requirement out of place, and New York asks you to name every section you fell short on.</li>
+        <li>Open a regulation to see each requirement by section, with its risk rating and the controls behind it. Open a requirement to follow any control to its evidence.</li>
+        <li>A risk the company has formally accepted shows as met on accepted risk, with the reason beside it, so your auditor can judge it.</li>
+        <li>A regulation that does not apply, such as NIST SP 800-171 for a company that holds no government data, is marked not applicable and says why.</li>
+      </ul>
+    </div>
+    <figure class="shot">
+      <img src="../images/pcs/regulatory-compliance.png" alt="The PCS regulatory compliance overview: one card each for NY DFS 500, HIPAA, PCI DSS, ISO 27001 and SOC 2 with open findings, how many are high risk and a bar of requirements met, partly met and not met; NIST 800-171 marked not applicable; GLBA and NIST 800-53 not mapped yet." loading="lazy" width="1077" height="785">
+      <figcaption>Six regulations on one screen, from the demo company</figcaption>
+    </figure>
+    <figure class="shot narrow">
+      <img src="../images/pcs/regulation-requirements.png" alt="Part of the NY DFS 500 page: requirements 500.2, 500.3, 500.4, 500.9 and 500.10 in the program and governance section, each with its risk rating, how many of its mapped controls are met, and a Met or Partly met badge." loading="lazy" width="756" height="308">
+      <figcaption>NY DFS 500: each section of the regulation, met or still open</figcaption>
+    </figure>
+  </div>
 </section>
 
 <!-- ── RISK ASSESSMENT ── -->
@@ -169,14 +192,16 @@
       <h2 class="section-title">One score, worked out from the evidence.</h2>
       <p class="section-sub" style="text-align:left;margin-left:0;">Every safeguard in the SMB Control Baseline, grouped by topic, each marked Met, Not met or No evidence.</p>
       <ul>
-        <li>Your score is the share of applicable safeguards you meet, shown against a target, with counts of met, not met and not applicable.</li>
+        <li>Your score is the share of applicable safeguards you meet. A bar across the top sets it beside your target and the figures that give it meaning.</li>
+        <li><strong>Peer median, spread and percentile:</strong> the middle score of the companies Pistos measures, how far apart those scores are, and where you rank among them.</li>
+        <li>The same bar counts what you meet, what you do not, what does not apply, and names the tier you are measured at.</li>
         <li>Each safeguard that falls short says why in one line: which scan failed, which form is unsigned, which task has not started.</li>
         <li>Safeguards that do not fit your company are marked not applicable and left out of the score.</li>
         <li>Filter by topic, status or kind of evidence to see just what you need.</li>
       </ul>
     </div>
     <figure class="shot">
-      <img src="../images/pcs/risk-assessment.png" alt="The PCS Tier 1 risk assessment: a score against the SMB Control Baseline, counts of met and not met safeguards, and each safeguard grouped by topic with its status and the reason it falls short." loading="lazy" width="1232" height="860">
+      <img src="../images/pcs/risk-assessment.png" alt="The PCS Tier 1 risk assessment for the demo company: 74 percent of the SMB Control Baseline against a 92 percent target, peer median 31 percent, peer percentile 100, 40 of 54 met, and the controls grouped by family with their status." loading="lazy" width="756" height="745">
       <figcaption>Every safeguard, its status, and the reason behind it</figcaption>
     </figure>
   </div>
@@ -271,6 +296,7 @@
     <h2 class="section-title">Every module.</h2>
     <div class="module-list">
       <div class="module-row"><div class="m-name">Risk Assessment</div><div class="m-desc">Your score against the 54 safeguards of the SMB Control Baseline, with the reason behind every status.</div></div>
+      <div class="module-row"><div class="m-name">Regulatory Compliance</div><div class="m-desc">NY DFS 500, HIPAA, PCI DSS, ISO 27001, SOC 2 and NIST SP 800-171, each requirement met or still open, read from the risk assessment.</div></div>
       <div class="module-row"><div class="m-name">Risk Register</div><div class="m-desc">Every open safeguard plus your own risks, rated, owned and decided.</div></div>
       <div class="module-row"><div class="m-name">Run a Scan</div><div class="m-desc">Microsoft 365, external, Windows computers, business applications and single-computer checks, twice a year.</div></div>
       <div class="module-row"><div class="m-name">Inventories</div><div class="m-desc">Your computers, your online applications (with their sign-in addresses) and your people. Everything else is measured against these lists.</div></div>
