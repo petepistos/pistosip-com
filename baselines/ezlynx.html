@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EZLynx Minimum Security Baseline</title>
+<meta name="description" content="The minimum security settings Pistos requires in EZLynx for insurance agency clients, mapped to CIS Controls v8.1.">
+<style>
+  :root{
+    --navy:#132846; --navy-soft:#24416b; --gold:#B99433; --gold-light:#EBDDB4;
+    --cream:#F7F3E9; --ink:#1f2328; --ink-soft:#4a5160; --rule:#e2ddd1;
+    --warn-bg:#fdf4ee; --warn-line:#d9a273; --ok-bg:#eef4ef; --ok-line:#7aa184;
+    --code-bg:#0f1f38; --code-ink:#e9e4d6;
+    --font-head:Cambria,"Palatino Linotype",Palatino,Georgia,serif;
+    --font-body:Calibri,"Segoe UI",Candara,"Trebuchet MS",system-ui,sans-serif;
+    --font-mono:Consolas,"Cascadia Mono","SF Mono",Menlo,monospace;
+    --maxw:900px;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{margin:0;background:#fbfaf7;color:var(--ink);font-family:var(--font-body);font-size:17.5px;line-height:1.62;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px;}
+  .masthead{background:var(--navy);color:#fff;border-bottom:4px solid var(--gold);padding:38px 0 44px;}
+  .brandline{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;padding-bottom:16px;margin-bottom:26px;border-bottom:1px solid rgba(235,221,180,.3);}
+  .wordmark{font-family:var(--font-head);font-weight:700;font-size:21px;letter-spacing:.22em;color:#fff;}
+  .brandname{font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-light);}
+  .eyebrow{font-size:12.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:700;margin:0 0 10px;}
+  .masthead h1{font-family:var(--font-head);font-weight:700;font-size:clamp(28px,5.5vw,44px);line-height:1.12;margin:0 0 12px;color:#fff;}
+  .deck{font-family:var(--font-head);font-style:italic;font-size:clamp(17px,2.6vw,21px);color:var(--gold-light);margin:0 0 22px;max-width:38em;}
+  .meta{display:flex;gap:10px 28px;flex-wrap:wrap;font-size:14px;color:rgba(255,255,255,.78);}
+  .meta span strong{color:var(--gold-light);font-weight:700;}
+  main{padding:0 0 70px;}
+  h2{font-family:var(--font-head);font-weight:700;color:var(--navy);font-size:clamp(23px,3.4vw,29px);line-height:1.2;margin:52px 0 14px;padding-bottom:9px;border-bottom:2px solid var(--gold);}
+  h3{font-family:var(--font-head);font-weight:700;color:var(--navy);font-size:19.5px;margin:26px 0 8px;}
+  p{margin:0 0 14px;}
+  a{color:var(--navy-soft);}
+  ul,ol{margin:0 0 14px;padding-left:22px;}
+  li{margin-bottom:7px;}
+  li::marker{color:var(--gold);}
+  strong{color:var(--navy);}
+  code{font-family:var(--font-mono);font-size:.88em;background:var(--cream);border:1px solid var(--rule);border-radius:3px;padding:1px 5px;color:#30405c;}
+  pre{background:var(--code-bg);color:var(--code-ink);font-family:var(--font-mono);font-size:14px;line-height:1.5;padding:16px 18px;border-radius:5px;overflow-x:auto;margin:10px 0 16px;border-left:4px solid var(--gold);}
+  pre code{background:none;border:none;padding:0;color:inherit;font-size:inherit;}
+  .lede{font-size:19.5px;line-height:1.58;color:var(--ink-soft);margin:36px 0 22px;}
+  .lede strong{color:var(--navy);}
+  .pullbox{background:var(--cream);border-left:4px solid var(--gold);padding:20px 24px;margin:24px 0;border-radius:0 5px 5px 0;}
+  .pullbox p:last-child{margin-bottom:0;}
+  .pullbox .label{font-size:11.5px;letter-spacing:.17em;text-transform:uppercase;color:var(--gold);font-weight:700;display:block;margin-bottom:7px;}
+  .toc{border:1px solid var(--rule);background:#fff;border-radius:6px;padding:24px 26px;margin:30px 0 10px;}
+  .toc h2{margin:0 0 16px;font-size:16px;border:none;padding:0;letter-spacing:.17em;text-transform:uppercase;color:var(--gold);font-family:var(--font-body);font-weight:700;}
+  .toc ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:3px 26px;}
+  .toc li{margin:0;}
+  .toc a{display:flex;gap:11px;align-items:baseline;padding:7px 0;text-decoration:none;color:var(--ink);border-bottom:1px solid #f0ece2;font-size:16px;}
+  .toc a:hover{color:var(--navy);}
+  .toc a .n{font-family:var(--font-head);font-weight:700;color:var(--gold);min-width:20px;font-size:15px;}
+  .step{background:#fff;border:1px solid var(--rule);border-radius:6px;padding:26px 28px 20px;margin:22px 0;box-shadow:0 1px 2px rgba(19,40,70,.045);}
+  .step-head{display:flex;gap:16px;align-items:flex-start;padding-bottom:14px;margin-bottom:16px;border-bottom:1px solid var(--rule);}
+  .step-num{flex:0 0 auto;width:42px;height:42px;border-radius:50%;background:var(--navy);color:var(--gold-light);font-family:var(--font-head);font-weight:700;font-size:19px;display:flex;align-items:center;justify-content:center;margin-top:2px;}
+  .step-title{font-family:var(--font-head);font-weight:700;color:var(--navy);font-size:22px;line-height:1.26;margin:4px 0 0;}
+  .block{margin:0 0 16px;}
+  .block:last-child{margin-bottom:4px;}
+  .blabel{font-size:11.5px;letter-spacing:.17em;text-transform:uppercase;font-weight:700;color:var(--gold);display:block;margin-bottom:6px;}
+  .block p:last-child,.block ul:last-child,.block ol:last-child,.block pre:last-child{margin-bottom:0;}
+  .check{background:var(--ok-bg);border-left:3px solid var(--ok-line);padding:13px 17px;border-radius:0 4px 4px 0;}
+  .check .blabel{color:#4e7a5e;}
+  .pitfall{background:var(--warn-bg);border-left:3px solid var(--warn-line);padding:13px 17px;border-radius:0 4px 4px 0;}
+  .pitfall .blabel{color:#a8632c;}
+  .tablewrap{overflow-x:auto;margin:18px 0 22px;}
+  table{width:100%;border-collapse:collapse;font-size:16px;background:#fff;border:1px solid var(--rule);}
+  th{background:var(--navy);color:#fff;text-align:left;font-family:var(--font-head);font-weight:700;font-size:15px;padding:11px 14px;}
+  td{padding:11px 14px;border-top:1px solid var(--rule);vertical-align:top;}
+  tbody tr:nth-child(even) td{background:#fcfbf8;}
+  td strong{color:var(--navy);}
+  .why table td:nth-child(2){color:var(--ink-soft);}
+  .why table td:nth-child(3){background:#f5f8f5;}
+  .gloss{border-top:1px solid var(--rule);margin-top:18px;}
+  .gloss div{display:grid;grid-template-columns:200px 1fr;gap:4px 22px;padding:13px 0;border-bottom:1px solid var(--rule);}
+  .gloss dt{font-family:var(--font-head);font-weight:700;color:var(--navy);font-size:16.5px;}
+  .gloss dd{margin:0;color:var(--ink-soft);}
+  @media (max-width:620px){.gloss div{grid-template-columns:1fr;gap:3px;}}
+  .checklist{background:#fff;border:1px solid var(--rule);border-radius:6px;padding:8px 26px;margin:22px 0;}
+  .checklist ul{list-style:none;margin:0;padding:0;}
+  .checklist li{padding:12px 0 12px 34px;position:relative;border-bottom:1px solid #f1ede4;margin:0;}
+  .checklist li:last-child{border-bottom:none;}
+  .checklist li::before{content:"";position:absolute;left:0;top:15px;width:17px;height:17px;border:2px solid var(--gold);border-radius:3px;background:#fff;}
+  footer{background:var(--navy);color:rgba(255,255,255,.75);border-top:4px solid var(--gold);padding:32px 0;margin-top:60px;font-size:14.5px;}
+  footer .wordmark{font-size:17px;}
+  footer p{margin:10px 0 0;max-width:58em;}
+  footer strong{color:var(--gold-light);}
+  @media print{
+    body{background:#fff;font-size:11pt;line-height:1.45;}
+    .masthead{padding:0 0 16pt;background:#fff;color:#000;border-bottom:2pt solid var(--gold);}
+    .masthead h1{color:var(--navy);font-size:24pt;}
+    .wordmark,.brandname{color:var(--navy);}
+    .deck,.meta{color:#555;}
+    .meta span strong{color:var(--navy);}
+    .brandline{border-bottom:1px solid var(--rule);}
+    .toc{display:none;}
+    .step,.checklist,pre{break-inside:avoid;page-break-inside:avoid;box-shadow:none;}
+    pre{background:#f3f1ea;color:#222;border-left:3pt solid var(--gold);white-space:pre-wrap;word-break:break-all;}
+    h2{break-after:avoid;page-break-after:avoid;}
+    footer{background:#fff;color:#444;border-top:1pt solid var(--rule);}
+    footer .wordmark,footer strong{color:var(--navy);}
+    a{color:var(--navy);text-decoration:none;}
+  }
+
+  .std-meta{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:14px;color:var(--ink-soft);margin:-4px 0 14px;}
+  .std-meta b{color:var(--navy);}
+  .tag{display:inline-block;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;padding:2px 8px;border-radius:3px;}
+  .tag.min{background:var(--navy);color:var(--gold-light);}
+  .tag.rec{background:var(--gold-light);color:var(--navy);}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin:24px 0;}
+  .card{background:#fff;border:1px solid var(--rule);border-radius:6px;padding:20px 22px;text-decoration:none;color:var(--ink);display:block;}
+  .card:hover{border-color:var(--gold);}
+  .card h3{margin:0 0 6px;}
+  .card p{margin:0;color:var(--ink-soft);font-size:16px;}
+</style>
+</head>
+<body>
+<header class="masthead">
+  <div class="wrap">
+    <div class="brandline">
+      <span class="wordmark">&#928;&#921;&#931;&#932;&#927;&#931;</span>
+      <span class="brandname">Pistos Information Protection</span>
+    </div>
+    <p class="eyebrow">Security Baseline</p>
+    <h1>EZLynx Minimum Security Baseline</h1>
+    <p class="deck">The settings every Pistos client's EZLynx should have, where to find them, and how to prove they are on.</p>
+    <div class="meta"><span><strong>Product:</strong> EZLynx Rating Engine and Management System</span><span><strong>Audience:</strong> Agency owners, office managers, IT providers</span><span><strong>Framework:</strong> CIS Controls v8.1, IG1</span><span><strong>Version:</strong> 1.0, November 2026</span></div>
+  </div>
+</header>
+<main class="wrap">
+  <p class="lede">EZLynx holds every applicant's personal details, quotes and policies. EZLynx sets several security rules for every agency on its own, and some changes can only be made by EZLynx support. <strong>This page says which settings the agency controls and which ones need an email to support@ezlynx.com.</strong></p>
+  <div class="pullbox"><span class="label">How to read this</span>
+  <p><strong>Minimum</strong> items are required for a Pistos client. <strong>Recommended</strong> items are what we set up when the agency agrees. Each item names the CIS Controls v8.1 safeguard it supports, so it lines up with the PCS risk assessment.</p></div>
+  <h2 id="summary">At a glance</h2>
+  <div class="tablewrap"><table><thead><tr><th style="width:6%">#</th><th style="width:40%">Standard</th><th>Setting</th></tr></thead><tbody>
+<tr><td>1</td><td><strong>One named login per person</strong></td><td>No shared, vendor or leftover logins</td></tr><tr><td>2</td><td><strong>Two-factor authentication on</strong></td><td>Every user enrolled, with an authenticator app as the main method</td></tr><tr><td>3</td><td><strong>Two administrators at most</strong></td><td>Only two people with Agency Admin and Management System Admin Access</td></tr><tr><td>4</td><td><strong>Strong, unique passwords</strong></td><td>14+ characters by policy (EZLynx requires 8)</td></tr><tr><td>5</td><td><strong>Access matches the job</strong></td><td>No Peer Access for producers who should see only their own applicants</td></tr><tr><td>6</td><td><strong>Support login off</strong></td><td>Preferences &gt; General: support login checkbox off except during a support case</td></tr><tr><td>7</td><td><strong>Leavers turned off the same day</strong></td><td>Email support@ezlynx.com on the last day; dormant accounts reviewed monthly</td></tr><tr><td>8</td><td><strong>Login activity reviewed</strong></td><td>Each user's Login Activity checked monthly</td></tr><tr><td>9</td><td><strong>Signature sharing off</strong></td><td>ACORD Forms: "Allow all users to use your signature" off</td></tr><tr><td>10</td><td><strong>Backup and vendor evidence on file</strong></td><td>EZLynx's SOC report and backup statement in PCS</td></tr>
+</tbody></table></div>
+  <h2 id="built-in">What EZLynx already does for every agency</h2>
+  <div class="tablewrap"><table><thead><tr><th style="width:34%">Control</th><th>EZLynx setting (fixed)</th></tr></thead><tbody>
+<tr><td><strong>Password rules</strong></td><td>At least 8 characters with an uppercase letter, a lowercase letter and a number; change prompted every 90 days</td></tr>
+<tr><td><strong>Lockout</strong></td><td>Locked after 5 wrong passwords, with a warning after the third; unlocked by an emailed reset link</td></tr>
+<tr><td><strong>Inactivity logout</strong></td><td>Signed out after 45 minutes idle</td></tr>
+<tr><td><strong>Two-factor sign-in</strong></td><td>Offered at first login by text, email or authenticator app; codes expire after 15 minutes</td></tr>
+</tbody></table></div>
+  <p>EZLynx does not let the agency shorten the 45-minute logout, so computers must lock after 15 minutes idle. Pistos sets that through Intune.</p>
+  <h2 id="standards">The standards</h2>
+  <article class="step" id="s1">
+    <div class="step-head"><div class="step-num">1</div><h3 class="step-title">One named login for every person</h3></div>
+    <div class="std-meta"><span class="tag min">Minimum</span><span><b>CIS v8.1:</b> 4.7, 5.1</span></div>
+    <div class="block"><span class="blabel">Where</span><p>Agency Admin icon &gt; Manage Users</p></div><div class="block"><span class="blabel">The standard</span><ul><li>Every person who uses EZLynx has their own login in their own name.</li><li>No shared logins, and none left over from a past employee, a vendor or a trainer.</li></ul></div><div class="block check"><span class="blabel">How to check it</span><p>Compare Manage Users with the PCS staff roster.</p></div>
+  </article>
+  <article class="step" id="s2">
+    <div class="step-head"><div class="step-num">2</div><h3 class="step-title">Two-factor authentication on, using an app</h3></div>
+    <div class="std-meta"><span class="tag min">Minimum</span><span><b>CIS v8.1:</b> 6.3, 6.5</span></div>
+    <div class="block"><span class="blabel">Where</span><p>User icon &gt; User Settings &gt; Two Factor</p></div><div class="block"><span class="blabel">The standard</span><ul><li>Every user is enrolled in two-factor sign-in.</li><li>The main method is an <strong>authenticator app</strong> (Microsoft Authenticator is fine). Text messages are a backup only.</li><li>Every user adds a second method so a lost phone doesn't lock them out.</li></ul></div><div class="block pitfall"><span class="blabel">What the product can't do, and what to do instead</span><p>EZLynx's help does not show an administrator setting that forces two-factor for every user or reports who is enrolled. Check each user's Two Factor tab, and ask EZLynx support to confirm two-factor is required for the agency. Keep their answer in PCS.</p></div><div class="block check"><span class="blabel">How to check it</span><p>Sit with each user once and open their Two Factor tab. Record the date in PCS.</p></div>
+  </article>
+  <article class="step" id="s3">
+    <div class="step-head"><div class="step-num">3</div><h3 class="step-title">Two administrators at most</h3></div>
+    <div class="std-meta"><span class="tag min">Minimum</span><span><b>CIS v8.1:</b> 5.4</span></div>
+    <div class="block"><span class="blabel">Where</span><p>Agency Admin icon &gt; Manage Users; Management System access is changed by emailing support@ezlynx.com</p></div><div class="block"><span class="blabel">The standard</span><ul><li>No more than <strong>two</strong> people hold Agency Admin rights or Management System <strong>Admin Access</strong> (commissions, policy management reports and unmatched downloads). Everyone else has Basic User Access.</li><li>When adding a user with <strong>Clone User</strong>, clone from someone in the same role, never from an administrator.</li></ul></div><div class="block check"><span class="blabel">How to check it</span><p>Review Manage Users and the access list EZLynx support confirms.</p></div>
+  </article>
+  <article class="step" id="s4">
+    <div class="step-head"><div class="step-num">4</div><h3 class="step-title">Strong, unique passwords</h3></div>
+    <div class="std-meta"><span class="tag min">Minimum</span><span><b>CIS v8.1:</b> 5.2</span></div>
+    <div class="block"><span class="blabel">Where</span><p>User icon &gt; User Settings &gt; Change Password</p></div><div class="block"><span class="blabel">The standard</span><ul><li>At least <strong>14 characters</strong> by agency policy, not used for any other system, stored in a password manager. EZLynx's own minimum of 8 is too short.</li></ul></div><div class="block check"><span class="blabel">How to check it</span><p>Confirmed on the PCS line-of-business access form, signed by the agency.</p></div>
+  </article>
+  <article class="step" id="s5">
+    <div class="step-head"><div class="step-num">5</div><h3 class="step-title">Access matches the job</h3></div>
+    <div class="std-meta"><span class="tag rec">Recommended</span><span><b>CIS v8.1:</b> 3.3</span></div>
+    <div class="block"><span class="blabel">Where</span><p>Email support@ezlynx.com</p></div><div class="block"><span class="blabel">The standard</span><ul><li>By default every user sees every applicant in their office. Ask support to set <strong>No Peer Access</strong> for anyone who should see only the applicants assigned to them.</li><li>Keep <strong>Admin Application Manager</strong> (seeing every branch) to the owner or office manager.</li></ul></div><div class="block check"><span class="blabel">How to check it</span><p>Keep support's confirmation email in PCS.</p></div>
+  </article>
+  <article class="step" id="s6">
+    <div class="step-head"><div class="step-num">6</div><h3 class="step-title">Support login turned off when not needed</h3></div>
+    <div class="std-meta"><span class="tag min">Minimum</span><span><b>CIS v8.1:</b> 6.1</span></div>
+    <div class="block"><span class="blabel">Where</span><p>User icon &gt; User Settings &gt; Preferences &gt; General</p></div><div class="block"><span class="blabel">The standard</span><ul><li>Uncheck <strong>allow technical Support Representatives to login with you</strong>. Turn it on only while a support case is open, then turn it off again.</li></ul></div><div class="block"><span class="blabel">Why</span><p>EZLynx's help suggests leaving this on for convenience. For an agency holding client personal data, nobody outside the agency should be able to sign in as a user without a reason.</p></div><div class="block check"><span class="blabel">How to check it</span><p>Spot-check users' Preferences each quarter.</p></div>
+  </article>
+  <article class="step" id="s7">
+    <div class="step-head"><div class="step-num">7</div><h3 class="step-title">Leavers turned off the same day</h3></div>
+    <div class="std-meta"><span class="tag min">Minimum</span><span><b>CIS v8.1:</b> 5.3, 6.2</span></div>
+    <div class="block"><span class="blabel">Where</span><p>Agency Admin icon &gt; Manage Users, and email support@ezlynx.com</p></div><div class="block"><span class="blabel">The standard</span><ul><li>On the person's last day, remove their access and email support@ezlynx.com to remove any Management System access.</li><li>Any account nobody has signed in to for 45 days is reviewed and removed if it is not needed.</li></ul></div><div class="block check"><span class="blabel">How to check it</span><p>Each month, compare Manage Users with the PCS roster. Keep support's confirmation emails.</p></div>
+  </article>
+  <article class="step" id="s8">
+    <div class="step-head"><div class="step-num">8</div><h3 class="step-title">Login activity reviewed every month</h3></div>
+    <div class="std-meta"><span class="tag min">Minimum</span><span><b>CIS v8.1:</b> 8.2</span></div>
+    <div class="block"><span class="blabel">Where</span><p>User icon &gt; User Settings &gt; Login Activity</p></div><div class="block"><span class="blabel">The standard</span><ul><li>Once a month, the office manager or Pistos looks at each user's Login Activity for odd hours or unknown places.</li><li>Ask EZLynx support for an agency-wide login report if one is available.</li></ul></div><div class="block pitfall"><span class="blabel">What the product can't do, and what to do instead</span><p>EZLynx shows login activity per user, not as one agency report. Microsoft 365 sign-in logs and Intune device rules help cover the gap.</p></div><div class="block check"><span class="blabel">How to check it</span><p>A note of each monthly review is kept in PCS.</p></div>
+  </article>
+  <article class="step" id="s9">
+    <div class="step-head"><div class="step-num">9</div><h3 class="step-title">Signature sharing off</h3></div>
+    <div class="std-meta"><span class="tag min">Minimum</span><span><b>CIS v8.1:</b> 3.3</span></div>
+    <div class="block"><span class="blabel">Where</span><p>User icon &gt; User Settings &gt; ACORD Forms</p></div><div class="block"><span class="blabel">The standard</span><ul><li>Uncheck <strong>Allow all users in your agency to use your signature</strong> for every licensed producer, unless the agency has written permission from that producer.</li></ul></div><div class="block check"><span class="blabel">How to check it</span><p>Spot-check producers' ACORD Forms settings each quarter.</p></div>
+  </article>
+  <article class="step" id="s10">
+    <div class="step-head"><div class="step-num">10</div><h3 class="step-title">Vendor security and backup evidence on file</h3></div>
+    <div class="std-meta"><span class="tag min">Minimum</span><span><b>CIS v8.1:</b> 11.2, 11.3, 11.4, 15.1</span></div>
+    <div class="block"><span class="blabel">The standard</span><ul><li>EZLynx (Applied Systems) is listed as a vendor in PCS with an agency contact.</li><li>EZLynx's current SOC report and backup statement are uploaded to PCS and renewed when they expire.</li></ul></div><div class="block check"><span class="blabel">How to check it</span><p>PCS shows the vendor evidence as received and not expired.</p></div>
+  </article>
+  <h2 id="checklist">Sign-off checklist</h2>
+  <div class="checklist"><ul><li>Manage Users matches the staff roster; no shared, vendor or leftover logins</li><li>Every user enrolled in two-factor with an authenticator app, checked in person</li><li>Two or fewer administrators; everyone else on Basic User Access</li><li>Password rule (14+ characters, password manager) signed on the PCS form</li><li>No Peer Access set where producers should see only their own applicants</li><li>Support login checkbox off for every user</li><li>Leaver process and 45-day dormant review in place</li><li>Monthly login activity review noted in PCS</li><li>Signature sharing off unless approved in writing</li><li>EZLynx SOC report and backup statement in PCS</li></ul></div>
+
+</main>
+<footer>
+  <div class="wrap">
+    <span class="wordmark">&#928;&#921;&#931;&#932;&#927;&#931;</span>
+    <p><strong>Pistos Information Protection.</strong> This baseline was checked against the vendor's published help as of November 2026. Vendors rename menus and add features, so confirm a path against the vendor's current help before you change a setting. Where the product cannot do something on its own, the baseline says what to do instead. Any exception should be approved by the agency owner and recorded with the reason.</p>
+  </div>
+</footer>
+</body>
+</html>

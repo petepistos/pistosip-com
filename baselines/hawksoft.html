@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HawkSoft Minimum Security Baseline</title>
+<meta name="description" content="The minimum security settings Pistos requires in HawkSoft for insurance agency clients, mapped to CIS Controls v8.1.">
+<style>
+  :root{
+    --navy:#132846; --navy-soft:#24416b; --gold:#B99433; --gold-light:#EBDDB4;
+    --cream:#F7F3E9; --ink:#1f2328; --ink-soft:#4a5160; --rule:#e2ddd1;
+    --warn-bg:#fdf4ee; --warn-line:#d9a273; --ok-bg:#eef4ef; --ok-line:#7aa184;
+    --code-bg:#0f1f38; --code-ink:#e9e4d6;
+    --font-head:Cambria,"Palatino Linotype",Palatino,Georgia,serif;
+    --font-body:Calibri,"Segoe UI",Candara,"Trebuchet MS",system-ui,sans-serif;
+    --font-mono:Consolas,"Cascadia Mono","SF Mono",Menlo,monospace;
+    --maxw:900px;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{margin:0;background:#fbfaf7;color:var(--ink);font-family:var(--font-body);font-size:17.5px;line-height:1.62;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px;}
+  .masthead{background:var(--navy);color:#fff;border-bottom:4px solid var(--gold);padding:38px 0 44px;}
+  .brandline{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;padding-bottom:16px;margin-bottom:26px;border-bottom:1px solid rgba(235,221,180,.3);}
+  .wordmark{font-family:var(--font-head);font-weight:700;font-size:21px;letter-spacing:.22em;color:#fff;}
+  .brandname{font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-light);}
+  .eyebrow{font-size:12.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:700;margin:0 0 10px;}
+  .masthead h1{font-family:var(--font-head);font-weight:700;font-size:clamp(28px,5.5vw,44px);line-height:1.12;margin:0 0 12px;color:#fff;}
+  .deck{font-family:var(--font-head);font-style:italic;font-size:clamp(17px,2.6vw,21px);color:var(--gold-light);margin:0 0 22px;max-width:38em;}
+  .meta{display:flex;gap:10px 28px;flex-wrap:wrap;font-size:14px;color:rgba(255,255,255,.78);}
+  .meta span strong{color:var(--gold-light);font-weight:700;}
+  main{padding:0 0 70px;}
+  h2{font-family:var(--font-head);font-weight:700;color:var(--navy);font-size:clamp(23px,3.4vw,29px);line-height:1.2;margin:52px 0 14px;padding-bottom:9px;border-bottom:2px solid var(--gold);}
+  h3{font-family:var(--font-head);font-weight:700;color:var(--navy);font-size:19.5px;margin:26px 0 8px;}
+  p{margin:0 0 14px;}
+  a{color:var(--navy-soft);}
+  ul,ol{margin:0 0 14px;padding-left:22px;}
+  li{margin-bottom:7px;}
+  li::marker{color:var(--gold);}
+  strong{color:var(--navy);}
+  code{font-family:var(--font-mono);font-size:.88em;background:var(--cream);border:1px solid var(--rule);border-radius:3px;padding:1px 5px;color:#30405c;}
+  pre{background:var(--code-bg);color:var(--code-ink);font-family:var(--font-mono);font-size:14px;line-height:1.5;padding:16px 18px;border-radius:5px;overflow-x:auto;margin:10px 0 16px;border-left:4px solid var(--gold);}
+  pre code{background:none;border:none;padding:0;color:inherit;font-size:inherit;}
+  .lede{font-size:19.5px;line-height:1.58;color:var(--ink-soft);margin:36px 0 22px;}
+  .lede strong{color:var(--navy);}
+  .pullbox{background:var(--cream);border-left:4px solid var(--gold);padding:20px 24px;margin:24px 0;border-radius:0 5px 5px 0;}
+  .pullbox p:last-child{margin-bottom:0;}
+  .pullbox .label{font-size:11.5px;letter-spacing:.17em;text-transform:uppercase;color:var(--gold);font-weight:700;display:block;margin-bottom:7px;}
+  .toc{border:1px solid var(--rule);background:#fff;border-radius:6px;padding:24px 26px;margin:30px 0 10px;}
+  .toc h2{margin:0 0 16px;font-size:16px;border:none;padding:0;letter-spacing:.17em;text-transform:uppercase;color:var(--gold);font-family:var(--font-body);font-weight:700;}
+  .toc ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:3px 26px;}
+  .toc li{margin:0;}
+  .toc a{display:flex;gap:11px;align-items:baseline;padding:7px 0;text-decoration:none;color:var(--ink);border-bottom:1px solid #f0ece2;font-size:16px;}
+  .toc a:hover{color:var(--navy);}
+  .toc a .n{font-family:var(--font-head);font-weight:700;color:var(--gold);min-width:20px;font-size:15px;}
+  .step{background:#fff;border:1px solid var(--rule);border-radius:6px;padding:26px 28px 20px;margin:22px 0;box-shadow:0 1px 2px rgba(19,40,70,.045);}
+  .step-head{display:flex;gap:16px;align-items:flex-start;padding-bottom:14px;margin-bottom:16px;border-bottom:1px solid var(--rule);}
+  .step-num{flex:0 0 auto;width:42px;height:42px;border-radius:50%;background:var(--navy);color:var(--gold-light);font-family:var(--font-head);font-weight:700;font-size:19px;display:flex;align-items:center;justify-content:center;margin-top:2px;}
+  .step-title{font-family:var(--font-head);font-weight:700;color:var(--navy);font-size:22px;line-height:1.26;margin:4px 0 0;}
+  .block{margin:0 0 16px;}
+  .block:last-child{margin-bottom:4px;}
+  .blabel{font-size:11.5px;letter-spacing:.17em;text-transform:uppercase;font-weight:700;color:var(--gold);display:block;margin-bottom:6px;}
+  .block p:last-child,.block ul:last-child,.block ol:last-child,.block pre:last-child{margin-bottom:0;}
+  .check{background:var(--ok-bg);border-left:3px solid var(--ok-line);padding:13px 17px;border-radius:0 4px 4px 0;}
+  .check .blabel{color:#4e7a5e;}
+  .pitfall{background:var(--warn-bg);border-left:3px solid var(--warn-line);padding:13px 17px;border-radius:0 4px 4px 0;}
+  .pitfall .blabel{color:#a8632c;}
+  .tablewrap{overflow-x:auto;margin:18px 0 22px;}
+  table{width:100%;border-collapse:collapse;font-size:16px;background:#fff;border:1px solid var(--rule);}
+  th{background:var(--navy);color:#fff;text-align:left;font-family:var(--font-head);font-weight:700;font-size:15px;padding:11px 14px;}
+  td{padding:11px 14px;border-top:1px solid var(--rule);vertical-align:top;}
+  tbody tr:nth-child(even) td{background:#fcfbf8;}
+  td strong{color:var(--navy);}
+  .why table td:nth-child(2){color:var(--ink-soft);}
+  .why table td:nth-child(3){background:#f5f8f5;}
+  .gloss{border-top:1px solid var(--rule);margin-top:18px;}
+  .gloss div{display:grid;grid-template-columns:200px 1fr;gap:4px 22px;padding:13px 0;border-bottom:1px solid var(--rule);}
+  .gloss dt{font-family:var(--font-head);font-weight:700;color:var(--navy);font-size:16.5px;}
+  .gloss dd{margin:0;color:var(--ink-soft);}
+  @media (max-width:620px){.gloss div{grid-template-columns:1fr;gap:3px;}}
+  .checklist{background:#fff;border:1px solid var(--rule);border-radius:6px;padding:8px 26px;margin:22px 0;}
+  .checklist ul{list-style:none;margin:0;padding:0;}
+  .checklist li{padding:12px 0 12px 34px;position:relative;border-bottom:1px solid #f1ede4;margin:0;}
+  .checklist li:last-child{border-bottom:none;}
+  .checklist li::before{content:"";position:absolute;left:0;top:15px;width:17px;height:17px;border:2px solid var(--gold);border-radius:3px;background:#fff;}
+  footer{background:var(--navy);color:rgba(255,255,255,.75);border-top:4px solid var(--gold);padding:32px 0;margin-top:60px;font-size:14.5px;}
+  footer .wordmark{font-size:17px;}
+  footer p{margin:10px 0 0;max-width:58em;}
+  footer strong{color:var(--gold-light);}
+  @media print{
+    body{background:#fff;font-size:11pt;line-height:1.45;}
+    .masthead{padding:0 0 16pt;background:#fff;color:#000;border-bottom:2pt solid var(--gold);}
+    .masthead h1{color:var(--navy);font-size:24pt;}
+    .wordmark,.brandname{color:var(--navy);}
+    .deck,.meta{color:#555;}
+    .meta span strong{color:var(--navy);}
+    .brandline{border-bottom:1px solid var(--rule);}
+    .toc{display:none;}
+    .step,.checklist,pre{break-inside:avoid;page-break-inside:avoid;box-shadow:none;}
+    pre{background:#f3f1ea;color:#222;border-left:3pt solid var(--gold);white-space:pre-wrap;word-break:break-all;}
+    h2{break-after:avoid;page-break-after:avoid;}
+    footer{background:#fff;color:#444;border-top:1pt solid var(--rule);}
+    footer .wordmark,footer strong{color:var(--navy);}
+    a{color:var(--navy);text-decoration:none;}
+  }
+
+  .std-meta{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:14px;color:var(--ink-soft);margin:-4px 0 14px;}
+  .std-meta b{color:var(--navy);}
+  .tag{display:inline-block;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;padding:2px 8px;border-radius:3px;}
+  .tag.min{background:var(--navy);color:var(--gold-light);}
+  .tag.rec{background:var(--gold-light);color:var(--navy);}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin:24px 0;}
+  .card{background:#fff;border:1px solid var(--rule);border-radius:6px;padding:20px 22px;text-decoration:none;color:var(--ink);display:block;}
+  .card:hover{border-color:var(--gold);}
+  .card h3{margin:0 0 6px;}
+  .card p{margin:0;color:var(--ink-soft);font-size:16px;}
+</style>
+</head>
+<body>
+<header class="masthead">
+  <div class="wrap">
+    <div class="brandline">
+      <span class="wordmark">&#928;&#921;&#931;&#932;&#927;&#931;</span>
+      <span class="brandname">Pistos Information Protection</span>
+    </div>
+    <p class="eyebrow">Security Baseline</p>
+    <h1>HawkSoft Minimum Security Baseline</h1>
+    <p class="deck">The settings every Pistos client's HawkSoft should have, where to find them, and how to prove they are on.</p>
+    <div class="meta"><span><strong>Product:</strong> HawkSoft 6 and HawkSoft Cloud</span><span><strong>Audience:</strong> Agency owners, office managers, IT providers</span><span><strong>Framework:</strong> CIS Controls v8.1, IG1</span><span><strong>Version:</strong> 1.0, November 2026</span></div>
+  </div>
+</header>
+<main class="wrap">
+  <p class="lede">HawkSoft holds every client's personal details, policies and payments. This page sets the minimum security settings Pistos expects in HawkSoft 6 and HawkSoft Cloud. <strong>Most of these are one-time settings an administrator can make in under an hour.</strong></p>
+  <div class="pullbox"><span class="label">How to read this</span>
+  <p><strong>Minimum</strong> items are required for a Pistos client. <strong>Recommended</strong> items are what we set up when the agency agrees. Each item names the CIS Controls v8.1 safeguard it supports, so it lines up with the PCS risk assessment.</p></div>
+  <h2 id="summary">At a glance</h2>
+  <div class="tablewrap"><table><thead><tr><th style="width:6%">#</th><th style="width:40%">Standard</th><th>Setting</th></tr></thead><tbody>
+<tr><td>1</td><td><strong>One named login per person</strong></td><td>No shared or vendor logins</td></tr><tr><td>2</td><td><strong>Multi-factor authentication on</strong></td><td>Setup &gt; General Configuration &gt; General Settings &gt; Multi-Factor Authentication: on, 30 days or less between prompts</td></tr><tr><td>3</td><td><strong>Two administrators at most</strong></td><td>Only two people hold User Setup, General Configuration and Agency Setup rights</td></tr><tr><td>4</td><td><strong>Strong, unique passwords</strong></td><td>14+ characters, kept in a password manager</td></tr><tr><td>5</td><td><strong>Auto logout at 15 minutes</strong></td><td>General Settings &gt; Auto Logout: 15</td></tr><tr><td>6</td><td><strong>Personal information masked</strong></td><td>Mask Personally Identifiable Information: on</td></tr><tr><td>7</td><td><strong>Least-privilege permissions</strong></td><td>Unmasked reports, report export, accounting and archive rights limited by role</td></tr><tr><td>8</td><td><strong>Remember Me off</strong></td><td>Show Remember Me Checkbox on Desktop Login: off</td></tr><tr><td>9</td><td><strong>Leavers turned off the same day</strong></td><td>User status set to Inactive; dormant accounts reviewed monthly</td></tr><tr><td>10</td><td><strong>Sign-in log reviewed monthly</strong></td><td>Export User Sign-In Logs; keep the export for a year</td></tr><tr><td>11</td><td><strong>Logins limited to the office and approved places</strong></td><td>IP Access Management: enforced for administrators at minimum</td></tr><tr><td>12</td><td><strong>Backup and vendor evidence on file</strong></td><td>HawkSoft's security or SOC report and backup statement in PCS</td></tr>
+</tbody></table></div>
+  <h2 id="standards">The standards</h2>
+  <article class="step" id="s1">
+    <div class="step-head"><div class="step-num">1</div><h3 class="step-title">One named login for every person</h3></div>
+    <div class="std-meta"><span class="tag min">Minimum</span><span><b>CIS v8.1:</b> 4.7, 5.1</span></div>
+    <div class="block"><span class="blabel">Where</span><p>Setup &gt; User Setup &gt; User List</p></div><div class="block"><span class="blabel">The standard</span><ul><li>Every person who uses HawkSoft has their own login in their own name.</li><li>No shared logins such as "frontdesk" or "csr." No logins left over from a past employee, a vendor or a trainer.</li><li>Every user's Account Email is verified, because password resets and MFA codes go there.</li></ul></div><div class="block check"><span class="blabel">How to check it</span><p>Compare the User List with the staff roster in PCS. Every active user should match a current person.</p></div>
+  </article>
+  <article class="step" id="s2">
+    <div class="step-head"><div class="step-num">2</div><h3 class="step-title">Multi-factor authentication on for everyone</h3></div>
+    <div class="std-meta"><span class="tag min">Minimum</span><span><b>CIS v8.1:</b> 6.3, 6.5</span></div>
+    <div class="block"><span class="blabel">Where</span><p>Setup (gear) &gt; General Configuration &gt; General Settings &gt; Additional Settings &gt; Multi-Factor Authentication</p></div><div class="block"><span class="blabel">The standard</span><ul><li>Multi-Factor Authentication is <strong>enabled</strong>.</li><li>Days between prompts is set to <strong>30 or fewer</strong>. HawkSoft allows up to 180; that is too long for an agency.</li><li>Each person's Account Email is a mailbox only they can read, protected by its own MFA in Microsoft 365.</li></ul></div><div class="block pitfall"><span class="blabel">What the product can't do, and what to do instead</span><p>HawkSoft's MFA sends the code to the user's email. If someone breaks into that mailbox, they get the code too. That is why the mailbox itself must have strong MFA, and why item 11 matters.</p></div><div class="block check"><span class="blabel">How to check it</span><p>Sign in from a new computer or browser. HawkSoft should ask for the emailed code.</p></div>
+  </article>
+  <article class="step" id="s3">
+    <div class="step-head"><div class="step-num">3</div><h3 class="step-title">Two administrators at most</h3></div>
+    <div class="std-meta"><span class="tag min">Minimum</span><span><b>CIS v8.1:</b> 5.4</span></div>
+    <div class="block"><span class="blabel">Where</span><p>Setup &gt; User Setup &gt; User List &gt; user &gt; Permissions &gt; Open Permissions Editor &gt; Agency Setup</p></div><div class="block"><span class="blabel">The standard</span><ul><li>No more than <strong>two</strong> people hold User Setup, General Configuration, Agency/Office Setup or Carrier Setup. Usually that is the owner and one manager.</li><li>Pistos's administrator login is used only for administration, never for daily work.</li><li>Nobody can change their own permissions. HawkSoft enforces this.</li></ul></div><div class="block check"><span class="blabel">How to check it</span><p>Open the Permissions Editor for each user and count who has any Agency Setup right.</p></div>
+  </article>
+  <article class="step" id="s4">
+    <div class="step-head"><div class="step-num">4</div><h3 class="step-title">Strong, unique passwords</h3></div>
+    <div class="std-meta"><span class="tag min">Minimum</span><span><b>CIS v8.1:</b> 5.2</span></div>
+    <div class="block"><span class="blabel">Where</span><p>Profile icon &gt; My Account &gt; Info &gt; Password</p></div><div class="block"><span class="blabel">The standard</span><ul><li>At least <strong>14 characters</strong>, not used for any other system.</li><li>Stored in a password manager, never on a sticky note or in a spreadsheet.</li></ul></div><div class="block pitfall"><span class="blabel">What the product can't do, and what to do instead</span><p>HawkSoft does not publish a setting that forces password length or history. The agency enforces this by policy, and the PCS form records that it does.</p></div><div class="block check"><span class="blabel">How to check it</span><p>Confirmed on the PCS line-of-business access form, signed by the agency.</p></div>
+  </article>
+  <article class="step" id="s5">
+    <div class="step-head"><div class="step-num">5</div><h3 class="step-title">Auto logout after 15 minutes</h3></div>
+    <div class="std-meta"><span class="tag min">Minimum</span><span><b>CIS v8.1:</b> 4.3</span></div>
+    <div class="block"><span class="blabel">Where</span><p>Setup &gt; General Configuration &gt; General Settings &gt; Auto Logout</p></div><div class="block"><span class="blabel">The standard</span><ul><li>Set to <strong>15 minutes</strong>. The default is 30, and the setting allows 2 to 480. Never enter 0: that means 480 minutes (8 hours).</li></ul></div><div class="block check"><span class="blabel">How to check it</span><p>Leave HawkSoft idle for 15 minutes. It should sign you out.</p></div>
+  </article>
+  <article class="step" id="s6">
+    <div class="step-head"><div class="step-num">6</div><h3 class="step-title">Personal information masked</h3></div>
+    <div class="std-meta"><span class="tag min">Minimum</span><span><b>CIS v8.1:</b> 3.3</span></div>
+    <div class="block"><span class="blabel">Where</span><p>Setup &gt; General Configuration &gt; General Settings &gt; Additional Settings</p></div><div class="block"><span class="blabel">The standard</span><ul><li><strong>Mask Personally Identifiable Information</strong> is on. It is on by default; confirm nobody turned it off.</li><li><strong>PDF Security</strong> is on.</li></ul></div><div class="block check"><span class="blabel">How to check it</span><p>Open a client's People screen. Social Security and driver's license numbers should show masked until someone clicks to unmask.</p></div>
+  </article>
+  <article class="step" id="s7">
+    <div class="step-head"><div class="step-num">7</div><h3 class="step-title">Permissions match the job</h3></div>
+    <div class="std-meta"><span class="tag min">Minimum</span><span><b>CIS v8.1:</b> 3.3, 5.4</span></div>
+    <div class="block"><span class="blabel">Where</span><p>Setup &gt; User Setup &gt; User List &gt; user &gt; Permissions</p></div><div class="block"><span class="blabel">The standard</span><ul><li><strong>Allow running reports with unmasked PII</strong>: owner and one manager only.</li><li><strong>Allow Exporting of Report Data</strong>: only people who need it for their job.</li><li><strong>Archive Client</strong>, <strong>Archive/Move Policies</strong>, <strong>Mass Data Importer</strong> and <strong>Change Agent Code</strong>: managers only.</li><li>Accounting, Commissions and Trust Accounting rights: the bookkeeper and the owner only.</li><li><strong>Allow Agent Portal Access</strong>: only people who use the portal.</li><li>Use a permission template per role so new hires start with the right set.</li></ul></div><div class="block pitfall"><span class="blabel">What the product can't do, and what to do instead</span><p>HawkSoft lets any user unmask a number on screen; only unmasked reports are controlled by a permission. Train staff to unmask only when they need to, and keep item 10's log review in place.</p></div><div class="block check"><span class="blabel">How to check it</span><p>Export the user list and review each person's permissions once a quarter. Keep the reviewed copy in PCS.</p></div>
+  </article>
+  <article class="step" id="s8">
+    <div class="step-head"><div class="step-num">8</div><h3 class="step-title">Remember Me turned off</h3></div>
+    <div class="std-meta"><span class="tag min">Minimum</span><span><b>CIS v8.1:</b> 5.2</span></div>
+    <div class="block"><span class="blabel">Where</span><p>Setup &gt; General Configuration &gt; General Settings</p></div><div class="block"><span class="blabel">The standard</span><ul><li><strong>Show Remember Me Checkbox on Desktop Login</strong> is off, so passwords are not stored on the computer.</li></ul></div><div class="block check"><span class="blabel">How to check it</span><p>The desktop sign-in screen shows no Remember Me box.</p></div>
+  </article>
+  <article class="step" id="s9">
+    <div class="step-head"><div class="step-num">9</div><h3 class="step-title">Leavers turned off the same day</h3></div>
+    <div class="std-meta"><span class="tag min">Minimum</span><span><b>CIS v8.1:</b> 5.3, 6.2</span></div>
+    <div class="block"><span class="blabel">Where</span><p>Setup &gt; User Setup &gt; User List &gt; user &gt; Status</p></div><div class="block"><span class="blabel">The standard</span><ul><li>When someone leaves, set their status to <strong>Inactive</strong> on their last day. That blocks HawkSoft and the Agent Portal while keeping their history.</li><li>Any account nobody has signed in to for 45 days is reviewed and made Inactive if it is not needed.</li><li>Force sign-out of the person under Licensed Seat Management if they are still signed in.</li></ul></div><div class="block check"><span class="blabel">How to check it</span><p>Each month, compare active users with the PCS roster and the sign-in log.</p></div>
+  </article>
+  <article class="step" id="s10">
+    <div class="step-head"><div class="step-num">10</div><h3 class="step-title">Sign-in log reviewed every month</h3></div>
+    <div class="std-meta"><span class="tag min">Minimum</span><span><b>CIS v8.1:</b> 8.2, 8.3</span></div>
+    <div class="block"><span class="blabel">Where</span><p>Setup &gt; User Setup &gt; View and Export User Sign-In Logs</p></div><div class="block"><span class="blabel">The standard</span><ul><li>Once a month, export the sign-in log to CSV and look for sign-ins at odd hours, from unexpected places, or from people who have left.</li><li>Keep each month's export for at least a year in PCS or the agency's document store.</li><li>Leave <strong>Automatically Append Task Info on Edit</strong> on, so task changes stay logged.</li></ul></div><div class="block check"><span class="blabel">How to check it</span><p>The last twelve monthly exports are on file.</p></div>
+  </article>
+  <article class="step" id="s11">
+    <div class="step-head"><div class="step-num">11</div><h3 class="step-title">Logins limited to the office and approved places</h3></div>
+    <div class="std-meta"><span class="tag min">Minimum</span><span><b>CIS v8.1:</b> 6.3, 4.6</span></div>
+    <div class="block"><span class="blabel">Where</span><p>Setup &gt; Agency Setup &gt; Settings &gt; IP Access Management</p></div><div class="block"><span class="blabel">The standard</span><ul><li>Add the office's internet address, and any approved home addresses, as <strong>Allow IP Address</strong> rules.</li><li>Apply the rules to <strong>All Administrator Users</strong> at minimum, and to all users where the agency's staff work from fixed locations.</li><li>Turn on <strong>Enable IP Enforcement</strong> only after confirming the rules from the office. A missing rule locks people out.</li></ul></div><div class="block"><span class="blabel">Why</span><p>This covers the HawkSoft desktop, the browser app and the Agent Portal. It is the strongest protection HawkSoft offers against a stolen password plus a broken-into mailbox.</p></div><div class="block check"><span class="blabel">How to check it</span><p>From a phone hotspot, an administrator login should be refused.</p></div>
+  </article>
+  <article class="step" id="s12">
+    <div class="step-head"><div class="step-num">12</div><h3 class="step-title">Vendor security and backup evidence on file</h3></div>
+    <div class="std-meta"><span class="tag min">Minimum</span><span><b>CIS v8.1:</b> 11.2, 11.3, 11.4, 15.1</span></div>
+    <div class="block"><span class="blabel">The standard</span><ul><li>HawkSoft is listed as a vendor in PCS with an agency contact.</li><li>HawkSoft's current security report (SOC 2 or equivalent) and backup statement are uploaded to PCS and renewed when they expire.</li></ul></div><div class="block check"><span class="blabel">How to check it</span><p>PCS shows the vendor evidence as received and not expired.</p></div>
+  </article>
+  <h2 id="checklist">Sign-off checklist</h2>
+  <div class="checklist"><ul><li>User List matches the staff roster; no shared, vendor or leftover logins</li><li>Multi-Factor Authentication on, 30 days or less between prompts</li><li>Two or fewer people with Agency Setup rights</li><li>Password rule (14+ characters, password manager) signed on the PCS form</li><li>Auto Logout set to 15 minutes</li><li>Mask Personally Identifiable Information and PDF Security on</li><li>Unmasked reports, export, archive and accounting rights limited by role</li><li>Remember Me checkbox turned off</li><li>Leaver process and 45-day dormant review in place</li><li>Monthly sign-in log export on file</li><li>IP Access Management enforced for administrators</li><li>HawkSoft security and backup evidence in PCS</li></ul></div>
+
+</main>
+<footer>
+  <div class="wrap">
+    <span class="wordmark">&#928;&#921;&#931;&#932;&#927;&#931;</span>
+    <p><strong>Pistos Information Protection.</strong> This baseline was checked against the vendor's published help as of November 2026. Vendors rename menus and add features, so confirm a path against the vendor's current help before you change a setting. Where the product cannot do something on its own, the baseline says what to do instead. Any exception should be approved by the agency owner and recorded with the reason.</p>
+  </div>
+</footer>
+</body>
+</html>
