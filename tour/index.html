@@ -1,0 +1,966 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Inside Compliance Sentinel</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caladea:ital,wght@0,400;0,700;1,400&family=Carlito:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+/* Layout concept: a narrated product tour. Navy chapter bands, cream reading column, and one real screen per step held in a framed plate the eye lands on first. */
+:root{
+  --navy:#132846; --navy-deep:#0C1B30;
+  --gold:#B99433; --gold-light:#EBDDB4; --cream:#F7F3E9;
+  --bg:#F4EFE3; --surface:#FFFDF7; --surface-2:#EFE8D8;
+  --fg:#12223A; --fg-soft:#4C5D76; --line:#D9CFB7;
+  --ok:#2E6B46; --warn:#9A6B12; --crit:#9B3221;
+  --display:"Caladea",Cambria,Georgia,serif;
+  --body:"Carlito",Calibri,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  --maxw:1140px;
+  --scan-bg:#F7E7DF; --out-bg:#E6EFE8; --ai-bg:#F8ECD2; --src-bg:#F3EFE6;
+  --owl:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJsAAAEECAMAAAAI+LacAAABIFBMVEXs1J9hZGejn5krYZtrUSTas2qijmvkoDhVc5SQZyIpTXSLdFdkOgVoiKhcmtTHtqA2KhIBHkKUss780l2yjTyzydw8hc7BfRw7fsLQ2uM8QDH+yjsAAAD9/f0CBg4DFy0IKEj///8JIToQM1gMEhgTOmXt6uYaRHLytk5PNhAzJhEADCMoGQnTljYnV4z9125SRC7r5NeueShvVjBxRwuMVw3IiSv0yG3++a4oKS3j29Ha1c78xVj+/M/oqUYzNDSVZBf///+uiE+1hTNIKgf96Iz///9KOyj+9JSlahSydRrKp2wsOUiLaSzJmUuQd1DSpVH///////////9KSkv+5Hj///+ylm5VVVPTxrS4lVB0Zk43RVWzppLPysXRuJAGa700AAAAYHRSTlP/////////////////////////////////////AP7///8E/////////////////////////////////////////9H/////Mf////////////9Pr4///2////////////87XvapAAAz0UlEQVR42r2diV8aS7P3Z9hRE5OTszz3vqEHhwFZZd8RCGiURSQJBtz////i/VX3rDCg5uS583nuPUaB+VJdVV1VXd0jfbauo89HP79/+fLlx1f6x9Hn/5uLbkT3jXz5/o0YrEuyo337EhHXl59H/zd0R3STrz/M+361w0k2tJ8R2/Xz63+fjn/+t+/229rhJOt1XyPO6/t/mY4PpjlUxnVk3dJi+/w9sn6RAvy38ISafdm454/PG2xHn79GXK7v3/47ireNjARnwknu2mZdX/4LdJzsh/v9It9c2La99nVGe+S4foUs8Qq2QKDtTrcL6jW/3El2eB0wHMSOMQ30c4NbNzpXAtvPX7/R9dX2201Ad7LE41Xp4HGH3L4Z3yB1V+8OnhMbeuccWOO2QPr5A7OJ47Xff/wApON1+l1cyFrL0nh2ddbe8HCbdtqu9H2DenL2mHDxKEf2Gx59palm+/Xlx08OaH4NmhTXX9QOjIbDcrlSSeyw0yPj1VejMjsI1Duzw5abN9YBj7792MVl8X070rHw3w1PezsYDe/KGutX9o03fHbzvcb7BtUhYyw7kDqz5bpZ/DjS3fn3yOsv4SQxb66/6TDc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);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0A1626; --surface:#122339; --surface-2:#17304C; --fg:#F1EADA; --fg-soft:#A9BBD2;
+  --line:#28415F; --gold:#D4AE56; --ok:#86C9A0; --warn:#E2B964; --crit:#E98A74;
+  --scan-bg:#3A2A28; --out-bg:#16302A; --ai-bg:#3A2E13; --src-bg:#17304C; color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#0A1626; --surface:#122339; --surface-2:#17304C; --fg:#F1EADA; --fg-soft:#A9BBD2;
+  --line:#28415F; --gold:#D4AE56; --ok:#86C9A0; --warn:#E2B964; --crit:#E98A74;
+  --scan-bg:#3A2A28; --out-bg:#16302A; --ai-bg:#3A2E13; --src-bg:#17304C; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--navy-deep)}
+.wrap{width:100%;max-width:var(--maxw);margin-inline:auto;padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px))}
+h1,h2,h3,h4{font-family:var(--display);font-weight:700;text-wrap:balance;margin:0;line-height:1.18}
+h2{font-size:clamp(26px,3.3vw,38px)}
+h3{font-size:clamp(19px,2.1vw,25px)}
+p{margin:0}
+a{color:inherit}
+.eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:600}
+.lede{font-size:clamp(17px,1.5vw,20px);color:var(--fg-soft);max-width:64ch}
+.rule{height:2px;background:var(--gold);width:54px;border-radius:2px}
+.owl{display:block;background-image:var(--owl);background-size:contain;background-position:center;background-repeat:no-repeat;aspect-ratio:155/260}
+
+/* masthead */
+.mast{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--navy-deep);color:var(--cream);border-bottom:1px solid rgba(185,148,51,.35)}
+.mast .wrap{display:flex;align-items:center;gap:16px;padding-block:10px;flex-wrap:wrap}
+.lock{display:flex;align-items:center;gap:10px;margin-right:auto}
+.lock .owl{height:52.5px}
+.lock b{font-family:var(--display);font-size:17px;letter-spacing:.03em;display:block;line-height:1.1}
+.lock span{font-family:var(--mono);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-light);opacity:.85}
+.mast nav{display:flex;gap:14px;flex-wrap:wrap}
+.mast nav a{font-size:13.5px;text-decoration:none;color:var(--gold-light);opacity:.9;border-bottom:1px solid transparent;padding-bottom:2px}
+.mast nav a:hover{border-color:var(--gold);opacity:1}
+.tel{font-family:var(--mono);font-size:12.5px;color:var(--cream);background:rgba(185,148,51,.16);border:1px solid rgba(185,148,51,.45);border-radius:999px;padding:5px 12px}
+
+/* hero */
+/* framework watermarks in the open space on the right of the hero */
+.fwmarks{position:absolute;top:0;bottom:0;right:0;width:48%;z-index:0;pointer-events:none;user-select:none}
+.fwmarks>*{position:absolute;transform:translate(-50%,-50%) rotate(var(--r,0deg))}
+.fwmarks span{white-space:nowrap;font-family:"Arial Black","Arial Bold",Arial,Helvetica,sans-serif;font-weight:900;letter-spacing:.02em;line-height:1;font-size:clamp(24px,2.9vw,42px);color:rgba(235,221,180,.06);-webkit-text-stroke:1.25px rgba(212,174,86,.42)}
+.fwmarks svg{width:clamp(96px,10vw,140px);height:auto;fill:rgba(235,221,180,.06);stroke:rgba(212,174,86,.5);stroke-width:2.5;stroke-linejoin:round}
+.fwmarks svg.rainman{width:clamp(160px,15.5vw,210px)}
+.fwmarks .wet{stroke:rgba(235,221,180,.42);stroke-width:1.6;stroke-linecap:round}
+.fwmarks .rain line{stroke:rgba(235,221,180,.55);stroke-width:1.7;stroke-linecap:round;animation:fwrain 1s linear infinite}
+.fwmarks .dot{fill:rgba(212,174,86,.6);stroke:none}
+.fwmarks .shiver{animation:fwshiver .35s ease-in-out infinite alternate}
+@keyframes fwrain{0%{transform:translate(0,0);opacity:0}8%{opacity:1}92%{opacity:1}100%{transform:translate(-16px,275px);opacity:0}}
+@keyframes fwshiver{from{transform:translateX(-1.2px)}to{transform:translateX(1.2px)}}
+.fwmarks .shake1{animation:fwjit .24s linear infinite}
+.fwmarks .shake2{animation:fwjit2 .24s linear infinite}
+@keyframes fwjit{0%,100%{transform:translate(0,0)}20%{transform:translate(-1.5px,.4px)}40%{transform:translate(1.3px,-.4px)}60%{transform:translate(-1px,-.5px)}80%{transform:translate(1.5px,.3px)}}
+@keyframes fwjit2{0%,100%{transform:translate(0,0)}25%{transform:translate(-.6px,.2px)}50%{transform:translate(.7px,-.2px)}75%{transform:translate(-.4px,.2px)}}
+@media (prefers-reduced-motion:reduce){.fwmarks .rain{display:none}.fwmarks .shiver,.fwmarks .shake1,.fwmarks .shake2{animation:none}}
+@media (max-width:960px){.hero{display:flex;flex-direction:column}.hero .wrap{order:1}.fwmarks{order:2;position:relative;width:100%;max-width:560px;height:440px;margin:0 auto 28px}}
+@media (max-width:560px){.fwmarks{height:400px}.fwmarks span{font-size:19px}.fwmarks svg.rainman{width:150px}}
+.hero{background:var(--navy);color:var(--cream);position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(900px 420px at 84% -10%,rgba(185,148,51,.22),transparent 60%),repeating-linear-gradient(90deg,rgba(247,243,233,.045) 0 1px,transparent 1px 74px);pointer-events:none}
+.hero .wrap{position:relative;z-index:1;padding-block:clamp(40px,5.5vw,74px) clamp(26px,4vw,40px);display:grid;gap:22px}
+.hero h1{font-size:clamp(32px,5vw,56px);max-width:21ch}
+.hero h1 em{font-style:normal;color:var(--gold-light);display:block}
+.hero p{color:#D8D2C2;max-width:60ch;font-size:clamp(16px,1.5vw,19px)}
+.statline{display:flex;flex-wrap:wrap;border-top:1px solid rgba(235,221,180,.28);margin-top:2px}
+.statline div{padding:13px 22px 2px 0;margin-right:22px;border-right:1px solid rgba(235,221,180,.18)}
+.statline div:last-child{border-right:0}
+.statline b{display:block;font-family:var(--display);font-size:clamp(21px,2.5vw,29px);color:var(--gold-light);font-variant-numeric:tabular-nums}
+.statline small{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#B9C4D4}
+
+/* narration bar */
+.narrbar{position:sticky;top:calc(env(safe-area-inset-top,0px) + 54px);z-index:40;background:var(--navy-deep);color:var(--cream);border-bottom:1px solid rgba(185,148,51,.3)}
+.narrbar .wrap{display:flex;gap:11px;align-items:center;flex-wrap:wrap;padding-block:9px}
+.btn{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;background:transparent;color:var(--gold-light);border:1px solid rgba(185,148,51,.5);border-radius:999px;padding:7px 14px;cursor:pointer}
+.btn:hover{background:rgba(185,148,51,.18)}
+.btn.go{background:var(--gold);color:var(--navy-deep);border-color:var(--gold);font-weight:700}
+.btn.go:hover{background:var(--gold-light)}
+.btn:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.narrbar select{font-family:var(--mono);font-size:11.5px;background:rgba(247,243,233,.08);color:var(--cream);border:1px solid rgba(185,148,51,.4);border-radius:999px;padding:6px 10px;max-width:210px}
+.narrbar .status{font-family:var(--mono);font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:#93A6BE;margin-left:auto}
+.narrbar[hidden]{display:none}
+
+/* sections */
+section{padding-block:clamp(40px,5vw,70px)}
+.alt{background:var(--surface-2)}
+.sec-head{display:grid;gap:11px;margin-bottom:clamp(20px,3vw,32px);max-width:72ch}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:clamp(18px,2.4vw,26px)}
+.grid2{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+
+/* chapter band */
+.chap{background:var(--navy);color:var(--cream);padding-block:clamp(26px,3.4vw,44px)}
+.chap .wrap{display:grid;gap:12px}
+.chap h2{color:var(--cream)}
+.chap p{color:#C3CCDA;max-width:64ch;font-size:clamp(16px,1.4vw,18px)}
+.chapno{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+
+/* tour steps */
+.step{padding-block:clamp(26px,3.4vw,44px);border-bottom:1px solid var(--line);scroll-margin-top:120px}
+.step:last-of-type{border-bottom:0}
+.step .wrap{display:grid;gap:16px}
+.steptop{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}
+.steptop .n{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--gold);font-weight:600;white-space:nowrap}
+.step h3{flex:1 1 320px;min-width:0}
+.step .script{font-size:clamp(16px,1.4vw,18px);color:var(--fg-soft);max-width:70ch}
+.plate{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface);box-shadow:0 22px 54px -36px rgba(12,27,48,.75);position:relative;transition:box-shadow .3s,border-color .3s}
+.plate img{display:block;width:100%;height:auto;max-width:100%}
+.plate figcaption{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--fg-soft);padding:9px 13px;border-top:1px solid var(--line);background:var(--surface-2)}
+.step.live .plate{border-color:var(--gold);box-shadow:0 0 0 2px var(--gold),0 22px 54px -36px rgba(12,27,48,.75)}
+.step.live .steptop .n{color:var(--gold);text-decoration:underline;text-underline-offset:3px}
+
+/* problem chips */
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-family:var(--mono);font-size:11.5px;padding:6px 11px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--fg-soft)}
+.model{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(235px,1fr))}
+.modelcard{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px;display:grid;gap:7px;min-width:0}
+.modelcard::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:3px;border-radius:3px;background:var(--gold)}
+.modelcard .pct{font-family:var(--display);font-size:clamp(32px,4.2vw,46px);line-height:1;color:var(--gold);font-variant-numeric:tabular-nums}
+.modelcard p{font-size:14.5px;color:var(--fg-soft)}
+
+/* products */
+.prodgrid{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(270px,1fr))}
+.prod{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px;display:grid;gap:10px;min-width:0}
+.prod .greek{font-family:var(--display);font-size:12px;letter-spacing:.28em;color:var(--gold);text-transform:uppercase}
+.prod p{font-size:14.5px;color:var(--fg-soft)}
+.prod ul{margin:2px 0 0;padding:0;list-style:none;display:grid;gap:6px;font-size:14px;color:var(--fg-soft)}
+.prod li{padding-left:18px;position:relative}
+.prod li::before{content:"";position:absolute;left:0;top:9px;width:9px;height:2px;background:var(--gold)}
+
+/* pricing */
+.price{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(218px,1fr))}
+.ptier{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px;display:grid;gap:8px;min-width:0}
+.ptier.feat{border:1.5px solid var(--gold);background:linear-gradient(180deg,var(--surface),var(--surface-2))}
+.ptier .amt{font-family:var(--display);font-size:clamp(27px,3.3vw,36px);line-height:1;font-variant-numeric:tabular-nums}
+.ptier .amt small{font-family:var(--body);font-size:14px;color:var(--fg-soft);font-weight:400}
+.ptier .scope{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--gold)}
+.ptier ul{list-style:none;margin:4px 0 0;padding:0;display:grid;gap:5px;font-size:14px;color:var(--fg-soft)}
+.ptier li{padding-left:16px;position:relative}
+.ptier li::before{content:"";position:absolute;left:0;top:8px;width:7px;height:7px;border:1.5px solid var(--gold);border-radius:2px}
+
+/* frameworks + proof */
+.fwcols{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(248px,1fr))}
+.fw{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;display:grid;gap:9px;min-width:0}
+.fw h3{font-size:17px;color:var(--gold)}
+.fw span{display:inline-block;font-family:var(--mono);font-size:11px;border:1px solid var(--line);border-radius:999px;padding:4px 10px;margin:0 4px 4px 0;background:var(--bg)}
+.track{display:grid;gap:11px}
+.tt{display:grid;grid-template-columns:auto 1fr;gap:14px;border-bottom:1px solid var(--line);padding-bottom:11px;align-items:start}
+.tt .q{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);padding-top:3px;white-space:nowrap}
+.tt p{font-size:15px}
+
+/* cta */
+.cta{background:var(--navy);color:var(--cream);position:relative;overflow:hidden}
+.cta::after{content:"";position:absolute;inset:0;background:radial-gradient(700px 320px at 15% 110%,rgba(185,148,51,.25),transparent 60%);pointer-events:none}
+.cta .wrap{position:relative;z-index:1;display:grid;gap:17px;padding-block:clamp(38px,5vw,62px)}
+.cta h2{color:var(--cream)}
+.cta p{color:#CFD6E2;max-width:60ch}
+.contact{display:flex;gap:11px;flex-wrap:wrap;align-items:center}
+.contact .val{font-family:var(--mono);font-size:16px;color:var(--gold-light);background:rgba(185,148,51,.14);border:1px solid rgba(185,148,51,.45);border-radius:8px;padding:9px 15px;user-select:all}
+footer{background:var(--navy-deep);color:#8A99AD;font-family:var(--mono);font-size:11px;letter-spacing:.05em}
+footer .wrap{padding-block:16px;display:flex;gap:12px;justify-content:space-between;flex-wrap:wrap}
+@media (prefers-reduced-motion:reduce){*{transition-duration:.001ms!important}}
+
+/* ---------- pointer ---------- */
+.shot{position:relative;min-width:0}
+.ptr{position:absolute;left:0;top:0;width:0;height:0;pointer-events:none;opacity:0;z-index:3;transition:left .6s cubic-bezier(.3,.8,.3,1),top .6s cubic-bezier(.3,.8,.3,1),opacity .3s}
+.ptr.show{opacity:1}
+.ptr svg{position:absolute;left:2px;top:2px;width:56px;height:56px;filter:drop-shadow(0 3px 6px rgba(0,0,0,.45))}
+.ptr.show svg{animation:nudge 1.1s ease-in-out infinite}
+@keyframes nudge{0%,100%{transform:translate(7px,7px)}50%{transform:translate(0,0)}}
+@media (prefers-reduced-motion:reduce){.ptr.show svg{animation:none}}
+@keyframes pulse{0%{transform:scale(.35);opacity:.95}100%{transform:scale(1.7);opacity:0}}
+
+/* ---------- intro plates ---------- */
+.tplate{padding:clamp(16px,2.4vw,26px);display:grid;gap:14px;background:var(--surface)}
+.askgrid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.askcol{display:grid;gap:7px;align-content:start}
+.askcol b{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.chip{font-family:var(--mono);font-size:11.5px;padding:6px 11px;border-radius:999px;border:1px solid var(--line);background:var(--bg);color:var(--fg);display:inline-block}
+.rows3{display:grid;gap:10px}
+.row3{display:grid;grid-template-columns:minmax(150px,.8fr) 2fr;gap:14px;align-items:center;border:1px solid var(--line);border-radius:9px;padding:13px 15px;background:var(--bg)}
+.row3 b{font-family:var(--display);font-size:16px}
+.row3 p{font-size:14.5px;color:var(--fg-soft)}
+@media(max-width:560px){.row3{grid-template-columns:1fr}}
+.cost2{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.costcard{border:1px solid var(--line);border-radius:11px;padding:18px;display:grid;gap:8px;background:var(--bg);min-width:0}
+.costcard.hi{border:1.5px solid var(--gold);background:linear-gradient(180deg,var(--surface),var(--surface-2))}
+.costcard .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.costcard .v{font-family:var(--display);font-size:clamp(26px,3.2vw,34px);line-height:1.05;font-variant-numeric:tabular-nums}
+.costcard .v small{font-family:var(--body);font-size:14px;color:var(--fg-soft);font-weight:400}
+.costcard ul{margin:0;padding:0;list-style:none;display:grid;gap:5px;font-size:14px;color:var(--fg-soft)}
+.costcard li{padding-left:16px;position:relative}
+.costcard li::before{content:"";position:absolute;left:0;top:9px;width:8px;height:2px;background:var(--gold)}
+
+/* ---------- diagram ---------- */
+.diag{overflow-x:auto;background:var(--surface)}
+.diag-in{position:relative;min-width:620px;padding:10px 8px 4px}
+.dg{display:block;width:100%;height:auto}
+.dg .bx{fill:var(--src-bg);stroke:var(--line);stroke-width:1.2;transition:stroke .3s,stroke-width .3s}
+.dg .scan .bx{fill:var(--scan-bg)}
+.dg .out .bx{fill:var(--out-bg)}
+.dg .core .bx{fill:var(--navy)}
+.dg .ai .bx{fill:var(--ai-bg);stroke:var(--gold)}
+.dg .t{font-family:var(--display);font-weight:700;font-size:14px;fill:var(--fg)}
+.dg .s{font-family:var(--body);font-size:11.5px;fill:var(--fg-soft)}
+.dg .core .t{fill:#F7F3E9;font-size:15px}
+.dg .core .s{fill:#C9D3E3}
+.dg .hdr{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;fill:var(--gold);font-weight:600}
+.dg .ar{fill:none;stroke:var(--fg-soft);stroke-width:1.4;marker-end:url(#ah)}
+.dg .ahp{fill:var(--fg-soft)}
+.dg .chip rect{fill:var(--surface);stroke:var(--line)}
+.dg .chip text{font-family:var(--mono);font-size:9.5px;fill:var(--fg)}
+.dg .badge rect{fill:var(--gold);stroke:#132846;stroke-width:1}
+.dg .badge text{font-family:var(--mono);font-size:10px;font-weight:600;fill:#0C1B30}
+.dg .badge.big text{font-size:11px}
+.dg .lt{font-family:var(--body);font-size:12.5px;fill:var(--fg-soft)}
+.dg .lb{font-weight:700;fill:var(--fg)}
+.dg .dbox{transition:filter .3s}
+.dg .dbox.hot .bx{stroke:var(--gold);stroke-width:3}
+.dg .dbox.hot{filter:drop-shadow(0 0 7px rgba(185,148,51,.75))}
+.dg .dbox.hot.core .bx{stroke:#EBDDB4}
+
+.narrbar .status{min-width:0}
+
+/* ---------- two ways graphic ---------- */
+.tw{gap:12px}
+.tw-head{text-align:center;display:grid;gap:6px;justify-items:center}
+.tw-head h4{font-family:var(--display);font-size:clamp(18px,2.3vw,25px)}
+.tw-head .sub{font-size:14px;color:var(--fg-soft)}
+.tw-pcs{justify-self:center;max-width:600px;width:100%;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--bg)}
+.tw-pcs .h{background:var(--navy);color:#F7F3E9;padding:9px 14px;display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:16px}
+.tw-pcs .h svg{width:24px;height:24px;flex:none}
+.tw-pcs .b{padding:11px 14px;font-size:14px;color:var(--fg-soft);text-align:center}
+.tw-fork{position:relative;height:34px;margin:-6px 0 -4px}
+.tw-fork i{position:absolute;background:var(--gold);display:block}
+.tw-fork .v{left:50%;top:0;width:2px;height:12px;margin-left:-1px}
+.tw-fork .hz{left:25%;right:25%;top:11px;height:2px}
+.tw-fork .l{left:25%;top:11px;width:2px;height:16px}
+.tw-fork .r{right:25%;top:11px;width:2px;height:16px;margin-right:-2px}
+.tw-fork .al,.tw-fork .ar{top:25px;width:0;height:0;background:none;border-left:6px solid transparent;border-right:6px solid transparent;border-top:8px solid var(--gold)}
+.tw-fork .al{left:25%;margin-left:-5px}
+.tw-fork .ar{right:25%;margin-right:-7px}
+.tw-opts{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(270px,1fr))}
+.tw-opt{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--bg);display:grid;grid-template-rows:auto 1fr auto;min-width:0}
+.tw-opt .h{background:var(--navy);color:#F7F3E9;padding:9px 14px;font-family:var(--display);font-weight:700;font-size:15.5px;border-left:4px solid var(--gold)}
+.tw-opt .b{display:grid;grid-template-columns:auto 1fr;gap:12px;padding:13px 14px;align-items:start;font-size:14px;color:var(--fg-soft);min-width:0}
+.tw-opt .b svg{width:62px;height:62px;flex:none}
+.tw-opt .take{margin:0 12px 12px;background:var(--ai-bg);border:1px solid rgba(185,148,51,.45);border-radius:7px;padding:8px 12px;font-style:italic;font-size:13.5px;text-align:center;color:var(--fg)}
+.tw-cost{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));border:1px solid var(--line);border-radius:10px;padding:12px;background:var(--bg)}
+.tw-c{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center;padding:4px 6px;min-width:0}
+.tw-c svg{width:46px;height:46px}
+.tw-c b{font-family:var(--display);font-size:16px;display:block}
+.tw-c span{font-size:13.5px;color:var(--fg-soft)}
+.tw-banner{background:linear-gradient(90deg,#EBDDB4,#F3E6C4);color:#0C1B30;border-radius:8px;padding:11px 16px;text-align:center;font-family:var(--display);font-style:italic;font-weight:700;font-size:15.5px}
+@media(max-width:640px){.tw-fork{display:none}}
+
+/* ---------- side-by-side step ---------- */
+.copy{display:grid;gap:12px;min-width:0}
+.step.side .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:16px 22px;align-items:start}
+.step.side .steptop{grid-column:1/-1}
+.step.side.imgleft .wrap{grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);align-items:center}
+.step.side.imgleft .plate{margin-top:0}
+.step.side .plate{min-width:0}
+.step.side .tw-head h4{font-size:clamp(17px,1.8vw,21px)}
+@media(max-width:680px){.step.side .wrap,.step.side.imgleft .wrap{grid-template-columns:1fr}}
+.step.side .script{font-size:clamp(14.5px,1.25vw,17px)}
+.plate{container-type:inline-size}
+@container (max-width:600px){.tw-fork{display:none}}
+
+@container (max-width:460px){
+  .tw .tplate,.tplate.tw{padding:12px}
+  .tw-head h4{font-size:16px}
+  .tw-head .sub{font-size:12.5px}
+  .tw-pcs .h,.tw-opt .h{font-size:14px;padding:8px 11px}
+  .tw-pcs .b,.tw-opt .b{font-size:12.5px;padding:10px 11px}
+  .tw-opt .b svg{width:44px;height:44px}
+  .tw-opt .take{font-size:12px;padding:7px 9px}
+  .tw-c b{font-size:14px}.tw-c span{font-size:12px}.tw-c svg{width:36px;height:36px}
+  .tw-banner{font-size:13.5px;padding:9px 12px}
+}
+
+/* click emphasis on drill-down beats */
+.ptr.press svg{animation:press .9s cubic-bezier(.3,.7,.3,1) 3}
+@keyframes press{0%,100%{transform:translate(7px,7px) scale(1)}40%{transform:translate(1px,1px) scale(.78)}60%{transform:translate(1px,1px) scale(.78)}}
+.step .plate + .plate{margin-top:14px}
+</style>
+
+<header class="mast">
+  <div class="wrap">
+    <div class="lock">
+      <span class="owl" aria-hidden="true"></span>
+      <div><b>ΠΙΣΤΟΣ</b><span>Pistos Information Protection</span></div>
+    </div>
+    <nav>
+      <a href="#ch0">Why now</a>
+      <a href="#ch1">Risk assessment</a>
+      <a href="#ch2">Plans</a>
+      <a href="#ch3">Scanning</a>
+      <a href="#ch4">Dashboard</a>
+      <a href="#vciso">vCISO</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="fwmarks" aria-hidden="true">
+    <span style="left:22%;top:13%;--r:-10deg">NIST 800-171</span>
+    <span style="left:80%;top:20%;--r:26deg">ISO 27001</span>
+    <span style="left:50%;top:27%;--r:0deg">NY DFS</span>
+    <span style="left:14%;top:38%;--r:-14deg">CMMC</span>
+    <svg class="rainman" viewBox="0 -45 170 260" style="left:50%;top:53%"><defs><mask id="fwdry" maskUnits="userSpaceOnUse" x="-20" y="-60" width="220" height="300"><rect x="-20" y="-60" width="220" height="300" fill="#fff"/><path d="M30 64 Q30 26 88 22 Q146 26 146 64 L140 215 L22 215 Z" fill="#000"/></mask></defs><g class="rain" mask="url(#fwdry)"><line x1="-2.6" y1="-58" x2="-4.8" y2="-45" style="animation-duration:1.16s;animation-delay:-0.48s"/><line x1="1.9" y1="-58" x2="-0.3" y2="-45" style="animation-duration:1.19s;animation-delay:-0.46s"/><line x1="7.1" y1="-58" x2="4.9" y2="-45" style="animation-duration:1.23s;animation-delay:-1.02s"/><line x1="9.9" y1="-58" x2="7.7" y2="-45" style="animation-duration:0.85s;animation-delay:-0.25s"/><line x1="14.3" y1="-58" x2="12.1" y2="-45" style="animation-duration:1.21s;animation-delay:-0.56s"/><line x1="18.7" y1="-58" x2="16.5" y2="-45" style="animation-duration:1.24s;animation-delay:-0.48s"/><line x1="21.6" y1="-58" x2="19.4" y2="-45" style="animation-duration:0.88s;animation-delay:-0.76s"/><line x1="26.8" y1="-58" x2="24.6" y2="-45" style="animation-duration:1.16s;animation-delay:-0.32s"/><line x1="31.3" y1="-58" x2="29.1" y2="-45" style="animation-duration:0.88s;animation-delay:-0.40s"/><line x1="36.0" y1="-58" x2="33.8" y2="-45" style="animation-duration:1.24s;animation-delay:-0.91s"/><line x1="38.1" y1="-58" x2="35.9" y2="-45" style="animation-duration:0.90s;animation-delay:-0.30s"/><line x1="42.9" y1="-58" x2="40.7" y2="-45" style="animation-duration:0.89s;animation-delay:-0.07s"/><line x1="46.5" y1="-58" x2="44.3" y2="-45" style="animation-duration:1.17s;animation-delay:-0.21s"/><line x1="52.8" y1="-58" x2="50.6" y2="-45" style="animation-duration:1.07s;animation-delay:-0.54s"/><line x1="56.6" y1="-58" x2="54.4" y2="-45" style="animation-duration:0.93s;animation-delay:-0.88s"/><line x1="58.9" y1="-58" x2="56.7" y2="-45" style="animation-duration:0.90s;animation-delay:-0.77s"/><line x1="65.9" y1="-58" x2="63.7" y2="-45" style="animation-duration:0.90s;animation-delay:-0.50s"/><line x1="70.0" y1="-58" x2="67.8" y2="-45" style="animation-duration:0.94s;animation-delay:-0.32s"/><line x1="73.2" y1="-58" x2="71.0" y2="-45" style="animation-duration:1.24s;animation-delay:-0.96s"/><line x1="77.3" y1="-58" x2="75.1" y2="-45" style="animation-duration:0.97s;animation-delay:-1.06s"/><line x1="80.1" y1="-58" x2="77.9" y2="-45" style="animation-duration:0.93s;animation-delay:-0.47s"/><line x1="83.9" y1="-58" x2="81.7" y2="-45" style="animation-duration:1.19s;animation-delay:-0.77s"/><line x1="89.6" y1="-58" x2="87.4" y2="-45" style="animation-duration:0.89s;animation-delay:-1.19s"/><line x1="92.4" y1="-58" x2="90.2" y2="-45" style="animation-duration:0.94s;animation-delay:-0.31s"/><line x1="96.9" y1="-58" x2="94.7" y2="-45" style="animation-duration:1.16s;animation-delay:-0.39s"/><line x1="101.3" y1="-58" x2="99.1" y2="-45" style="animation-duration:0.97s;animation-delay:-0.09s"/><line x1="104.8" y1="-58" x2="102.6" y2="-45" style="animation-duration:0.89s;animation-delay:-0.70s"/><line x1="110.3" y1="-58" x2="108.1" y2="-45" style="animation-duration:0.95s;animation-delay:-0.72s"/><line x1="114.4" y1="-58" x2="112.2" y2="-45" style="animation-duration:1.00s;animation-delay:-0.54s"/><line x1="119.8" y1="-58" x2="117.6" y2="-45" style="animation-duration:1.23s;animation-delay:-0.58s"/><line x1="123.0" y1="-58" x2="120.8" y2="-45" style="animation-duration:1.08s;animation-delay:-1.04s"/><line x1="127.6" y1="-58" x2="125.4" y2="-45" style="animation-duration:0.92s;animation-delay:-0.18s"/><line x1="131.3" y1="-58" x2="129.1" y2="-45" style="animation-duration:1.21s;animation-delay:-0.98s"/><line x1="136.0" y1="-58" x2="133.8" y2="-45" style="animation-duration:0.95s;animation-delay:-0.23s"/><line x1="139.6" y1="-58" x2="137.4" y2="-45" style="animation-duration:1.15s;animation-delay:-1.13s"/><line x1="143.2" y1="-58" x2="141.0" y2="-45" style="animation-duration:0.93s;animation-delay:-1.14s"/><line x1="149.5" y1="-58" x2="147.3" y2="-45" style="animation-duration:1.20s;animation-delay:-0.72s"/><line x1="153.7" y1="-58" x2="151.5" y2="-45" style="animation-duration:1.02s;animation-delay:-0.12s"/><line x1="157.4" y1="-58" x2="155.2" y2="-45" style="animation-duration:0.87s;animation-delay:-1.16s"/><line x1="161.2" y1="-58" x2="159.0" y2="-45" style="animation-duration:0.95s;animation-delay:-0.85s"/><line x1="164.2" y1="-58" x2="162.0" y2="-45" style="animation-duration:0.95s;animation-delay:-0.99s"/><line x1="168.1" y1="-58" x2="165.9" y2="-45" style="animation-duration:1.09s;animation-delay:-0.35s"/><line x1="172.5" y1="-58" x2="170.3" y2="-45" style="animation-duration:0.92s;animation-delay:-0.86s"/><line x1="176.0" y1="-58" x2="173.8" y2="-45" style="animation-duration:0.88s;animation-delay:-0.27s"/></g><g class="shake2"><path d="M30 64 Q30 18 88 15 Q146 18 146 64 Q133 53 120 64 Q107 53 94 64 Q88 59 88 64 Q82 53 68 64 Q55 53 42 64 Q36 58 30 64 Z"/><path d="M62 64 Q66 28 88 15 Q110 28 120 64" fill="none"/><path d="M88 8 V15 M88 64 V136 Q88 146 97 146 Q105 146 105 138" fill="none" stroke-linecap="round"/><path class="wet" d="M30 66 v7 M146 66 v7 M42 66 v5 M134 66 v5" fill="none" stroke-linecap="round"/></g><ellipse cx="60" cy="208" rx="40" ry="4" fill="none" class="wet"/><g class="shake1"><g transform="rotate(4 64 106)"><circle cx="64" cy="104" r="12"/><path d="M54 98 q4 -6 10 -5 q6 -1 10 5" fill="none"/><ellipse cx="59" cy="102" rx="3" ry="2.3" fill="none"/><ellipse cx="69" cy="102" rx="3" ry="2.3" fill="none"/><circle cx="59.6" cy="100.8" r="1.3" class="dot"/><circle cx="69.6" cy="100.8" r="1.3" class="dot"/><path d="M55 97.5 L61 95.2 M67 95.2 L73 97.5" fill="none" stroke-linecap="round"/><path d="M58 110.5 q1.5 -2 3 0 q1.5 2 3 0 q1.5 -2 3 0" fill="none" stroke-linecap="round"/><path class="wet" d="M77 99 q-2 4 0 5.5 q2 -1.5 0 -5.5 Z"/></g><path d="M44 130 Q47 118 64 118 Q81 118 84 130 L86 162 L42 162 Z"/><path d="M57 119 L64 134 L71 119" fill="none"/><path d="M64 122 L61 133 L64 140 L67 133 Z"/><path d="M82 127 Q91 131 88 136" fill="none" stroke-linecap="round"/><path d="M46 132 Q52 147 74 143" fill="none" stroke-linecap="round"/><path d="M42 162 L36 181 L43 200 L55 200 L49 182 L61 170 L68 182 L65 200 L77 200 L83 181 L86 162 Z"/><path d="M41 203 h16 M63 203 h16" fill="none" stroke-linecap="round"/><path class="wet" d="M50 114 q-1.5 3 0 4 q1.5 -1 0 -4 Z M80 124 q-1.5 3 0 4 q1.5 -1 0 -4 Z M45 138 q-1.5 3 0 4 q1.5 -1 0 -4 Z M57 90 q-1.5 3 0 4 q1.5 -1 0 -4 Z"/><path class="shiver" d="M34 120 q-4 6 0 12 M28 118 q-5 8 0 16 M93 152 q4 6 0 12" fill="none" stroke-linecap="round"/></g></svg>
+    <span style="left:85%;top:50%;--r:14deg">GLBA</span>
+    <span style="left:12%;top:57%;--r:-8deg">CIS</span>
+    <span style="left:22%;top:75%;--r:-16deg">PCI DSS</span>
+    <span style="left:83%;top:66%;--r:-24deg">NACHA</span>
+  </div>
+  <div class="wrap">
+    <h1>Your carrier appointments want proof.<em>Pistos Compliance Sentinel (PCS) delivers the evidence.</em></h1>
+    <p class="lede">This presentation walks through the actual PCS application, screen by screen, following the same sequence we use in a live demonstration. Every screenshot comes from the working application. Press Play to begin the narrated walkthrough, with an animated pointer highlighting each feature as it is explained.</p>
+    <div class="statline">
+      <div><b>700+</b><small>Agency customers</small></div>
+    </div>
+  </div>
+</div>
+
+<div class="narrbar" id="narrbar">
+  <div class="wrap">
+    <button class="btn go" id="playBtn">Play the narrated tour</button>
+    <button class="btn" id="stopBtn" hidden>Stop</button>
+  </div>
+</div>
+
+<div class="chap" id="ch0">
+  <div class="wrap">
+    <span class="chapno">Chapter 0</span>
+    <h2>Why now, and what PCS is</h2><p>Cybersecurity audits used to be a large-company problem. They are not anymore. Here is what changed, and what we built in response.</p>
+  </div>
+</div>
+
+<div class="step side imgleft" id="s01">
+  <div class="wrap">
+    <div class="steptop"><span class="n">0.1</span><h3>The audit has arrived at the small business</h3></div>
+    <figure class="plate"><div class="shot"><img src="shots/00-pcs-overview.jpg" alt="Pistos Compliance Sentinel overview. Your cloud services, devices, servers and people feed the PCS risk assessment, which uses the CIS Framework to produce evidence, vulnerability scans, control weaknesses, remediation and management reports. Results map to NIST, PCI DSS, NY DFS, ISO, HIPAA, CMMC, GLBA and NACHA. Tagline: Stronger security. Happier audits." loading="lazy" width="1340" height="733"><div class="ptr" aria-hidden="true"><svg viewBox="0 0 54 54"><path d="M3 3 L28 9 L20 15 L49 44 L44 49 L15 20 L9 28 Z" fill="#B99433" stroke="#0C1B30" stroke-width="2" stroke-linejoin="round"/></svg></div></div><figcaption>One assessment of your environment, mapped to every framework that applies</figcaption></figure>
+    <div class="copy"><p class="script">PCS gives you a clear view of your organization’s security and the work needed to improve it. Technical scan results sit alongside policies, disaster recovery and incident response plans, training records, and vendor documentation to show how well your protections hold together.</p><p class="script">The assessment identifies gaps, helps prioritize corrective work, and organizes supporting evidence against applicable requirements. Your team can use those results to strengthen daily operations, track progress, and respond to requests from auditors, carriers, and business partners.</p></div>
+    <audio class="vo" preload="none" src="voice/s01-veronica-take1.mp3"></audio>
+  </div>
+</div>
+
+<div class="step" id="s02">
+  <div class="wrap">
+    <div class="steptop"><span class="n">0.2</span><h3>Why now: the attacker has a new assistant</h3></div>
+    <div class="copy"><p class="script">The reason is artificial intelligence. Skilled attackers use AI to sharpen their craft and to write exploit code that is more effective, and therefore more dangerous, than anything they could produce alone. The larger change is what AI has done for everyone else. AI coding tools have turned people with minimal hacking skill into capable, persistent adversaries, so the pool of attackers able to break into a small business has grown enormously while the cost of attacking one has fallen to nearly nothing. Regulators, carriers, and insurers understand this, which is why their requirements now reach businesses that were never audited before.</p></div>
+    <figure class="plate"><div class="shot"><div class="tplate"><div class="rows3">
+  <div class="row3"><b>Skilled attackers</b><p>AI sharpens their craft and writes exploit code that is more effective, and therefore more dangerous, than anything they could produce alone.</p></div>
+  <div class="row3"><b>Unskilled attackers</b><p>AI coding tools turn people with minimal hacking skill into capable, persistent adversaries. This is the larger change.</p></div>
+  <div class="row3"><b>Small businesses</b><p>Now within reach of a far larger pool of attackers, at almost no cost to attack. Regulators, carriers, and insurers have noticed.</p></div>
+ </div></div><div class="ptr" aria-hidden="true"><svg viewBox="0 0 54 54"><path d="M3 3 L28 9 L20 15 L49 44 L44 49 L15 20 L9 28 Z" fill="#B99433" stroke="#0C1B30" stroke-width="2" stroke-linejoin="round"/></svg></div></div><figcaption>What changed, in three lines</figcaption></figure>
+    <audio class="vo" preload="none" src="voice/s02-v4.mp3"></audio>
+  </div>
+</div>
+
+<div class="step side" id="s03">
+  <div class="wrap">
+    <div class="steptop"><span class="n">0.3</span><h3>Two Ways to Manage Security and Compliance</h3></div>
+    <div class="copy"><p class="script">Pistos Compliance Sentinel gives small and mid-sized businesses two options for managing their cybersecurity and compliance programs.</p><p class="script"><b>Option 1 — Manage Internally or with an MSP:</b> The organization's personnel, or the managed service provider (MSP) that supports them, use PCS to evaluate risks, establish security priorities, maintain policies, coordinate audits and regulatory filings, oversee remediation, communicate with insurers, and manage incident response. PCS provides the evidence, assessments, compliance tracking, and remediation guidance needed to support these responsibilities, with a dedicated MSP role in the platform.</p><p class="script"><b>Option 2 — Engage a Fractional CISO:</b> An experienced vCISO assumes these same operational responsibilities, using PCS to manage and maintain the security program on the organization's behalf. Agency management retains responsibility for business decisions and approvals.</p><p class="script"><b>The cost advantage:</b> A full-time CISO typically costs $300,000–$450,000 annually, including benefits and overhead. A fractional CISO typically costs $60,000–$150,000 annually, depending on the size and complexity of the organization.</p><p class="script">PCS provides the technology and evidence. The organization chooses who manages the program.</p></div>
+    <figure class="plate"><div class="shot"><div class="tplate tw">
+  <div class="tw-head"><h4>Two Ways to Manage Security and Compliance</h4><div class="rule"></div><p class="sub">PCS provides the technology and evidence. The organization chooses who manages the program.</p></div>
+  <div class="tw-pcs" id="tw-pcs"><div class="h"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l8 3v6c0 5-3.5 8.6-8 11-4.5-2.4-8-6-8-11V5z" fill="#B99433" stroke="#F7F3E9" stroke-width="1.3"/><rect x="9" y="11" width="6" height="5" rx="1" fill="#132846"/><path d="M10.2 11V9.5a1.8 1.8 0 0 1 3.6 0V11" fill="none" stroke="#132846" stroke-width="1.3"/></svg>Pistos Compliance Sentinel (PCS)</div><div class="b">PCS maintains inventories, collects evidence, assesses controls, tracks compliance, and provides remediation guidance.</div></div>
+  <div class="tw-fork" aria-hidden="true"><i class="v"></i><i class="hz"></i><i class="l"></i><i class="r"></i><i class="al"></i><i class="ar"></i></div>
+  <div class="tw-opts">
+    <div class="tw-opt"><div class="h" id="tw-o1">Option 1 — Manage Internally or with an MSP</div>
+      <div class="b"><svg viewBox="0 0 64 64" fill="none" stroke="var(--fg)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="32" cy="15" r="7" fill="var(--gold-light)"/><circle cx="13" cy="21" r="5" fill="var(--gold-light)"/><circle cx="51" cy="21" r="5" fill="var(--gold-light)"/><path d="M4 39c0-5 4-9 9-9s9 4 9 9M42 39c0-5 4-9 9-9s9 4 9 9"/><path d="M20 35c0-6 5-11 12-11s12 5 12 11"/><rect x="16" y="39" width="32" height="14" rx="2" fill="var(--surface)"/><path d="M11 54h42"/><path d="M32 42l5 2v3c0 3-2 5-5 6-3-1-5-3-5-6v-3z" fill="var(--gold)"/></svg>
+      <p>The organization's personnel, or the MSP that supports them, use PCS to evaluate risks, establish security priorities, maintain policies, coordinate audits and regulatory filings, oversee remediation, communicate with insurers, and manage incident response.</p></div>
+      <div class="take" id="tw-o1t">The organization keeps direct control of the program.</div></div>
+    <div class="tw-opt"><div class="h" id="tw-o2">Option 2 — Engage a Fractional CISO</div>
+      <div class="b"><svg viewBox="0 0 64 64" fill="none" stroke="var(--fg)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="26" cy="16" r="8" fill="var(--gold-light)"/><path d="M7 48c0-11 8-18 19-18 4 0 8 1 11 3"/><path d="M44 28l12 4v9c0 8-5 13-12 16-7-3-12-8-12-16v-9z" fill="var(--gold)"/><rect x="40" y="41" width="8" height="7" rx="1.5" fill="#132846" stroke="none"/><path d="M41.5 41v-2.5a2.5 2.5 0 0 1 5 0V41" stroke="#132846"/></svg>
+      <p>An experienced vCISO uses PCS to perform these same responsibilities on the organization's behalf. Management retains responsibility for business decisions and approvals.</p></div>
+      <div class="take" id="tw-o2t">The organization gains experienced security leadership without a full-time executive.</div></div>
+  </div>
+  <div class="tw-cost">
+    <div class="tw-c" id="tw-c1"><svg viewBox="0 0 48 48" fill="var(--gold-light)" stroke="var(--fg)" stroke-width="1.8" aria-hidden="true"><ellipse cx="19" cy="40" rx="14" ry="5"/><path d="M5 40v-7M33 40v-7"/><ellipse cx="19" cy="33" rx="14" ry="5"/><path d="M5 33v-7M33 33v-7"/><ellipse cx="19" cy="26" rx="14" ry="5"/><path d="M5 26v-7M33 26v-7"/><ellipse cx="19" cy="19" rx="14" ry="5"/><ellipse cx="35" cy="10" rx="9" ry="3.6" fill="var(--gold)"/><path d="M26 10v5M44 10v5"/><ellipse cx="35" cy="15" rx="9" ry="3.6" fill="var(--gold)"/></svg><div><b>Full-time CISO</b><span>$300,000–$450,000 annually, including benefits and overhead.</span></div></div>
+    <div class="tw-c" id="tw-c2"><svg viewBox="0 0 48 48" fill="var(--gold-light)" stroke="var(--fg)" stroke-width="1.8" aria-hidden="true"><ellipse cx="19" cy="40" rx="14" ry="5"/><path d="M5 40v-7M33 40v-7"/><ellipse cx="19" cy="33" rx="14" ry="5"/><ellipse cx="36" cy="30" rx="8" ry="3.2" fill="var(--gold)"/><path d="M28 30v4M44 30v4"/><ellipse cx="36" cy="34" rx="8" ry="3.2" fill="var(--gold)"/></svg><div><b>Fractional CISO</b><span>$60,000–$150,000 annually, depending on the size and complexity of the organization.</span></div></div>
+  </div>
+  <div class="tw-banner" id="tw-ban">A fractional CISO provides experienced security leadership at a fraction of the cost.</div>
+</div><div class="ptr" aria-hidden="true"><svg viewBox="0 0 54 54"><path d="M3 3 L28 9 L20 15 L49 44 L44 49 L15 20 L9 28 Z" fill="#B99433" stroke="#0C1B30" stroke-width="2" stroke-linejoin="round"/></svg></div></div><figcaption>Two ways to run the program, and what each costs</figcaption></figure>
+    <audio class="vo" preload="none" src="voice/s03-v4.mp3"></audio>
+  </div>
+</div>
+
+<div class="step" id="s04">
+  <div class="wrap">
+    <div class="steptop"><span class="n">0.4</span><h3>How PCS Works</h3></div>
+    <div class="copy"><p class="script">PCS collects evidence from hardware and application inventories, security scans, policies, contracts, personnel records, and insurance documentation.</p><p class="script">The company profile identifies applicable regulations and security requirements based on the agency's industry, size, systems, sensitive data, and obligations. PCS evaluates the evidence against security controls and maintains a centralized risk assessment.</p><p class="script">Results feed compliance assessments, the risk register, management reports, and asset risk scores. Remediation guidance and recurring scans help correct deficiencies and keep assessments current.</p><p class="script">Pistos uses AI at six points in this cycle: checking returned inventory workbooks, running the agency management system checks, narrating training, drafting starting risk ratings, drafting management reports, and drafting fix steps. Every AI-generated artifact is checked by a second model and approved by a Pistos compliance expert before a client sees it.</p></div>
+    <figure class="plate"><div class="diag"><div class="diag-in"><svg class="dg" viewBox="0 0 682 762" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="dgtitle">
+<title id="dgtitle">How Pistos Compliance Sentinel works: evidence in, PCS decides, results out</title>
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" class="ahp"/></marker></defs>
+<text class="hdr" x="118.0" y="30" text-anchor="middle">Evidence in</text>
+<text class="hdr" x="343.0" y="30" text-anchor="middle">PCS decides</text>
+<text class="hdr" x="564.0" y="30" text-anchor="middle">Results out</text>
+<g id="d-inv" class="dbox src">
+<rect class="bx" x="20" y="48" width="196" height="52" rx="8"/>
+<text class="t" x="118.0" y="71.5" text-anchor="middle">Inventories</text>
+<text class="s" x="118.0" y="85.5" text-anchor="middle">Assets, people, apps</text>
+
+<g class="badge" transform="translate(214,50) rotate(45)"><rect x="-9" y="-9" width="18" height="18" rx="2"/><text x="0" y="3.6" text-anchor="middle" transform="rotate(-45)">1</text></g>
+</g>
+<g id="d-comp" class="dbox scan">
+<rect class="bx" x="20" y="116" width="196" height="52" rx="8"/>
+<text class="t" x="118.0" y="139.5" text-anchor="middle">Computers</text>
+<text class="s" x="118.0" y="153.5" text-anchor="middle">Workstations, servers</text>
+
+</g>
+<g id="d-net" class="dbox scan">
+<rect class="bx" x="20" y="184" width="196" height="52" rx="8"/>
+<text class="t" x="118.0" y="207.5" text-anchor="middle">Internet-facing</text>
+<text class="s" x="118.0" y="221.5" text-anchor="middle">Domain, email, ports</text>
+
+</g>
+<g id="d-app" class="dbox scan">
+<rect class="bx" x="20" y="252" width="196" height="66" rx="8"/>
+<text class="t" x="118.0" y="276.0" text-anchor="middle">Applications</text>
+<text class="s" x="118.0" y="290.0" text-anchor="middle">Office apps, CRMs</text>
+<text class="s" x="118.0" y="303.0" text-anchor="middle">Third-party, in-house</text>
+
+<g class="badge" transform="translate(214,254) rotate(45)"><rect x="-9" y="-9" width="18" height="18" rx="2"/><text x="0" y="3.6" text-anchor="middle" transform="rotate(-45)">2</text></g>
+</g>
+<g id="d-pol" class="dbox src">
+<rect class="bx" x="20" y="334" width="196" height="52" rx="8"/>
+<text class="t" x="118.0" y="357.5" text-anchor="middle">Policies, contracts</text>
+<text class="s" x="118.0" y="371.5" text-anchor="middle">Adopted and signed</text>
+
+</g>
+<g id="d-ppl" class="dbox src">
+<rect class="bx" x="20" y="402" width="196" height="52" rx="8"/>
+<text class="t" x="118.0" y="425.5" text-anchor="middle">People, insurance</text>
+<text class="s" x="118.0" y="439.5" text-anchor="middle">HR forms, dec sheets</text>
+
+<g class="badge" transform="translate(214,404) rotate(45)"><rect x="-9" y="-9" width="18" height="18" rx="2"/><text x="0" y="3.6" text-anchor="middle" transform="rotate(-45)">3</text></g>
+</g>
+<g id="d-prof" class="dbox src">
+<rect class="bx" x="258" y="48" width="170" height="52" rx="8"/>
+<text class="t" x="343.0" y="71.5" text-anchor="middle">Company profile</text>
+<text class="s" x="343.0" y="85.5" text-anchor="middle">Sets the tier</text>
+
+</g>
+<g id="d-ra" class="dbox core">
+<rect class="bx" x="258" y="130" width="170" height="340" rx="8"/>
+<text class="t" x="343.0" y="271.5" text-anchor="middle">Risk assessment</text>
+<text class="s" x="343.0" y="285.5" text-anchor="middle">CIS Benchmark</text>
+<text class="s" x="343.0" y="298.5" text-anchor="middle">Controls</text>
+<text class="s" x="343.0" y="311.5" text-anchor="middle">met or not met</text>
+<text class="s" x="343.0" y="324.5" text-anchor="middle"></text>
+<text class="s" x="343.0" y="337.5" text-anchor="middle">Source of truth</text>
+
+</g>
+<g id="d-reg" class="dbox out"><rect class="bx" x="466" y="130" width="196" height="146" rx="8"/><text class="t" x="564.0" y="156" text-anchor="middle">Regulations</text><text class="s" x="564.0" y="172" text-anchor="middle">Satisfy one, satisfy many</text><g class="chip"><rect x="476" y="196" width="84" height="20" rx="4"/><text x="518" y="209.5" text-anchor="middle">NY DFS 500</text></g><g class="chip"><rect x="568" y="196" width="84" height="20" rx="4"/><text x="610" y="209.5" text-anchor="middle">HIPAA</text></g><g class="chip"><rect x="476" y="222" width="84" height="20" rx="4"/><text x="518" y="235.5" text-anchor="middle">PCI DSS</text></g><g class="chip"><rect x="568" y="222" width="84" height="20" rx="4"/><text x="610" y="235.5" text-anchor="middle">ISO 27001</text></g><g class="chip"><rect x="476" y="248" width="84" height="20" rx="4"/><text x="518" y="261.5" text-anchor="middle">SOC 2</text></g><g class="chip"><rect x="568" y="248" width="84" height="20" rx="4"/><text x="610" y="261.5" text-anchor="middle">NIST 800-171</text></g></g>
+<g id="d-reg2" class="dbox out">
+<rect class="bx" x="466" y="292" width="196" height="52" rx="8"/>
+<text class="t" x="564.0" y="315.5" text-anchor="middle">Risk register</text>
+<text class="s" x="564.0" y="329.5" text-anchor="middle">Gaps, owners, dates</text>
+
+<g class="badge" transform="translate(660,294) rotate(45)"><rect x="-9" y="-9" width="18" height="18" rx="2"/><text x="0" y="3.6" text-anchor="middle" transform="rotate(-45)">4</text></g>
+</g>
+<g id="d-rep" class="dbox out">
+<rect class="bx" x="466" y="360" width="196" height="52" rx="8"/>
+<text class="t" x="564.0" y="383.5" text-anchor="middle">Reports</text>
+<text class="s" x="564.0" y="397.5" text-anchor="middle">Management, auditor</text>
+
+<g class="badge" transform="translate(660,362) rotate(45)"><rect x="-9" y="-9" width="18" height="18" rx="2"/><text x="0" y="3.6" text-anchor="middle" transform="rotate(-45)">5</text></g>
+</g>
+<g id="d-score" class="dbox out">
+<rect class="bx" x="466" y="428" width="196" height="52" rx="8"/>
+<text class="t" x="564.0" y="451.5" text-anchor="middle">Asset scoring</text>
+<text class="s" x="564.0" y="465.5" text-anchor="middle">Weighted by importance</text>
+
+</g>
+<g id="d-fix" class="dbox src">
+<rect class="bx" x="258" y="512" width="170" height="52" rx="8"/>
+<text class="t" x="343.0" y="535.5" text-anchor="middle">Fix and rescan</text>
+<text class="s" x="343.0" y="549.5" text-anchor="middle">Guides, schedule</text>
+
+<g class="badge" transform="translate(426,514) rotate(45)"><rect x="-9" y="-9" width="18" height="18" rx="2"/><text x="0" y="3.6" text-anchor="middle" transform="rotate(-45)">6</text></g>
+</g>
+<path class="ar" d="M118.0 100 L118.0 114"/>
+<path class="ar" d="M216 142 L255 142"/>
+<path class="ar" d="M216 210 L255 210"/>
+<path class="ar" d="M216 285 L255 285"/>
+<path class="ar" d="M216 360 L255 360"/>
+<path class="ar" d="M216 428 L255 428"/>
+<path class="ar" d="M343.0 100 L343.0 128"/>
+<path class="ar" d="M428 203 L463 203"/>
+<path class="ar" d="M428 318 L463 318"/>
+<path class="ar" d="M428 386 L463 386"/>
+<path class="ar" d="M428 454 L463 454"/>
+<path class="ar" d="M564.0 480 L564.0 538 L431 538"/>
+<path class="ar" d="M258 538 L118.0 538 L118.0 456"/>
+<g id="d-ai" class="dbox ai"><rect class="bx" x="20" y="592" width="642" height="58" rx="8"/><g class="badge big" transform="translate(44,621) rotate(45)"><rect x="-13" y="-13" width="26" height="26" rx="3"/><text x="0" y="4" text-anchor="middle" transform="rotate(-45)">AI</text></g><text class="t" x="70" y="616">Where Pistos uses AI</text><text class="s" x="70" y="634">AI-generated artifacts are checked by a second model and approved by a Pistos compliance expert</text></g>
+<g class="legend"><g class="badge" transform="translate(34,680) rotate(45)"><rect x="-8" y="-8" width="16" height="16" rx="2"/><text x="0" y="3.4" text-anchor="middle" transform="rotate(-45)">1</text></g><text class="lt" x="52" y="684"><tspan class="lb">Inventories:</tspan> AI checks returned workbooks</text></g>
+<g class="legend"><g class="badge" transform="translate(34,706) rotate(45)"><rect x="-8" y="-8" width="16" height="16" rx="2"/><text x="0" y="3.4" text-anchor="middle" transform="rotate(-45)">2</text></g><text class="lt" x="52" y="710"><tspan class="lb">App checks:</tspan> AI runs the AMS check</text></g>
+<g class="legend"><g class="badge" transform="translate(34,732) rotate(45)"><rect x="-8" y="-8" width="16" height="16" rx="2"/><text x="0" y="3.4" text-anchor="middle" transform="rotate(-45)">3</text></g><text class="lt" x="52" y="736"><tspan class="lb">Training:</tspan> narrated with AI voices</text></g>
+<g class="legend"><g class="badge" transform="translate(364,680) rotate(45)"><rect x="-8" y="-8" width="16" height="16" rx="2"/><text x="0" y="3.4" text-anchor="middle" transform="rotate(-45)">4</text></g><text class="lt" x="382" y="684"><tspan class="lb">Risk register:</tspan> AI drafts starting ratings</text></g>
+<g class="legend"><g class="badge" transform="translate(364,706) rotate(45)"><rect x="-8" y="-8" width="16" height="16" rx="2"/><text x="0" y="3.4" text-anchor="middle" transform="rotate(-45)">5</text></g><text class="lt" x="382" y="710"><tspan class="lb">Reports:</tspan> AI drafts management reports</text></g>
+<g class="legend"><g class="badge" transform="translate(364,732) rotate(45)"><rect x="-8" y="-8" width="16" height="16" rx="2"/><text x="0" y="3.4" text-anchor="middle" transform="rotate(-45)">6</text></g><text class="lt" x="382" y="736"><tspan class="lb">Fix and rescan:</tspan> AI drafts fix steps</text></g>
+</svg><div class="ptr" aria-hidden="true"><svg viewBox="0 0 54 54"><path d="M3 3 L28 9 L20 15 L49 44 L44 49 L15 20 L9 28 Z" fill="#B99433" stroke="#0C1B30" stroke-width="2" stroke-linejoin="round"/></svg></div></div></div><figcaption>Evidence in, PCS decides, results out</figcaption></figure>
+    <audio class="vo" preload="none" src="voice/s04-v4.mp3"></audio>
+  </div>
+</div>
+
+<div class="chap" id="ch1">
+  <div class="wrap">
+    <span class="chapno">Chapter 1</span>
+    <h2>The risk assessment</h2><p>Every audit requires evidence that security controls are in place and working. This chapter shows how PCS traces that evidence through four levels, from the overall security program to the results of a specific computer’s security scan.</p>
+  </div>
+</div>
+
+<div class="step" id="s1">
+  <div class="wrap">
+    <div class="steptop"><span class="n">1.1</span><h3>Risk Assessment Overview</h3></div>
+    <div class="copy"><p class="script">PCS evaluates 87 applicable security controls: 54 from the baseline security program and 33 additional controls required by applicable regulations.</p><p class="script">Here, 72 controls are met and 15 are unmet. PCS calculates the score by dividing the controls met by the applicable controls (72 ÷ 87), producing an <b>83% score against a 92% target</b>. Two additional controls are classified as not applicable and excluded from the calculation.</p><p class="script">The dashboard displays peer comparisons and filters by regulation, control family, status, and evidence type. Each control category expands to show supporting evidence and deficiencies requiring remediation.</p><p class="script">Selecting the Data Protection control category opens the controls within it.</p></div>
+    <figure class="plate"><div class="shot"><img src="shots/01-ra-collapsed.jpg" alt="Risk assessment · control categories collapsed" loading="lazy" width="1568" height="702"><div class="ptr" aria-hidden="true"><svg viewBox="0 0 54 54"><path d="M3 3 L28 9 L20 15 L49 44 L44 49 L15 20 L9 28 Z" fill="#B99433" stroke="#0C1B30" stroke-width="2" stroke-linejoin="round"/></svg></div></div><figcaption>Risk assessment · control categories collapsed</figcaption></figure>
+    <audio class="vo" preload="none" src="voice/s1-v4.mp3"></audio>
+  </div>
+</div>
+
+<div class="step" id="s2">
+  <div class="wrap">
+    <div class="steptop"><span class="n">1.2</span><h3>Expanding a Control Category</h3></div>
+    <div class="copy"><p class="script">Expanding a control category displays its security controls, compliance status, evidence, and applicable regulations.</p><p class="script">Here, Data Protection contains 11 controls: 10 met and one lacking evidence. <b>Failed checks</b> confirm security deficiencies; <b>missing evidence</b> means compliance cannot be verified.</p><p class="script">PCS provides remediation instructions and PowerShell scripts for failed checks. Missing evidence requires additional scans or documentation. Subsequent evaluations verify corrections, update control statuses and compliance scores, and track remediation progress.</p><p class="script">Selecting control 3.6, Encrypt data on end-user devices, opens the evidence behind it.</p></div>
+    <figure class="plate"><div class="shot"><img src="shots/02-ra-category-open.jpg" alt="Risk assessment · Data Protection control category expanded" loading="lazy" width="1568" height="702"><div class="ptr" aria-hidden="true"><svg viewBox="0 0 54 54"><path d="M3 3 L28 9 L20 15 L49 44 L44 49 L15 20 L9 28 Z" fill="#B99433" stroke="#0C1B30" stroke-width="2" stroke-linejoin="round"/></svg></div></div><figcaption>Risk assessment · Data Protection control category expanded</figcaption></figure>
+    <audio class="vo" preload="none" src="voice/s2-v4.mp3"></audio>
+  </div>
+</div>
+
+<div class="step" id="s3">
+  <div class="wrap">
+    <div class="steptop"><span class="n">1.3</span><h3>How PCS Evaluates Control Evidence</h3></div>
+    <div class="copy"><p class="script">Control 3.6 assesses whether the agency protects data on its computers. PCS combines a required disk encryption scan with two supporting controls: the adopted data protection policy and a separate laptop encryption check.</p><p class="script">Each scan independently tests a specific security requirement. PCS combines their results with policy evidence to assess the overall control, identify deficiencies, and recommend remediation.</p><p class="script">vCISOs review the evidence and advise management, while agency management and authorized auditors make the final compliance determination.</p><p class="script">Selecting the Disk encryption check opens the scan evidence that supports it.</p></div>
+    <figure class="plate"><div class="shot"><img src="shots/03-control-detail.jpg" alt="Control 3.6 · Encrypt data on end-user devices" loading="lazy" width="1568" height="702"><div class="ptr" aria-hidden="true"><svg viewBox="0 0 54 54"><path d="M3 3 L28 9 L20 15 L49 44 L44 49 L15 20 L9 28 Z" fill="#B99433" stroke="#0C1B30" stroke-width="2" stroke-linejoin="round"/></svg></div></div><figcaption>Control 3.6 · Encrypt data on end-user devices</figcaption></figure>
+    <audio class="vo" preload="none" src="voice/s3-v4.mp3"></audio>
+  </div>
+</div>
+
+<div class="step" id="s4">
+  <div class="wrap">
+    <div class="steptop"><span class="n">1.4</span><h3>Verifying Compliance Through Scan Evidence</h3></div>
+    <div class="copy"><p class="script">Selecting the Disk encryption check opens its evidence page: every computer tested, the date it was tested, and the result the scanner recorded.</p><p class="script">Selecting a computer's scan opens the full Windows endpoint scan report for that machine. Each Skopein scan records the system tested, the security control, the configuration found, the test date, and the pass or fail result.</p><p class="script">PCS evaluates this evidence, using the worst result from the past ninety days to determine compliance. Recurring scans verify corrections, update compliance scores, and maintain an auditable history.</p></div>
+    <figure class="plate"><div class="shot"><img src="shots/04-windows-evidence.jpg" alt="Evidence · W-14 Disk encryption, every computer tested" loading="lazy" width="1568" height="702"><div class="ptr" aria-hidden="true"><svg viewBox="0 0 54 54"><path d="M3 3 L28 9 L20 15 L49 44 L44 49 L15 20 L9 28 Z" fill="#B99433" stroke="#0C1B30" stroke-width="2" stroke-linejoin="round"/></svg></div></div><figcaption>Evidence · W-14 Disk encryption, every computer tested</figcaption></figure><figure class="plate"><div class="shot"><img src="shots/19-scan-angela-top.jpg" alt="Windows endpoint scan · HL-ANGELA" loading="lazy" width="1568" height="702"><div class="ptr" aria-hidden="true"><svg viewBox="0 0 54 54"><path d="M3 3 L28 9 L20 15 L49 44 L44 49 L15 20 L9 28 Z" fill="#B99433" stroke="#0C1B30" stroke-width="2" stroke-linejoin="round"/></svg></div></div><figcaption>Windows endpoint scan · HL-ANGELA</figcaption></figure>
+    <audio class="vo" preload="none" src="voice/s4-v4.mp3"></audio>
+  </div>
+</div>
+
+<div class="chap" id="ch2">
+  <div class="wrap">
+    <span class="chapno">Chapter 2</span>
+    <h2>Policy, plans, and the two inventories</h2><p>The written program, and the lists of what the company actually owns. Watch where those lists turn up again.</p>
+  </div>
+</div>
+
+<div class="step" id="s5">
+  <div class="wrap">
+    <div class="steptop"><span class="n">2.1</span><h3>Security Policies and Governance</h3></div>
+    <div class="copy"><p class="script">Security policies establish the rules for protecting company information, managing access, securing systems, and responding to threats. They define what the company requires and provide a documented basis for employee responsibilities and security controls.</p><p class="script">PCS organizes 18 policies by CIS Control category and records their adoption dates. These dates provide evidence of formal approval and allow the risk assessment to identify and track policies that have not been adopted.</p></div>
+    <figure class="plate"><div class="shot"><img src="shots/05-policies.jpg" alt="Policies · 18 adopted" loading="lazy" width="1568" height="702"><div class="ptr" aria-hidden="true"><svg viewBox="0 0 54 54"><path d="M3 3 L28 9 L20 15 L49 44 L44 49 L15 20 L9 28 Z" fill="#B99433" stroke="#0C1B30" stroke-width="2" stroke-linejoin="round"/></svg></div></div><figcaption>Policies · 18 adopted</figcaption></figure>
+    <audio class="vo" preload="none" src="voice/s5-v4.mp3"></audio>
+  </div>
+</div>
+
+<div class="step" id="s6">
+  <div class="wrap">
+    <div class="steptop"><span class="n">2.2</span><h3>Hardware inventory</h3></div>
+    <div class="copy"><p class="script">The hardware inventory is discovered and imported by Microsoft Intune, identifying each computer, assigned user, operating system, and operational importance.</p><p class="script">PCS allows users to select which devices to assess. Skopein scans those devices against CIS Benchmarks and supplies evidence that PCS evaluates against applicable security and regulatory requirements.</p><p class="script">Recurring scans update the evidence, track remediation progress, and keep risk assessments current.</p></div>
+    <figure class="plate"><div class="shot"><img src="shots/06-hardware.jpg" alt="Hardware inventory · 11 computers" loading="lazy" width="1568" height="702"><div class="ptr" aria-hidden="true"><svg viewBox="0 0 54 54"><path d="M3 3 L28 9 L20 15 L49 44 L44 49 L15 20 L9 28 Z" fill="#B99433" stroke="#0C1B30" stroke-width="2" stroke-linejoin="round"/></svg></div></div><figcaption>Hardware inventory · 11 computers</figcaption></figure>
+    <audio class="vo" preload="none" src="voice/s6-v4.mp3"></audio>
+  </div>
+</div>
+
+<div class="step" id="s7">
+  <div class="wrap">
+    <div class="steptop"><span class="n">2.3</span><h3>Application inventory</h3></div>
+    <div class="copy"><p class="script">The application inventory identifies each system and cloud service, its vendor, login address, operational importance, and whether it contains sensitive data.</p><p class="script">Here, Microsoft 365 and Applied Epic both contain sensitive data and are classified as critical. Microsoft 365 supports essential business communications and document storage, while Applied Epic is the system of record for client and policy information. Disruption or compromise of either could significantly affect agency operations.</p><p class="script">The inventory also tracks scan dates and allows applications to be added, edited, imported, or exported.</p></div>
+    <figure class="plate"><div class="shot"><img src="shots/07-applications.jpg" alt="Application inventory · system of record flagged" loading="lazy" width="1568" height="702"><div class="ptr" aria-hidden="true"><svg viewBox="0 0 54 54"><path d="M3 3 L28 9 L20 15 L49 44 L44 49 L15 20 L9 28 Z" fill="#B99433" stroke="#0C1B30" stroke-width="2" stroke-linejoin="round"/></svg></div></div><figcaption>Application inventory · system of record flagged</figcaption></figure>
+    <audio class="vo" preload="none" src="voice/s7-v4.mp3"></audio>
+  </div>
+</div>
+
+<div class="step" id="s8">
+  <div class="wrap">
+    <div class="steptop"><span class="n">2.4</span><h3>Incident response plan</h3></div>
+    <div class="copy"><p class="script">The incident response plan is activated when an account or computer is compromised, malware is detected, sensitive information is exposed, or suspicious activity suggests a breach.</p><p class="script">The plan organizes 13 response steps covering containment, investigation, evidence preservation, threat removal, system recovery, and follow-up. Each step identifies the required action, responsible person, deadline, completion status, and notes. The first priority is to isolate affected computers without powering them off, preserving evidence for investigation.</p></div>
+    <figure class="plate"><div class="shot"><img src="shots/08-incident-plan.jpg" alt="Incident response plan · 13 steps" loading="lazy" width="1568" height="702"><div class="ptr" aria-hidden="true"><svg viewBox="0 0 54 54"><path d="M3 3 L28 9 L20 15 L49 44 L44 49 L15 20 L9 28 Z" fill="#B99433" stroke="#0C1B30" stroke-width="2" stroke-linejoin="round"/></svg></div></div><figcaption>Incident response plan · 13 steps</figcaption></figure>
+    <audio class="vo" preload="none" src="voice/s8-v4.mp3"></audio>
+  </div>
+</div>
+
+<div class="step" id="s9">
+  <div class="wrap">
+    <div class="steptop"><span class="n">2.5</span><h3>Disaster recovery plan</h3></div>
+    <div class="copy"><p class="script">The disaster recovery plan is activated when a computer is lost, stolen, or fails; a critical cloud service becomes unavailable; or the office cannot be accessed. If a cyberattack or compromised account is suspected, the incident response plan takes priority.</p><p class="script">The plan identifies the recovery team and provides 14 steps, beginning with employee safety and damage assessment. Each step has an assigned responsibility, deadline, completion status, and space for notes to track recovery progress.</p></div>
+    <figure class="plate"><div class="shot"><img src="shots/09-dr-plan.jpg" alt="Disaster recovery plan · 14 steps" loading="lazy" width="1568" height="702"><div class="ptr" aria-hidden="true"><svg viewBox="0 0 54 54"><path d="M3 3 L28 9 L20 15 L49 44 L44 49 L15 20 L9 28 Z" fill="#B99433" stroke="#0C1B30" stroke-width="2" stroke-linejoin="round"/></svg></div></div><figcaption>Disaster recovery plan · 14 steps</figcaption></figure>
+    <audio class="vo" preload="none" src="voice/s9-v4.mp3"></audio>
+  </div>
+</div>
+
+<div class="step" id="s10">
+  <div class="wrap">
+    <div class="steptop"><span class="n">2.6</span><h3>Disaster Recovery Plan and Response Tracking</h3></div>
+    <div class="copy"><p class="script">The disaster recovery plan identifies the response team, assigns responsibilities, and provides step-by-step instructions for restoring operations after a disruption.</p><p class="script">Each recovery step identifies the required action, responsible person, and completion deadline. Progress is tracked by updating its status and recording notes. The plan also references the hardware inventory to locate affected devices and coordinate recovery or replacement.</p></div>
+    <figure class="plate"><div class="shot"><img src="shots/10-dr-equipment.jpg" alt="Disaster recovery plan · step EQ1 reads the hardware inventory" loading="lazy" width="1568" height="702"><div class="ptr" aria-hidden="true"><svg viewBox="0 0 54 54"><path d="M3 3 L28 9 L20 15 L49 44 L44 49 L15 20 L9 28 Z" fill="#B99433" stroke="#0C1B30" stroke-width="2" stroke-linejoin="round"/></svg></div></div><figcaption>Disaster recovery plan · step EQ1 reads the hardware inventory</figcaption></figure>
+    <audio class="vo" preload="none" src="voice/s10-v4.mp3"></audio>
+  </div>
+</div>
+
+<div class="chap" id="ch3">
+  <div class="wrap">
+    <span class="chapno">Chapter 3</span>
+    <h2>The scans, and what each one produces</h2><p>Six kinds of scan on a single page, and a report written for the owner rather than the engineer.</p>
+  </div>
+</div>
+
+<div class="step" id="s11">
+  <div class="wrap">
+    <div class="steptop"><span class="n">3.1</span><h3>Run a scan</h3></div>
+    <div class="copy"><p class="script">The Run a Scan page brings all six scan types into one view: Microsoft 365, external exposure, Windows endpoints, host information, web applications, and active application testing. For each scan, PCS displays the systems being checked, the latest results, the next scheduled run, and its current status. Users can run or schedule scans, open reports, and download PDF findings. Scans requiring a connection or credentials are clearly identified.</p><p class="script">Selecting Open the report under any scan opens its latest report.</p></div>
+    <figure class="plate"><div class="shot"><img src="shots/11-run-a-scan.jpg" alt="Run a scan · six scan types" loading="lazy" width="1568" height="702"><div class="ptr" aria-hidden="true"><svg viewBox="0 0 54 54"><path d="M3 3 L28 9 L20 15 L49 44 L44 49 L15 20 L9 28 Z" fill="#B99433" stroke="#0C1B30" stroke-width="2" stroke-linejoin="round"/></svg></div></div><figcaption>Run a scan · six scan types</figcaption></figure>
+    <audio class="vo" preload="none" src="voice/s11-v4.mp3"></audio>
+  </div>
+</div>
+
+<div class="step" id="s12">
+  <div class="wrap">
+    <div class="steptop"><span class="n">3.2</span><h3>Windows endpoints report</h3></div>
+    <div class="copy"><p class="script">The Windows endpoint scan ran thirty-two checks on this computer: twenty-six passed, five returned warnings, and one failed. The report groups findings by business risk, worst first, and explains each one in plain English.</p><p class="script">Every failed check carries two ways to fix it. Step-by-step instructions open a guide written for someone who is not technical, explaining what the control does, why it matters, and exactly what to do.</p><p class="script">The remediation guide covers the same fix as PowerShell for technical staff and managed service providers, so one pass can close the same gap across every computer in the agency.</p></div>
+    <figure class="plate"><div class="shot"><img src="shots/12-report-windows.jpg" alt="Windows endpoints scan · HL-ANGELA, 32 checks" loading="lazy" width="1568" height="702"><div class="ptr" aria-hidden="true"><svg viewBox="0 0 54 54"><path d="M3 3 L28 9 L20 15 L49 44 L44 49 L15 20 L9 28 Z" fill="#B99433" stroke="#0C1B30" stroke-width="2" stroke-linejoin="round"/></svg></div></div><figcaption>Windows endpoints scan · HL-ANGELA, 32 checks</figcaption></figure><figure class="plate"><div class="shot"><img src="shots/19-scan-angela-top.jpg" alt="The one failed check, with both ways to fix it" loading="lazy" width="1568" height="702"><div class="ptr" aria-hidden="true"><svg viewBox="0 0 54 54"><path d="M3 3 L28 9 L20 15 L49 44 L44 49 L15 20 L9 28 Z" fill="#B99433" stroke="#0C1B30" stroke-width="2" stroke-linejoin="round"/></svg></div></div><figcaption>The one failed check, with both ways to fix it</figcaption></figure><figure class="plate"><div class="shot"><img src="shots/23-fix-stepbystep.jpg" alt="Step-by-step instructions · written for a non-technical reader" loading="lazy" width="1568" height="702"><div class="ptr" aria-hidden="true"><svg viewBox="0 0 54 54"><path d="M3 3 L28 9 L20 15 L49 44 L44 49 L15 20 L9 28 Z" fill="#B99433" stroke="#0C1B30" stroke-width="2" stroke-linejoin="round"/></svg></div></div><figcaption>Step-by-step instructions · written for a non-technical reader</figcaption></figure><figure class="plate"><div class="shot"><img src="shots/21-fix-powershell.jpg" alt="The remediation guide · PowerShell, for technical staff and MSPs" loading="lazy" width="1568" height="702"><div class="ptr" aria-hidden="true"><svg viewBox="0 0 54 54"><path d="M3 3 L28 9 L20 15 L49 44 L44 49 L15 20 L9 28 Z" fill="#B99433" stroke="#0C1B30" stroke-width="2" stroke-linejoin="round"/></svg></div></div><figcaption>The remediation guide · PowerShell, for technical staff and MSPs</figcaption></figure>
+    <audio class="vo" preload="none" src="voice/s12-v4.mp3"></audio>
+  </div>
+</div>
+
+<div class="step" id="s13">
+  <div class="wrap">
+    <div class="steptop"><span class="n">3.3</span><h3>Microsoft 365 report</h3></div>
+    <div class="copy"><p class="script">This example of Microsoft 365 scan completed 26 security checks, with 24 passing, two warnings, and no failures. Both warnings concern activity logging and record retention, which are essential for investigating security incidents.</p><p class="script">The report explains each finding, identifies the affected setting, and provides links to supporting evidence and step-by-step remediation instructions.</p></div>
+    <figure class="plate"><div class="shot"><img src="shots/13-report-m365.jpg" alt="Skopein report · Microsoft 365" loading="lazy" width="1568" height="702"><div class="ptr" aria-hidden="true"><svg viewBox="0 0 54 54"><path d="M3 3 L28 9 L20 15 L49 44 L44 49 L15 20 L9 28 Z" fill="#B99433" stroke="#0C1B30" stroke-width="2" stroke-linejoin="round"/></svg></div></div><figcaption>Skopein report · Microsoft 365</figcaption></figure>
+    <audio class="vo" preload="none" src="voice/s13-v4.mp3"></audio>
+  </div>
+</div>
+
+<div class="step" id="s14">
+  <div class="wrap">
+    <div class="steptop"><span class="n">3.4</span><h3>External scan report</h3></div>
+    <div class="copy"><p class="script">The external scan examines the company's internet presence from the outside. Five checks ran and two returned warnings. The top risk is email being faked in transit, which is exactly how wire fraud begins. The second is a domain registration about to expire, which would take the company's email and website down with it.</p></div>
+    <figure class="plate"><div class="shot"><img src="shots/14-report-external.jpg" alt="Skopein report · External" loading="lazy" width="1568" height="702"><div class="ptr" aria-hidden="true"><svg viewBox="0 0 54 54"><path d="M3 3 L28 9 L20 15 L49 44 L44 49 L15 20 L9 28 Z" fill="#B99433" stroke="#0C1B30" stroke-width="2" stroke-linejoin="round"/></svg></div></div><figcaption>Skopein report · External</figcaption></figure>
+    <audio class="vo" preload="none" src="voice/s14-v4.mp3"></audio>
+  </div>
+</div>
+
+<div class="step" id="s15">
+  <div class="wrap">
+    <div class="steptop"><span class="n">3.5</span><h3>Web applications report</h3></div>
+    <div class="copy"><p class="script">The web applications scan tested the sign-in page of the agency management system, which holds the policyholder data and is reached over the open internet. Ten checks ran and one returned a warning: the connection still accepts an old and broken encryption standard. The report explains the finding in plain language and provides step-by-step instructions for the fix.</p></div>
+    <figure class="plate"><div class="shot"><img src="shots/15-report-webapp.jpg" alt="Skopein report · Web applications" loading="lazy" width="1568" height="702"><div class="ptr" aria-hidden="true"><svg viewBox="0 0 54 54"><path d="M3 3 L28 9 L20 15 L49 44 L44 49 L15 20 L9 28 Z" fill="#B99433" stroke="#0C1B30" stroke-width="2" stroke-linejoin="round"/></svg></div></div><figcaption>Skopein report · Web applications</figcaption></figure>
+    <audio class="vo" preload="none" src="voice/s15-v4.mp3"></audio>
+  </div>
+</div>
+
+<div class="step" id="s16">
+  <div class="wrap">
+    <div class="steptop"><span class="n">3.6</span><h3>Every run, saved</h3></div>
+    <div class="copy"><p class="script">Every scan that has ever run is saved. Eleven of the eleven computers on the hardware inventory have produced a result, the weekly log reviews run on their own schedule, and every row opens the report it produced. This is the audit trail that sits behind the score.</p></div>
+    <figure class="plate"><div class="shot"><img src="shots/16-scanned-assets.jpg" alt="Scanned assets · full scan history" loading="lazy" width="1568" height="702"><div class="ptr" aria-hidden="true"><svg viewBox="0 0 54 54"><path d="M3 3 L28 9 L20 15 L49 44 L44 49 L15 20 L9 28 Z" fill="#B99433" stroke="#0C1B30" stroke-width="2" stroke-linejoin="round"/></svg></div></div><figcaption>Scanned assets · full scan history</figcaption></figure>
+    <audio class="vo" preload="none" src="voice/s16-v4.mp3"></audio>
+  </div>
+</div>
+
+<div class="chap" id="ch4">
+  <div class="wrap">
+    <span class="chapno">Chapter 4</span>
+    <h2>The dashboard the owner actually opens</h2>
+  </div>
+</div>
+
+<div class="step" id="s17">
+  <div class="wrap">
+    <div class="steptop"><span class="n">4.1</span><h3>Compliance posture, by regulation</h3></div>
+    <div class="copy"><p class="script">This is where everything lands. The compliance overview shows only the regulations that the company profile says apply, which for Harbor Light means NY DFS 500 and HIPAA.</p><p class="script">For NY DFS, forty-four of fifty-eight requirements are fully met, and eighty-three percent of the controls are compliant against a target of ninety-two percent. The page states that meeting six more controls would reach the target.</p><p class="script">Every section of the regulation gets its own bar, so the owner can see precisely which part of the rule is falling short.</p></div>
+    <figure class="plate"><div class="shot"><img src="shots/17-dashboard-nydfs.jpg" alt="Compliance overview · NY DFS 23 NYCRR 500" loading="lazy" width="1568" height="702"><div class="ptr" aria-hidden="true"><svg viewBox="0 0 54 54"><path d="M3 3 L28 9 L20 15 L49 44 L44 49 L15 20 L9 28 Z" fill="#B99433" stroke="#0C1B30" stroke-width="2" stroke-linejoin="round"/></svg></div></div><figcaption>Compliance overview · NY DFS 23 NYCRR 500</figcaption></figure>
+    <audio class="vo" preload="none" src="voice/s17-v4.mp3"></audio>
+  </div>
+</div>
+
+<div class="step" id="s18">
+  <div class="wrap">
+    <div class="steptop"><span class="n">4.2</span><h3>Compliance Across Multiple Regulations</h3></div>
+    <div class="copy"><p class="script">PCS evaluates the same evidence against every applicable regulation. Here, HIPAA results show fifty-eight of eighty-seven requirements met and eighty-five percent control compliance against a ninety-two percent target.</p><p class="script">The dashboard identifies eight controls needing work, seven with missing or outdated evidence, and compliance levels by HIPAA section.</p></div>
+    <figure class="plate"><div class="shot"><img src="shots/18-dashboard-hipaa.jpg" alt="Compliance overview · HIPAA" loading="lazy" width="1568" height="702"><div class="ptr" aria-hidden="true"><svg viewBox="0 0 54 54"><path d="M3 3 L28 9 L20 15 L49 44 L44 49 L15 20 L9 28 Z" fill="#B99433" stroke="#0C1B30" stroke-width="2" stroke-linejoin="round"/></svg></div></div><figcaption>Compliance overview · HIPAA</figcaption></figure>
+    <audio class="vo" preload="none" src="voice/s18-v4.mp3"></audio>
+  </div>
+</div>
+
+<section class="alt" id="products">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">What you just watched</span>
+      <h2>Three products under one practice</h2>
+      <div class="rule"></div>
+      <p class="lede">Skopein measures it, Sentinel records and maps it, and Mathisi proves your people were trained on it. All three sit under a named vCISO who signs the filings.</p>
+    </div>
+    <div class="prodgrid">
+      <div class="prod">
+        <span class="greek">Σκοπεῖν · to examine</span>
+        <h3>Skopein</h3>
+        <p>The scanner suite. It does not ask your staff what the policy is. It reads what the machine actually does, then writes the finding in language an owner can act on.</p>
+        <ul>
+          <li>Windows and Linux endpoints, including the exceptions that quietly undo a passing setting</li>
+          <li>Microsoft 365 and Google Workspace</li>
+          <li>Agency management systems: HawkSoft, AMS360, and EZLynx</li>
+          <li>External and web application scans</li>
+          <li>Sign-in and log reviews on every scanner</li>
+        </ul>
+      </div>
+      <div class="prod">
+        <span class="greek">Sentinel · the record</span>
+        <h3>Compliance Sentinel</h3>
+        <p>Everything you just saw. The profile decides which regulations apply, the regulations decide which controls are in scope, the scans populate the technical ones, and the overview shows where the agency stands.</p>
+        <ul>
+          <li>Risk assessment and risk register with vCISO risk acceptance</li>
+          <li>Incident response and disaster recovery workspace</li>
+          <li>Hardware and application inventories feeding both plans</li>
+          <li>Remediation library wired to every failing control</li>
+          <li>Operator, local admin, MSP, user, and read-only auditor roles</li>
+        </ul>
+      </div>
+      <div class="prod">
+        <span class="greek">Μάθησις · learning</span>
+        <h3>Mathisi</h3>
+        <p>Awareness training written for people who sell insurance, with a completion record that feeds the training control automatically.</p>
+        <ul>
+          <li>Forty-five narrated modules across four levels</li>
+          <li>Eleven real-life case studies and five breach documentaries</li>
+          <li>Phishing simulation with per-user results</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="vciso">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Aegis</span>
+      <h2>How Pistos Delivers and Divides the Work</h2>
+      <div class="rule"></div>
+      <p class="lede">Pistos divides the security and compliance program into three areas of responsibility. Skopein collects technical evidence directly from the agency’s systems. Pistos develops and maintains the policies, assessments, procedures, and regulatory filings. Agency owners retain responsibility for approvals, signatures, and business decisions that cannot be delegated.</p><p class="lede">Together, these activities provide a managed security and compliance program with clearly defined responsibilities and minimal demands on agency personnel.</p>
+    </div>
+    <div class="price">
+      <div class="ptier"><span class="scope">Up to 25 endpoints</span><div class="amt">$7,000<small> / month</small></div><ul><li>vCISO of record</li><li>Sentinel platform</li><li>Mathisi training</li><li>Skopein scans</li></ul></div>
+      <div class="ptier feat"><span class="scope">26 to 75 endpoints</span><div class="amt">$10,000<small> / month</small></div><ul><li>Everything above</li><li>Agency management system scans</li><li>Plans written and exercised</li><li>Carrier questionnaire response</li></ul></div>
+      <div class="ptier"><span class="scope">76 to 150 endpoints</span><div class="amt">$12,000<small> / month</small></div><ul><li>Everything above</li><li>Third-party due diligence</li><li>Board and ownership reporting</li></ul></div>
+      <div class="ptier"><span class="scope">Platform only</span><div class="amt">$1,000<small> / month</small></div><ul><li>Sentinel standalone, $12,000 a year</li><li>MSP role and scan ingestion</li><li>Remediation library</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="eyebrow">Coverage</span><h2>Security and Compliance Frameworks by Industry</h2><div class="rule"></div></div>
+    <div class="fwcols">
+      <div class="fw"><h3>Financial services</h3><div><span>NY DFS 23 NYCRR 500</span><span>GLBA</span><span>NACHA</span><span>SOC 2 Type II</span><span>PCI DSS</span><span>SIG</span><span>ISO 27001/2</span></div><p style="font-size:14px;color:var(--fg-soft)">Where the practice started, and where 700+ agency customers live.</p></div>
+      <div class="fw"><h3>Defense</h3><div><span>NIST SP 800-171</span><span>NIST SP 800-172</span><span>CMMC 2.0 Level 1</span><span>CMMC 2.0 Level 2</span></div><p style="font-size:14px;color:var(--fg-soft)">Readiness work up to Level 2. Pistos is not a C3PAO and never claims to be, which is exactly why subcontractors trust the assessment.</p></div>
+      <div class="fw"><h3>Healthcare</h3><div><span>HIPAA Security Rule</span><span>HIPAA Privacy Rule</span><span>SOC 2 Type II</span></div><p style="font-size:14px;color:var(--fg-soft)">Covered entities and the business associates who serve them.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head" style="margin-bottom:18px"><span class="eyebrow">Objection handling</span><h2>In case you're thinking ...:</h2><div class="rule"></div></div>
+    <div class="track" style="max-width:78ch">
+      <div class="tt"><span class="q">"We already have an MSP"</span><p>Good. Keep them. An MSP runs your technology, and a CISO owns your risk and signs your filings. The MSP gets a role of its own in the platform, and we have never asked a client to switch providers.</p></div>
+      <div class="tt"><span class="q">"That is a lot per month"</span><p>It is a fraction of what one full-time practitioner costs, and that person would still need the scanners, the templates, and the training library you would also be buying.</p></div>
+      <div class="tt"><span class="q">"Nobody has ever audited us"</span><p>That held for nine years under NY DFS. It stopped holding when carriers began pushing their own audits downstream. The agencies calling us now have just received their first questionnaire with a deadline on it.</p></div>
+      <div class="tt"><span class="q">"Can't software do this?"</span><p>Software measures thirty percent of it. The rest is written judgment: which controls apply, what evidence satisfies them, what risk is acceptable, and who signs for it. A dashboard leaves all of that on your desk.</p></div>
+      <div class="tt"><span class="q">"We'll do it ourselves next year"</span><p>Then we will scan you once and show you where you stand. Most owners stop planning to do it themselves about four pages into the first report.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="cta">
+  <div class="wrap">
+    <span class="eyebrow">Next step</span>
+    <h2>Start with one scan</h2>
+    <p>We scan the environment, write the report in plain English, and walk the owner through it. There is no commitment attached. It is the fastest honest answer to the question every agency owner is quietly asking.</p>
+    <div class="contact">
+      <span class="val" id="telVal">(800) 291-5058</span>
+      <button class="btn" id="copyTel">Copy number</button>
+      <a class="val" style="text-decoration:none" href="https://pistosip.com">pistosip.com</a>
+    </div>
+  </div>
+</div>
+
+<footer><div class="wrap"><span>Pistos Information Protection · NY, NY</span><span>Screens captured from the live application · demonstration agency</span></div></footer>
+
+<script type="application/json" id="beats">{"s01": [{"t": "Chapter zero. Why now, and what PCS is.", "head": true, "at": 0.0}, {"t": "For much of the past twenty years, cybersecurity audits felt like a large-company problem. Banks, carriers, and hospital systems faced scrutiny, while smaller businesses often faced less.", "x": 17.5, "y": 40.5, "at": 0.0}, {"t": "That has changed. Agencies, brokers, contractors, and practices now receive questionnaires, due diligence requests, regulatory deadlines, and insurance applications—all asking for evidence, not just assurances.", "x": 83.5, "y": 71, "at": 12.48}, {"t": "PCS helps you build the protections behind those answers.", "x": 17.3, "y": 79, "at": 28.24}, {"t": "It brings together technical findings with policies, disaster recovery plans, incident response plans, training records, and vendor documentation.", "x": 33.8, "y": 66.5, "at": 31.92}, {"t": "Using the CIS Framework,", "x": 50.2, "y": 51.5, "at": 41.08}, {"t": "it shows what’s working,", "x": 50.3, "y": 68, "at": 42.68}, {"t": "where the gaps are, and what needs attention first.", "x": 50.4, "y": 75, "at": 44.08}, {"t": "PCS then guides remediation", "x": 50.3, "y": 82, "at": 47.6}, {"t": "and tracks the evidence", "x": 50.3, "y": 61, "at": 49.52}, {"t": "showing those improvements are in place.", "x": 50.3, "y": 89, "at": 50.64}, {"t": "It maps that evidence to applicable requirements,", "x": 66.8, "y": 66.5, "at": 53.26}, {"t": "so you can explain what you’ve done and back it up.", "x": 83.5, "y": 71, "at": 55.84}, {"t": "The goal is a better-protected organization, with people and systems prepared to prevent, respond to, and recover from an incident. Audit readiness follows from doing that work—and having the evidence to prove it.", "x": 84.3, "y": 40, "at": 59.18}, {"t": "Stronger security. Happier audits.", "x": 50.5, "y": 25.5, "at": 72.96}], "s02": [{"t": "The reason is artificial intelligence. Skilled attackers now use AI to refine their craft and to write exploit code that is more effective, and therefore more dangerous, than anything they could produce alone.", "x": 28, "y": 20, "at": 0.05}, {"t": "The larger change is what AI did for everyone else. AI coding tools have turned people with minimal hacking skill into capable, persistent adversaries.", "x": 28, "y": 50, "at": 12.75}, {"t": "The pool of attackers who can break into a small business has grown enormously, and the cost of attacking one has dropped to almost nothing. Regulators, carriers, and insurers understand this, which is why their requirements now reach businesses that were never audited before.", "x": 28, "y": 81, "at": 30.17}], "s03": [{"t": "Pistos Compliance Sentinel gives small and mid-sized businesses two options for managing their cybersecurity and compliance programs.", "el": "#tw-pcs", "at": 0.01}, {"t": "Option 1, manage internally or with an MSP. The organization's personnel, or the managed service provider that supports them, use PCS to evaluate risks, establish security priorities, maintain policies, coordinate audits and regulatory filings, oversee remediation, communicate with insurers, and manage incident response.", "el": "#tw-o1", "at": 7.49}, {"t": "PCS provides the evidence, assessments, compliance tracking, and remediation guidance needed to support these responsibilities, with a dedicated MSP role in the platform.", "el": "#tw-o1t", "at": 28.91}, {"t": "Option 2, engage a fractional CISO. An experienced vCISO assumes these same operational responsibilities, using PCS to manage and maintain the security program on the organization's behalf.", "el": "#tw-o2", "at": 39.23}, {"t": "Agency management retains responsibility for business decisions and approvals.", "el": "#tw-o2t", "at": 52.39}, {"t": "The cost advantage. A full-time CISO typically costs three hundred thousand to four hundred fifty thousand dollars annually, including benefits and overhead.", "el": "#tw-c1", "at": 57.17}, {"t": "A fractional CISO typically costs sixty thousand to one hundred fifty thousand dollars annually, depending on the size and complexity of the organization.", "el": "#tw-c2", "at": 66.53}, {"t": "PCS provides the technology and evidence. The organization chooses who manages the program.", "el": "#tw-ban", "at": 75.15}], "s04": [{"t": "PCS collects evidence from hardware and application inventories, security scans, policies, contracts, personnel records, and insurance documentation.", "x": 17.2, "y": 37.5, "h": "d-inv,d-comp,d-net,d-app,d-pol,d-ppl", "at": 0}, {"t": "The company profile identifies applicable regulations and security requirements based on the agency's industry, size, systems, sensitive data, and obligations.", "x": 50, "y": 9.7, "h": "d-prof", "at": 9.97}, {"t": "PCS evaluates the evidence against security controls and maintains a centralized risk assessment.", "x": 40, "y": 19, "h": "d-ra", "at": 20.15}, {"t": "Results feed compliance assessments, the risk register, management reports, and asset risk scores.", "x": 82.6, "y": 50.5, "h": "d-reg,d-reg2,d-rep,d-score", "at": 26.05}, {"t": "Remediation guidance and recurring scans help correct deficiencies and keep assessments current.", "x": 50, "y": 70.5, "h": "d-fix", "at": 32.21}, {"t": "Pistos uses AI at six points in this cycle: checking returned inventory workbooks, running the agency management system checks, narrating training, drafting starting risk ratings, drafting management reports, and drafting fix steps.", "x": 50, "y": 81.6, "h": "d-ai,d-inv,d-app,d-ppl,d-reg2,d-rep,d-fix", "at": 37.75}, {"t": "Every AI-generated artifact is checked by a second model and approved by a Pistos compliance expert before a client sees it.", "x": 8, "y": 81.6, "h": "d-ai", "at": 52.05}], "s1": [{"t": "Chapter 1. The risk assessment.", "head": true, "at": 0.03}, {"t": "PCS evaluates 87 applicable security controls:", "x": 52.5, "y": 20.5, "at": 3.39}, {"t": "54 from the baseline security program and 33 additional controls required by applicable regulations.", "x": 29, "y": 29, "at": 6.53}, {"t": "Here, 72 controls are met and 15 are unmet.", "x": 48.3, "y": 20.5, "at": 14.57}, {"t": "PCS calculates the score by dividing the controls met by the applicable controls, 72 divided by 87, producing an 83 percent score against a 92 percent target.", "x": 15.6, "y": 19.5, "at": 19.33}, {"t": "Two additional controls are classified as not applicable and excluded from the calculation.", "x": 62.8, "y": 20.5, "at": 30.95}, {"t": "The dashboard displays peer comparisons", "x": 41.8, "y": 20.5, "at": 36.21}, {"t": "and filters by regulation, control family, status, and evidence type.", "x": 40, "y": 47.3, "at": 38.38}, {"t": "Each control category expands to show supporting evidence and deficiencies requiring remediation.", "x": 24.6, "y": 54, "at": 43.49}, {"t": "Selecting the Data Protection control category opens the controls within it.", "x": 19.3, "y": 68.7, "click": true, "at": 49.37}], "s2": [{"t": "The Data Protection control category is now open. Expanding a control category displays its security controls, compliance status, evidence, and applicable regulations.", "x": 25, "y": 8, "at": 0.03}, {"t": "Here, Data Protection contains 11 controls: 10 met and one lacking evidence.", "x": 71, "y": 8, "at": 11.29}, {"t": "Failed checks confirm security deficiencies. Missing evidence means compliance cannot be verified.", "x": 71, "y": 44, "at": 17.69}, {"t": "PCS provides remediation instructions and PowerShell scripts for failed checks. Missing evidence requires additional scans or documentation.", "x": 26.5, "y": 46.4, "at": 24.55}, {"t": "Subsequent evaluations verify corrections, update control statuses and compliance scores, and track remediation progress.", "x": 72.4, "y": 70, "at": 33.25}, {"t": "Selecting control 3.6, Encrypt data on end-user devices, opens the evidence behind it.", "x": 22, "y": 53.8, "click": true, "at": 41.21}], "s3": [{"t": "Control 3.6 is now open. It assesses whether the agency protects data on its computers.", "x": 22, "y": 7.3, "at": 0}, {"t": "PCS combines a required disk encryption scan", "x": 18.8, "y": 18, "at": 7.11}, {"t": "with two supporting controls: the adopted data protection policy and a separate laptop encryption check.", "x": 21, "y": 25.8, "at": 10.01}, {"t": "Each scan independently tests a specific security requirement.", "x": 49, "y": 18, "at": 17.33}, {"t": "PCS combines their results with policy evidence to assess the overall control, identify deficiencies, and recommend remediation.", "x": 26.3, "y": 36, "at": 22.15}, {"t": "vCISOs review the evidence and advise management, while agency management and authorized auditors make the final compliance determination.", "x": 64.5, "y": 79.8, "at": 31.11}, {"t": "Selecting the Disk encryption check opens the scan evidence that supports it.", "x": 18.8, "y": 18, "click": true, "at": 40.35}], "s4": [{"t": "The Disk encryption check is now open. This is its evidence page: every computer tested, each with the date it was checked and the result the scanner recorded.", "x": 30.7, "y": 45, "p": 0, "at": 0}, {"t": "Selecting a computer's scan opens the full Windows endpoint scan report for that machine.", "x": 62.8, "y": 39.7, "p": 0, "click": true, "at": 10.27}, {"t": "This is what a Windows endpoint scan looks like. Thirty-two checks ran on this computer: twenty-six passed, five returned warnings, and one failed.", "x": 37.6, "y": 22, "p": 1, "at": 15.81}, {"t": "Each Skopein scan records the system tested, the security control, the configuration found, the test date, and the pass or fail result.", "x": 30, "y": 16, "p": 1, "at": 25.55}, {"t": "PCS evaluates this evidence, using the worst result from the past ninety days to determine compliance. Recurring scans verify corrections, update compliance scores, and maintain an auditable history.", "x": 40.8, "y": 34, "p": 1, "at": 34.67}], "s5": [{"t": "Chapter 2. Policy, plans, and the two inventories.", "head": true, "at": 0.03}, {"t": "Security policies establish the rules for protecting company information, managing access, securing systems, and responding to threats.", "x": 23.4, "y": 17.7, "at": 5.59}, {"t": "They define what the company requires and provide a documented basis for employee responsibilities and security controls.", "x": 27, "y": 56, "at": 14.53}, {"t": "PCS organizes 18 policies by CIS Control category", "x": 29.7, "y": 12, "at": 21.71}, {"t": "and records their adoption dates.", "x": 69.9, "y": 17.7, "at": 25.46}, {"t": "These dates provide evidence of formal approval and allow the risk assessment to identify and track policies that have not been adopted.", "x": 69.9, "y": 48, "at": 28.41}], "s6": [{"t": "The hardware inventory is discovered and imported by Microsoft Intune, identifying each computer, assigned user, operating system, and operational importance.", "x": 30, "y": 22.6, "at": 0.03}, {"t": "PCS allows users to select which devices to assess.", "x": 45.3, "y": 27, "at": 11.17}, {"t": "Skopein scans those devices against CIS Benchmarks and supplies evidence that PCS evaluates against applicable security and regulatory requirements.", "x": 53.3, "y": 40, "at": 15.63}, {"t": "Recurring scans update the evidence, track remediation progress, and keep risk assessments current.", "x": 53.3, "y": 74, "at": 25.89}], "s7": [{"t": "The application inventory identifies each system and cloud service, its vendor, login address, operational importance, and whether it contains sensitive data.", "x": 34, "y": 22.6, "at": 0}, {"t": "Here, Microsoft 365 and Applied Epic both contain sensitive data and are classified as critical.", "x": 55, "y": 29, "at": 10.67}, {"t": "Microsoft 365 supports essential business communications and document storage,", "x": 17.2, "y": 27, "at": 18.37}, {"t": "while Applied Epic is the system of record for client and policy information.", "x": 20.4, "y": 31.8, "at": 22.18}, {"t": "Disruption or compromise of either could significantly affect agency operations.", "x": 57.8, "y": 27, "at": 28.45}, {"t": "The inventory also tracks scan dates and allows applications to be added, edited, imported, or exported.", "x": 70.5, "y": 12, "at": 33.93}], "s8": [{"t": "The incident response plan is activated when an account or computer is compromised, malware is detected, sensitive information is exposed, or suspicious activity suggests a breach.", "x": 43.6, "y": 24.6, "at": 0}, {"t": "The plan organizes 13 response steps covering containment, investigation, evidence preservation, threat removal, system recovery, and follow-up.", "x": 18, "y": 63, "at": 11.25}, {"t": "Each step identifies the required action, responsible person, deadline, completion status, and notes.", "x": 58, "y": 67.4, "at": 21.17}, {"t": "The first priority is to isolate affected computers without powering them off, preserving evidence for investigation.", "x": 32.5, "y": 76.5, "at": 28.21}], "s9": [{"t": "The disaster recovery plan is activated when a computer is lost, stolen, or fails; a critical cloud service becomes unavailable; or the office cannot be accessed.", "x": 43.6, "y": 23.5, "at": 0.05}, {"t": "If a cyberattack or compromised account is suspected, the incident response plan takes priority.", "x": 32.5, "y": 94, "at": 10.97}, {"t": "The plan identifies the recovery team", "x": 15.9, "y": 45.2, "at": 16.89}, {"t": "and provides 14 steps, beginning with employee safety and damage assessment.", "x": 32, "y": 75.4, "at": 19.19}, {"t": "Each step has an assigned responsibility, deadline, completion status, and space for notes to track recovery progress.", "x": 60, "y": 67.4, "at": 23.91}], "s10": [{"t": "The disaster recovery plan identifies the response team, assigns responsibilities, and provides step-by-step instructions for restoring operations after a disruption.", "x": 30, "y": 30.6, "at": 0.03}, {"t": "Each recovery step identifies the required action, responsible person, and completion deadline.", "x": 52.7, "y": 88, "at": 10.65}, {"t": "Progress is tracked by updating its status and recording notes.", "x": 65.5, "y": 88, "at": 17.05}, {"t": "The plan also references the hardware inventory to locate affected devices and coordinate recovery or replacement.", "x": 31.7, "y": 88, "at": 21.05}], "s11": [{"t": "Chapter 3. The scans, and what each one produces.", "head": true, "at": 0.03}, {"t": "The Run a Scan page brings all six scan types into one view:", "x": 16, "y": 11.3, "at": 5.17}, {"t": "Microsoft 365, external exposure, Windows endpoints, host information, web applications, and active application testing.", "x": 17.3, "y": 44.2, "at": 11.28}, {"t": "For each scan, PCS displays the systems being checked, the latest results, the next scheduled run, and its current status.", "x": 42.8, "y": 23.6, "at": 18.67}, {"t": "Users can run or schedule scans, open reports, and download PDF findings.", "x": 63, "y": 44.9, "at": 26.91}, {"t": "Scans requiring a connection or credentials are clearly identified.", "x": 16.3, "y": 27.1, "at": 32.41}, {"t": "Selecting Open the report under Windows endpoints opens that scan's latest report, which is next.", "x": 42.8, "y": 46, "click": true, "at": 36.71}], "s12": [{"t": "The Windows endpoint report is now open. Thirty-two checks ran on this computer: twenty-six passed, five returned warnings, and one failed.", "x": 44.2, "y": 29, "p": 0, "at": 0}, {"t": "The report sorts what it found by business risk, worst first, and explains each one in plain English.", "x": 33, "y": 52, "p": 0, "at": 10.13}, {"t": "Here is the check that failed. Passwords held in this computer's memory are not protected, which means they could be lifted and used to sign in elsewhere.", "x": 30, "y": 44, "p": 1, "at": 17.09}, {"t": "Every failed check carries two ways to fix it, in the How to fix column.", "x": 74, "y": 52, "p": 1, "at": 26.29}, {"t": "Selecting Step-by-step instructions opens a guide written for someone who is not technical.", "x": 74.5, "y": 57, "p": 1, "click": true, "at": 31.17}, {"t": "It opens with what the control does and why it matters, in plain English, before any instruction.", "x": 50, "y": 27, "p": 2, "at": 36.67}, {"t": "Then it gives numbered steps, each with the exact command to run and how to confirm the change took effect.", "x": 50, "y": 62, "p": 2, "at": 42.91}, {"t": "Selecting Open the remediation guide instead gives technical staff and managed service providers the whole Windows baseline as PowerShell.", "x": 74.5, "y": 52, "p": 1, "click": true, "at": 49.53}, {"t": "Each fix is a command with the risk of running it noted beside it, so one pass can close the same gap across every computer in the agency.", "x": 50, "y": 30, "p": 3, "at": 57.87}], "s13": [{"t": "This example of Microsoft 365 scan completed 26 security checks, with 24 passing, two warnings, and no failures.", "x": 54.9, "y": 36.3, "at": 0}, {"t": "Both warnings concern activity logging and record retention, which are essential for investigating security incidents.", "x": 36.4, "y": 57.7, "at": 8.85}, {"t": "The report explains each finding, identifies the affected setting, and provides links to supporting evidence and step-by-step remediation instructions.", "x": 45.3, "y": 84.8, "at": 15.61}], "s14": [{"t": "The external scan examines the company's internet presence from the outside.", "x": 40.8, "y": 16, "at": 0.05}, {"t": "Five checks ran and two returned warnings.", "x": 44.2, "y": 36.3, "at": 4.63}, {"t": "The top risk is email being faked in transit, which is exactly how wire fraud begins.", "x": 36.2, "y": 57.7, "at": 7.87}, {"t": "The second is a domain registration about to expire, which would take the company's email and website down with it.", "x": 35.9, "y": 69, "at": 13.45}], "s15": [{"t": "The web applications scan tested the sign-in page of the agency management system, the system that holds the policyholder data.", "x": 42.7, "y": 16, "at": 0.01}, {"t": "Ten checks ran and one returned a warning.", "x": 44.2, "y": 36.3, "at": 7.91}, {"t": "The connection still accepts an old and broken encryption standard. The report says so in plain language and provides step-by-step instructions for the fix.", "x": 46.2, "y": 82.3, "at": 11.45}], "s16": [{"t": "Every scan that has ever run is saved. Eleven of the eleven computers on the hardware inventory have produced a result.", "x": 25.6, "y": 17.8, "at": 0.09}, {"t": "The weekly log reviews run on their own schedule without anyone starting them.", "x": 52.1, "y": 40, "at": 7.41}, {"t": "Every row opens the report it produced. This is the audit trail that sits behind the score.", "x": 69.1, "y": 27.4, "at": 11.73}], "s17": [{"t": "Chapter 4. The dashboard the owner actually opens.", "head": true, "at": 0.05}, {"t": "This is where everything lands. The compliance overview shows only the regulations that the company profile says apply, which for Harbor Light means New York DFS five hundred and HIPAA.", "x": 22, "y": 31.6, "at": 4.83}, {"t": "For New York DFS, forty-four of fifty-eight requirements are fully met.", "x": 15, "y": 50.7, "at": 16.31}, {"t": "Eighty-three percent of the controls are compliant against a target of ninety-two percent,", "x": 32.5, "y": 50.1, "at": 21.09}, {"t": "and the page tells you that meeting six more controls would reach it.", "x": 35.3, "y": 56.4, "at": 25.02}, {"t": "Every section of the regulation gets its own bar, so the owner can see precisely which part of the rule is falling short.", "x": 42, "y": 78, "at": 29.11}, {"t": "Selecting HIPAA under Regulations that apply scores the same evidence against HIPAA instead.", "x": 36, "y": 31.5, "click": true, "at": 35.77}], "s18": [{"t": "HIPAA is now selected. PCS evaluates the same evidence against every applicable regulation.", "x": 36, "y": 31.5, "at": 0}, {"t": "Here, HIPAA results show fifty-eight of eighty-seven requirements met", "x": 15, "y": 50.7, "at": 6.87}, {"t": "and eighty-five percent control compliance against a ninety-two percent target.", "x": 32.5, "y": 50.1, "at": 10.95}, {"t": "The dashboard identifies eight controls needing work,", "x": 57, "y": 50.1, "at": 16.21}, {"t": "seven with missing or outdated evidence,", "x": 79, "y": 50.1, "at": 19.0}, {"t": "and compliance levels by HIPAA section.", "x": 42, "y": 78, "at": 21.4}]}</script>
+<script>
+(function(){
+  // Always open at the top: browsers otherwise restore the last scroll position or jump to a remembered #anchor.
+  try{ if('scrollRestoration' in history) history.scrollRestoration='manual'; }catch(e){}
+  if(location.hash){ try{ history.replaceState(null,'',location.pathname+location.search); }catch(e){} }
+  window.scrollTo(0,0);
+  window.addEventListener('load',function(){ setTimeout(function(){ window.scrollTo(0,0); },0); });
+  var BEATS=JSON.parse(document.getElementById('beats').textContent);
+  var steps=[].slice.call(document.querySelectorAll('.step'));
+  var playBtn=document.getElementById('playBtn');
+  var stopBtn=document.getElementById('stopBtn');
+  var bar=document.getElementById('narrbar');
+  var synth=window.speechSynthesis;
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var wantTop=null, barsH=120;
+  function follow(docY){
+    // keep the arrow's target on screen: scroll down (or back up) when it would sit outside the visible band
+    if(docY==null) return;
+    var base=(wantTop==null)?window.pageYOffset:wantTop;
+    var vh=window.innerHeight;
+    var visTop=base+barsH+24, visBottom=base+vh-120;
+    var top=null;
+    if(docY>visBottom) top=docY-vh*0.62;
+    else if(docY<visTop) top=docY-barsH-vh*0.3;
+    if(top!=null){ top=Math.max(0,top); wantTop=top; try{ window.scrollTo({top:top,behavior:reduce?'auto':'smooth'}); }catch(e){ window.scrollTo(0,top); } }
+  }
+  function point(step, beat){
+    var ptrs=step.querySelectorAll('.ptr'); if(!ptrs.length) return;
+    var pi=(beat&&beat.p)||0; if(pi>=ptrs.length) pi=0;
+    for(var q=0;q<ptrs.length;q++){ if(q!==pi) ptrs[q].classList.remove('show'); }
+    var ptr=ptrs[pi];
+    ptr.classList.remove('press');
+    if(beat&&beat.click){ void ptr.offsetWidth; ptr.classList.add('press'); }
+    var tEl=beat&&beat.el?step.querySelector(beat.el):null;
+    var docY=null;
+    if(tEl){
+      var r=tEl.getBoundingClientRect(), b=ptr.parentElement.getBoundingClientRect();
+      ptr.style.left=(r.left-b.left+Math.min(26,r.width/2))+'px'; ptr.style.top=(r.top-b.top+r.height/2)+'px'; ptr.classList.add('show');
+      docY=r.top+r.height/2+window.pageYOffset;
+    } else if(beat && typeof beat.x==='number'){
+      ptr.style.left=beat.x+'%'; ptr.style.top=beat.y+'%'; ptr.classList.add('show');
+      var pb=ptr.parentElement.getBoundingClientRect();
+      docY=pb.top+pb.height*beat.y/100+window.pageYOffset;
+    } else { ptr.classList.remove('show'); }
+    if(playing) follow(docY);
+    var hot=step.querySelectorAll('.dbox.hot');
+    for(var i=0;i<hot.length;i++) hot[i].classList.remove('hot');
+    if(beat && beat.h){ beat.h.split(',').forEach(function(id){ var g=document.getElementById(id.trim()); if(g) g.classList.add('hot'); }); }
+  }
+  function clearStep(step){ step.classList.remove('live'); point(step,null); }
+
+
+  var voices=[], chosen=null, playing=false, idx=0, bidx=0, current=null, audioEl=null;
+
+  function loadVoices(){
+    try{ voices=synth?synth.getVoices()||[]:[]; }catch(e){ voices=[]; }
+    var en=voices.filter(function(v){ return /^en(-|_|$)/i.test(v.lang||''); });
+    var list=en.length?en:voices;
+    var pref=list.find(function(v){ return /natural|online/i.test(v.name) && /(aria|jenny|michelle|emma|ava|sonia|libby)/i.test(v.name); })
+      || list.find(function(v){ return /(zira|samantha|google us english|google uk english female)/i.test(v.name); })
+      || list[0];
+    if(pref) chosen=pref;
+  }
+  loadVoices();
+  if(synth && typeof synth.onvoiceschanged!=='undefined') synth.onvoiceschanged=loadVoices;
+
+  // ---- browser-voice fallback (used only when a step's audio file cannot play) ----
+  function speakBeat(n,b){
+    if(!playing) return;
+    var step=steps[n]; var list=(BEATS[step.id]||[]).filter(function(x){ return !x.head; });
+    if(b>=list.length){ clearStep(step); setTimeout(function(){ speakStep(n+1); },650); return; }
+    bidx=b; var beat=list[b]; point(step,beat);
+    if(!synth||!window.SpeechSynthesisUtterance){ setTimeout(function(){ speakBeat(n,b+1); }, 4000); return; }
+    var u=new SpeechSynthesisUtterance(beat.t);
+    if(chosen) u.voice=chosen; u.rate=0.97; u.pitch=1;
+    u.onend=function(){ if(playing&&current===u) setTimeout(function(){ speakBeat(n,b+1); },260); };
+    u.onerror=function(ev){ if(ev&&(ev.error==='interrupted'||ev.error==='canceled')) return; stop(); };
+    current=u; synth.speak(u);
+  }
+
+  // ---- recorded narration ----
+  function playAudio(n){
+    var step=steps[n]; var a=step.querySelector('audio.vo'); var segs=BEATS[step.id]||[];
+    if(!a || a.dataset.bad==='1' || !segs.length || typeof segs[0].at!=='number'){ speakBeat(n,0); return; }
+    audioEl=a; var last=-1;
+    function sync(){
+      if(!playing||audioEl!==a) return;
+      var tcur=a.currentTime, k=0;
+      for(var i=0;i<segs.length;i++){ if(tcur>=segs[i].at-0.05) k=i; }
+      if(k!==last){ last=k; point(step, segs[k].head?null:segs[k]); }
+    }
+    a.ontimeupdate=sync;
+    a.onended=function(){ if(!playing||audioEl!==a) return; a.ontimeupdate=null; clearStep(step); setTimeout(function(){ speakStep(n+1); },650); };
+    a.onerror=function(){ a.dataset.bad='1'; if(playing&&audioEl===a){ audioEl=null; speakBeat(n,0); } };
+    try{ a.currentTime=0; }catch(e){}
+    var p=a.play();
+    if(p&&p.catch) p.catch(function(){ a.dataset.bad='1'; if(playing&&audioEl===a){ audioEl=null; speakBeat(n,0); } });
+    sync();
+  }
+
+  function speakStep(n){
+    if(!playing) return;
+    if(n>=steps.length){ idx=0; stop(); return; }
+    idx=n;
+    steps.forEach(function(s,k){ if(k!==n) clearStep(s); });
+    var step=steps[n]; step.classList.add('live');
+    var mast=document.querySelector('.mast'), nb=document.getElementById('narrbar');
+    var off=(mast?mast.getBoundingClientRect().height:0)+(nb&&!nb.hidden?nb.getBoundingClientRect().height:0)+14;
+    var anchor=step.querySelector('.steptop')||step;
+    var top=anchor.getBoundingClientRect().top+window.pageYOffset-off;
+    wantTop=top; barsH=off;
+    try{ window.scrollTo({top:top,behavior:reduce?'auto':'smooth'}); }catch(e){ window.scrollTo(0,top); }
+    setTimeout(function(){ playAudio(n); },350);
+  }
+  function stop(){
+    playing=false; current=null;
+    try{ if(synth) synth.cancel(); }catch(e){}
+    if(audioEl){ try{ audioEl.pause(); audioEl.ontimeupdate=null; }catch(e){} audioEl=null; }
+    steps.forEach(clearStep);
+    playBtn.hidden=false; stopBtn.hidden=true;
+    playBtn.textContent=idx>0?'Resume the tour':'Play the narrated tour';
+  }
+  function start(n){
+    try{ if(synth) synth.cancel(); }catch(e){}
+    if(audioEl){ try{ audioEl.pause(); }catch(e){} audioEl=null; }
+    playing=true; playBtn.hidden=true; stopBtn.hidden=false;
+    setTimeout(function(){ speakStep(n); },120);
+  }
+  playBtn.addEventListener('click',function(){ start(idx>=steps.length?0:idx); });
+  stopBtn.addEventListener('click',function(){ idx=0; stop(); });
+  steps.forEach(function(s,k){
+    s.addEventListener('click',function(e){ if(e.target.closest('a,button,select,audio')) return; start(k); });
+  });
+  setInterval(function(){ if(playing&&synth&&synth.speaking&&!synth.paused){ try{ synth.pause(); synth.resume(); }catch(e){} } },9000);
+  window.addEventListener('beforeunload',function(){ try{ if(synth) synth.cancel(); }catch(e){} });
+
+  var cp=document.getElementById('copyTel');
+  cp.addEventListener('click',function(){
+    var txt=document.getElementById('telVal').textContent;
+    try{ navigator.clipboard.writeText(txt).then(function(){ cp.textContent='Copied'; setTimeout(function(){ cp.textContent='Copy number'; },1600); },sel); }catch(e){ sel(); }
+    function sel(){ var r=document.createRange(); r.selectNodeContents(document.getElementById('telVal')); var s=getSelection(); s.removeAllRanges(); s.addRange(r); cp.textContent='Select and copy'; }
+  });
+})();
+</script>
+
+</body></html>
