@@ -319,7 +319,7 @@ footer .wrap{padding-block:16px;display:flex;gap:12px;justify-content:space-betw
       <p class="lede">PCS can’t stop the rain. But it can help you find a path through it—and get back to the work you know.</p>
       <p class="herotag">Stronger security. Happier audits.</p>
     </div>
-    <figure class="herovid"><video id="heroVid" src="shots/pcs-storm.mp4" poster="shots/pcs-storm-poster.jpg" autoplay muted loop playsinline preload="auto" aria-label="An insurance agent stands under an umbrella in a storm of regulations: NY DFS, NIST 800-171, ISO 27001, CMMC, CIS, PCI DSS, GLBA, NACHA and HIPAA. Caption: You sell insurance. When did all of this become your job?"></video></figure>
+    <figure class="herovid"><video id="heroVid" src="shots/pcs-storm.mp4" poster="shots/pcs-storm-poster.jpg" muted playsinline preload="auto" aria-label="An insurance agent stands under an umbrella in a storm of regulations: NY DFS, NIST 800-171, ISO 27001, CMMC, CIS, PCI DSS, GLBA, NACHA and HIPAA. Caption: You sell insurance. When did all of this become your job?"></video></figure>
     <audio class="vo" preload="none" src="voice/s00-hero-v4.mp3"></audio>
   </div>
 </div>
@@ -947,9 +947,10 @@ footer .wrap{padding-block:16px;display:flex;gap:12px;justify-content:space-betw
 })();
 </script>
 
-<script>(function(){var v=document.getElementById('heroVid'),a=document.querySelector('#s00 audio.vo');if(!v||!a)return;var armed=false;
-function off(){armed=false;v.muted=true;}
-function on(){if(armed)return;armed=true;try{v.currentTime=0;v.muted=false;v.volume=.15;var p=v.play();if(p&&p.catch)p.catch(function(){});}catch(e){}}
-v.addEventListener('timeupdate',function(){if(armed&&v.duration&&v.currentTime>v.duration-0.25)off();});
-a.addEventListener('play',function(){if(a.currentTime<0.5)on();});a.addEventListener('pause',off);a.addEventListener('ended',off);})();</script>
+<script>(function(){var v=document.getElementById('heroVid'),a=document.querySelector('#s00 audio.vo');if(!v||!a)return;
+function start(){try{v.currentTime=0;v.muted=false;v.volume=.15;var p=v.play();if(p&&p.catch)p.catch(function(){});}catch(e){}}
+function halt(){try{v.pause();}catch(e){}v.muted=true;}
+a.addEventListener('play',function(){if(a.currentTime<0.5)start();else if(v.currentTime>0&&!v.ended){var p=v.play();if(p&&p.catch)p.catch(function(){});}});
+a.addEventListener('pause',function(){if(!a.ended)halt();});
+v.addEventListener('ended',function(){v.muted=true;});})();</script>
 </body></html>
