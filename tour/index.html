@@ -63,7 +63,7 @@ a{color:inherit}
 .herocopy{display:grid;gap:14px;min-width:0}
 .hero .lede{margin:0}
 .herotag{font-family:var(--display);font-weight:700;font-size:clamp(19px,1.9vw,24px);color:var(--gold-light)!important;margin:6px 0 0}
-.herovid{margin:0;border:1px solid rgba(185,148,51,.45);border-radius:14px;overflow:hidden;box-shadow:0 26px 60px -30px rgba(0,0,0,.75);background:#0C1B30;min-width:0}
+.herovid{margin:0;min-width:0;-webkit-mask-image:linear-gradient(to right,transparent 0,#000 12%,#000 88%,transparent 100%),linear-gradient(to bottom,transparent 0,rgba(0,0,0,.55) 4%,#000 11%,#000 86%,transparent 100%);-webkit-mask-composite:source-in;mask-image:linear-gradient(to right,transparent 0,#000 12%,#000 88%,transparent 100%),linear-gradient(to bottom,transparent 0,rgba(0,0,0,.55) 4%,#000 11%,#000 86%,transparent 100%);mask-composite:intersect}
 .herovid video{display:block;width:100%;height:auto;aspect-ratio:16/9}
 @media (max-width:900px){.hero.step .wrap{grid-template-columns:1fr}}
 .hero{background:var(--navy);color:var(--cream);position:relative;overflow:hidden}
@@ -947,5 +947,9 @@ footer .wrap{padding-block:16px;display:flex;gap:12px;justify-content:space-betw
 })();
 </script>
 
-<script>(function(){var v=document.getElementById('heroVid'),a=document.querySelector('#s00 audio.vo');if(!v||!a)return;function on(){try{v.muted=false;v.volume=.15;var p=v.play();if(p&&p.catch)p.catch(function(){});}catch(e){}}function off(){v.muted=true;}a.addEventListener('play',on);a.addEventListener('pause',off);a.addEventListener('ended',off);})();</script>
+<script>(function(){var v=document.getElementById('heroVid'),a=document.querySelector('#s00 audio.vo');if(!v||!a)return;var armed=false;
+function off(){armed=false;v.muted=true;}
+function on(){if(armed)return;armed=true;try{v.currentTime=0;v.muted=false;v.volume=.15;var p=v.play();if(p&&p.catch)p.catch(function(){});}catch(e){}}
+v.addEventListener('timeupdate',function(){if(armed&&v.duration&&v.currentTime>v.duration-0.25)off();});
+a.addEventListener('play',function(){if(a.currentTime<0.5)on();});a.addEventListener('pause',off);a.addEventListener('ended',off);})();</script>
 </body></html>
