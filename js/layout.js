@@ -1,4 +1,4 @@
-const isRoot = !/\/(pages|training)\//.test(window.location.pathname);
+const isRoot = !/\/(pages|training|tour)\//.test(window.location.pathname);
 const base = isRoot ? '' : '../';
 const LAUNCH_BANNER = `
 <div class="launch-banner">
