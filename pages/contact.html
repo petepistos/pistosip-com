@@ -1,153 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact | Pistos Information Protection</title>
-  <meta name="description" content="Request a briefing, schedule a demo, or reach out to Pistos Information Protection.">
-  <link rel="stylesheet" href="../css/site.css">
-  <style>
-    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
-    .contact-form { background: var(--cream-dark); border: 1px solid var(--border); border-radius: 4px; padding: 2rem; }
-    .form-group { margin-bottom: 1.25rem; }
-    .form-group label { display: block; font-size: 0.85rem; font-family: 'Cinzel', serif; color: var(--navy); letter-spacing: 0.08em; margin-bottom: 0.4rem; }
-    .form-group input, .form-group select, .form-group textarea { width: 100%; background: var(--cream); border: 1px solid var(--border); border-radius: 2px; padding: 10px 14px; font-size: 0.88rem; color: var(--text-dark); font-family: 'Source Sans 3', sans-serif; outline: none; transition: border-color 0.2s; }
-    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--navy); }
-    .form-group input[aria-invalid="true"], .form-group select[aria-invalid="true"], .form-group textarea[aria-invalid="true"] { border-color: #c0392b; }
-    .form-group textarea { min-height: 120px; resize: vertical; }
-    .contact-info h3 { font-size: 1rem; color: var(--navy); margin-bottom: 0.5rem; }
-    .contact-info p { font-size: 0.88rem; color: var(--text-mid); font-weight: 400; line-height: 1.7; margin-bottom: 1.5rem; }
-    .contact-detail { display: flex; align-items: baseline; gap: 12px; margin-bottom: 0.5rem; }
-    .contact-detail-label { font-family: 'Cinzel', serif; font-size: 0.65rem; color: var(--gold); letter-spacing: 0.15em; text-transform: uppercase; min-width: 60px; }
-    .contact-detail-value { font-size: 0.85rem; color: var(--text-mid); font-weight: 400; }
-    .fs-error-msg { font-size: 0.85rem; color: #c0392b; margin-top: 0.3rem; display: block; }
-    .fs-success-msg { display: none; text-align: center; padding: 2rem 1rem; }
-    .fs-success-msg h3 { color: var(--navy); font-size: 1rem; margin-bottom: 0.5rem; }
-    .fs-success-msg p { font-size: 0.88rem; color: var(--text-mid); font-weight: 400; }
-    [data-fs-success] .fs-success-msg { display: block; }
-    [data-fs-success] form { display: none; }
-    @media(max-width:760px) { .contact-grid { grid-template-columns: 1fr; } }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact | Pistos Information Protection</title>
+<meta name="description" content="Book a call with a Pistos compliance professional, or send a request and we will contact you.">
+<link rel="canonical" href="https://pistosip.com/pages/contact.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Contact | Pistos Information Protection">
+<meta property="og:description" content="Book a call with a Pistos compliance professional, or send a request and we will contact you.">
+<meta property="og:url" content="https://pistosip.com/pages/contact.html">
+<meta property="og:image" content="https://pistosip.com/images/home/pcs-tv-poster.jpg">
+<meta property="og:site_name" content="Pistos Information Protection">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500&family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap">
+<link rel="stylesheet" href="../css/midnight.css?v=1">
 </head>
 <body>
-<div id="nav-placeholder"></div>
-
-<section class="hero" style="padding:4rem 2rem 3rem;">
-  <span class="hero-eyebrow">Get in touch</span>
-  <h1 class="hero-headline">Request a briefing.</h1>
-  <span class="hero-diamond">&#9670;</span>
-  <p class="hero-body">We work with CISOs, CCOs, General Counsel, and compliance officers at financial services firms, healthcare organizations, and defense contractors. Tell us about your regulatory obligations and we will show you exactly how the Pistos platform addresses them.</p>
-</section>
-
-<section class="section" style="background:var(--cream-dark);">
-  <div class="container">
-    <div class="contact-grid">
-
-      <div class="contact-form">
-
-        <div class="fs-success-msg">
-          <h3>Request received.</h3>
-          <p>Thank you — we will be in touch shortly to schedule your briefing.</p>
-        </div>
-
-        <form id="contact-form" action="https://formspree.io/f/xwvzqlvw" method="POST">
-          <input type="hidden" name="_subject" value="Briefing request — pistosip.com">
-
-          <h3 style="font-size:1rem;color:var(--navy);margin-bottom:1.25rem;">Request a briefing</h3>
-
-          <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name" placeholder="Your full name" data-fs-field required>
-            <span class="fs-error-msg" data-fs-error="name"></span>
-          </div>
-
-          <div class="form-group">
-            <label for="organization">Organization</label>
-            <input type="text" id="organization" name="organization" placeholder="Company or institution" data-fs-field>
-            <span class="fs-error-msg" data-fs-error="organization"></span>
-          </div>
-
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" placeholder="your@organization.com" data-fs-field required>
-            <span class="fs-error-msg" data-fs-error="email"></span>
-          </div>
-
-          <div class="form-group">
-            <label for="framework">Primary regulatory framework</label>
-            <select id="framework" name="framework" data-fs-field>
-              <option value="">Select your primary obligation</option>
-              <option>NY DFS 23 NYCRR 500</option>
-              <option>HIPAA / OCR</option>
-              <option>CMMC 2.0</option>
-              <option>GLBA Safeguards Rule</option>
-              <option>PCI DSS v4.0</option>
-              <option>NIST SP 800-171</option>
-              <option>SOX IT Controls</option>
-              <option>Multiple frameworks</option>
-              <option>Other / Not sure</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="message">What brings you here</label>
-            <textarea id="message" name="message" placeholder="Tell us about your current compliance situation, an upcoming examination, or what you are looking to solve." data-fs-field></textarea>
-            <span class="fs-error-msg" data-fs-error="message"></span>
-          </div>
-
-          <span class="fs-error-msg" data-fs-error></span>
-
-          <button type="submit" class="btn btn-primary" style="width:100%;" data-fs-submit-btn>Send request</button>
-        </form>
-
-      </div>
-
-      <div class="contact-info">
-        <h3>Pistos Information Protection LLC</h3>
-        <p>We serve financial services firms, healthcare organizations, and defense contractors navigating complex, overlapping regulatory obligations. Every engagement starts with a conversation about your specific situation.</p>
-        <div class="contact-detail">
-          <span class="contact-detail-label">Phone</span>
-          <span class="contact-detail-value"><a href="tel:+18002915058" style="color:var(--navy);">(800) 291-5058</a></span>
-        </div>
-        <div class="contact-detail">
-          <span class="contact-detail-label">Email</span>
-          <span class="contact-detail-value"><a href="mailto:contact@pistosip.com" style="color:var(--navy);">contact@pistosip.com</a></span>
-        </div>
-        <div class="contact-detail">
-          <span class="contact-detail-label">Portal</span>
-          <span class="contact-detail-value"><a href="https://app.pistosip.com" style="color:var(--navy);">app.pistosip.com</a></span>
-        </div>
-        <div style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border);">
-          <p style="font-size:0.82rem;color:var(--text-muted);font-style:italic;line-height:1.75;">"Faithful in discipline. Steadfast in execution. Accountable in outcome."</p>
-        </div>
-        <div style="margin-top:1.5rem;">
-          <p style="font-size:0.82rem;font-weight:600;color:var(--navy);margin-bottom:0.5rem;">Existing clients</p>
-          <p style="font-size:0.82rem;color:var(--text-mid);font-weight:400;">Access your compliance portal at <a href="https://app.pistosip.com" style="color:var(--navy);text-decoration:underline;">app.pistosip.com</a></p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<div id="footer-placeholder"></div>
-<script src="../js/layout.js"></script>
-<script src="../js/nav.js"></script>
-
+<div class="bar"><span class="dot"></span>PCS is now available for companies that operate entirely in the cloud.</div>
+<header class="head"><div class="head-in"><a class="brand" href="../index.html"><img src="../images/home/owl.png" alt="Pistos owl logo"><span>Pistos<small>Information Protection</small></span></a><nav class="menu" aria-label="Main"><a class="l" href="../pages/pcs.html">Compliance Sentinel</a><a class="l" href="../pages/skopein.html">Skopein</a><a class="l" href="../index.html#who">Who PCS serves</a><a class="l" href="../pages/insights.html">Published work</a><a class="l" href="../pages/pricing.html">Pricing</a><a class="l" href="https://app.pistosip.com">Client sign-in</a><a class="btn" href="https://demo.pistosip.com/try">Start your free 14-day test drive</a></nav></div></header>
+<main>
+<section class="s"><div class="wrap"><div class="hero" style="align-items:start"><div class="stack"><h1>Talk with a Pistos compliance professional.</h1><p class="lead">Tell us which regulations apply to you, and we will show you how PCS addresses them.</p><div class="btns"><a class="btn" href="https://outlook.office.com/bookwithme/user/891e8d96d6eb4406b07253c122195c48@pistosip.com/meetingtype/pIMLaObjkEWSd-MMiQaGWw2?anonymous&amp;ismsaljsauthenabled">Book a call with a Pistos compliance professional</a></div><div class="rows" style="margin-top:12px"><div><span>Phone</span><a href="tel:+18002915058"><b>(800) 291-5058</b></a></div><div><span>Email</span><a href="mailto:contact@pistosip.com"><b>contact@pistosip.com</b></a></div><div><span>Client sign-in</span><a href="https://app.pistosip.com"><b>app.pistosip.com</b></a></div></div></div><div class="card" style="gap:18px"><div id="sent" style="display:none"><h3>We received your request.</h3><p style="margin-top:10px">We received your request and will contact you shortly to schedule a call.</p></div><form id="contact-form" class="form" action="https://formspree.io/f/xwvzqlvw" method="POST"><input type="hidden" name="_subject" value="Call request from pistosip.com"><h3>Send us a request</h3><label for="name">Name</label><input type="text" id="name" name="name" autocomplete="name" required><label for="organization">Organization</label><input type="text" id="organization" name="organization" autocomplete="organization"><label for="email">Email</label><input type="email" id="email" name="email" autocomplete="email" required><label for="framework">Primary regulation</label><select id="framework" name="framework"><option value="">Select the regulation that matters most to you</option><option>NY DFS 23 NYCRR 500</option><option>HIPAA</option><option>CMMC 2.0</option><option>GLBA</option><option>PCI DSS</option><option>NIST SP 800-171</option><option>NIST SP 800-172</option><option>Multiple frameworks</option><option>Other or not sure</option></select><label for="message">What brings you here</label><textarea id="message" name="message" rows="5"></textarea><p id="form-error" role="alert" style="display:none;color:#FFB4A8">Your request did not go through. Please try again, or call (800) 291-5058.</p><button type="submit" class="btn" style="width:100%;cursor:pointer;font-family:inherit">Send your request</button></form></div></div></div></section>
 <script>
-  document.getElementById('contact-form').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    const btn = this.querySelector('[data-fs-submit-btn]');
-    if(btn) btn.disabled = true;
-    const res = await fetch(this.action, { method: 'POST', body: new FormData(this), headers: { 'Accept': 'application/json' } });
-    if(res.ok) {
-      this.style.display = 'none';
-      document.querySelector('.fs-success-msg').style.display = 'block';
-    } else {
-      if(btn) btn.disabled = false;
-    }
-  });
+document.getElementById("contact-form").addEventListener("submit", async function (e) {
+  e.preventDefault();
+  var b = this.querySelector("button"), err = document.getElementById("form-error");
+  b.disabled = true; err.style.display = "none";
+  try {
+    var r = await fetch(this.action, { method: "POST", body: new FormData(this), headers: { Accept: "application/json" } });
+    if (r.ok) { this.style.display = "none"; document.getElementById("sent").style.display = "block"; return; }
+  } catch (x) {}
+  b.disabled = false; err.style.display = "block";
+});
 </script>
-
+</main>
+<footer class="foot"><div class="foot-in"><div class="b"><img src="../images/home/owl.png" alt=""><span>Pistos Information Protection</span></div><a href="tel:+18002915058" style="font-weight:600">Call (800) 291-5058</a><nav aria-label="Footer"><a href="../pages/about.html">About Pistos</a><a href="../pages/pricing.html">Pricing</a><a href="../pages/contact.html">Contact</a><a href="../pages/privacy.html">Privacy</a><a href="../pages/terms.html">Terms of use</a></nav><span>Copyright 2026 Pistos Information Protection LLC. All rights reserved.</span></div></footer>
 </body>
 </html>
