@@ -38,7 +38,7 @@
     .jump { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 32px 0 0; padding: 0; list-style: none; }
     .jump a { display: block; padding: 8px 16px; border: 0.5px solid var(--stone-300); background: var(--stone-100); font-size: 13px; font-weight: 500; }
     .jump a:hover { border-color: var(--gold); }
-    .module { padding: 56px 0; border-top: 0.5px solid var(--stone-300); scroll-margin-top: 80px; }
+    .module { padding: 56px 0; border-top: 0.5px solid var(--stone-300); }
     .module-head { display: grid; grid-template-columns: 72px 1fr; gap: 20px; align-items: start; margin-bottom: 28px; }
     .num { font-family: var(--serif); font-size: 56px; line-height: 0.9; color: var(--gold); }
     .module h2 { font-family: var(--serif); font-size: 36px; font-weight: 500; margin: 0 0 6px; line-height: 1.1; }
@@ -243,6 +243,7 @@ document.querySelectorAll('.grid[data-set]').forEach(grid => {
   ).join('');
 });
 </script>
-<script src="../js/layout.js"></script>
+<script src="../js/layout.js?v=2"></script>
+<script defer src="../js/sticky-header.js"></script>
 </body>
 </html>

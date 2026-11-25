@@ -1,4 +1,4 @@
-// Shared header and footer for pages that still load this script (the tours and the training library).
+// Shared header and footer for the training library.
 // It matches the Midnight design used by the home page and the pages in /pages/.
 const isRoot = !/\/(pages|training|tour)\//.test(window.location.pathname);
 const base = isRoot ? '' : '../';
@@ -6,7 +6,9 @@ const MN_STYLE = `
 <style>
 .mn-bar{background:#12264A;color:#F4F6FB;text-align:center;padding:10px 24px;font:600 15px 'Inter',system-ui,sans-serif}
 .mn-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#E8BD4A;margin-right:10px}
-.mn-head{background:#0A1730;padding:14px 24px;border-bottom:1px solid rgba(255,255,255,0.14);font-family:'Inter',system-ui,sans-serif}
+#nav-placeholder{display:contents}
+html{scroll-padding-top:calc(var(--head-height,min(200px,40vh)) + env(safe-area-inset-top,0px) + 16px)}
+.mn-head{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;max-height:40vh;max-height:40svh;overflow-y:auto;background:#0A1730;padding:14px 24px;border-bottom:1px solid rgba(255,255,255,0.14);font-family:'Inter',system-ui,sans-serif}
 .mn-in{max-width:1360px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 24px}
 .mn-brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:#F4F6FB;font-weight:700;font-size:20px;line-height:1.15}
 .mn-brand img{height:52px;width:auto;max-width:none}
