@@ -346,7 +346,7 @@ invoke-mggraphrequest -method post -uri "https://graph.microsoft.com/beta/device
     <div class="block"><span class="blabel">Why this matters</span>  <p>The Microsoft baseline is a few hundred settings you did not author and do not maintain. LAPS ends the shared local admin password. The intrusive settings go in a second profile so they can be rolled back without losing the baseline.</p>
 </div>
     <div class="block"><span class="blabel">What you do</span>  <ul>
-    <li><strong>Endpoint security &gt; Security baselines &gt; Security Baseline for Windows 10 and later &gt; Create profile</strong>. Review every section. Typical adjustments: password expiry at the owner's request (history still enforced), legacy protocols the AMS or carrier portal still needs.</li>
+    <li><strong>Endpoint security &gt; Security baselines &gt; Security Baseline for Windows 10 and later &gt; Create profile</strong>. Review every section. Typical adjustments: password expiry at the owner's request (history still enforced), legacy protocols the AMS or third-party portal still needs.</li>
     <li>Assign to pilot, exclude the exclusion group. Several days.</li>
     <li><strong>Endpoint security &gt; Account protection &gt; Local admin password solution</strong>: backup directory = Entra, rotate every 30 days, 20+ character complexity, post-authentication reset. Assign to the managed group. This is safe to assign broadly on day one; it does not change user experience.</li>
     <li>Second settings catalog profile for the tightening (removable storage, local admin removal, application control). Name it for what it is. Do not assign yet.</li>
@@ -490,7 +490,7 @@ invoke-mggraphrequest -method get -uri "https://graph.microsoft.com/v1.0/informa
     <div class="block"><span class="blabel">Why this matters</span>  <p>Go-live is the start of the standing job. The fleet report is the artifact, the leaver procedure is the control, and the monthly review is what keeps the compliance number honest.</p>
 </div>
     <div class="block"><span class="blabel">What you do</span>  <p><strong>Monthly fleet report.</strong> Dated CSV into the client's evidence folder.</p>
-<pre><code># fleet snapshot to csv. this is the artifact you hand to a carrier or examiner.
+<pre><code># fleet snapshot to csv. this is the artifact you hand to a third party or examiner.
 get-mgdevicemanagementmanageddevice -all |
   select-object devicename, userprincipalname, operatingsystem, osversion, compliancestate,
                 isencrypted, enrolleddatetime, lastsyncdatetime, managedDeviceOwnerType, joinType |

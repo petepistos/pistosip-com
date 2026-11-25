@@ -4,36 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Short tour of Pistos Compliance Sentinel | Pistos Information Protection</title>
-  <meta name="description" content="For agencies evaluating PCS. Tell us who you are, and the tour starts right away.">
+  <meta name="description" content="Watch the 10-minute Pistos Compliance Sentinel tour for small and midsize businesses.">
   <link rel="canonical" href="https://pistosip.com/tour/prospects.html">
-  <link rel="stylesheet" href="../css/site.css">
-  <style>
-    .tour-grid { display:grid; grid-template-columns:1fr 1fr; gap:2rem; max-width:980px; margin:0 auto; }
-    .tour-card { background:var(--cream); border:1px solid var(--border); border-radius:4px; padding:2rem; display:flex; flex-direction:column; }
-    .tour-card h2 { font-size:1.15rem; color:var(--navy); margin-bottom:.4rem; }
-    .tour-card .len { font-family:'Cinzel',serif; font-size:.7rem; letter-spacing:.14em; color:var(--gold-dark); text-transform:uppercase; margin-bottom:1rem; }
-    .tour-card p { font-size:.92rem; color:var(--text-mid); line-height:1.7; flex:1; margin-bottom:1.5rem; }
-    .gate { max-width:560px; margin:0 auto; background:var(--cream); border:1px solid var(--border); border-radius:4px; padding:2rem; }
-    .form-group { margin-bottom:1.15rem; }
-    .form-group label { display:block; font-size:.85rem; font-family:'Cinzel',serif; color:var(--navy); letter-spacing:.08em; margin-bottom:.4rem; }
-    .form-group input, .form-group select { width:100%; background:#fff; border:1px solid var(--border); border-radius:2px; padding:10px 14px; font-size:.9rem; color:var(--text-dark); font-family:'Source Sans 3',sans-serif; outline:none; }
-    .form-group input:focus, .form-group select:focus { border-color:var(--navy); }
-    .gate .note { font-size:.8rem; color:var(--text-muted); line-height:1.6; margin-top:1rem; }
-    .gate .err { display:none; font-size:.85rem; color:#c0392b; margin-top:.75rem; }
-    @media(max-width:760px) { .tour-grid { grid-template-columns:1fr; } }
-  </style>
+  <link rel="stylesheet" href="../css/midnight.css">
+  <link rel="stylesheet" href="../css/tour-entry.css">
 </head>
 <body>
-<div id="nav-placeholder"></div>
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="head"><div class="head-in"><a class="brand" href="../index.html"><img src="../images/home/owl.png" alt="Pistos owl logo"><span>Pistos<small>Information Protection</small></span></a><nav class="menu" aria-label="Main"><a class="l" href="../pages/pcs.html">Compliance Sentinel</a><a class="l" href="../pages/skopein.html">Skopein</a><a class="l" href="../index.html#who">Who PCS serves</a><a class="l" href="../pages/insights.html">Published work</a><a class="l" href="../pages/pricing.html">Pricing</a><a class="l" href="https://app.pistosip.com">Client sign-in</a><a class="btn" href="https://demo.pistosip.com/try">Start free trial</a></nav></div></header>
+<main id="main-content">
 
-<section class="hero" style="padding:4rem 2rem 3rem;">
-  <span class="hero-eyebrow">Short tour, about 10 minutes</span>
-  <h1 class="hero-headline">A short tour of Pistos Compliance Sentinel.</h1>
-  <span class="hero-diamond">&#9670;</span>
-  <p class="hero-body">For agencies evaluating PCS. Tell us who you are, and the tour starts right away.</p>
-</section>
-<section class="section" style="background:var(--cream-dark);">
-  <div class="gate">
+<section class="s tour-start"><div class="wrap tour-start-grid">
+<div class="stack tour-intro"><p class="eyebrow">About 10 minutes</p><h1>Watch the 10-minute PCS tour.</h1>
+<p class="lead">See how Pistos Compliance Sentinel (PCS) helps small and midsize businesses identify what applies, keep the evidence, and track fixes.</p>
+<p class="tour-context">Fill in your details to start the narrated tour.</p>
+<a class="text-link" href="./">See both tour options</a>
+</div>
+<div class="card gate"><h2>Start the tour</h2>
     <form id="tour-form" action="https://formspree.io/f/xwvzqlvw" method="POST">
       <input type="hidden" name="_subject" value="Tour access: short tour (pistosip.com)">
       <input type="hidden" name="tour" value="prospects">
@@ -50,17 +37,16 @@
           <option>51 to 100</option><option>101 to 250</option><option>More than 250</option>
         </select></div>
       <div class="form-group"><label for="website">Company website</label>
-        <input type="text" id="website" name="website" autocomplete="url" placeholder="youragency.com" required></div>
-      <button type="submit" class="btn btn-primary" style="width:100%;">Start the tour</button>
-      <p class="err">Your details could not be sent. Please check your connection and try again.</p>
+        <input type="text" id="website" name="website" autocomplete="url" placeholder="yourbusiness.com" required></div>
+      <button type="submit" class="btn" style="width:100%;">Start the 10-minute tour</button>
+      <p class="err" role="alert">Your details could not be sent. Please check your connection and try again.</p>
       <p class="note">Pistos uses these details only to follow up with you about the tour. See our <a href="../pages/privacy.html">privacy policy</a>.</p>
     </form>
-  </div>
+  </div></div>
 </section>
 
-<div id="footer-placeholder"></div>
-<script src="../js/layout.js"></script>
-<script src="../js/nav.js"></script>
+</main>
+<footer class="foot"><div class="foot-in"><div class="b"><img src="../images/home/owl.png" alt=""><span>Pistos Information Protection</span></div><a href="tel:+18002915058" style="font-weight:600">Call (800) 291-5058</a><nav aria-label="Footer"><a href="../pages/about.html">About Pistos</a><a href="../pages/pricing.html">Pricing</a><a href="../pages/contact.html">Contact</a><a href="../pages/privacy.html">Privacy</a><a href="../pages/terms.html">Terms of use</a></nav><span>Copyright 2026 Pistos Information Protection LLC. All rights reserved.</span></div></footer>
 <script>
 document.getElementById('tour-form').addEventListener('submit', async function (e) {
   e.preventDefault();

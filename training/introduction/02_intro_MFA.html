@@ -235,12 +235,12 @@ const chapters = [
       {
         regionId: 'sms',
         title: 'SMS text messages: widely used but the weakest MFA form',
-        body: "One-time codes sent via SMS text message are the most commonly encountered form of MFA because they require no additional application or hardware — just a mobile phone. They provide real improvement over password-only authentication. However, SMS codes can be intercepted through SIM swapping attacks, where an attacker convinces a mobile carrier to transfer the victim's phone number to an attacker-controlled SIM card. They can also be defeated by real-time phishing proxies that relay codes from the victim to the attacker. SMS MFA is meaningfully better than no MFA, but it is the least secure form.",
+        body: "One-time codes sent via SMS text message are the most commonly encountered form of MFA because they require no additional application or hardware — just a mobile phone. They provide real improvement over password-only authentication. However, SMS codes can be intercepted through SIM swapping attacks, where an attacker convinces a mobile provider to transfer the victim's phone number to an attacker-controlled SIM card. They can also be defeated by real-time phishing proxies that relay codes from the victim to the attacker. SMS MFA is meaningfully better than no MFA, but it is the least secure form.",
       },
       {
         regionId: 'totp',
         title: 'Authenticator apps: stronger, time-based codes',
-        body: "Authenticator applications — such as Microsoft Authenticator, Google Authenticator, or Authy — generate time-based one-time passwords (TOTP) that refresh every 30 seconds. These codes are generated locally on the device and do not pass through a carrier network, eliminating the SIM swapping risk. App-based authentication is significantly more secure than SMS codes and is the recommended minimum for business accounts. Setup involves scanning a QR code with the app, after which the app and the service share a secret that allows time-synchronized code generation.",
+        body: "Authenticator applications — such as Microsoft Authenticator, Google Authenticator, or Authy — generate time-based one-time passwords (TOTP) that refresh every 30 seconds. These codes are generated locally on the device and do not pass through a mobile provider network, eliminating the SIM swapping risk. App-based authentication is significantly more secure than SMS codes and is the recommended minimum for business accounts. Setup involves scanning a QR code with the app, after which the app and the service share a secret that allows time-synchronized code generation.",
       },
       {
         regionId: 'push',

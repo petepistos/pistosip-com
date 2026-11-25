@@ -406,7 +406,7 @@ invoke-mggraphrequest -method post -uri "https://graph.microsoft.com/beta/device
     <div class="block"><span class="blabel">Why this matters</span>  <p>The Microsoft baseline is a few hundred settings you did not have to author and do not have to maintain. The settings that change how people work, USB block, local admin removal, application control, go in a second profile on its own schedule so they can be rolled back without losing the baseline.</p>
 </div>
     <div class="block"><span class="blabel">What you do</span>  <ul>
-    <li><strong>Endpoint security &gt; Security baselines &gt; Security Baseline for Windows 10 and later &gt; Create profile</strong>. Review every section. Typical small-office adjustments: password expiry (often off at the owner's request, with history enforced), and any legacy protocol the AMS or carrier portal still needs.</li>
+    <li><strong>Endpoint security &gt; Security baselines &gt; Security Baseline for Windows 10 and later &gt; Create profile</strong>. Review every section. Typical small-office adjustments: password expiry (often off at the owner's request, with history enforced), and any legacy protocol the AMS or third-party portal still needs.</li>
     <li>Assign to the pilot group, exclude the exclusion group. Leave it for several days.</li>
     <li>Create a second settings catalog profile, named for what it is, for the tightening. Do not assign it yet.</li>
     <li>Turn on Windows LAPS: <strong>Endpoint security &gt; Account protection &gt; Create policy &gt; Local admin password solution</strong>. Back up to Entra. This replaces whatever shared local admin password the client has been using.</li>
@@ -510,7 +510,7 @@ get-childitem "hklm:\software\microsoft\intunemanagementextension\policies" -rec
     <li>Two or three seats a day. The Step 6 routine, every time, including the <code>dsregcmd</code> check. No exceptions to the check.</li>
     <li>Export the fleet state at the end of each day and at the end of the project.</li>
   </ul>
-<pre><code># fleet snapshot to csv. this is the artifact you hand to a carrier or examiner.
+<pre><code># fleet snapshot to csv. this is the artifact you hand to a third party or examiner.
 get-mgdevicemanagementmanageddevice -all |
   select-object devicename, userprincipalname, operatingsystem, osversion, compliancestate,
                 isencrypted, enrolleddatetime, lastsyncdatetime, managedDeviceOwnerType, joinType |
